@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Symbolconfiguration xmlns="http://www.3s-software.com/schemas/Symbolconfiguration.xsd">
+  <Header>
+    <Version>3.5.7.0</Version>
+    <SymbolConfigObject version="3.5.7.20" />
+    <ProjectInfo name="CONTROLADORES_3" devicename="Device" appname="Application" />
+  </Header>
+  <TypeList>
+    <TypeSimple name="T_BOOL" size="1" swapsize="0" typeclass="Bool" iecname="BOOL" />
+    <TypeSimple name="T_LREAL" size="8" swapsize="8" typeclass="LReal" iecname="LREAL" />
+    <TypeSimple name="T_DINT" size="4" swapsize="4" typeclass="DInt" iecname="DINT" />
+  </TypeList>
+  <NodeList>
+    <Node name="Application">
+      <Node name="Nivel0">
+        <Node name="FIN_D_u" type="T_BOOL" access="Write" />
+        <Node name="FIN_I_u" type="T_BOOL" access="Write" />
+        <Node name="FIN_Inf_u" type="T_BOOL" access="Write" />
+        <Node name="FIN_Sup_u" type="T_BOOL" access="Write" />
+        <Node name="PulsadorEmergencia" type="T_BOOL" access="Write" />
+        <Node name="TodoOK" type="T_BOOL" access="Write" />
+      </Node>
+      <Node name="Nivel1">
+        <Node name="ActTLK" type="T_BOOL" access="Write" />
+        <Node name="BotonFrenoCarro" type="T_BOOL" access="Write" />
+        <Node name="BotonFrenoIzaje" type="T_BOOL" access="Write" />
+        <Node name="CambioModo" type="T_BOOL" access="Write" />
+        <Node name="Control_grua" type="T_BOOL" access="Write" />
+        <Node name="dl_href_manual" type="T_LREAL" access="Write" />
+        <Node name="dx_tref_manual" type="T_LREAL" access="Write" />
+        <Node name="EncenderBalanceo" type="T_BOOL" access="Write" />
+        <Node name="FIN_D_n" type="T_BOOL" access="Write" />
+        <Node name="FIN_I_n" type="T_BOOL" access="Write" />
+        <Node name="FIN_Inf_n" type="T_BOOL" access="Write" />
+        <Node name="FIN_Sup_n" type="T_BOOL" access="Write" />
+        <Node name="SensoresContacto" type="T_BOOL" access="Write" />
+      </Node>
+      <Node name="Variables_Globales">
+        <Node name="BRK_h_s" type="T_BOOL" access="Read" />
+        <Node name="BRK_hE_s" type="T_BOOL" access="Read" />
+        <Node name="BRK_t_s" type="T_BOOL" access="Read" />
+        <Node name="dl_href" type="T_LREAL" access="ReadWrite" />
+        <Node name="dx_tref" type="T_LREAL" access="ReadWrite" />
+        <Node name="F_hw" type="T_LREAL" access="Write" />
+        <Node name="m_l" type="T_LREAL" access="ReadWrite" />
+        <Node name="n" type="T_DINT" access="Read" />
+        <Node name="T_hm" type="T_LREAL" access="Read" />
+        <Node name="T_tm" type="T_LREAL" access="Read" />
+        <Node name="Theta_hm" type="T_LREAL" access="Write" />
+        <Node name="theta_realimentado_act" type="T_LREAL" access="Write" />
+        <Node name="Theta_tm" type="T_LREAL" access="Write" />
+        <Node name="TLK" type="T_BOOL" access="Read" />
+        <Node name="w_hm" type="T_LREAL" access="Write" />
+        <Node name="w_tm" type="T_LREAL" access="Write" />
+      </Node>
+    </Node>
+  </NodeList>
+</Symbolconfiguration>

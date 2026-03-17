@@ -1,0 +1,1 @@
+REGENERAR_SUELO = 1; % Regenera el perfil del suelo al original.
