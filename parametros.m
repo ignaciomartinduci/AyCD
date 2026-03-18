@@ -47,7 +47,7 @@ T_tbMax = 5e3; % [N*m] Torque máximo de frenado del Freno de operación
 tau_tm = 1e-3; % [s] Constante de tiempo del modulador de torque en motor-drive de carro
 T_tmMax = 3e3; % [N*m] Torque máximo de motorización/frenado regenerativo del motor
 
-% %Definiciones adicionales
+%% Definiciones adicionales
 
 m_l = M_s;
 
