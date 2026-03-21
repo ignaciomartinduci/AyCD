@@ -1,9 +1,9 @@
 %% CONTROLADOR TRASLACIÓN CARRO
 
-w_t = -b_t/M_t;
+w_t = -b_tEq/(J_tEq);
 dseta_t = 0.7071;
 n_t = 1+2*dseta_t;
-w_des_t = 5*abs(w_t);
+w_des_t = 3*abs(w_t);
 
 b_ta = (J_tEq*r_td*w_des_t*(1+n_t+n_t^2))/(i_t) - (r_td*b_tEq)/(i_t);
 k_tsa = (r_td*J_tEq*w_des_t^2*(n_t+n_t^2+n_t^3))/(i_t);
@@ -21,7 +21,7 @@ w_h = -b_hEq/J_hEq;
 
 dseta_h = 1;
 n_h = 2.5;
-w_des_h = 10*abs(w_h);
+w_des_h = 5*abs(w_h);
 
 b_ha = (n_h*w_des_h+2*dseta_h*w_des_h)*(J_hEq)-b_hEq;
 k_hsa = (w_des_h^2+2*dseta_h*w_des_h)*(J_hEq);
