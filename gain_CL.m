@@ -3,11 +3,11 @@
 w_t = -b_tEq/(M_tEq);
 dseta_t = 0.7071;
 n_t = 1+2*dseta_t;
-w_des_t = 5*abs(w_t);
+w_des_t = 3*abs(w_t);
 
-b_ta = r_td/i_t*M_tEq*w_des_t*(1+n_t+n_t^2)-r_td/i_t*b_tEq;
-k_tsa = r_td/i_t*M_tEq*w_des_t^2*n_t*(1+n_t+n_t^2);
-k_tsia = r_td/i_t*M_tEq*w_des_t^3*n_t^3;
+b_ta = M_tEq*w_des_t*(1+n_t+n_t^2)-b_tEq;
+k_tsa = M_tEq*w_des_t^2*n_t*(1+n_t+n_t^2);
+k_tsia = M_tEq*w_des_t^3*n_t^3;
 
 disp("Las ganancias de lazo cerrado para el controlador del carro son: ");
 disp(b_ta);
