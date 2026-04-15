@@ -1,13 +1,13 @@
 %% CONTROLADOR TRASLACIÓN CARRO
 
-w_t = -b_tEq/(J_tEq);
+w_t = -b_tEq/(M_tEq);
 dseta_t = 0.7071;
 n_t = 1+2*dseta_t;
 w_des_t = 3*abs(w_t);
 
-b_ta = (J_tEq*r_td*w_des_t*(1+n_t+n_t^2))/(i_t) - (r_td*b_tEq)/(i_t);
-k_tsa = (r_td*J_tEq*w_des_t^2*(n_t+n_t^2+n_t^3))/(i_t);
-k_tsia = (n_t^3*w_des_t^3*J_tEq*r_td)/(i_t);
+b_ta = r_td/i_t*M_tEq*w_des_t*(1+n_t+n_t^2)-r_td/i_t*b_tEq;
+k_tsa = r_td/i_t*M_tEq*w_des_t^2*n_t*(1+n_t+n_t^2);
+k_tsia = r_td/i_t*M_tEq*w_des_t^3*n_t^3;
 
 disp("Las ganancias de lazo cerrado para el controlador del carro son: ");
 disp(b_ta);

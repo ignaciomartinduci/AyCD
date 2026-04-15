@@ -51,8 +51,8 @@ T_tmMax = 3e3; % [N*m] Torque máximo de motorización/frenado regenerativo del 
 
 m_l = M_s+M_cmax;
 
-J_tEq = M_t+i_t^2*J_tm_tb/r_td^2+J_td/r_td^2+m_l; % Considera motor + tambor + carro + carga colgando
-b_tEq = i_t^2*b_tm/r_td^2+b_td/r_td^2+b_t; % Considera motor + tambor + carro
+M_tEq = i_t/r_td*(J_tm_tb+J_td/i_t^2)+r_td/i_t*(M_t+m_l); % Considera motor + tambor + carro + carga colgando
+b_tEq = i_t/r_td*(b_tm+b_td/i_t^2)+r_td/i_t*b_t; % Considera motor + tambor + carro
 
 J_hEq = 2/r_hd*(i_h^2*J_hm_hb+J_hd_hEb); % Considera motor + tambor + carro
 b_hEq = 2/r_hd*(i_h^2*b_hm+b_hd); % Considera motor + tambor + carro
