@@ -1,4 +1,4 @@
-l = l_h0;
+% l = l_h0;
 
 %% O_1 [0 I 0 0]
 
@@ -7,6 +7,7 @@ dx_t = 0;
 theta = 0*180/pi;
 dtheta = 0*180/pi;
 F_tw = 0;
+l=20;
     
 
 D = M_t+m_l-m_l*cos(theta)^2;

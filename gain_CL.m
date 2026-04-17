@@ -17,17 +17,16 @@ disp(k_tsia);
 
 %% CONTROLADOR IZAJE
 
-w_h = -b_hEq/J_hEq;
+w_h = -b_hEq/(J_hEq+r_hd/2/i_h*m_l);
 
 dseta_h = 0.7071;
 n_h = 1+2*dseta_h;
-w_des_h = 3*abs(w_h);
+w_des_h = 5*abs(w_h);
 
-A_h = J_hEq/i_h+m_l*g*r_hd/(2*i_h);
-
-b_ha = A_h*(w_des_h)*(1+n_h+n_h^2)-b_hEq/i_h
-k_hsa = A_h*w_des_h^2*(n_h+n_h^2+n_h^3)
-k_hsia = A_h*n_h^3*w_des_h^3
+b_ha = -(J_hEq + (r_hd/(2*i_h))*m_l) * w_des_h*(1 + n_h + n_h^2) + b_hEq;
+k_hsa = -(J_hEq + (r_hd/(2*i_h))*m_l) * w_des_h^2*(n_h + n_h^2 + n_h^3);
+k_hsia = -(J_hEq + (r_hd/(2*i_h))*m_l) * n_h^3 * w_des_h^3;
+% k
 
 disp("Las ganancias de lazo cerrado para el controlador del izaje son: ");
 disp(b_ha);

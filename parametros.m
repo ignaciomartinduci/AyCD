@@ -12,8 +12,8 @@ b_cy = 1e7; % [N/(m/s)] Fricción interna o amortiguamiento de compresión por c
 b_cx = 1e6; % [N/(m/s)] Fricción de arrastre horizontal por contactovertical
 
 % Cable de acero de izaje
-k_wu = 2.35e8; % [N/m] Rigidez unitaria a tracción, la tensión la da el peso de la carga
-b_wu = 150; % [N/m/s)] Fricción interna o amortiguamiento a tracción
+k_wu = 2.36e8; % [N/m] Rigidez unitaria a tracción, la tensión la da el peso de la carga
+b_wu = 150; % [(N/m/s)/m] Fricción interna o amortiguamiento a tracción
 
 % Accionamiento del sistema de izaje
 r_hd = 0.75; % [m] Radio primitivo del tambor, enrollado helicoidal con una sola corrida de cable.
@@ -53,19 +53,31 @@ m_l = M_s+M_cmax;
 
 M_tEq = i_t/r_td*(J_tm_tb+J_td/i_t^2)+r_td/i_t*(M_t+m_l); % Considera motor + tambor + carro + carga colgando
 b_tEq = i_t/r_td*(b_tm+b_td/i_t^2)+r_td/i_t*b_t; % Considera motor + tambor + carro
+% 
+% J_hEq = 2/r_hd*(i_h^2*J_hm_hb+J_hd_hEb); % Considera motor + tambor + carro
+% b_hEq = 2/r_hd*(i_h^2*b_hm+b_hd); % Considera motor + tambor + carro
 
-J_hEq = 2/r_hd*(i_h^2*J_hm_hb+J_hd_hEb); % Considera motor + tambor + carro
-b_hEq = 2/r_hd*(i_h^2*b_hm+b_hd); % Considera motor + tambor + carro
+J_hEq = 2*i_h/r_hd*(J_hm_hb+J_hd_hEb/i_h^2);
+b_hEq = 2*i_h/r_hd*(b_hm+b_hd/i_h^2);
 
 % Parámetros discretos
 T_s = (b_hEq/J_hEq)/2/pi/100;
 
 % Condiciones iniciales
-y_l0 = 25;
+x_l0 = 0;
+y_l0 = 40;
 l_h0 = (Y_t0-y_l0);
 theta_hm0 = -l_h0*i_h*2/r_hd;
+w_hm0 = 0;
 
-w_tm0 = (0)*i_t/r_td;
+v_lx0 = 0;
+v_ly0 = 0;
+
+
+v_t0 = 0;
+x_t0 = 0;
+w_tm0 = (v_t0)*i_t/r_td;
+theta_tm0 = (x_t0)*i_t/r_td;
 
 % Otros parámetros
 
