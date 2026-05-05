@@ -79,7 +79,3 @@ x_t0 = 0;
 w_tm0 = (v_t0)*i_t/r_td;
 theta_tm0 = (x_t0)*i_t/r_td;
 
-% Otros parámetros
-
-a_t_max = 0.8; % [m/s^2] Módulo de aceleración máxima del carro
-a_t_max_al = 0.15; % [m/s^2] Mitad del módulo de aceleración máxima del carro
