@@ -34,12 +34,12 @@ disp(k_hsa);
 disp(k_hsia);
 
 
-%% CONTROLADOR OSCILACIÓN
-
-wo_0 = sqrt(g/60); % maximo largo de cable, a -20, dentro del barco.
-wo_1 = 3*w_des_t; % w_des_t del carro
-
-wo = 5*max([wo_0, wo_1]);
+% %% CONTROLADOR OSCILACIÓN
+% 
+% wo_0 = sqrt(g/); % maximo largo de cable, a -20, dentro del barco.
+% wo_1 = 3*w_des_t; % w_des_t del carro
+%   
+% wo = 5*wo_0;
 
 
 

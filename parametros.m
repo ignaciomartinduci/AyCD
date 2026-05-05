@@ -24,7 +24,7 @@ T_hEbMax = 1.1e6; % [Nm] Torque máximo de frenado del Freno de emergencia
 i_h = 22; % [:1] Relación de transmisión total de la caja reductora
 J_hm_hb  = 30; % [kg.m^2] Momento de inercia equivalente del eje rápido (motor + freno + entrada de caja)
 b_hm = 18; % [Nm/(rad/s)] Coeficiente de fricción mecánica viscosa equivalente del eje rápido
-b_hb = 1e8; % [Nm/(rad/s)] Coeficiente de fricción viscosa equivalente del Freno de operación
+b_hb = 1e8; % [Nm/(rad/s)] Coeficiente de fricción viscosa equivalente del Freno de operación       
 T_hbMax = 5e4; % [Nm] Torque máximo de frenado del Freno de operación
 tau_hm   = 1e-3; % [s] Constante de tiempo del modulador de torque en motor-drive de izaje
 T_nmMax  = 2e4;% [Nm] Torque máximo de motorización/frenado regenerativo del motor
@@ -72,7 +72,6 @@ w_hm0 = 0;
 
 v_lx0 = 0;
 v_ly0 = 0;
-
 
 v_t0 = 0;
 x_t0 = 0;
