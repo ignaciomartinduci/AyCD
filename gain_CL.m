@@ -1,7 +1,7 @@
 %% CONTROLADOR TRASLACIÓN CARRO
 
 w_t = -b_tEq/(M_tEq);
-dseta_t = 0.7071;
+dseta_t = 1;
 n_t = 1+2*dseta_t;
 w_des_t = 3*abs(w_t);
 
@@ -19,7 +19,7 @@ disp(k_tsia);
 
 w_h = -b_hEq/(J_hEq+r_hd/2/i_h*m_l);
 
-dseta_h = 0.7071;
+dseta_h = 1;
 n_h = 1+2*dseta_h;
 w_des_h = 5*abs(w_h);
 
@@ -34,14 +34,12 @@ disp(k_hsa);
 disp(k_hsia);
 
 
-%% CONTROLADOR OSCILACIÓN
-
-dseta_o = 1;
-w_o = 25;
-
-k_osa = w_o^2;
-b_oa = 2*dseta_o*w_o;
-
+% %% CONTROLADOR OSCILACIÓN
+% 
+% wo_0 = sqrt(g/); % maximo largo de cable, a -20, dentro del barco.
+% wo_1 = 3*w_des_t; % w_des_t del carro
+%   
+% wo = 5*wo_0;
 
 
 
