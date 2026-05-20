@@ -9,7 +9,7 @@ else
     disp("El sistema no es controlable desde T_tm");
 end
 
-disp("===== OBSERVABILIDAD DE v_t DESDE theta_tm =====");
+disp("===== OBSERVABILIDAD DESDE theta_tm =====");
 
 % Matriz de observabilidad
 W_o = obsv(A, C);

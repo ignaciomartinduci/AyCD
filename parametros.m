@@ -1,9 +1,32 @@
+% Máximos y mínimos de parámetros
+
+a_t_max = 0.8; % [m/s^2] Módulo de aceleración máxima del carro
+a_t_max_al = 0.15; % [m/s^2] Mitad del módulo de aceleración máxima del carro
+
+x_t_min = -50; % [m] Límite traslación carro mínimo
+x_t_max = 30; % [m] Límite traslación carro mínimo
+x_t_minE = x_t_min-0.5; % [m] Límite traslación carro mínimo emergencia
+x_t_maxE = x_t_max+0.5; % [m] Límite traslación carro máximo emergencia
+
+v_t_max = 4; % [m/s] Límite de velocidad de traslación carro
+
+y_h_min = -20; % [m] Límite traslación izaje mínimo
+y_h_max = 40; % [m] Límite traslación izaje máximo
+y_h_minE = y_h_min-0.5; % [m] Límite traslación izaje mínimo emergencia
+y_h_maxE = y_h_max+0.5; % [m] Límite traslación izaje máximo emergencia
+
+v_h_max_noload = 3; % [m/s] Límite de velocidad de izaje sin carga
+v_h_max_load = 1.5; % [m/s] Límite de velocidad de izaje con carga nominal
+
+% Parámetros dados
 Y_t0 = 45; %  [m] Altura fija de poleas de suspension de izaje en el carro
-H_c = 2.5; % [m] Alto y ancho de container estandar
+H_c = 2.59; % [m] Altura del container estandar
+W_c = 2.44; % [m] Ancho del contenedor estandar
+Y_sb = 5.0; % [m] Despeje sobre borde de muelle
 M_s = 15000; % [kg] Masa de spreader + headblock
 M_cmax = 50000; % [kg] Masa de container máxima a cargar (lleno)
 M_cmin = 2000; % [kg] Masa de container mínima a cargar (vacío)
-g = 9.80664; % [m/s2] Aceleración gravitatoria
+g = 9.80665; % [m/s2] Aceleración gravitatoria
 
 % Entre la carga y su apoyo (suelo) existe una reacción que no es 100%
 % rígida y perfecta, está definida mediante:
@@ -14,6 +37,7 @@ b_cx = 1e6; % [N/(m/s)] Fricción de arrastre horizontal por contactovertical
 % Cable de acero de izaje
 k_wu = 2.36e8; % [N/m] Rigidez unitaria a tracción, la tensión la da el peso de la carga
 b_wu = 150; % [(N/m/s)/m] Fricción interna o amortiguamiento a tracción
+L_h0 = 110; % [m] Longitud de despliegue fijo del wirerope de izaje, esto no cambia con el izaje. 
 
 % Accionamiento del sistema de izaje
 r_hd = 0.75; % [m] Radio primitivo del tambor, enrollado helicoidal con una sola corrida de cable.
@@ -27,7 +51,7 @@ b_hm = 18; % [Nm/(rad/s)] Coeficiente de fricción mecánica viscosa equivalente
 b_hb = 1e8; % [Nm/(rad/s)] Coeficiente de fricción viscosa equivalente del Freno de operación       
 T_hbMax = 5e4; % [Nm] Torque máximo de frenado del Freno de operación
 tau_hm   = 1e-3; % [s] Constante de tiempo del modulador de torque en motor-drive de izaje
-T_nmMax  = 2e4;% [Nm] Torque máximo de motorización/frenado regenerativo del motor
+T_hmMax  = 2e4;% [Nm] Torque máximo de motorización/frenado regenerativo del motor
 
 % Carro y cable de acero del carro equivalente
 M_t = 30000; % [kg] Masa equivalente de carro, ruedas, catenaria, etc.
@@ -45,7 +69,11 @@ b_tm = 6; % es 6[N*m/(rad/s)] Coeficiente de fricción mecánica viscosa equival
 b_tb = 5e6; % [N*m/(rad/s)] Coeficiente de fricción viscosa equivalente del Freno de operación
 T_tbMax = 5e3; % [N*m] Torque máximo de frenado del Freno de operación
 tau_tm = 1e-3; % [s] Constante de tiempo del modulador de torque en motor-drive de carro
-T_tmMax = 3e3; % [N*m] Torque máximo de motorización/frenado regenerativo del motor
+T_tmMax = 4e3; % [N*m] Torque máximo de motorización/frenado regenerativo del motor
+w_hm_rated = v_h_max_load*2/r_hd; % [rad/s] Velocidad nominal del motor
+
+% Lidar
+x_lidar_offset = 3.0; % [m] Distancia del lidar respecto del carro, adelante.
 
 %% Definiciones adicionales
 
@@ -81,7 +109,5 @@ x_t0 = 0;
 w_tm0 = (v_t0)*i_t/r_td;
 theta_tm0 = (x_t0)*i_t/r_td;
 
-% Otros parámetros
 
-a_t_max = 0.8; % [m/s^2] Módulo de aceleración máxima del carro
-a_t_max_al = 0.15; % [m/s^2] Mitad del módulo de aceleración máxima del carro
+
