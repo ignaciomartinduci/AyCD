@@ -1,4 +1,4 @@
-s
+
 y_hMin = -20; % [m] Posición lineal mínima de izaje
 y_hMax = 40; % [m] Posición lineal máxima de izaje
 %% Los siguientes parametros se ven afectados por la operación a potencia
