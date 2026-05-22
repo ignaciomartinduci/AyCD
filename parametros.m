@@ -70,7 +70,7 @@ b_tb = 5e6; % [N*m/(rad/s)] Coeficiente de fricción viscosa equivalente del Fre
 T_tbMax = 5e3; % [N*m] Torque máximo de frenado del Freno de operación
 tau_tm = 1e-3; % [s] Constante de tiempo del modulador de torque en motor-drive de carro
 T_tmMax = 4e3; % [N*m] Torque máximo de motorización/frenado regenerativo del motor
-w_hm_rated = v_h_max_load*2/r_hd; % [rad/s] Velocidad nominal del motor
+w_hm_rated = v_h_max_load*2*i_h/r_hd; % [rad/s] Velocidad nominal del motor
 
 % Lidar
 x_lidar_offset = 3.0; % [m] Distancia del lidar respecto del carro, adelante.
