@@ -3,8 +3,8 @@
 a_t_max = 0.8; % [m/s^2] Módulo de aceleración máxima del carro
 a_t_max_al = 0.15; % [m/s^2] Mitad del módulo de aceleración máxima del carro
 
-x_t_min = -50; % [m] Límite traslación carro mínimo
-x_t_max = 30; % [m] Límite traslación carro mínimo
+x_t_min = -30; % [m] Límite traslación carro mínimo
+x_t_max = 50; % [m] Límite traslación carro mínimo
 x_t_minE = x_t_min-0.5; % [m] Límite traslación carro mínimo emergencia
 x_t_maxE = x_t_max+0.5; % [m] Límite traslación carro máximo emergencia
 
@@ -95,19 +95,24 @@ T_ts = (b_tEq/M_tEq)/2/pi/100;
 T_s = min([T_hs,T_ts]);
 
 % Condiciones iniciales
-x_l0 = 0;
-y_l0 = 40;
-l_h0 = (Y_t0-y_l0);
-theta_hm0 = -l_h0*i_h*2/r_hd;
-w_hm0 = 0;
+
 
 v_lx0 = 0;
 v_ly0 = 0;
 
 v_t0 = 0;
-x_t0 = 0;
+x_t0 = -20;
 w_tm0 = (v_t0)*i_t/r_td;
 theta_tm0 = (x_t0)*i_t/r_td;
 
+x_l0 = x_t0;
+y_l0 = 40;
+l_h0 = (Y_t0-y_l0);
+theta_hm0 = -l_h0*i_h*2/r_hd;
+w_hm0 = 0;
 
+% Parámetros de NIVEL 1
+
+w_hm_min_BRK = 999999999;
+w_tm_min_BRK = 999999999;
 
