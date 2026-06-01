@@ -92,7 +92,7 @@ b_hEq = 2*i_h/r_hd*(b_hm+b_hd/i_h^2);
 T_hs = (b_hEq/J_hEq)/2/pi/100;
 T_ts = (b_tEq/M_tEq)/2/pi/100;
 
-T_s = min([T_hs,T_ts]);
+T_s = 0.001;
 
 % Condiciones iniciales
 
