@@ -1,3 +1,13 @@
+% Parámetros dados
+Y_t0 = 45; %  [m] Altura fija de poleas de suspension de izaje en el carro
+H_c = 2.59; % [m] Altura del container estandar
+W_c = 2.44; % [m] Ancho del contenedor estandar
+Y_sb = 5.0; % [m] Despeje sobre borde de muelle
+M_s = 15000; % [kg] Masa de spreader + headblock
+M_cmax = 50000; % [kg] Masa de container máxima a cargar (lleno)
+M_cmin = 2000; % [kg] Masa de container mínima a cargar (vacío)
+g = 9.80665; % [m/s2] Aceleración gravitatoria
+
 % Máximos y mínimos de parámetros
 
 a_t_max = 0.8; % [m/s^2] Módulo de aceleración máxima del carro
@@ -14,19 +24,14 @@ y_h_min = -20; % [m] Límite traslación izaje mínimo
 y_h_max = 40; % [m] Límite traslación izaje máximo
 y_h_minE = y_h_min-0.5; % [m] Límite traslación izaje mínimo emergencia
 y_h_maxE = y_h_max+0.5; % [m] Límite traslación izaje máximo emergencia
+l_h_min = Y_t0-y_h_max; % [m] Mínima extensión de cable de izaje
+l_h_max = Y_t0-y_h_min; % [m] Máxima extensión de cable de izaje
+l_h_minE = l_h_min-0.5;
+l_h_maxE = l_h_max+0.5;
 
 v_h_max_noload = 3; % [m/s] Límite de velocidad de izaje sin carga
 v_h_max_load = 1.5; % [m/s] Límite de velocidad de izaje con carga nominal
 
-% Parámetros dados
-Y_t0 = 45; %  [m] Altura fija de poleas de suspension de izaje en el carro
-H_c = 2.59; % [m] Altura del container estandar
-W_c = 2.44; % [m] Ancho del contenedor estandar
-Y_sb = 5.0; % [m] Despeje sobre borde de muelle
-M_s = 15000; % [kg] Masa de spreader + headblock
-M_cmax = 50000; % [kg] Masa de container máxima a cargar (lleno)
-M_cmin = 2000; % [kg] Masa de container mínima a cargar (vacío)
-g = 9.80665; % [m/s2] Aceleración gravitatoria
 
 % Entre la carga y su apoyo (suelo) existe una reacción que no es 100%
 % rígida y perfecta, está definida mediante:
@@ -77,7 +82,7 @@ x_lidar_offset = 3.0; % [m] Distancia del lidar respecto del carro, adelante.
 
 %% Definiciones adicionales
 
-m_l = M_s+M_cmax;
+m_l = M_s;
 
 M_tEq = i_t/r_td*(J_tm_tb+J_td/i_t^2)+r_td/i_t*(M_t+m_l); % Considera motor + tambor + carro + carga colgando
 b_tEq = i_t/r_td*(b_tm+b_td/i_t^2)+r_td/i_t*b_t; % Considera motor + tambor + carro
@@ -101,12 +106,12 @@ v_lx0 = 0;
 v_ly0 = 0;
 
 v_t0 = 0;
-x_t0 = -20;
+x_t0 = 40;
 w_tm0 = (v_t0)*i_t/r_td;
 theta_tm0 = (x_t0)*i_t/r_td;
 
 x_l0 = x_t0;
-y_l0 = 40;
+y_l0 = 39;
 l_h0 = (Y_t0-y_l0);
 theta_hm0 = -l_h0*i_h*2/r_hd;
 w_hm0 = 0;
@@ -115,4 +120,12 @@ w_hm0 = 0;
 
 w_hm_min_BRK = 999999999;
 w_tm_min_BRK = 999999999;
+
+% Parámetros adicionales de NIVEL 1
+
+carro_FC_safety_margin = 1; % [m] Distancia que el operador debe alejar el carro del FC para poder operar normalmente
+izaje_FC_safety_margin = 1; % [m] Distancia que el operador debe alejar el izaje del FC para poder operar normalmente
+dx_grid_param = 0.01;
+LIDAR_GRID_SIZE = floor((x_t_max - x_t_minE) / dx_grid_param) + 1;
+
 
