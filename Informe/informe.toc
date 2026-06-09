@@ -30,28 +30,4 @@
 \contentsline {subsection}{\numberline {2.6}Sistema físico completo}{29}{subsection.2.6}%
 \contentsline {paragraph}{Salidas sensadas.}{30}{section*.17}%
 \contentsline {paragraph}{Señales de fines de carrera y sobrevelocidad.}{30}{section*.18}%
-\contentsline {section}{\numberline {3}Sistema híbrido de control y protección}{32}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Nivel 2: Control Regulatorio}{32}{subsection.3.1}%
-\contentsline {subsubsection}{\numberline {3.1.1}Controlador de traslación del carro}{32}{subsubsection.3.1.1}%
-\contentsline {paragraph}{Análisis de controlabilidad y observabilidad.}{32}{section*.19}%
-\contentsline {paragraph}{Polos a lazo abierto del carro.}{33}{section*.20}%
-\contentsline {paragraph}{Diseño del controlador de posición del carro.}{34}{section*.21}%
-\contentsline {paragraph}{Implementación discreta en Simulink.}{35}{section*.22}%
-\contentsline {paragraph}{Desempeño del controlador de traslación.}{36}{section*.23}%
-\contentsline {subsubsection}{\numberline {3.1.2}Controlador de izaje de la carga}{38}{subsubsection.3.1.2}%
-\contentsline {paragraph}{Análisis de controlabilidad y observabilidad.}{38}{section*.24}%
-\contentsline {paragraph}{Polos a lazo abierto del izaje.}{39}{section*.25}%
-\contentsline {paragraph}{Diseño del controlador de longitud de cable de izaje.}{40}{section*.26}%
-\contentsline {paragraph}{Implementación discreta en Simulink.}{40}{section*.27}%
-\contentsline {paragraph}{Desempeño del controlador de izaje.}{41}{section*.28}%
-\contentsline {subsubsection}{\numberline {3.1.3}Controlador de oscilación de la carga}{42}{subsubsection.3.1.3}%
-\contentsline {paragraph}{Modelo dinámico del péndulo de longitud variable.}{42}{section*.29}%
-\contentsline {paragraph}{Eliminación de la tensión del cable — ecuación del péndulo.}{43}{section*.30}%
-\contentsline {paragraph}{Modelo LPV del balanceo.}{43}{section*.31}%
-\contentsline {paragraph}{Ley de control PD con ganancias programadas.}{44}{section*.32}%
-\contentsline {paragraph}{Sintonización — amortiguamiento crítico y frecuencia natural dinámica.}{44}{section*.33}%
-\contentsline {paragraph}{Implementación en Simulink como \textit {MATLAB Function}.}{45}{section*.34}%
-\contentsline {paragraph}{Desempeño del controlador de oscilación.}{45}{section*.35}%
-\contentsline {subsubsection}{\numberline {3.1.4}Nivel 2 completo}{46}{subsubsection.3.1.4}%
-\contentsline {subsection}{\numberline {3.2}Conversión de los diagramas de bloques del Nivel~2 a \textit {MATLAB Function}}{47}{subsection.3.2}%
-\contentsline {section}{Referencias}{48}{subsection.3.2}%
+\contentsline {section}{Referencias}{32}{figure.24}%
