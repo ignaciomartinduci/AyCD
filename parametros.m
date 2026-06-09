@@ -106,7 +106,7 @@ v_lx0 = 0;
 v_ly0 = 0;
 
 v_t0 = 0;
-x_t0 = 40;
+x_t0 = -25;
 w_tm0 = (v_t0)*i_t/r_td;
 theta_tm0 = (x_t0)*i_t/r_td;
 

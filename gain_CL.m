@@ -3,7 +3,7 @@
 w_t = -b_tEq/(M_tEq);
 dseta_t = 1;
 n_t = 1+2*dseta_t;
-w_des_t = 3*abs(w_t);
+w_des_t = 1*abs(w_t);
 
 b_ta = M_tEq*w_des_t*(1+n_t+n_t^2)-b_tEq;
 k_tsa = M_tEq*w_des_t^2*n_t*(1+n_t+n_t^2);

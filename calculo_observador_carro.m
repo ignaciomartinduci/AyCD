@@ -32,10 +32,10 @@ Ct = [ 1, 0, 0, 0 ];
 
 % 1. Extraemos la frecuencia dominante deseada del PID de tu script
 % (Asume que w_des_t ya está calculada en el Workspace)
-frecuencia_pid = abs(w_des_t); 
+frecuencia_pid = abs(w_t); 
 
 % 2. Aplicamos la regla de diseño: Observador 4 veces más rápido que el PID
-factor_obs = 8;
+factor_obs = 10;
 polo_base = -factor_obs * frecuencia_pid;
 
 % 3. Ubicación de los 4 polos
@@ -43,13 +43,18 @@ polo_base = -factor_obs * frecuencia_pid;
 % por multiplicidad de polos superior al rango de la matriz C.
 polos_deseados = [polo_base, polo_base*1.02, polo_base*1.05, polo_base*1.07]; 
 
-disp('--- PARTE 2: SINTONÍA DEL OBSERVADOR ---');
-fprintf('Frecuencia deseada del PID (w_des_t): %.4f rad/s\n', frecuencia_pid);
-disp('Polos seleccionados para el observador:');
-disp(polos_deseados);
+% disp('--- PARTE 2: SINTONÍA DEL OBSERVADOR ---');
+% fprintf('Frecuencia deseada del PID (w_des_t): %.4f rad/s\n', frecuencia_pid);
+% disp('Polos seleccionados para el observador:');
+% disp(polos_deseados);
 
 % 4. Cálculo de la matriz L
 Lt = place(At', Ct', polos_deseados)';
 
-disp('La Matriz de Ganancias L del observador es:');
-disp(Lt);
+Ad_tmp = expm(At * T_s);
+polos_deseados_z = exp(polos_deseados * T_s);
+
+Lt_d = place(Ad_tmp', Ct', polos_deseados_z)';
+
+% disp('La Matriz de Ganancias L del observador es:');
+% disp(Lt);
