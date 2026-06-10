@@ -9,10 +9,10 @@ b_ta = M_tEq*w_des_t*(1+n_t+n_t^2)-b_tEq;
 k_tsa = M_tEq*w_des_t^2*n_t*(1+n_t+n_t^2);
 k_tsia = M_tEq*w_des_t^3*n_t^3;
 
-disp("Las ganancias de lazo cerrado para el controlador del carro son: ");
-disp(b_ta);
-disp(k_tsa);
-disp(k_tsia);
+% disp("Las ganancias de lazo cerrado para el controlador del carro son: ");
+% disp(b_ta);
+% disp(k_tsa);
+% disp(k_tsia);
 
 
 %% CONTROLADOR IZAJE
@@ -28,10 +28,10 @@ k_hsa = -(J_hEq + (r_hd/(2*i_h))*m_l) * w_des_h^2*(n_h + n_h^2 + n_h^3);
 k_hsia = -(J_hEq + (r_hd/(2*i_h))*m_l) * n_h^3 * w_des_h^3;
 % k
 
-disp("Las ganancias de lazo cerrado para el controlador del izaje son: ");
-disp(b_ha);
-disp(k_hsa);
-disp(k_hsia);
+% disp("Las ganancias de lazo cerrado para el controlador del izaje son: ");
+% disp(b_ha);
+% disp(k_hsa);
+% disp(k_hsia);
 
 
 % %% CONTROLADOR OSCILACIÓN

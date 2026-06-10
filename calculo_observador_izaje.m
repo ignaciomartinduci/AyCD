@@ -49,9 +49,9 @@ polo_h_base = -factor_obs_h * polo_h_la;
 polos_h = [polo_h_base, polo_h_base * 1.10];
 
 Lh = place(Ah', Ch', polos_h)';
-disp("=======================")
-
-disp(polo_h_la)
-disp(eig(Ah-Lh*Ch))
-disp(Ah-Lh*Ch)
-disp("=======================")
+% disp("=======================")
+% 
+% disp(polo_h_la)
+% disp(eig(Ah-Lh*Ch))
+% disp(Ah-Lh*Ch)
+% disp("=======================")

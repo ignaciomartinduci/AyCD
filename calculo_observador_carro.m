@@ -35,7 +35,7 @@ Ct = [ 1, 0, 0, 0 ];
 frecuencia_pid = abs(w_t); 
 
 % 2. Aplicamos la regla de diseño: Observador 4 veces más rápido que el PID
-factor_obs = 10;
+factor_obs = 15;
 polo_base = -factor_obs * frecuencia_pid;
 
 % 3. Ubicación de los 4 polos

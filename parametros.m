@@ -99,6 +99,10 @@ T_ts = (b_tEq/M_tEq)/2/pi/100;
 
 T_s = 0.001;
 
+% Péndulo
+
+tau_wl = 1 / (2 * pi * 2);
+
 % Condiciones iniciales
 
 
@@ -106,12 +110,12 @@ v_lx0 = 0;
 v_ly0 = 0;
 
 v_t0 = 0;
-x_t0 = -25;
+x_t0 = 5;
 w_tm0 = (v_t0)*i_t/r_td;
 theta_tm0 = (x_t0)*i_t/r_td;
 
 x_l0 = x_t0;
-y_l0 = 39;
+y_l0 = -18;
 l_h0 = (Y_t0-y_l0);
 theta_hm0 = -l_h0*i_h*2/r_hd;
 w_hm0 = 0;
