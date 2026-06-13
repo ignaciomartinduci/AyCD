@@ -115,7 +115,7 @@
 \fancyhead[R]{%
     \footnotesize
     Alumnos: Martín D., Sorrentino\\
-    Fecha: 29/05/26
+    Fecha: 12/06/26
 }
 
 % — Footer: centred page number —
@@ -1007,6 +1007,18 @@ y su derivada temporal, necesaria para el modelo del cable de izaje~\eqref{eq:ca
          {l(t)}
 \end{equation}
 
+Adicionalmente, en lugar de obtener $\dot{\theta}_l(t)$ por diferenciación numérica de
+$\theta_l(t)$, se incorpora su cálculo directo a partir de las ecuaciones de movimiento
+de la carga:
+
+\begin{equation}
+    \label{eq:dtheta-l}
+    \dot{\theta}_l(t) =
+    \frac{\bigl(\dot{x}_l(t)-\dot{x}_t(t)\bigr)\,l(t)
+          - \bigl(x_l(t)-x_t(t)\bigr)\,\dot{l}(t)}
+         {l(t)\,\bigl(Y_{t0}-y_l(t)\bigr)}
+\end{equation}
+
 La Figura~\ref{fig:bloques-theta-l} muestra el diagrama de bloques unificado
 implementado en Simulink, que calcula simultáneamente $l(t)$, $\dot{l}(t)$,
 $\theta_l(t)$ y $\dot{\theta}_l(t)$.
@@ -1680,21 +1692,24 @@ los controladores como en los observadores de carro e izaje.
 
 \paragraph{Desempeño del controlador de traslación.}
 
-Para evaluar el desempeño se simula el escenario de \textbf{carga máxima}
-($m_l(TLK=\text{On}) = M_s + M_{c,max}$) con un \textbf{perfil trapezoidal de velocidad
-suavizado}: el carro parte desde $x_t = -30$\,m (lado muelle) y se desplaza hasta
-$x_t = +50$\,m (lado barco), recorriendo $80$\,m dentro de los límites normales de
-traslación. La velocidad de consigna asciende en rampa con $a_{t,max}=\pm 0{,}80$\,m/s$^2$
-hasta $v_{t,max}=\pm 4{,}0$\,m/s, se mantiene constante y desacelera simétricamente.
-Se presentan tres gráficas: comparativa de velocidad (consigna, estimada por el observador
-y simulada), comparativa de posición (consigna, estimada y simulada), y torque de consigna
-$T_{tm}^*(t)$ enviado al modulador.
+Para evaluar el desempeño se simula el escenario con \textbf{spreader vacío}
+($m_l(TLK=\text{Off}) = M_s$) y longitud de péndulo intermedia $l_h = 30$\,m, con un
+\textbf{perfil trapezoidal de velocidad suavizado}: el carro parte desde $x_t = -25$\,m
+(lado muelle) y se desplaza hasta $x_t = +45$\,m (lado barco), recorriendo $70$\,m dentro
+de los límites normales de traslación. La velocidad de consigna asciende en rampa con
+$a_{t,max}=\pm 0{,}80$\,m/s$^2$ hasta $v_{t,max}=\pm 4{,}0$\,m/s, se mantiene constante
+y desacelera simétricamente. El controlador paralelo de balanceo de carga se mantiene
+desconectado para aislar el comportamiento del sistema de traslación. Se presentan tres
+gráficas: comparativa de velocidad (consigna, estimada por el observador y simulada),
+comparativa de posición (consigna, estimada y simulada), y comparativa de torque entre
+consigna $T_{tm}^*(t)$ y salida del modulador $T_{tm}(t)$.
 
 \begin{figure}[H]
     \centering
     \img{src/velocidad_carro_comparativa_INFORME.jpg}
     \caption{Traslación del carro — velocidad: consigna $v_t^*(t)$, estimada
-             $\hat{v}_t(t)$ y simulada $v_t(t)$ (carga máxima, perfil trapezoidal).}
+             $\hat{v}_t(t)$, velocidad en el tambor $\hat{v}_{td}(t)$ y simulada $v_t(t)$
+             (spreader vacío, perfil trapezoidal).}
     \label{fig:carro-vel-cmp}
 \end{figure}
 
@@ -1709,10 +1724,21 @@ $T_{tm}^*(t)$ enviado al modulador.
 \begin{figure}[H]
     \centering
     \img{src/torque_carro_INFORME.jpg}
-    \caption{Traslación del carro — torque de consigna $T_{tm}^*(t)$ enviado al
-             modulador de torque (carga máxima, perfil trapezoidal).}
+    \caption{Traslación del carro — comparativa de torque: consigna $T_{tm}^*(t)$ y
+             salida del modulador $T_{tm}(t)$ (spreader vacío, perfil trapezoidal).}
     \label{fig:carro-torque}
 \end{figure}
+
+El elevado valor de torque durante la fase de velocidad constante se debe principalmente
+a la necesidad de vencer la fricción viscosa del motor referida al cable. A velocidad
+máxima $v_{t,max}=4$\,m/s, dicha contribución vale:
+
+\begin{equation}
+    \label{eq:T-friccion-carro}
+    T_{fric} = v_t\,\frac{i_t}{r_{td}}\,b_{tm}
+             = 4 \cdot \frac{30}{0{,}50} \cdot 6
+             = 1440\;\text{Nm}
+\end{equation}
 
 % ---- 3.1.2 -------------------------------------------------------
 \subsubsection{Controlador de izaje de la carga}
@@ -1925,27 +1951,26 @@ mismo subsistema de la Figura~\ref{fig:integrador-tustin}.
 
 \paragraph{Desempeño del controlador de izaje.}
 
-Para evaluar el desempeño se simula el escenario de \textbf{carga máxima}
-($m_l(TLK=\text{On}) = M_s + M_{c,max}$), con velocidad máxima con carga
-$v_{h,max}=\pm 1{,}5$\,m/s y \textbf{perfil trapezoidal de velocidad suavizado}: el
-spreader parte desde $y_h = +40$\,m (posición elevada sobre muelle) y desciende hasta
-$y_h = -20$\,m (posición dentro del barco), recorriendo $60$\,m dentro de los límites
-normales de operación, con $a_{h,max}=\pm 0{,}75$\,m/s$^2$. Se presentan tres gráficas:
-comparativa de velocidad (consigna, estimada por el observador y simulada), comparativa de
-posición (consigna, estimada y simulada), y torque de consigna $T_{hm}^*(t)$ enviado al
-modulador.
+Para evaluar el desempeño se simula un ascenso a \textbf{potencia constante máxima}
+con \textbf{carga máxima} ($m_l(TLK=\text{On}) = M_s + M_{c,max}$), con el carro
+quieto. El recorrido parte desde $l_h = 60$\,m ($y_h = -15$\,m, cable casi completamente
+desenrollado, dentro del barco) y asciende hasta $l_h = 5$\,m ($y_h = 40$\,m, posición
+de spreader elevado). Se presentan tres gráficas: comparativa de velocidad de cable
+$\dot{l}_h$ (consigna, estimada por el observador y simulada), comparativa de longitud de
+cable $l_h$ (consigna, estimada y simulada), y comparativa de torque entre consigna
+$T_{hm}^*(t)$ y salida del modulador $T_{hm}(t)$.
 
 \begin{figure}[H]
     \centering
-    \img{src/img_pend.png}
-    \caption{Izaje de carga — velocidad: consigna $v_h^*(t)$, estimada
-             $\hat{v}_h(t)$ y simulada $v_h(t)$ (carga máxima, perfil trapezoidal).}
+    \img{src/velocidad_izaje_comparativa_INFORME.jpg}
+    \caption{Izaje de carga — velocidad de cable: consigna $\dot{l}_h^*(t)$, estimada
+             $\hat{\dot{l}}_h(t)$ y simulada $\dot{l}_h(t)$ (carga máxima, perfil trapezoidal).}
     \label{fig:izaje-vel-cmp}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \img{src/img_pend.png}
+    \img{src/posicion_izaje_comparativa_INFORME.jpg}
     \caption{Izaje de carga — posición: consigna $l_h^*(t)$, estimada
              $\hat{l}_h(t)$ y simulada $l_h(t)$ (carga máxima, perfil trapezoidal).}
     \label{fig:izaje-pos-cmp}
@@ -1953,11 +1978,17 @@ modulador.
 
 \begin{figure}[H]
     \centering
-    \img{src/img_pend.png}
-    \caption{Izaje de carga — torque de consigna $T_{hm}^*(t)$ enviado al
-             modulador de torque (carga máxima, perfil trapezoidal).}
+    \img{src/torque_izaje_INFORME.jpg}
+    \caption{Izaje de carga — comparativa de torque: consigna $T_{hm}^*(t)$ y
+             torque a la salida del modulador $T_{hm}(t)$ (carga máxima, perfil trapezoidal).}
     \label{fig:izaje-torque}
 \end{figure}
+
+El transitorio inicial del torque se debe al paso de $T_{hm}^* = 0$ al valor necesario
+para sostener el peso del spreader en suspensión. A los $t = 5$\,s se incorpora la carga,
+cuya masa toma un valor aleatorio dentro del rango
+$m_l \in \bigl[M_s + M_{c,min},\; M_s + M_{c,max}\bigr]$, produciendo un escalón en el
+torque de consigna y en la salida del modulador. El movimiento de izaje comienza a los $t = 10$\,s.
 
 % ---- 3.1.3 -------------------------------------------------------
 \subsubsection{Controlador de oscilación de la carga}
@@ -2097,113 +2128,192 @@ rigidez equivalente del péndulo, dependiente de la longitud y del ángulo insta
 para evitar la división por cero cuando $\theta_l(t)\to 0$ se impone el límite
 computacional $\sin(\theta_l)/\theta_l\to 1$.
 
-\paragraph{Ley de control PD con ganancias programadas.}
+\paragraph{Ley de control — corrección de velocidad proporcional al ángulo.}
 
-El objetivo del controlador es mantener $\theta_l(t)=0$. Con referencia nula
-$\theta_{ref}(t)=0$, los errores son $e(t)=-\theta_l(t)$ y
-$\dot{e}(t)=-\dot{\theta}_l(t)$. La aceleración total demandada al carro se
-compone de la aceleración de referencia del planificador $a_{ref}(t)$ y la acción
-correctora PD:
+El objetivo del controlador es mantener $\theta_l(t)=0$. En lugar de inyectar una
+corrección de aceleración, el controlador modifica directamente la consigna de velocidad
+del carro sumando un término proporcional al ángulo de balanceo:
 
 \begin{equation}
     \label{eq:ctrl-sway}
-    \ddot{x}_t^*(t) = a_{ref}(t) - K_{po}(t)\,\theta_l(t) - K_{do}(t)\,\dot{\theta}_l(t)
+    v_t^{*}(t) = v_{ref}(t) + v_{bal}(t),
+    \qquad
+    v_{bal}(t) = \varepsilon(t)\,K_{do}(t)\,\theta_l(t)
 \end{equation}
 
-Sustituyendo~\eqref{eq:ctrl-sway} en~\eqref{eq:lpv-sway} y agrupando los términos
-de estado en el miembro izquierdo, se obtiene la \textbf{ecuación diferencial a lazo
-cerrado}:
+donde $\varepsilon(t)\in[0,1]$ es un factor de escala progresivo definido más adelante.
+La corrección de velocidad genera una aceleración efectiva sobre el péndulo. Tratando
+$K_{do}(t)$ como localmente constante, la derivada de $v_{bal}$ respecto al tiempo es:
+
+\begin{equation}
+    \label{eq:aeff}
+    \dot{v}_{bal}(t) \approx K_{do}(t)\,\dot{\theta}_l(t)
+\end{equation}
+
+Sustituyendo esta aceleración efectiva en~\eqref{eq:lpv-sway} y agrupando, la
+\textbf{ecuación diferencial a lazo cerrado} resulta:
 
 \begin{equation}
     \label{eq:lc-sway}
     \ddot{\theta}_l(t)
-    + \bigl[B_{eq}(t)+G_{eq}(t)\,K_{do}(t)\bigr]\,\dot{\theta}_l(t)
-    + \bigl[K_{eq}(t)+G_{eq}(t)\,K_{po}(t)\bigr]\,\theta_l(t)
-    = G_{eq}(t)\,a_{ref}(t)
+    + \bigl[B_{eq}(t) - G_{eq}(t)\,K_{do}(t)\bigr]\,\dot{\theta}_l(t)
+    + K_{eq}(t)\,\theta_l(t)
+    = G_{eq}(t)\,\dot{v}_{ref}(t)
 \end{equation}
 
-\paragraph{Sintonización — amortiguamiento crítico y frecuencia natural dinámica.}
+El controlador actúa exclusivamente sobre el coeficiente de amortiguamiento: la rigidez
+$K_{eq}(t)$ —y por tanto la frecuencia natural— no se modifica.
 
-Se impone \textbf{amortiguamiento relativo crítico} ($\zeta_o=1$), de modo que el
-polinomio característico deseado es $s^2+2\omega_o\,s+\omega_o^2$. La frecuencia
-de diseño $\omega_o(t)$ no es fija sino que se programa dinámicamente en función
-de la longitud instantánea del cable:
+\paragraph{Sintonización — amortiguamiento crítico.}
+
+Se impone \textbf{amortiguamiento relativo crítico} ($\zeta_o=1$), con polinomio
+característico deseado $s^2+2\omega_o\,s+\omega_o^2$. La frecuencia de diseño se
+programa igual a la frecuencia natural libre del péndulo:
 
 \begin{equation}
     \label{eq:wo-lpv}
-    \omega_o(t) = 2\sqrt{\frac{g}{l(t)}}
+    \omega_o(t) = \sqrt{\frac{g}{l(t)}}
 \end{equation}
 
-Esta elección ubica los polos de lazo cerrado cuatro veces más alejados del origen
-que la frecuencia natural libre $\sqrt{g/l(t)}$, garantizando una amortiguación
-significativamente más rápida que la oscilación no controlada para cualquier longitud
-de cable. Igualando coeficiente a coeficiente con~\eqref{eq:lc-sway} y
-sustituyendo~\eqref{eq:Beq}--\eqref{eq:Geq}:
+Igualando el coeficiente de $\dot{\theta}_l$ en~\eqref{eq:lc-sway} con $2\omega_o$ y
+sustituyendo~\eqref{eq:Beq} y~\eqref{eq:Geq}:
+
+\begin{equation}
+    \frac{2\,\dot{l}(t)}{l(t)} + \frac{\cos(\theta_l(t))}{l(t)}\,K_{do}(t) = 2\,\omega_o(t)
+\end{equation}
+
+despejando $K_{do}(t)$:
 
 \begin{equation}
     \label{eq:Kdo}
-    K_{do}(t) = \frac{2\,\dot{l}(t) - 2\,\omega_o(t)\,l(t)}{\cos(\theta_l(t))}
+    K_{do}(t) = \frac{2\,\omega_o(t)\,l(t) - 2\,\dot{l}(t)}{\cos(\theta_l(t))}
 \end{equation}
 
+Los polos de lazo cerrado quedan en $s=-\omega_o(t)$ (doble), garantizando
+amortiguamiento crítico a la frecuencia natural del péndulo para cualquier longitud de
+cable. La frecuencia natural no se altera respecto al péndulo libre.
+
+\paragraph{Activación progresiva — \textit{gain scheduling} por zona de operación.}
+
+Para evitar excitaciones innecesarias del carro, la corrección $v_{bal}$ se activa de
+forma progresiva mediante el factor $\varepsilon(t)$ en función del ángulo instantáneo
+$|\theta_l(t)|$ y de la zona de operación. Se definen dos umbrales,
+$\theta_{lim}$ y $\theta_{full}$, que varían según el estado del sistema:
+
+\begin{itemize}
+    \item \textbf{Izaje/descenso activo} ($|\dot{l}(t)|>\delta_a$):
+          $\theta_{lim}=15°$, $\theta_{full}=20°$. Se permiten mayores oscilaciones
+          durante el movimiento de cable.
+    \item \textbf{Carro en movimiento} ($|\dot{\theta}_l(t)|>\delta_v$):
+          $\theta_{lim}=3{,}5°$, $\theta_{full}=5°$.
+    \item \textbf{Sistema en reposo}: $\theta_{lim}=0°$, $\theta_{full}=1°$.
+          Corrección activa incluso para ángulos muy pequeños.
+\end{itemize}
+
+El factor de escala adopta la forma:
+
 \begin{equation}
-    \label{eq:Kpo}
-    K_{po}(t) = \frac{g\,\dfrac{\sin(\theta_l(t))}{\theta_l(t)} - \omega_o^2(t)\,l(t)}
-                     {\cos(\theta_l(t))}
+    \label{eq:escala}
+    \varepsilon(t) =
+    \begin{cases}
+        0 & |\theta_l| \leq \theta_{lim} \\[4pt]
+        0{,}5 + 0{,}5\,\dfrac{|\theta_l|-\theta_{lim}}{\theta_{full}-\theta_{lim}}
+          & \theta_{lim} < |\theta_l| < \theta_{full} \\[4pt]
+        1 & |\theta_l| \geq \theta_{full}
+    \end{cases}
 \end{equation}
+
+La transición suave entre $0{,}5$ y $1$ en la zona intermedia evita discontinuidades en
+la consigna de velocidad. Para $|\theta_l|\leq\theta_{lim}$ la corrección es nula,
+desconectando el controlador cuando el balanceo es despreciable.
 
 \paragraph{Implementación en Simulink como \textit{MATLAB Function}.}
 
-A diferencia de los controladores de traslación e izaje, el controlador de
-oscilación es un \textbf{PD puro} (sin integradores): su salida $a_{PD}(t)$ se
-calcula algebraicamente a partir de los estados instantáneos sin ningún estado
-interno. Por tanto, \textbf{no requiere discretización por Tustin} y se implementa
-directamente como un bloque \texttt{MATLAB Function} en Simulink, evaluado en cada
-paso $T_{s2}=1$\,ms. La función incorpora los siguientes mecanismos de robustez:
+La implementación completa del controlador de balanceo como \texttt{MATLAB Function}
+en Simulink es la siguiente:
 
-\begin{itemize}
-    \item \textbf{Guardia de longitud mínima}: $l(t)\leftarrow\max\bigl(l(t),\,0{,}1\,\text{m}\bigr)$,
-    para evitar división por cero en $\omega_o(t)$ y en las ganancias.
-    \item \textbf{Saturación de ángulo}: $|\theta_l(t)|$ se limita a $80°$ en el
-    cálculo de las ganancias, preservando la validez del modelo trigonométrico.
-    \item \textbf{Zona muerta}: si $|\theta_l(t)|<0{,}005$\,rad y
-    $|\dot{\theta}_l(t)|<0{,}01$\,rad/s simultáneamente se fuerza $a_{PD}=0$,
-    evitando excitaciones innecesarias del carro cuando el balanceo es despreciable.
-    \item \textbf{Límite de sinc}: si $|\theta_l(t)|<10^{-4}$\,rad se toma
-    $\sin(\theta_l)/\theta_l=1$, previniendo inestabilidad numérica.
-\end{itemize}
+\begin{lstlisting}[style=matlab, basicstyle=\ttfamily\scriptsize, caption={MATLAB Function: controlador de balanceo (Simulink, $T_{s2}=1$\,ms).}, label=lst:ctrl-balanceo]
+function v_balanceo = controlador_balanceo(theta_l, omega_l, l, dl_dt, g)
+    DEG2RAD = pi / 180;
+    THRESH_V   = 0.05;
+    THRESH_ACC = 0.1;
+
+    if abs(dl_dt) > THRESH_ACC
+        theta_lim  = 15 * DEG2RAD;
+        theta_full = 20 * DEG2RAD;
+    elseif abs(omega_l) > THRESH_V
+        theta_lim  = 3.5 * DEG2RAD;
+        theta_full = 5   * DEG2RAD;
+    else
+        theta_lim  = 0;
+        theta_full = 1   * DEG2RAD;
+    end
+
+    theta_margen = theta_full - theta_lim;
+    abs_theta = abs(theta_l);
+    if abs_theta >= theta_full
+        escala = 1.0;
+    elseif abs_theta > theta_lim
+        escala = 0.5 + 0.5 * (abs_theta - theta_lim) / theta_margen;
+    else
+        escala = 0.0;
+    end
+
+    l_seg  = max(l, 0.1);
+    th_sat = max(-80*DEG2RAD, min(80*DEG2RAD, theta_l));
+    w_o    = sqrt(g / l_seg);
+    K_do   = (2*w_o*l_seg - 2*dl_dt) / cos(th_sat);
+
+    v_balanceo = escala * K_do * theta_l;
+end
+\end{lstlisting}
+
+\paragraph{Desempeño del controlador de balanceo.}
+
+Se evalúa el controlador durante una traslación con \textbf{carga máxima}
+($m_l(TLK=\text{On})=M_s+M_{c,\max}$), longitud de cable constante en un valor
+intermedio $l_h=30$\,m, con perfil trapezoidal de velocidad entre $x_t=-15$\,m y
+$x_t=+45$\,m. Se presentan tres gráficas:
 
 \begin{figure}[H]
     \centering
-    \img{src/img_pend.png}
-    \caption{\texttt{MATLAB Function} del controlador de oscilación con \textit{gain
-             scheduling} qLPV (Simulink, $T_{s2}=1$\,ms).}
-    \label{fig:ctrl-sway-discreto}
-\end{figure}
-
-\paragraph{Desempeño del controlador de oscilación.}
-
-Se evalúa el controlador durante un ciclo completo de traslación a \textbf{carga máxima}
-($m_l(TLK=\text{On})=M_s+M_{c,\max}$) con perfil trapezoidal de velocidad entre
-$x_t=-30$\,m y $x_t=+50$\,m. Se presentan el ángulo de balanceo $\theta_l(t)$
-comparado con y sin control activo, y la aceleración correctora $a_{PD}(t)$ superpuesta
-a la aceleración de referencia del planificador $a_{ref}(t)$.
-
-\begin{figure}[H]
-    \centering
-    \img{src/img_pend.png}
-    \caption{Ángulo de balanceo $\theta_l(t)$ con y sin control de oscilación activo
-             durante un ciclo de traslación (carga máxima, perfil trapezoidal
-             $-30$ a $+50$\,m).}
-    \label{fig:sway-angulo}
+    \img{src/balanceo_consigna_INFORME.jpg}
+    \caption{Controlador de balanceo — velocidad: consigna original $v_t^*(t)$ y
+             consigna modificada por el controlador de balanceo $v_{t,mod}^*(t)$.}
+    \label{fig:sway-vel}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \img{src/img_pend.png}
-    \caption{Aceleración correctora $a_{PD}(t)$ y aceleración de referencia
-             $a_{ref}(t)$ generadas por el controlador de oscilación.}
-    \label{fig:sway-accel}
+    \img{src/balanceo_posicion_INFORME.jpg}
+    \caption{Controlador de balanceo — posición: consigna original $x_t^*(t)$,
+             simulada $x_t(t)$ y estimada $\hat{x}_t(t)$.}
+    \label{fig:sway-pos}
 \end{figure}
+
+\medskip\noindent\textbf{Nota:} El sistema en su estado actual no garantiza el
+cumplimiento de la posición final, dado que la modificación del perfil de velocidad por
+parte del controlador de balanceo altera el recorrido efectivo del carro. Esta limitación
+será corregida en el Nivel~1 del sistema, a través del planificador de trayectorias, que
+ajustará la consigna en línea para asegurar que el carro alcance la posición destino.
+
+\begin{figure}[H]
+    \centering
+    \img{src/balanceo_angulo_INFORME.jpg}
+    \caption{Controlador de balanceo — evolución conjunta de $\theta_l(t)$,
+             $v_t(t)$ y $a_t(t)$ para analizar el comportamiento del ángulo de balanceo
+             en cada región de aceleración y velocidad del carro.}
+    \label{fig:sway-analisis}
+\end{figure}
+
+El resultado es satisfactorio: en cada región de operación (aceleración, crucero y
+desaceleración) el ángulo de balanceo $\theta_l(t)$ se mantiene por debajo del umbral
+definido, y el amortiguamiento del ángulo es crítico, consistente con el diseño
+$\zeta_o = 1$ impuesto en la sintonización.
+
+\paragraph{Implementación en Simulink como \textit{MATLAB Function}.}
+
+% TODO: completar esta sección
 
 % ---- 3.1.4 -------------------------------------------------------
 \subsubsection{Nivel 2 completo}

@@ -22,7 +22,7 @@
 \contentsline {subsection}{\numberline {2.3}Generación del perfil de obstáculos $y_{c0}(x,t)$}{23}{subsection.2.3}%
 \contentsline {subsection}{\numberline {2.4}Fines de carrera y detectores de sobrevelocidad}{25}{subsection.2.4}%
 \contentsline {paragraph}{Fines de carrera de traslación del carro.}{25}{section*.12}%
-\contentsline {paragraph}{Fines de carrera de izaje.}{25}{section*.13}%
+\contentsline {paragraph}{Fines de carrera de izaje.}{26}{section*.13}%
 \contentsline {paragraph}{Detector de sobrevelocidad.}{26}{section*.14}%
 \contentsline {subsection}{\numberline {2.5}Moduladores de torque de los accionamientos}{27}{subsection.2.5}%
 \contentsline {paragraph}{Modulador del carro.}{28}{section*.15}%
@@ -37,9 +37,9 @@
 \contentsline {paragraph}{Polos a lazo abierto del carro.}{33}{section*.20}%
 \contentsline {paragraph}{Diseño del controlador de posición del carro.}{34}{section*.21}%
 \contentsline {paragraph}{Implementación discreta en Simulink.}{35}{section*.22}%
-\contentsline {paragraph}{Desempeño del controlador de traslación.}{36}{section*.23}%
-\contentsline {subsubsection}{\numberline {3.1.2}Controlador de izaje de la carga}{38}{subsubsection.3.1.2}%
-\contentsline {paragraph}{Análisis de controlabilidad y observabilidad.}{38}{section*.24}%
+\contentsline {paragraph}{Desempeño del controlador de traslación.}{37}{section*.23}%
+\contentsline {subsubsection}{\numberline {3.1.2}Controlador de izaje de la carga}{39}{subsubsection.3.1.2}%
+\contentsline {paragraph}{Análisis de controlabilidad y observabilidad.}{39}{section*.24}%
 \contentsline {paragraph}{Polos a lazo abierto del izaje.}{39}{section*.25}%
 \contentsline {paragraph}{Diseño del controlador de longitud de cable de izaje.}{40}{section*.26}%
 \contentsline {paragraph}{Implementación discreta en Simulink.}{41}{section*.27}%
@@ -48,10 +48,12 @@
 \contentsline {paragraph}{Modelo dinámico del péndulo de longitud variable.}{43}{section*.29}%
 \contentsline {paragraph}{Eliminación de la tensión del cable — ecuación del péndulo.}{44}{section*.30}%
 \contentsline {paragraph}{Modelo LPV del balanceo.}{44}{section*.31}%
-\contentsline {paragraph}{Ley de control PD con ganancias programadas.}{44}{section*.32}%
-\contentsline {paragraph}{Sintonización — amortiguamiento crítico y frecuencia natural dinámica.}{45}{section*.33}%
-\contentsline {paragraph}{Implementación en Simulink como \textit {MATLAB Function}.}{45}{section*.34}%
-\contentsline {paragraph}{Desempeño del controlador de oscilación.}{46}{section*.35}%
-\contentsline {subsubsection}{\numberline {3.1.4}Nivel 2 completo}{47}{subsubsection.3.1.4}%
-\contentsline {subsection}{\numberline {3.2}Conversión de los diagramas de bloques del Nivel~2 a \textit {MATLAB Function}}{48}{subsection.3.2}%
-\contentsline {section}{Referencias}{49}{subsection.3.2}%
+\contentsline {paragraph}{Ley de control — corrección de velocidad proporcional al ángulo.}{45}{section*.32}%
+\contentsline {paragraph}{Sintonización — amortiguamiento crítico.}{45}{section*.33}%
+\contentsline {paragraph}{Activación progresiva — \textit {gain scheduling} por zona de operación.}{45}{section*.34}%
+\contentsline {paragraph}{Implementación en Simulink como \textit {MATLAB Function}.}{46}{section*.35}%
+\contentsline {paragraph}{Desempeño del controlador de balanceo.}{46}{section*.36}%
+\contentsline {paragraph}{Implementación en Simulink como \textit {MATLAB Function}.}{48}{section*.37}%
+\contentsline {subsubsection}{\numberline {3.1.4}Nivel 2 completo}{48}{subsubsection.3.1.4}%
+\contentsline {subsection}{\numberline {3.2}Conversión de los diagramas de bloques del Nivel~2 a \textit {MATLAB Function}}{49}{subsection.3.2}%
+\contentsline {section}{Referencias}{50}{subsection.3.2}%

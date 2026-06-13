@@ -115,7 +115,7 @@ w_tm0 = (v_t0)*i_t/r_td;
 theta_tm0 = (x_t0)*i_t/r_td;
 
 x_l0 = x_t0;
-y_l0 = 15;
+y_l0 = 40;
 l_h0 = (Y_t0-y_l0);
 theta_hm0 = -l_h0*i_h*2/r_hd;
 w_hm0 = 0;
