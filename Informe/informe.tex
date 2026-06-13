@@ -2347,6 +2347,213 @@ $\theta_l(t)$ y su derivada $\dot{\theta}_l(t)$ se obtienen directamente del sen
 % ---- 3.2 -------------------------------------------------------
 \subsection{Conversión de los diagramas de bloques del Nivel~2 a \textit{MATLAB Function}}
 
+\subsubsection{Controlador de traslación del carro}
+
+El controlador PID de traslación, originalmente implementado como diagrama de bloques
+con integradores de Tustin en Simulink, se convierte a \texttt{MATLAB Function}
+manteniendo la misma discretización mediante variables persistentes:
+
+\begin{lstlisting}[style=matlab, basicstyle=\ttfamily\scriptsize, caption={MATLAB Function: controlador PID de traslación del carro ($T_{s2}=1$\,ms).}, label=lst:pid-carro]
+function T_tm_star = PID_carro(v_t_star, v_td_hat)
+
+    persistent int1 int2 k_tsia k_tsa b_ta T_s e_prev int1_prev;
+
+    if isempty(int1)
+        int1 = 0;
+        int2 = 0;
+        k_tsia = 817.1486;
+        k_tsa = 4.09*10^3;
+        b_ta = 4.3394*10^3;
+        T_s = 0.001;
+        e_prev = 0;
+        int1_prev = 0;
+    end
+
+    e_t = v_t_star - v_td_hat;
+
+    int1 = int1 + T_s * (e_t + e_prev)/2;
+    e_prev = e_t;
+
+    int2 = int2 + T_s * (int1 + int1_prev)/2;
+    int1_prev = int1;
+
+    T_tm_star = b_ta * e_t + k_tsa * int1 + k_tsia * int2;
+
+end
+\end{lstlisting}
+
+\subsubsection{Observador de estados del carro}
+
+El observador de Luenberger del carro estima $\hat{\theta}_{tm}$, $\hat{\omega}_{tm}$,
+$\hat{x}_t$ y $\hat{v}_t$ a partir del encoder del motor y las entradas de fuerza.
+Los integradores se discretizan por el método trapezoidal. La ganancia de innovación
+actúa sobre el error de posición angular $e_\theta = \theta_{tm} - \hat{\theta}_{tm}$:
+
+\begin{lstlisting}[style=matlab, basicstyle=\ttfamily\scriptsize, caption={MATLAB Function: observador de Luenberger del carro ($T_{s2}=1$\,ms).}, label=lst:obs-carro]
+function [out_theta_tm_hat, out_omega_tm_hat, out_x_t_hat, out_v_t_hat] = ...
+         fcn(theta_tm, F_hw, theta_l, T_tm)
+
+    persistent r_td i_t K_tw b_tw b_t M_t T_s Lt1 Lt2 Lt3 Lt4 ...
+               J_tEq b_tEq dv_t_hat_prev v_t_hat_prev w_tm_hat_prev ...
+               dw_tm_hat_prev w_tm_hat theta_tm_hat dw_tm_hat x_t_hat ...
+               v_t_hat
+
+    if isempty(r_td)
+        r_td  = 0.5;    i_t   = 30;
+        K_tw  = 480000; b_tw  = 3000;
+        b_t   = 90;     M_t   = 30000;
+        T_s   = 0.001;
+        Lt1 = 17.0420;  Lt2 = 73.1961;
+        Lt3 = 0.0782;   Lt4 = -1.0015;
+        J_tEq = 8.3333; b_tEq = 6.06;
+        dv_t_hat_prev = 0;  v_t_hat_prev  = 0;
+        dw_tm_hat_prev = 0; w_tm_hat_prev = 0;
+        w_tm_hat = 0;       dw_tm_hat = 0;
+        x_t_hat = theta_tm * r_td/i_t;
+        v_t_hat = 0;
+        theta_tm_hat = theta_tm;
+    end
+
+    e_theta = theta_tm - theta_tm_hat;
+
+    F_tw = (theta_tm*(r_td/i_t) - x_t_hat)*K_tw ...
+         + (w_tm_hat*(r_td/i_t) - v_t_hat)*b_tw;
+
+    dv_t_hat = (1/M_t)*(2*F_hw*sin(theta_l) - b_t*v_t_hat + F_tw) ...
+               + Lt4 * e_theta;
+    v_t_hat  = v_t_hat + T_s*(dv_t_hat + dv_t_hat_prev)/2 + Lt3*e_theta;
+    dv_t_hat_prev = dv_t_hat;
+    x_t_hat  = x_t_hat + T_s*(v_t_hat + v_t_hat_prev)/2;
+    v_t_hat_prev = v_t_hat;
+
+    dw_tm_hat = (1/J_tEq)*(T_tm - F_tw*(r_td/i_t)) ...
+                - w_tm_hat*b_tEq + Lt2*e_theta;
+    w_tm_hat  = w_tm_hat + T_s*(dw_tm_hat_prev + dw_tm_hat)/2 + Lt1*e_theta;
+    dw_tm_hat_prev = dw_tm_hat;
+    theta_tm_hat = theta_tm_hat + T_s*(w_tm_hat + w_tm_hat_prev)/2;
+    w_tm_hat_prev = w_tm_hat;
+
+    out_theta_tm_hat = theta_tm_hat;
+    out_omega_tm_hat = w_tm_hat;
+    out_x_t_hat      = x_t_hat;
+    out_v_t_hat      = v_t_hat;
+
+end
+\end{lstlisting}
+
+\subsubsection{Controlador de izaje de carga}
+
+El controlador PID de izaje incorpora además la compensación de la fuerza del cable
+$F_{hw}$ como \textit{feedforward}, y reconstruye la velocidad de cable $\dot{l}_h$
+a partir de la velocidad angular estimada del motor:
+
+\begin{lstlisting}[style=matlab, basicstyle=\ttfamily\scriptsize, caption={MATLAB Function: controlador PID de izaje de carga ($T_{s2}=1$\,ms).}, label=lst:pid-izaje]
+function T_hm_star = fcn(F_hw, dl_h_star, w_hm_hat)
+
+    persistent int1 int2 k_hsia k_hsa b_ha T_s r_hd i_h e_prev int1_prev
+
+    if isempty(int1)
+        int1 = 0;
+        int2 = 0;
+        k_hsia = -6.4992*10^5;
+        k_hsa  = -4.3987*10^5;
+        b_ha   = -6.7646*10^4;
+        T_s    = 0.001;
+        r_hd   = 0.75;
+        i_h    = 22;
+        e_prev    = 0;
+        int1_prev = 0;
+    end
+
+    dl_h = w_hm_hat * (-r_hd)/(i_h*2);
+
+    e_h = dl_h_star - dl_h;
+
+    int1 = int1 + T_s * (e_h + e_prev)/2;
+    e_prev = e_h;
+
+    int2 = int2 + T_s * (int1 + int1_prev)/2;
+    int1_prev = int1;
+
+    T_hm_star = F_hw*r_hd/(i_h*2) + b_ha * e_h + k_hsa * int1 + k_hsia * int2;
+
+end
+\end{lstlisting}
+
+\subsubsection{Observador de estados del izaje}
+
+El observador de Luenberger del izaje estima $\hat{\omega}_{hm}$ y $\hat{\theta}_{hm}$
+a partir del encoder del motor y las entradas de torque y fuerza de cable.
+La innovación actúa sobre el error de posición angular $e_\theta = \theta_{hm} - \hat{\theta}_{hm}$:
+
+\begin{lstlisting}[style=matlab, basicstyle=\ttfamily\scriptsize, caption={MATLAB Function: observador de Luenberger del izaje ($T_{s2}=1$\,ms).}, label=lst:obs-izaje]
+function [out_wm_hm_hat, out_theta_hm_hat] = fcn(T_hm, F_hw, theta_hm)
+
+    persistent Lh1 Lh2 T_s b_hEq J_hEq r_hd i_h ...
+               w_hm_hat_prev dw_hm_hat_prev w_hm_hat theta_hm_hat
+
+    if isempty(Lh1)
+        Lh1  = 9.5197;   Lh2  = 20.3903;
+        J_hEq = 37.8512; b_hEq = 18.0165;
+        r_hd = 0.75;     i_h   = 22;
+        T_s  = 0.001;
+        dw_hm_hat_prev = 0;
+        w_hm_hat_prev  = 0;
+        w_hm_hat       = 0;
+        theta_hm_hat   = theta_hm;
+    end
+
+    e_theta = theta_hm - theta_hm_hat;
+
+    dw_hm_hat = (1/J_hEq)*(T_hm - w_hm_hat*b_hEq - F_hw*(r_hd/i_h)) ...
+                + Lh2 * e_theta;
+    w_hm_hat  = w_hm_hat + T_s*(dw_hm_hat_prev + dw_hm_hat)/2 + Lh1*e_theta;
+    dw_hm_hat_prev = dw_hm_hat;
+
+    theta_hm_hat = theta_hm_hat + T_s*(w_hm_hat + w_hm_hat_prev)/2;
+    w_hm_hat_prev = w_hm_hat;
+
+    out_wm_hm_hat    = w_hm_hat;
+    out_theta_hm_hat = theta_hm_hat;
+
+end
+\end{lstlisting}
+
+\subsubsection{Controlador paralelo de balanceo}
+
+La versión final del controlador de balanceo recibe directamente las señales del encoder
+del motor de izaje para calcular internamente la longitud de cable $l$ y su derivada
+$\dot{l}$, e incorpora una entrada \texttt{enable} para desconectarlo desde el Nivel~1:
+
+\begin{lstlisting}[style=matlab, basicstyle=\ttfamily\scriptsize, caption={MATLAB Function: controlador paralelo de balanceo ($T_{s2}=1$\,ms).}, label=lst:ctrl-balanceo-final]
+function v_balanceo = controlador_balanceo(theta_hm, theta_l, w_l, w_hm_hat, enable)
+
+    persistent g r_hd i_h DEG2RAD;
+
+    if isempty(g)
+        DEG2RAD = pi/180;
+        g    = 9.8066;
+        r_hd = 0.75;
+        i_h  = 22;
+    end
+
+    if ~enable
+        v_balanceo = 0;
+        return;
+    end
+
+    l     = theta_hm * (-r_hd)/(i_h*2);
+    dl_dt = w_hm_hat * (-r_hd)/(i_h*2);
+
+    l_seg  = max(l, 0.1);
+    th_sat = max(-80*DEG2RAD, min(80*DEG2RAD, theta_l));
+    w_o    = sqrt(g / l_seg);
+    K_do   = (2*w_o*l_seg - 2*dl_dt) / cos(th_sat);
+
+    v_balanceo = 1 * K_do * theta_l;
+end
+\end{lstlisting}
+
 % ── BIBLIOGRAPHY ────────────────────────────────────────────
 \newpage
 \addcontentsline{toc}{section}{Referencias}

@@ -56,4 +56,9 @@
 \contentsline {paragraph}{Implementación en Simulink como \textit {MATLAB Function}.}{48}{section*.37}%
 \contentsline {subsubsection}{\numberline {3.1.4}Nivel 2 completo}{48}{subsubsection.3.1.4}%
 \contentsline {subsection}{\numberline {3.2}Conversión de los diagramas de bloques del Nivel~2 a \textit {MATLAB Function}}{49}{subsection.3.2}%
-\contentsline {section}{Referencias}{50}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Controlador de traslación del carro}{49}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Observador de estados del carro}{50}{subsubsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.3}Controlador de izaje de carga}{51}{subsubsection.3.2.3}%
+\contentsline {subsubsection}{\numberline {3.2.4}Observador de estados del izaje}{51}{subsubsection.3.2.4}%
+\contentsline {subsubsection}{\numberline {3.2.5}Controlador paralelo de balanceo}{52}{subsubsection.3.2.5}%
+\contentsline {section}{Referencias}{53}{lstnumber.7.26}%

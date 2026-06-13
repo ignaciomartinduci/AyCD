@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.4.30)  13 JUN 2026 11:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.4.30)  13 JUN 2026 15:31
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -461,7 +461,7 @@ Package hyperref Info: Link coloring OFF on input line 143.
 \@outlinefile=\write3
 \openout3 = `informe.out'.
 
-<src/header.png, id=102, 296.60812pt x 47.42719pt>
+<src/header.png, id=123, 296.60812pt x 47.42719pt>
 File: src/header.png Graphic file (type png)
 <use src/header.png>
 Package pdftex.def Info: src/header.png  used on input line 150.
@@ -483,109 +483,109 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \openout4 = `informe.toc'.
 
  [3] [4] [5] [6]
-<src/esquema_acc_carro.png, id=189, 1275.26437pt x 566.86781pt>
+<src/esquema_acc_carro.png, id=215, 1275.26437pt x 566.86781pt>
 File: src/esquema_acc_carro.png Graphic file (type png)
 <use src/esquema_acc_carro.png>
 Package pdftex.def Info: src/esquema_acc_carro.png  used on input line 357.
 (pdftex.def)             Requested size: 364.19667pt x 161.8877pt.
  [7 <./src/esquema_acc_carro.png>]
-<src/modelo_freno_carro.png, id=214, 1047.915pt x 292.84406pt>
+<src/modelo_freno_carro.png, id=240, 1047.915pt x 292.84406pt>
 File: src/modelo_freno_carro.png Graphic file (type png)
 <use src/modelo_freno_carro.png>
 Package pdftex.def Info: src/modelo_freno_carro.png  used on input line 458.
 (pdftex.def)             Requested size: 455.24411pt x 127.21632pt.
-<src/modelo_acc_carro.png, id=216, 1620.80531pt x 699.36281pt>
+<src/modelo_acc_carro.png, id=242, 1620.80531pt x 699.36281pt>
 File: src/modelo_acc_carro.png Graphic file (type png)
 <use src/modelo_acc_carro.png>
 Package pdftex.def Info: src/modelo_acc_carro.png  used on input line 469.
 (pdftex.def)             Requested size: 455.24411pt x 196.42851pt.
  [8 <./src/modelo_freno_carro.png>]
-<src/modelo_cable_carro.png, id=230, 859.71187pt x 344.03531pt>
+<src/modelo_cable_carro.png, id=256, 859.71187pt x 344.03531pt>
 File: src/modelo_cable_carro.png Graphic file (type png)
 <use src/modelo_cable_carro.png>
 Package pdftex.def Info: src/modelo_cable_carro.png  used on input line 497.
 (pdftex.def)             Requested size: 455.24411pt x 182.18036pt.
  [9 <./src/modelo_acc_carro.png> <./src/modelo_cable_carro.png>]
-<src/esquema_carro.png, id=241, 737.00343pt x 860.46469pt>
+<src/esquema_carro.png, id=267, 737.00343pt x 860.46469pt>
 File: src/esquema_carro.png Graphic file (type png)
 <use src/esquema_carro.png>
 Package pdftex.def Info: src/esquema_carro.png  used on input line 510.
 (pdftex.def)             Requested size: 273.14923pt x 318.90527pt.
  [10 <./src/esquema_carro.png>]
-<src/modelo_carro.png, id=254, 1009.52156pt x 407.27156pt>
+<src/modelo_carro.png, id=280, 1009.52156pt x 407.27156pt>
 File: src/modelo_carro.png Graphic file (type png)
 <use src/modelo_carro.png>
 Package pdftex.def Info: src/modelo_carro.png  used on input line 549.
 (pdftex.def)             Requested size: 455.24411pt x 183.662pt.
-<src/modelo_carro_completo.png, id=257, 1081.03876pt x 486.31688pt>
+<src/modelo_carro_completo.png, id=283, 1081.03876pt x 486.31688pt>
 File: src/modelo_carro_completo.png Graphic file (type png)
 <use src/modelo_carro_completo.png>
 Package pdftex.def Info: src/modelo_carro_completo.png  used on input line 569.
 (pdftex.def)             Requested size: 455.24411pt x 204.7934pt.
  [11 <./src/modelo_carro.png>]
-<src/esquema_acc_izaje.png, id=268, 1111.15125pt x 544.28343pt>
+<src/esquema_acc_izaje.png, id=294, 1111.15125pt x 544.28343pt>
 File: src/esquema_acc_izaje.png Graphic file (type png)
 <use src/esquema_acc_izaje.png>
 Package pdftex.def Info: src/esquema_acc_izaje.png  used on input line 606.
 (pdftex.def)             Requested size: 364.19667pt x 178.39323pt.
  [12 <./src/modelo_carro_completo.png>] [13 <./src/esquema_acc_izaje.png>] [14]
-<src/modelo_freno_izaje.png, id=313, 1255.69125pt x 347.79938pt>
+<src/modelo_freno_izaje.png, id=339, 1255.69125pt x 347.79938pt>
 File: src/modelo_freno_izaje.png Graphic file (type png)
 <use src/modelo_freno_izaje.png>
 Package pdftex.def Info: src/modelo_freno_izaje.png  used on input line 760.
 (pdftex.def)             Requested size: 455.24411pt x 126.08864pt.
-<src/modelo_freno_emergencia_izaje.png, id=314, 1056.19594pt x 281.55188pt>
+<src/modelo_freno_emergencia_izaje.png, id=340, 1056.19594pt x 281.55188pt>
 File: src/modelo_freno_emergencia_izaje.png Graphic file (type png)
 <use src/modelo_freno_emergencia_izaje.png>
 Package pdftex.def Info: src/modelo_freno_emergencia_izaje.png  used on input line 767.
 (pdftex.def)             Requested size: 455.24411pt x 121.35278pt.
-<src/modelo_acc_izaje.png, id=316, 1216.545pt x 687.31781pt>
+<src/modelo_acc_izaje.png, id=342, 1216.545pt x 687.31781pt>
 File: src/modelo_acc_izaje.png Graphic file (type png)
 <use src/modelo_acc_izaje.png>
 Package pdftex.def Info: src/modelo_acc_izaje.png  used on input line 777.
 (pdftex.def)             Requested size: 455.24411pt x 257.19818pt.
  [15 <./src/modelo_freno_izaje.png> <./src/modelo_freno_emergencia_izaje.png>]
-<src/modelo_cable_izaje.png, id=332, 987.69pt x 435.87843pt>
+<src/modelo_cable_izaje.png, id=358, 987.69pt x 435.87843pt>
 File: src/modelo_cable_izaje.png Graphic file (type png)
 <use src/modelo_cable_izaje.png>
 Package pdftex.def Info: src/modelo_cable_izaje.png  used on input line 828.
 (pdftex.def)             Requested size: 455.24411pt x 200.89891pt.
  [16 <./src/modelo_acc_izaje.png>]
-<src/modelo_Khw.png, id=346, 547.2947pt x 250.68657pt>
+<src/modelo_Khw.png, id=372, 547.2947pt x 250.68657pt>
 File: src/modelo_Khw.png Graphic file (type png)
 <use src/modelo_Khw.png>
 Package pdftex.def Info: src/modelo_Khw.png  used on input line 836.
 (pdftex.def)             Requested size: 341.43307pt x 156.39565pt.
-<src/modelo_bhw.png, id=347, 867.99281pt x 363.60844pt>
+<src/modelo_bhw.png, id=373, 867.99281pt x 363.60844pt>
 File: src/modelo_bhw.png Graphic file (type png)
 <use src/modelo_bhw.png>
 Package pdftex.def Info: src/modelo_bhw.png  used on input line 844.
 (pdftex.def)             Requested size: 341.43307pt x 143.02731pt.
  [17 <./src/modelo_cable_izaje.png> <./src/modelo_Khw.png> <./src/modelo_bhw.png>] [18]
-<src/modelo_mov_carga.png, id=374, 805.50937pt x 643.6547pt>
+<src/modelo_mov_carga.png, id=400, 805.50937pt x 643.6547pt>
 File: src/modelo_mov_carga.png Graphic file (type png)
 <use src/modelo_mov_carga.png>
 Package pdftex.def Info: src/modelo_mov_carga.png  used on input line 945.
 (pdftex.def)             Requested size: 455.24411pt x 363.7638pt.
-<src/modelo_Fcy.png, id=375, 1218.05063pt x 599.23875pt>
+<src/modelo_Fcy.png, id=401, 1218.05063pt x 599.23875pt>
 File: src/modelo_Fcy.png Graphic file (type png)
 <use src/modelo_Fcy.png>
 Package pdftex.def Info: src/modelo_Fcy.png  used on input line 952.
 (pdftex.def)             Requested size: 455.24411pt x 223.9642pt.
  [19 <./src/modelo_mov_carga.png>]
-<src/modelo_Fcx.png, id=388, 882.29625pt x 587.94656pt>
+<src/modelo_Fcx.png, id=414, 882.29625pt x 587.94656pt>
 File: src/modelo_Fcx.png Graphic file (type png)
 <use src/modelo_Fcx.png>
 Package pdftex.def Info: src/modelo_Fcx.png  used on input line 960.
 (pdftex.def)             Requested size: 455.24411pt x 303.36554pt.
  [20 <./src/modelo_Fcy.png> <./src/modelo_Fcx.png>]
-<src/modelo_theta_l.png, id=399, 450.68375pt x 442.65375pt>
+<src/modelo_theta_l.png, id=425, 450.68375pt x 442.65375pt>
 File: src/modelo_theta_l.png Graphic file (type png)
 <use src/modelo_theta_l.png>
 Package pdftex.def Info: src/modelo_theta_l.png  used on input line 1028.
 (pdftex.def)             Requested size: 455.24411pt x 447.15779pt.
  [21] [22 <./src/modelo_theta_l.png>]
-<src/modelo_izaje_completo.png, id=419, 947.79094pt x 660.96938pt>
+<src/modelo_izaje_completo.png, id=445, 947.79094pt x 660.96938pt>
 File: src/modelo_izaje_completo.png Graphic file (type png)
 <use src/modelo_izaje_completo.png>
 Package pdftex.def Info: src/modelo_izaje_completo.png  used on input line 1060.
@@ -599,25 +599,25 @@ Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on in
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 1096.
  [24]
-<src/modelo_suelo.png, id=491, 1431.84938pt x 674.52pt>
+<src/modelo_suelo.png, id=517, 1431.84938pt x 674.52pt>
 File: src/modelo_suelo.png Graphic file (type png)
 <use src/modelo_suelo.png>
 Package pdftex.def Info: src/modelo_suelo.png  used on input line 1156.
 (pdftex.def)             Requested size: 455.24411pt x 214.45105pt.
  [25 <./src/modelo_suelo.png (PNG copy)>]
-<src/modelo_fines_carrera.png, id=505, 596.98032pt x 711.4078pt>
+<src/modelo_fines_carrera.png, id=531, 596.98032pt x 711.4078pt>
 File: src/modelo_fines_carrera.png Graphic file (type png)
 <use src/modelo_fines_carrera.png>
 Package pdftex.def Info: src/modelo_fines_carrera.png  used on input line 1216.
 (pdftex.def)             Requested size: 455.24411pt x 542.51009pt.
  [26] [27 <./src/modelo_fines_carrera.png>]
-<src/modelo_field_weakening.png, id=524, 1206.00563pt x 423.83344pt>
+<src/modelo_field_weakening.png, id=550, 1206.00563pt x 423.83344pt>
 File: src/modelo_field_weakening.png Graphic file (type png)
 <use src/modelo_field_weakening.png>
 Package pdftex.def Info: src/modelo_field_weakening.png  used on input line 1285.
 (pdftex.def)             Requested size: 455.24411pt x 159.98482pt.
  [28]
-<src/modelo_moduladores.png, id=539, 1144.275pt x 499.11469pt>
+<src/modelo_moduladores.png, id=565, 1144.275pt x 499.11469pt>
 File: src/modelo_moduladores.png Graphic file (type png)
 <use src/modelo_moduladores.png>
 Package pdftex.def Info: src/modelo_moduladores.png  used on input line 1296.
@@ -633,7 +633,7 @@ Overfull \hbox (1.3441pt too wide) in paragraph at lines 1371--1373
  []
 
 [30]
-<src/sistema_fisico_completo.png, id=556, 834.86906pt x 745.28438pt>
+<src/sistema_fisico_completo.png, id=582, 834.86906pt x 745.28438pt>
 File: src/sistema_fisico_completo.png Graphic file (type png)
 <use src/sistema_fisico_completo.png>
 Package pdftex.def Info: src/sistema_fisico_completo.png  used on input line 1380.
@@ -649,35 +649,35 @@ Overfull \hbox (9.4621pt too wide) detected at line 1562
  []
 
 [34]
-<src/integrador_tustin.png, id=614, 851.43094pt x 294.34969pt>
+<src/integrador_tustin.png, id=640, 851.43094pt x 294.34969pt>
 File: src/integrador_tustin.png Graphic file (type png)
 <use src/integrador_tustin.png>
 Package pdftex.def Info: src/integrador_tustin.png  used on input line 1671.
 (pdftex.def)             Requested size: 455.24411pt x 157.38344pt.
-<src/controlador_carro_discreto.png, id=615, 956.82469pt x 411.78844pt>
+<src/controlador_carro_discreto.png, id=641, 956.82469pt x 411.78844pt>
 File: src/controlador_carro_discreto.png Graphic file (type png)
 <use src/controlador_carro_discreto.png>
 Package pdftex.def Info: src/controlador_carro_discreto.png  used on input line 1679.
 (pdftex.def)             Requested size: 455.24411pt x 195.92198pt.
  [35 <./src/integrador_tustin.png>]
-<src/observador_carro_discreto.png, id=630, 667.49374pt x 486.81876pt>
+<src/observador_carro_discreto.png, id=656, 667.49374pt x 486.81876pt>
 File: src/observador_carro_discreto.png Graphic file (type png)
 <use src/observador_carro_discreto.png>
 Package pdftex.def Info: src/observador_carro_discreto.png  used on input line 1687.
 (pdftex.def)             Requested size: 455.24411pt x 332.02776pt.
  [36 <./src/controlador_carro_discreto.png> <./src/observador_carro_discreto.png>]
-<src/velocidad_carro_comparativa_INFORME.jpg, id=640, 2569.6pt x 1335.99126pt>
+<src/velocidad_carro_comparativa_INFORME.jpg, id=666, 2569.6pt x 1335.99126pt>
 File: src/velocidad_carro_comparativa_INFORME.jpg Graphic file (type jpg)
 <use src/velocidad_carro_comparativa_INFORME.jpg>
 Package pdftex.def Info: src/velocidad_carro_comparativa_INFORME.jpg  used on input line 1709.
 (pdftex.def)             Requested size: 455.24411pt x 236.67633pt.
-<src/posicion_carro_comparativa_INFORME.jpg, id=641, 2569.6pt x 1335.99126pt>
+<src/posicion_carro_comparativa_INFORME.jpg, id=667, 2569.6pt x 1335.99126pt>
 File: src/posicion_carro_comparativa_INFORME.jpg Graphic file (type jpg)
 <use src/posicion_carro_comparativa_INFORME.jpg>
 Package pdftex.def Info: src/posicion_carro_comparativa_INFORME.jpg  used on input line 1718.
 (pdftex.def)             Requested size: 455.24411pt x 236.67633pt.
  [37 <./src/velocidad_carro_comparativa_INFORME.jpg>]
-<src/torque_carro_INFORME.jpg, id=650, 2312.64pt x 1078.0275pt>
+<src/torque_carro_INFORME.jpg, id=676, 2312.64pt x 1078.0275pt>
 File: src/torque_carro_INFORME.jpg Graphic file (type jpg)
 <use src/torque_carro_INFORME.jpg>
 Package pdftex.def Info: src/torque_carro_INFORME.jpg  used on input line 1726.
@@ -703,28 +703,28 @@ Overfull \hbox (51.81178pt too wide) detected at line 1909
  []
 
 [40]
-<src/controlador_izaje_discreto.png, id=697, 1191.7022pt x 474.27188pt>
+<src/controlador_izaje_discreto.png, id=723, 1191.7022pt x 474.27188pt>
 File: src/controlador_izaje_discreto.png Graphic file (type png)
 <use src/controlador_izaje_discreto.png>
 Package pdftex.def Info: src/controlador_izaje_discreto.png  used on input line 1938.
 (pdftex.def)             Requested size: 455.24411pt x 181.1732pt.
-<src/observador_izaje_discreto.png, id=698, 1512.40031pt x 567.62062pt>
+<src/observador_izaje_discreto.png, id=724, 1512.40031pt x 567.62062pt>
 File: src/observador_izaje_discreto.png Graphic file (type png)
 <use src/observador_izaje_discreto.png>
 Package pdftex.def Info: src/observador_izaje_discreto.png  used on input line 1946.
 (pdftex.def)             Requested size: 455.24411pt x 170.85913pt.
  [41 <./src/controlador_izaje_discreto.png> <./src/observador_izaje_discreto.png>]
-<src/velocidad_izaje_comparativa_INFORME.jpg, id=712, 2312.64pt x 1078.0275pt>
+<src/velocidad_izaje_comparativa_INFORME.jpg, id=738, 2312.64pt x 1078.0275pt>
 File: src/velocidad_izaje_comparativa_INFORME.jpg Graphic file (type jpg)
 <use src/velocidad_izaje_comparativa_INFORME.jpg>
 Package pdftex.def Info: src/velocidad_izaje_comparativa_INFORME.jpg  used on input line 1965.
 (pdftex.def)             Requested size: 455.24411pt x 212.19666pt.
-<src/posicion_izaje_comparativa_INFORME.jpg, id=713, 2569.6pt x 1335.99126pt>
+<src/posicion_izaje_comparativa_INFORME.jpg, id=739, 2569.6pt x 1335.99126pt>
 File: src/posicion_izaje_comparativa_INFORME.jpg Graphic file (type jpg)
 <use src/posicion_izaje_comparativa_INFORME.jpg>
 Package pdftex.def Info: src/posicion_izaje_comparativa_INFORME.jpg  used on input line 1973.
 (pdftex.def)             Requested size: 455.24411pt x 236.67633pt.
-<src/torque_izaje_INFORME.jpg, id=714, 2312.64pt x 1078.0275pt>
+<src/torque_izaje_INFORME.jpg, id=740, 2312.64pt x 1078.0275pt>
 File: src/torque_izaje_INFORME.jpg Graphic file (type jpg)
 <use src/torque_izaje_INFORME.jpg>
 Package pdftex.def Info: src/torque_izaje_INFORME.jpg  used on input line 1981.
@@ -779,24 +779,24 @@ Overfull \hbox (0.26674pt too wide) in paragraph at lines 2232--2234
 
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <8> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 2236.
-<src/balanceo_consigna_INFORME.jpg, id=781, 2569.6pt x 1335.99126pt>
+<src/balanceo_consigna_INFORME.jpg, id=807, 2569.6pt x 1335.99126pt>
 File: src/balanceo_consigna_INFORME.jpg Graphic file (type jpg)
 <use src/balanceo_consigna_INFORME.jpg>
 Package pdftex.def Info: src/balanceo_consigna_INFORME.jpg  used on input line 2280.
 (pdftex.def)             Requested size: 455.24411pt x 236.67633pt.
 [46]
-<src/balanceo_posicion_INFORME.jpg, id=825, 2569.6pt x 1335.99126pt>
+<src/balanceo_posicion_INFORME.jpg, id=851, 2569.6pt x 1335.99126pt>
 File: src/balanceo_posicion_INFORME.jpg Graphic file (type jpg)
 <use src/balanceo_posicion_INFORME.jpg>
 Package pdftex.def Info: src/balanceo_posicion_INFORME.jpg  used on input line 2288.
 (pdftex.def)             Requested size: 455.24411pt x 236.67633pt.
-<src/balanceo_angulo_INFORME.jpg, id=826, 2569.6pt x 1335.99126pt>
+<src/balanceo_angulo_INFORME.jpg, id=852, 2569.6pt x 1335.99126pt>
 File: src/balanceo_angulo_INFORME.jpg Graphic file (type jpg)
 <use src/balanceo_angulo_INFORME.jpg>
 Package pdftex.def Info: src/balanceo_angulo_INFORME.jpg  used on input line 2302.
 (pdftex.def)             Requested size: 455.24411pt x 236.67633pt.
  [47 <./src/balanceo_consigna_INFORME.jpg> <./src/balanceo_posicion_INFORME.jpg>]
-<src/nivel_2_completo.png, id=834, 962.09438pt x 489.32813pt>
+<src/nivel_2_completo.png, id=860, 962.09438pt x 489.32813pt>
 File: src/nivel_2_completo.png Graphic file (type png)
 <use src/nivel_2_completo.png>
 Package pdftex.def Info: src/nivel_2_completo.png  used on input line 2339.
@@ -806,12 +806,12 @@ Overfull \hbox (11.5145pt too wide) in paragraph at lines 2348--2348
 []\T1/cmr/bx/n/14.4 Conversión de los dia-gra-mas de blo-ques del Ni-vel 2 a \T1/cmr/bx/it/14.4 MATLAB
  []
 
-[49 <./src/nivel_2_completo.png>]
-Underfull \hbox (badness 3058) in paragraph at lines 2385--2389
+[49 <./src/nivel_2_completo.png>] [50] [51] [52]
+Underfull \hbox (badness 3058) in paragraph at lines 2592--2596
 \T1/cmr/m/it/12 Con-cepts\T1/cmr/m/n/12 . OPC Foun-da-tion, Scot-ts-da-le, AZ, 2017. Dis-po-ni-ble en: []$\T1/cmtt/m/n/12 https : / /
  []
 
-[50] 
+[53] 
 enddocument/afterlastpage (AED): lastpage setting LastPage.
 (informe.aux
 LaTeX Info: Redefining \. on input line 11.
@@ -822,20 +822,20 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2026-03-20>
  ***********
 Package rerunfilecheck Info: File `informe.out' has not changed.
-(rerunfilecheck)             Checksum: 71D509B0CF0782317040F522FB33ED6C;5985.
+(rerunfilecheck)             Checksum: 5758A7F840E84BC8207584DFF773F148;7175.
  ) 
 Here is how much of TeX's memory you used:
- 16194 strings out of 467691
- 251505 string characters out of 5414019
- 1166876 words of memory out of 5000000
- 44683 multiletter control sequences out of 15000+600000
+ 16448 strings out of 467691
+ 254918 string characters out of 5414019
+ 1203313 words of memory out of 5000000
+ 44763 multiletter control sequences out of 15000+600000
  651019 words of font info for 97 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,20n,84p,537b,2713s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt0800.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecit1000.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0600.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0800.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbi1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbi1440.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1095.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on informe.pdf (50 pages, 5631118 bytes).
+Output written on informe.pdf (53 pages, 5681078 bytes).
 PDF statistics:
- 1649 PDF objects out of 1728 (max. 8388607)
- 358 named destinations out of 1000 (max. 500000)
- 401 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1906 PDF objects out of 2073 (max. 8388607)
+ 532 named destinations out of 1000 (max. 500000)
+ 441 words of extra memory for PDF output out of 10000 (max. 10000000)
 
