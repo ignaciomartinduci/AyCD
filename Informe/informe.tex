@@ -1162,6 +1162,7 @@ durante una secuencia de operación, junto con la lectura anticipada del LIDAR.
 
 % ---- 2.4 -------------------------------------------------------
 \subsection{Fines de carrera y detectores de sobrevelocidad}
+\label{sec:fines-carrera}
 
 Los fines de carrera y detectores de sobrevelocidad son sensores discretos que generan
 señales booleanas al superarse determinados umbrales de posición o velocidad. En el
@@ -2553,6 +2554,352 @@ function v_balanceo = controlador_balanceo(theta_hm, theta_l, w_l, w_hm_hat, ena
     v_balanceo = 1 * K_do * theta_l;
 end
 \end{lstlisting}
+
+% ---- 3.3 -------------------------------------------------------
+\subsection{Nivel 0: Seguridad y Protección}
+
+El Nivel~0 implementa el sistema de \textbf{seguridad y protección} de la grúa STS
+mediante un autómata de estados discretos que opera con período de muestreo
+$T_{s0} = 20$\,ms. A diferencia del Nivel~1, que coordina la secuencia operativa normal
+del sistema, el Nivel~0 es un autómata \textit{separado e independiente}, que permanece
+en \textit{standby} permanente sin intervenir en la operación habitual de la grúa. Su
+función es monitorear de forma continua las variables críticas de la planta y, ante la
+detección de fallas o estados indeseados, tomar el control del sistema y ejecutar las
+acciones de protección necesarias para llevarlo a un estado seguro de operación, con
+total independencia del estado en que se encuentre el Nivel~1 en ese instante.
+
+La Figura~\ref{fig:nivel0-io} muestra el esquema del Nivel~0 visto desde el exterior,
+indicando sus señales de entrada y salida hacia el resto del sistema.
+
+\begin{figure}[H]
+    \centering
+    \imgpending{src/esquema\_nivel0\_io.png}
+    \caption{Nivel~0 visto desde el exterior: entradas y salidas del autómata de
+             seguridad y protección (Stateflow).}
+    \label{fig:nivel0-io}
+\end{figure}
+
+Internamente, el Nivel~0 ejecuta dos estados \textbf{en paralelo} (Figura~\ref{fig:nivel0-completo}).
+El primero, \texttt{Emergencies}, se encarga de la supervisión y gestión de las
+emergencias del sistema, clasificándolas según su origen (pulsador de emergencia, fines
+de carrera de emergencia, detectores de sobrevelocidad, entre otras) y su nivel de
+criticidad, determinando con selectividad jerárquica la acción de protección
+correspondiente a cada caso. El segundo, también en paralelo, es el \texttt{Watchdog},
+encargado de monitorear la señal de vida (\texttt{heartbeat}) proveniente del Nivel~1,
+de modo de detectar la pérdida de comunicación o el bloqueo del autómata supervisor y
+escalar a un estado seguro cuando el Nivel~1 deja de responder.
+
+\begin{figure}[H]
+    \centering
+    \imgpending{src/nivel\_0\_completo.png}
+    \caption{Diagrama de bloques del Nivel~0 completo: estados paralelos
+             \texttt{Emergencies} y \texttt{Watchdog} (Stateflow, $T_{s0}=20$\,ms).}
+    \label{fig:nivel0-completo}
+\end{figure}
+
+% ---- 3.3.1 -------------------------------------------------------
+\subsubsection{Emergencies}
+\label{sec:emergencies}
+
+El estado \texttt{Emergencies} resuelve la supervisión y gestión de las emergencias del
+sistema. Su estado de entrada es \texttt{Stand\_By}, en el cual se mantienen liberadas
+todas las variables de salida del Nivel~0 para que el Nivel~1 ejecute su control de
+forma regular, sin restricción alguna sobre la operación de la grúa. Su acción de
+entrada energiza los tres frenos del sistema ($BRK_t = BRK_h = BRK_{hE} = \text{On}$),
+liberándolos hacia el control del Nivel~1. Mientras permanece en \texttt{Stand\_By}, el
+autómata evalúa de forma continua las condiciones de transición, a la espera de que
+alguna de ellas se satisfaga para escalar al estado de emergencia correspondiente.
+
+\begin{figure}[H]
+    \centering
+    \imgpending{src/nivel0\_emergencies\_standby.png}
+    \caption{Estado \texttt{Emergencies}: estado de entrada \texttt{Stand\_By} (Stateflow).}
+    \label{fig:emergencies-standby}
+\end{figure}
+
+Desde \texttt{Stand\_By} se definen tres transiciones, cada una activada por la
+disyunción de las condiciones que comparten un mismo origen físico, y cada una dirigida
+a un substado de emergencia específico:
+
+\begin{itemize}
+    \item $\texttt{FCE\_trolley\_max} \lor \texttt{FCE\_trolley\_min} \lor
+          \texttt{sobrevelocidad\_carro} \;\Rightarrow\; \texttt{Trolley\_Emgy}$
+    \item $\texttt{FCE\_hoist\_min} \lor \texttt{FCE\_hoist\_max} \lor
+          \texttt{sobrevelocidad\_izaje} \;\Rightarrow\; \texttt{Hoist\_Emgy}$
+    \item $\texttt{cmd\_emgy\_stop} \lor \texttt{watchdog\_fail} \;\Rightarrow\;
+          \texttt{Global\_Emgy}$
+\end{itemize}
+
+Las señales \texttt{FCE\_trolley\_min/max} y \texttt{FCE\_hoist\_min/max} corresponden a
+los \textbf{fines de carrera de emergencia}, ubicados $0{,}50$\,m más allá de los fines
+de carrera de operación atendidos por el Nivel~1 (Sección~\ref{sec:fines-carrera}); su
+activación indica que el carro o la carga izada superaron el recorrido normal sin haber
+sido detenidos a tiempo por el control supervisor, por lo que el Nivel~0 toma el control
+de forma inmediata. Del mismo modo, \texttt{sobrevelocidad\_carro} y
+\texttt{sobrevelocidad\_izaje} son las salidas de los detectores de sobrevelocidad
+(\ref{eq:overspeed}) de cada mecanismo.
+
+La señal \texttt{cmd\_emgy\_stop} es una entrada al Nivel~0 proveniente de la HMI del
+operador, que le permite llevar al sistema a una emergencia global ante cualquier
+problema o falla que observe, con independencia de que alguna otra condición de
+emergencia se encuentre activa. La señal \texttt{watchdog\_fail}, en cambio, no se
+origina en un sensor de planta sino en el estado paralelo \texttt{Watchdog}: se activa
+cuando este detecta un funcionamiento anómalo de la señal \texttt{heartbeat} del
+Nivel~1, y constituye la vía por la cual el \texttt{Watchdog} escala una falla del
+autómata supervisor hacia una emergencia global gestionada por \texttt{Emergencies}.
+
+La Figura~\ref{fig:emergencies-completo} muestra el estado \texttt{Emergencies} completo,
+incluyendo el estado \texttt{Stand\_By} y las tres transiciones hacia los substados de
+emergencia.
+
+\begin{figure}[H]
+    \centering
+    \imgpending{src/nivel0\_emergencies\_completo.png}
+    \caption{Estado \texttt{Emergencies} completo: \texttt{Stand\_By} y transiciones
+             hacia \texttt{Trolley\_Emgy}, \texttt{Hoist\_Emgy} y \texttt{Global\_Emgy}
+             (Stateflow).}
+    \label{fig:emergencies-completo}
+\end{figure}
+
+% ---- 3.3.2 -------------------------------------------------------
+\subsubsection{Subestado \texttt{Trolley\_Emgy}}
+
+Al ingresar a \texttt{Trolley\_Emgy} se ejecutan tres acciones de entrada: se activa la
+variable de emergencia \texttt{Trolley\_Emgy}, que informa al Nivel~1 la condición de
+falla para que tome la acción correspondiente; el Nivel~0 toma el control directo de la
+señal $BRK_t$ —generada en operación normal por el Nivel~1— y la desenergiza
+($BRK_t = \text{Off}$), aplicando el torque de frenado por fricción de~\eqref{eq:freno-t-off}
+para detener el carro de forma inmediata; y se desactiva el controlador de balanceo
+(\texttt{sway\_ctr\_enable~=~0}), dado que con el freno aplicado no tiene sentido
+amortiguar activamente la oscilación de la carga.
+
+El estado de entrada es \texttt{Init}, encargado de seleccionar el origen de la
+emergencia entre los tres orígenes que activan \texttt{Trolley\_Emgy}
+(Sección~\ref{sec:emergencies}). A cada una de estas condiciones se le agrega, mediante
+conjunción, una espera de $3$\,s (\texttt{after(3,sec)}) que permite al sistema reducir
+su dinámica antes de proceder al subestado correspondiente:
+
+\begin{itemize}
+    \item $\texttt{FCE\_trolley\_min} \land \texttt{after(3,sec)} \;\Rightarrow\;
+          \texttt{Emgy\_Switch\_Min}$
+    \item $\texttt{FCE\_trolley\_max} \land \texttt{after(3,sec)} \;\Rightarrow\;
+          \texttt{Emgy\_Switch\_Max}$
+    \item $\texttt{sobrevelocidad\_carro} \land \texttt{after(3,sec)} \;\Rightarrow\;
+          \texttt{Overspeed}$
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \imgpending{src/nivel0\_trolley\_emgy\_init.png}
+    \caption{Subestado \texttt{Trolley\_Emgy}: acciones de entrada y selección de origen
+             de la emergencia en \texttt{Init} (Stateflow).}
+    \label{fig:trolley-emgy-init}
+\end{figure}
+
+Los subestados \texttt{Emgy\_Switch\_Min} y \texttt{Emgy\_Switch\_Max} implementan la
+misma lógica de forma espejada. En su acción de entrada se energiza el freno
+($BRK_t = \text{On}$), liberando los frenos para permitir el reposicionamiento manual
+del carro hacia una zona definida como segura para la operación. Para ello se fuerza la
+referencia de velocidad del carro \texttt{v\_t\_ref} a tomar valores acotados y de signo
+único: positivos en \texttt{Emgy\_Switch\_Min}, alejando al carro del extremo mínimo, y
+negativos en \texttt{Emgy\_Switch\_Max}, alejándolo del extremo máximo, limitados además
+en magnitud para evitar movimientos a alta velocidad:
+
+\begin{center}
+    \texttt{Emgy\_Switch\_Min:}\quad\texttt{v\_t\_ref = max(min(vx\_joystick, 0.5), 0)} \\[6pt]
+    \texttt{Emgy\_Switch\_Max:}\quad\texttt{v\_t\_ref = min(max(vx\_joystick, -0.5), 0)}
+\end{center}
+
+La consigna de velocidad de izaje \texttt{dl\_h\_ref}, en cambio, se libera sin
+restricciones al valor introducido por el joystick (\texttt{vy\_joystick}), dado que la
+emergencia es exclusiva del mecanismo de traslación. La transición desde ambos
+subestados hacia \texttt{Solved} evalúa que la posición estimada del carro proveniente
+del Nivel~2, \texttt{x\_t\_estimada}, se encuentre más hacia el interior del recorrido
+que una posición de seguridad (\texttt{x\_t\_safety\_min} o \texttt{x\_t\_safety\_max},
+según corresponda), definida a $3$\,m del fin de carrera de emergencia correspondiente
+en la dirección de operación segura.
+
+El tercer subestado alcanzable desde \texttt{Init} es \texttt{Overspeed}, al que se
+llega tras los mismos $3$\,s de espera cuando el origen de la emergencia es la
+sobrevelocidad. En su acción de entrada se energiza el freno ($BRK_t = \text{On}$),
+liberando el eje, y se habilita el controlador de balanceo
+(\texttt{sway\_ctr\_enable~=~1}) para eliminar cualquier dinámica residual en el ángulo
+de la carga inducida por la
+desaceleración brusca previa. La transición hacia \texttt{Solved} se ejecuta cuando el
+ángulo de balanceo verifica $|\theta_l| < 1^\circ$.
+
+En el subestado \texttt{Solved}, común a los tres caminos anteriores, se resetea la
+variable de emergencia \texttt{Trolley\_Emgy} y se activa la variable
+\texttt{Trolley\_solved}, que habilita la transición externa
+$\texttt{Trolley\_Emgy} \to \texttt{Stand\_By}$ de regreso al estado padre
+\texttt{Emergencies}.
+
+La Figura~\ref{fig:trolley-emgy-completo} muestra el subestado \texttt{Trolley\_Emgy}
+completo, incluyendo \texttt{Init}, los tres caminos de emergencia y el estado
+\texttt{Solved}.
+
+\begin{figure}[H]
+    \centering
+    \imgpending{src/nivel0\_trolley\_emgy\_completo.png}
+    \caption{Subestado \texttt{Trolley\_Emgy} completo: \texttt{Init},
+             \texttt{Emgy\_Switch\_Min}, \texttt{Emgy\_Switch\_Max}, \texttt{Overspeed}
+             y \texttt{Solved} (Stateflow).}
+    \label{fig:trolley-emgy-completo}
+\end{figure}
+
+% ---- 3.3.3 -------------------------------------------------------
+\subsubsection{Subestado \texttt{Hoist\_Emgy}}
+
+El subestado \texttt{Hoist\_Emgy} es análogo a \texttt{Trolley\_Emgy} pero aplicado al
+mecanismo de izaje. Al ingresar se activa la variable de emergencia
+\texttt{hoist\_emgy}, que informa al Nivel~1 la condición de falla, y el Nivel~0 toma el
+control directo de los dos frenos del izaje, desenergizándolos ($BRK_h = \text{Off}$,
+$BRK_{hE} = \text{Off}$) para detener el tambor de forma inmediata mediante la acción
+conjunta del freno de operación~\eqref{eq:freno-h-off} y del freno de
+emergencia~\eqref{eq:freno-he-off}.
+
+El estado de entrada es \texttt{Init}, que selecciona el origen de la emergencia entre
+los tres orígenes que activan \texttt{Hoist\_Emgy} (Sección~\ref{sec:emergencies}), cada
+uno con la misma espera de $3$\,s antes de proceder al subestado correspondiente:
+
+\begin{itemize}
+    \item $\texttt{FCE\_hoist\_min} \land \texttt{after(3,sec)} \;\Rightarrow\;
+          \texttt{Emgy\_Switch\_Min}$
+    \item $\texttt{FCE\_hoist\_max} \land \texttt{after(3,sec)} \;\Rightarrow\;
+          \texttt{Emgy\_Switch\_Max}$
+    \item $\texttt{sobrevelocidad\_izaje} \land \texttt{after(3,sec)} \;\Rightarrow\;
+          \texttt{Overspeed}$
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \imgpending{src/nivel0\_hoist\_emgy\_init.png}
+    \caption{Subestado \texttt{Hoist\_Emgy}: acciones de entrada y selección de origen
+             de la emergencia en \texttt{Init} (Stateflow).}
+    \label{fig:hoist-emgy-init}
+\end{figure}
+
+Los subestados \texttt{Emgy\_Switch\_Min} y \texttt{Emgy\_Switch\_Max} replican la lógica
+de \texttt{Trolley\_Emgy} de forma espejada. En su acción de entrada se energizan ambos
+frenos del izaje ($BRK_h = \text{On}$, $BRK_{hE} = \text{On}$), liberando el tambor para
+permitir el reposicionamiento manual de la carga hacia una zona definida como segura. La
+referencia de velocidad del carro \texttt{v\_t\_ref} queda liberada sin restricciones al
+valor del joystick (\texttt{vx\_joystick}), dado que la emergencia es exclusiva del
+mecanismo de izaje, mientras que la referencia de velocidad de izaje
+\texttt{dl\_h\_ref} se acota de forma análoga a \texttt{v\_t\_ref} en
+\texttt{Trolley\_Emgy}:
+
+\begin{center}
+    \texttt{Emgy\_Switch\_Min:}\quad\texttt{dl\_h\_ref = max(min(vy\_joystick, 0.5), 0)} \\[6pt]
+    \texttt{Emgy\_Switch\_Max:}\quad\texttt{dl\_h\_ref = min(max(vy\_joystick, -0.5), 0)}
+\end{center}
+
+La transición desde ambos subestados hacia \texttt{Solved} evalúa que la longitud de
+cable estimada proveniente del Nivel~2, \texttt{l\_h\_estimada}, se encuentre más hacia
+el interior del recorrido que una posición de seguridad (\texttt{l\_h\_safety\_min} o
+\texttt{l\_h\_safety\_max}, según corresponda), definida a $3$\,m del fin de carrera de
+emergencia correspondiente en la dirección de operación segura.
+
+El tercer subestado alcanzable desde \texttt{Init} es \texttt{Overspeed}: tras los mismos
+$3$\,s de espera, su única acción de entrada es energizar ambos frenos del izaje
+($BRK_h = \text{On}$, $BRK_{hE} = \text{On}$), liberando el tambor, tras lo cual se
+transiciona directamente a \texttt{Solved}.
+
+En el subestado \texttt{Solved}, común a los tres caminos anteriores, se resetea la
+variable de emergencia \texttt{hoist\_emgy} y se activa la variable
+\texttt{hoist\_solved}, que habilita la transición externa
+$\texttt{Hoist\_Emgy} \to \texttt{Stand\_By}$ de regreso al estado padre
+\texttt{Emergencies}.
+
+\begin{figure}[H]
+    \centering
+    \imgpending{src/nivel0\_hoist\_emgy\_completo.png}
+    \caption{Subestado \texttt{Hoist\_Emgy} completo: \texttt{Init},
+             \texttt{Emgy\_Switch\_Min}, \texttt{Emgy\_Switch\_Max}, \texttt{Overspeed}
+             y \texttt{Solved} (Stateflow).}
+    \label{fig:hoist-emgy-completo}
+\end{figure}
+
+% ---- 3.3.4 -------------------------------------------------------
+\subsubsection{Subestado \texttt{Global\_Emgy}}
+
+A diferencia de \texttt{Trolley\_Emgy} y \texttt{Hoist\_Emgy}, el subestado
+\texttt{Global\_Emgy} no posee subestados internos de selección de origen ni de
+reposicionamiento: se alcanza ante el pulsador de emergencia
+(\texttt{cmd\_emgy\_stop}) o una falla de \texttt{watchdog} (\texttt{watchdog\_fail}),
+ambas de origen humano o de diagnóstico interno del propio Nivel~0, por lo que su
+recuperación requiere reconocimiento explícito del operador en lugar de una condición de
+posición segura evaluada automáticamente.
+
+En su acción de entrada se desenergizan simultáneamente los tres frenos del sistema
+($BRK_t = \text{Off}$, $BRK_h = \text{Off}$, $BRK_{hE} = \text{Off}$), deteniendo de
+forma inmediata tanto el carro como el izaje, y se activa la variable
+\texttt{global\_emgy}. Mientras permanece en este subestado (acción \texttt{during}) se
+fuerzan a cero las referencias de velocidad de ambos mecanismos,
+\texttt{v\_t\_ref~=~0} y \texttt{dl\_h\_ref~=~0}, como resguardo adicional a nivel de
+consigna independiente del estado de los frenos.
+
+Transcurridos $3$\,s (\texttt{after(3000,msec)}) se transiciona a
+\texttt{Waiting\_Global\_Emgy\_Ack}, un subestado de espera en el que el sistema
+permanece detenido hasta que el operador reconoce la emergencia desde la HMI. Solo ante
+la señal \texttt{cmd\_global\_emgy\_ack} se ejecuta la transición de regreso a
+\texttt{Stand\_By}, con la acción asociada $\texttt{global\_emgy} = \text{false}$ que
+desactiva la variable de emergencia; al reingresar a \texttt{Stand\_By} se reenergizan
+los tres frenos, liberando nuevamente el control de los mecanismos hacia el Nivel~1.
+
+\begin{figure}[H]
+    \centering
+    \imgpending{src/nivel0\_global\_emgy\_completo.png}
+    \caption{Subestado \texttt{Global\_Emgy} completo: acciones de entrada, espera de
+             $3$\,s y reconocimiento del operador en \texttt{Waiting\_Global\_Emgy\_Ack}
+             (Stateflow).}
+    \label{fig:global-emgy-completo}
+\end{figure}
+
+% ---- 3.3.5 -------------------------------------------------------
+\subsubsection{Watchdog}
+
+El estado \texttt{Watchdog} se ejecuta en paralelo a \texttt{Emergencies}
+(Sección~\ref{sec:emergencies}) y es el encargado de supervisar la señal de vida
+(\texttt{heartbeat}) proveniente del Nivel~1, generando la variable
+\texttt{watchdog\_fail} que escala a una emergencia global ante la pérdida de
+comunicación o el bloqueo del autómata supervisor. Su acción de entrada inicializa el
+contador de fallos y la referencia de comparación del heartbeat:
+\texttt{counter~=~0} y \texttt{heartbeat\_prev~=~0}.
+
+El estado de entrada es \texttt{Init}, en el cual se evalúan, con prioridad
+estricta (1 > 2 > 3), tres condiciones de transición:
+
+\begin{itemize}
+    \item \textbf{Prioridad 1} — $\texttt{heartbeat\_prev} \neq \texttt{heartbeat}
+          \;\Rightarrow\; \texttt{Reset\_Counter}$: si el valor del heartbeat cambió
+          respecto de la última verificación, evidenciando que el Nivel~1 continúa con
+          vida, se resetea el contador de fallos (\texttt{counter~=~0}) y se actualiza
+          la referencia (\texttt{heartbeat\_prev~=~heartbeat}), retornando de inmediato
+          a \texttt{Init}.
+    \item \textbf{Prioridad 2} — $\texttt{counter} \geq 5 \;\Rightarrow\;
+          \texttt{Watchdog\_Emgy}$: si el contador alcanza $5$ ciclos sin que el
+          heartbeat haya cambiado, se activa \texttt{watchdog\_fail~=~true}.
+    \item \textbf{Prioridad 3} — $\texttt{after(200,msec)} \;\Rightarrow\;
+          \texttt{Increase\_counter}$: si transcurren $200$\,ms en \texttt{Init} sin que
+          se satisfagan las dos condiciones anteriores, se incrementa el contador
+          (\texttt{counter~=~counter+1}) y se retorna de inmediato a \texttt{Init}.
+\end{itemize}
+
+En conjunto, el \texttt{Watchdog} verifica cada $200$\,ms si el heartbeat del Nivel~1
+cambió de valor desde la última lectura; si transcurren $5$ verificaciones consecutivas
+($5 \times 200\,\text{ms} = 1$\,s) sin cambio, se considera que el Nivel~1 dejó de
+responder y se declara la falla. La variable \texttt{watchdog\_fail} resultante es,
+junto con \texttt{cmd\_emgy\_stop}, una de las dos condiciones de entrada a
+\texttt{Global\_Emgy} (Sección~\ref{sec:emergencies}).
+
+\begin{figure}[H]
+    \centering
+    \imgpending{src/nivel0\_watchdog\_completo.png}
+    \caption{Estado \texttt{Watchdog} completo: \texttt{Init}, \texttt{Reset\_Counter},
+             \texttt{Increase\_counter} y \texttt{Watchdog\_Emgy} (Stateflow).}
+    \label{fig:watchdog-completo}
+\end{figure}
 
 % ── BIBLIOGRAPHY ────────────────────────────────────────────
 \newpage

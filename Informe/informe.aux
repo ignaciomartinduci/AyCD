@@ -113,6 +113,7 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces Perfil de obstáculos $y_{c0}(x,t)$ (línea continua) y lectura anticipada del sensor LIDAR $y_{c0,lidar}(x,t)$ (línea discontinua) durante una secuencia de carga/descarga.}}{25}{figure.20}\protected@file@percent }
 \newlabel{fig:perfil-suelo}{{20}{25}{Perfil de obstáculos $y_{c0}(x,t)$ (línea continua) y lectura anticipada del sensor LIDAR $y_{c0,lidar}(x,t)$ (línea discontinua) durante una secuencia de carga/descarga}{figure.20}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Fines de carrera y detectores de sobrevelocidad}{25}{subsection.2.4}\protected@file@percent }
+\newlabel{sec:fines-carrera}{{2.4}{25}{Fines de carrera y detectores de sobrevelocidad}{subsection.2.4}{}}
 \@writefile{toc}{\contentsline {paragraph}{Fines de carrera de traslación del carro.}{25}{section*.12}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Fines de carrera de izaje.}{26}{section*.13}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Detector de sobrevelocidad.}{26}{section*.14}\protected@file@percent }
@@ -262,14 +263,41 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.5}Controlador paralelo de balanceo}{52}{subsubsection.3.2.5}\protected@file@percent }
 \newlabel{lst:ctrl-balanceo-final}{{7}{52}{MATLAB Function: controlador paralelo de balanceo ($T_{s2}=1$\,ms)}{lstlisting.7}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {7}MATLAB Function: controlador paralelo de balanceo ($T_{s2}=1$\,ms).}{52}{lstlisting.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Nivel 0: Seguridad y Protección}{52}{subsection.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {40}{\ignorespaces Nivel~0 visto desde el exterior: entradas y salidas del autómata de seguridad y protección (Stateflow).}}{53}{figure.40}\protected@file@percent }
+\newlabel{fig:nivel0-io}{{40}{53}{Nivel~0 visto desde el exterior: entradas y salidas del autómata de seguridad y protección (Stateflow)}{figure.40}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {41}{\ignorespaces Diagrama de bloques del Nivel~0 completo: estados paralelos \texttt  {Emergencies} y \texttt  {Watchdog} (Stateflow, $T_{s0}=20$\,ms).}}{53}{figure.41}\protected@file@percent }
+\newlabel{fig:nivel0-completo}{{41}{53}{Diagrama de bloques del Nivel~0 completo: estados paralelos \texttt {Emergencies} y \texttt {Watchdog} (Stateflow, $T_{s0}=20$\,ms)}{figure.41}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Emergencies}{53}{subsubsection.3.3.1}\protected@file@percent }
+\newlabel{sec:emergencies}{{3.3.1}{53}{Emergencies}{subsubsection.3.3.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {42}{\ignorespaces Estado \texttt  {Emergencies}: estado de entrada \texttt  {Stand\_By} (Stateflow).}}{54}{figure.42}\protected@file@percent }
+\newlabel{fig:emergencies-standby}{{42}{54}{Estado \texttt {Emergencies}: estado de entrada \texttt {Stand\_By} (Stateflow)}{figure.42}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {43}{\ignorespaces Estado \texttt  {Emergencies} completo: \texttt  {Stand\_By} y transiciones hacia \texttt  {Trolley\_Emgy}, \texttt  {Hoist\_Emgy} y \texttt  {Global\_Emgy} (Stateflow).}}{54}{figure.43}\protected@file@percent }
+\newlabel{fig:emergencies-completo}{{43}{54}{Estado \texttt {Emergencies} completo: \texttt {Stand\_By} y transiciones hacia \texttt {Trolley\_Emgy}, \texttt {Hoist\_Emgy} y \texttt {Global\_Emgy} (Stateflow)}{figure.43}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Subestado \texttt  {Trolley\_Emgy}}{55}{subsubsection.3.3.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {44}{\ignorespaces Subestado \texttt  {Trolley\_Emgy}: acciones de entrada y selección de origen de la emergencia en \texttt  {Init} (Stateflow).}}{55}{figure.44}\protected@file@percent }
+\newlabel{fig:trolley-emgy-init}{{44}{55}{Subestado \texttt {Trolley\_Emgy}: acciones de entrada y selección de origen de la emergencia en \texttt {Init} (Stateflow)}{figure.44}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {45}{\ignorespaces Subestado \texttt  {Trolley\_Emgy} completo: \texttt  {Init}, \texttt  {Emgy\_Switch\_Min}, \texttt  {Emgy\_Switch\_Max}, \texttt  {Overspeed} y \texttt  {Solved} (Stateflow).}}{56}{figure.45}\protected@file@percent }
+\newlabel{fig:trolley-emgy-completo}{{45}{56}{Subestado \texttt {Trolley\_Emgy} completo: \texttt {Init}, \texttt {Emgy\_Switch\_Min}, \texttt {Emgy\_Switch\_Max}, \texttt {Overspeed} y \texttt {Solved} (Stateflow)}{figure.45}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Subestado \texttt  {Hoist\_Emgy}}{56}{subsubsection.3.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {46}{\ignorespaces Subestado \texttt  {Hoist\_Emgy}: acciones de entrada y selección de origen de la emergencia en \texttt  {Init} (Stateflow).}}{57}{figure.46}\protected@file@percent }
+\newlabel{fig:hoist-emgy-init}{{46}{57}{Subestado \texttt {Hoist\_Emgy}: acciones de entrada y selección de origen de la emergencia en \texttt {Init} (Stateflow)}{figure.46}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {47}{\ignorespaces Subestado \texttt  {Hoist\_Emgy} completo: \texttt  {Init}, \texttt  {Emgy\_Switch\_Min}, \texttt  {Emgy\_Switch\_Max}, \texttt  {Overspeed} y \texttt  {Solved} (Stateflow).}}{57}{figure.47}\protected@file@percent }
+\newlabel{fig:hoist-emgy-completo}{{47}{57}{Subestado \texttt {Hoist\_Emgy} completo: \texttt {Init}, \texttt {Emgy\_Switch\_Min}, \texttt {Emgy\_Switch\_Max}, \texttt {Overspeed} y \texttt {Solved} (Stateflow)}{figure.47}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.4}Subestado \texttt  {Global\_Emgy}}{57}{subsubsection.3.3.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {48}{\ignorespaces Subestado \texttt  {Global\_Emgy} completo: acciones de entrada, espera de $3$\,s y reconocimiento del operador en \texttt  {Waiting\_Global\_Emgy\_Ack} (Stateflow).}}{58}{figure.48}\protected@file@percent }
+\newlabel{fig:global-emgy-completo}{{48}{58}{Subestado \texttt {Global\_Emgy} completo: acciones de entrada, espera de $3$\,s y reconocimiento del operador en \texttt {Waiting\_Global\_Emgy\_Ack} (Stateflow)}{figure.48}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.5}Watchdog}{58}{subsubsection.3.3.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {49}{\ignorespaces Estado \texttt  {Watchdog} completo: \texttt  {Init}, \texttt  {Reset\_Counter}, \texttt  {Increase\_counter} y \texttt  {Watchdog\_Emgy} (Stateflow).}}{59}{figure.49}\protected@file@percent }
+\newlabel{fig:watchdog-completo}{{49}{59}{Estado \texttt {Watchdog} completo: \texttt {Init}, \texttt {Reset\_Counter}, \texttt {Increase\_counter} y \texttt {Watchdog\_Emgy} (Stateflow)}{figure.49}{}}
 \bibcite{guia2025}{1}
 \bibcite{unctad2023}{2}
 \bibcite{drewry2022}{3}
 \bibcite{zpmc2023}{4}
 \bibcite{iec61131}{5}
 \bibcite{opcua}{6}
-\@writefile{toc}{\contentsline {section}{Referencias}{53}{lstnumber.7.26}\protected@file@percent }
-\newlabel{LastPage}{{3.2.5}{53}{Controlador paralelo de balanceo}{page.53}{}}
-\gdef\lastpage@lastpage{53}
-\gdef\lastpage@lastpageHy{53}
-\gdef \@abspage@last{53}
+\@writefile{toc}{\contentsline {section}{Referencias}{60}{figure.49}\protected@file@percent }
+\newlabel{LastPage}{{3.3.5}{60}{Watchdog}{page.60}{}}
+\gdef\lastpage@lastpage{60}
+\gdef\lastpage@lastpageHy{60}
+\gdef \@abspage@last{60}

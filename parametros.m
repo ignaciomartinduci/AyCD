@@ -112,7 +112,7 @@ v_ly0 = 0;
 v_t0 = 0;
 x_t0 = -15;
 w_tm0 = (v_t0)*i_t/r_td;
-theta_tm0 = (x_t0)*i_t/r_td;
+theta_tm0 = (x_t0)*i_t/r_td;    
 
 x_l0 = x_t0;
 y_l0 = 15;
@@ -131,5 +131,13 @@ carro_FC_safety_margin = 1; % [m] Distancia que el operador debe alejar el carro
 izaje_FC_safety_margin = 1; % [m] Distancia que el operador debe alejar el izaje del FC para poder operar normalmente
 dx_grid_param = 0.01;
 LIDAR_GRID_SIZE = floor((x_t_max - x_t_minE) / dx_grid_param) + 1;
+
+% Parámetros de NIVEL 0
+
+T_s0 = 0.020;
+x_t_safety_min = x_t_minE + 3;
+x_t_safety_max = x_t_maxE - 3;
+l_h_safety_max = l_h_maxE - 3;
+l_h_safety_min = l_h_minE + 3;
 
 

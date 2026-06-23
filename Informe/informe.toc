@@ -61,4 +61,10 @@
 \contentsline {subsubsection}{\numberline {3.2.3}Controlador de izaje de carga}{51}{subsubsection.3.2.3}%
 \contentsline {subsubsection}{\numberline {3.2.4}Observador de estados del izaje}{51}{subsubsection.3.2.4}%
 \contentsline {subsubsection}{\numberline {3.2.5}Controlador paralelo de balanceo}{52}{subsubsection.3.2.5}%
-\contentsline {section}{Referencias}{53}{lstnumber.7.26}%
+\contentsline {subsection}{\numberline {3.3}Nivel 0: Seguridad y Protección}{52}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}Emergencies}{53}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}Subestado \texttt {Trolley\_Emgy}}{55}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.3}Subestado \texttt {Hoist\_Emgy}}{56}{subsubsection.3.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.4}Subestado \texttt {Global\_Emgy}}{57}{subsubsection.3.3.4}%
+\contentsline {subsubsection}{\numberline {3.3.5}Watchdog}{58}{subsubsection.3.3.5}%
+\contentsline {section}{Referencias}{60}{figure.49}%
