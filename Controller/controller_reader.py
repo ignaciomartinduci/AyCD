@@ -26,8 +26,9 @@ from matplotlib.patches import Circle, Rectangle, FancyBboxPatch
 DEADBAND      = 0.12
 
 # ── UDP ───────────────────────────────────────────────────────────────
-UDP_IP   = '127.0.0.1'
-UDP_PORT = 5005
+UDP_IP    = '127.0.0.1'
+UDP_PORT  = 5005
+UDP_PORT_RTVIEW = 5006   # mirror para visualizacion_grua.py
 # Formato del paquete (14 bytes, big-endian):
 #   float  trolley_cmd  [m/s]
 #   float  hoist_cmd    [m/s]
@@ -76,10 +77,10 @@ state = {
     'rx': 0.0, 'ry': 0.0,
     'trolley_cmd':      0.0,   # [m/s]
     'hoist_cmd':        0.0,   # [m/s]
-    'system_on':        False,
+    'system_on':        True,
     'mode_auto':        False,
     'twistlock_closed': False,
-    'sway_ctrl':        False,
+    'sway_ctrl':        True,
     'emergency':        False,
     'emgy_ack':         False,
     'connected':        False,
@@ -160,23 +161,29 @@ def read_controller():
 # ══════════════════════════════════════════════════════════════════════
 #  Salida UDP
 # ══════════════════════════════════════════════════════════════════════
+UDP_FMT_RTVIEW = '!ffBBBBBBB'   # igual que UDP_FMT + 1 byte joystick_on al final
+
 def send_udp():
     if udp_sock is None:
         return
     s = state
-    data = struct.pack(
-        UDP_FMT,
-        s['trolley_cmd'],
-        s['hoist_cmd'],
-        int(s['system_on']),
-        int(s['mode_auto']),
-        int(s['twistlock_closed']),
-        int(s['sway_ctrl']),
-        int(s['emergency']),
-        int(s['emgy_ack']),
-    )
+    joy = s['connected']
+    # Paquete para Simulink (formato original, 14 bytes)
+    if joy:
+        data_sim = struct.pack(UDP_FMT,
+            s['trolley_cmd'], s['hoist_cmd'],
+            int(s['system_on']), int(s['mode_auto']),
+            int(s['twistlock_closed']), int(s['sway_ctrl']),
+            int(s['emergency']), int(s['emgy_ack']),
+        )
+    else:
+        data_sim = struct.pack(UDP_FMT,
+            0.0, 0.0, 1, 1, 0, 1, 0, 0)   # safe state: twistlock=cerrado, sway_ctrl=ON
+    # Paquete para RT_VIEW (15 bytes: igual + joystick_on)
+    data_rtv = data_sim + struct.pack('B', int(joy))
     try:
-        udp_sock.sendto(data, (UDP_IP, UDP_PORT))
+        udp_sock.sendto(data_sim, (UDP_IP, UDP_PORT))
+        udp_sock.sendto(data_rtv, (UDP_IP, UDP_PORT_RTVIEW))
     except OSError:
         pass
 

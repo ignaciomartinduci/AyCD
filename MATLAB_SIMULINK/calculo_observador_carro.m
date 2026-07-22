@@ -35,7 +35,7 @@ Ct = [ 1, 0, 0, 0 ];
 frecuencia_pid = abs(w_t); 
 
 % 2. Aplicamos la regla de diseño: Observador 4 veces más rápido que el PID
-factor_obs = 15;
+factor_obs = 10; % 10 0k
 polo_base = -factor_obs * frecuencia_pid;
 
 % 3. Ubicación de los 4 polos
@@ -51,10 +51,3 @@ polos_deseados = [polo_base, polo_base*1.02, polo_base*1.05, polo_base*1.07];
 % 4. Cálculo de la matriz L
 Lt = place(At', Ct', polos_deseados)';
 
-Ad_tmp = expm(At * T_s);
-polos_deseados_z = exp(polos_deseados * T_s);
-
-Lt_d = place(Ad_tmp', Ct', polos_deseados_z)';
-
-% disp('La Matriz de Ganancias L del observador es:');
-% disp(Lt);

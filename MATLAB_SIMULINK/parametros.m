@@ -1,3 +1,6 @@
+% Flags de ejecución
+escenario = 1; % 0: espera- 1: ciclo simple carga - 2: ciclo simple descarga - 3: ciclo doble (carga + descarga)
+
 % Parámetros dados
 Y_t0 = 45; %  [m] Altura fija de poleas de suspension de izaje en el carro
 H_c = 2.59; % [m] Altura del container estandar
@@ -64,7 +67,7 @@ b_t = 90; % [N/(m/s)] Coeficiente de fricción mecánica viscosa equivalente del
 K_tw = 4.8e5; % [N/m] Rigidez total a tracción del cable tensado del carro
 b_tw = 3e3; % [N/(m/s)] Fricción interna (amortiguamiento) del cable tensado del carro
 
-%Accionamiento de traslación del carro
+%Accionamiento de traslación del    carro
 r_td = 0.50; % [m] Radio primitivo del tambor (1 sola corrida de cable)
 J_td = 1200; % [kg*m^2] Momento de inercia equivalente del eje lento (tambor + salida de caja)
 b_td = 1.8; % [N*m/(rad/s)] Coeficiente de fricción mecánica viscosa equivalente del eje lento
@@ -82,6 +85,8 @@ x_lidar_offset = 3.0; % [m] Distancia del lidar respecto del carro, adelante.
 
 %% Definiciones adicionales
 
+% Nivel 2
+
 m_l = M_s;
 
 M_tEq = i_t/r_td*(J_tm_tb+J_td/i_t^2)+r_td/i_t*(M_t+m_l); % Considera motor + tambor + carro + carga colgando
@@ -98,13 +103,29 @@ T_hs = (b_hEq/J_hEq)/2/pi/100;
 T_ts = (b_tEq/M_tEq)/2/pi/100;
 
 T_s = 0.001;
+T_s0 = 0.001;
+T_s1 = 0.020;
+T_s2 = 0.020;
+
+% Generación perfil de suelo 
+x_c0_left = -35;
+x_c0_right = 55;
+ship_load_percentage = 25; 
+max_containers = 16;
+container_pillars = randi([0 max_containers*ship_load_percentage/100], 1, 19);
+container_pillars(1) = 0;    % fuerza que al menos uno sea el minimo
+container_pillars(end) = max_containers*ship_load_percentage/100; % fuerza que al menos uno sea el maximo
+container_pillars = container_pillars(randperm(19)); % opcional: mezclar posiciones
+trucks0 = [0, 0, 0, 0, 0];
+H_truck = 1;
+x_containers_left_lim = 1.5;
+x_containers_right_lim= 48.5;
 
 % Péndulo
 
 tau_wl = 1 / (2 * pi * 2);
 
 % Condiciones iniciales
-
 
 v_lx0 = 0;
 v_ly0 = 0;
@@ -115,7 +136,7 @@ w_tm0 = (v_t0)*i_t/r_td;
 theta_tm0 = (x_t0)*i_t/r_td;    
 
 x_l0 = x_t0;
-y_l0 = 15;
+y_l0 = 7;
 l_h0 = (Y_t0-y_l0);
 theta_hm0 = -l_h0*i_h*2/r_hd;
 w_hm0 = 0;
@@ -127,14 +148,16 @@ w_tm_min_BRK = 999999999;
 
 % Parámetros adicionales de NIVEL 1
 
-carro_FC_safety_margin = 1; % [m] Distancia que el operador debe alejar el carro del FC para poder operar normalmente
-izaje_FC_safety_margin = 1; % [m] Distancia que el operador debe alejar el izaje del FC para poder operar normalmente
-dx_grid_param = 0.01;
-LIDAR_GRID_SIZE = floor((x_t_max - x_t_minE) / dx_grid_param) + 1;
+dx_grid_lidar = 0.01;
+lidar_grid_size = numel(x_c0_left:dx_grid_lidar:x_c0_right);
+PES_dy = 1.5; 
+truck_pickup_height = 3.59;
+l_h_safe = 11;
+pickup_safety_margin = 2.5;
+placement_safety_margin = H_c + 2.5;
 
 % Parámetros de NIVEL 0
 
-T_s0 = 0.020;
 x_t_safety_min = x_t_minE + 3;
 x_t_safety_max = x_t_maxE - 3;
 l_h_safety_max = l_h_maxE - 3;

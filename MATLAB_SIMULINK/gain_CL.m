@@ -41,6 +41,18 @@ k_hsia = -(J_hEq + (r_hd/(2*i_h))*m_l) * n_h^3 * w_des_h^3;
 %   
 % wo = 5*wo_0;
 
+%% Lazo de control de posicion
+
+tau_v = T_s0;  
 
 
-    
+zeta_deseado = 1.0; 
+
+Kp_pos = 1 / (4 * (zeta_deseado^2) * tau_v);
+
+wn = 1 / (2 * zeta_deseado * tau_v); 
+
+tau_posicion = 1 / Kp_pos;
+
+separacion_escalas = tau_posicion / tau_v;
+
