@@ -29,18 +29,17 @@ DEADBAND      = 0.12
 UDP_IP    = '127.0.0.1'
 UDP_PORT  = 5005
 UDP_PORT_RTVIEW = 5006   # mirror para visualizacion_grua.py
-# Formato del paquete (14 bytes, big-endian):
+# Formato del paquete (13 bytes, big-endian):
 #   float  trolley_cmd  [m/s]
 #   float  hoist_cmd    [m/s]
 #   uint8  system_on
-#   uint8  mode_auto
 #   uint8  twistlock_closed
 #   uint8  sway_ctrl
 #   uint8  emergency
 #   uint8  emgy_ack
-UDP_FMT  = '!ffBBBBBB'
+UDP_FMT  = '!ffBBBBB'
 MAX_VEL_CARRO = 4.0    # m/s  (Sec. 3.3)
-MAX_VEL_IZAJE = 1.5    # m/s  (nominal, cargado)
+MAX_VEL_IZAJE = 3.0    # m/s
 UPDATE_MS     = 50     # intervalo de animación [ms]
 
 # Ejes PS4 (pygame, DS4 USB/BT – puede variar según OS)
@@ -50,9 +49,7 @@ AXIS_R_X, AXIS_R_Y = 2, 3
 # Botones: nombre → (índice pygame, símbolo, color activo, etiqueta)
 BUTTONS = {
     'cross':    (0,  '✕',   '#27ae60', 'Sistema ON/OFF'),
-    'circle':   (1,  '○',   '#e67e22', 'Reset Emerg.'),
     'square':   (2,  '□',   '#2980b9', 'Twistlock'),
-    'triangle': (3,  '△',   '#16a085', 'Manual / Auto'),
     'l1':       (9,  'L1',  '#8e44ad', 'Balanceo'),
     'options':  (6,  'OPT', '#c0392b', 'Emergencia'),
     'r1':       (10, 'R1',  '#f39c12', 'EMG Global ACK'),
@@ -77,10 +74,9 @@ state = {
     'rx': 0.0, 'ry': 0.0,
     'trolley_cmd':      0.0,   # [m/s]
     'hoist_cmd':        0.0,   # [m/s]
-    'system_on':        True,
-    'mode_auto':        False,
+    'system_on':        False,
     'twistlock_closed': False,
-    'sway_ctrl':        True,
+    'sway_ctrl':        False,
     'emergency':        False,
     'emgy_ack':         False,
     'connected':        False,
@@ -122,6 +118,12 @@ def read_controller():
         joystick = pygame.joystick.Joystick(0)
         joystick.init()
         print(f"[PS4] Control conectado: {joystick.get_name()}")
+        state['system_on']        = False
+        state['twistlock_closed'] = False
+        state['sway_ctrl']        = False
+        state['emergency']        = False
+        state['emgy_ack']         = False
+        state['_prev'] = {k: False for k in BUTTONS}
 
     try:
         state['connected'] = True
@@ -135,7 +137,7 @@ def read_controller():
         state['rx'], state['ry'] = rx, ry
 
         state['trolley_cmd'] = lx * MAX_VEL_CARRO
-        state['hoist_cmd']   = -ry * MAX_VEL_IZAJE  # eje Y invertido en pygame
+        state['hoist_cmd']   = ry * MAX_VEL_IZAJE
 
         for name, (idx, *_) in BUTTONS.items():
             cur  = bool(joystick.get_button(idx))
@@ -144,11 +146,9 @@ def read_controller():
 
             if cur and not prev:  # flanco de subida
                 if name == 'cross':    state['system_on']        ^= True
-                if name == 'triangle': state['mode_auto']        ^= True
                 if name == 'square':   state['twistlock_closed'] ^= True
                 if name == 'l1':       state['sway_ctrl']        ^= True
-                if name == 'options':  state['emergency']         = True
-                if name == 'circle':   state['emergency']         = False
+                if name == 'options':  state['emergency']        ^= True
                 if name == 'r1':       state['emgy_ack']         ^= True
 
             state['_prev'][name] = cur
@@ -172,13 +172,13 @@ def send_udp():
     if joy:
         data_sim = struct.pack(UDP_FMT,
             s['trolley_cmd'], s['hoist_cmd'],
-            int(s['system_on']), int(s['mode_auto']),
+            int(s['system_on']),
             int(s['twistlock_closed']), int(s['sway_ctrl']),
             int(s['emergency']), int(s['emgy_ack']),
         )
     else:
         data_sim = struct.pack(UDP_FMT,
-            0.0, 0.0, 1, 1, 0, 1, 0, 0)   # safe state: twistlock=cerrado, sway_ctrl=ON
+            0.0, 0.0, 0, 0, 0, 0, 0)   # safe state: todo apagado
     # Paquete para RT_VIEW (15 bytes: igual + joystick_on)
     data_rtv = data_sim + struct.pack('B', int(joy))
     try:
@@ -284,13 +284,11 @@ def build_figure():
         sp.set_edgecolor(GRID_COL)
 
     btn_layout = [
-        ('triangle', 0.5, 3.05),
-        ('circle',   1.5, 3.05),
-        ('square',   0.5, 2.15),
-        ('cross',    1.5, 2.15),
-        ('l1',       0.5, 1.25),
-        ('options',  1.5, 1.25),
-        ('r1',       1.0, 0.38),   # centrado, fila 4
+        ('cross',    0.5, 3.05),
+        ('square',   1.5, 3.05),
+        ('l1',       0.5, 2.15),
+        ('options',  1.5, 2.15),
+        ('r1',       1.0, 1.25),
     ]
     btn_circles  = {}
     btn_sym_txts = {}
@@ -362,9 +360,8 @@ def build_figure():
     status_rows = [
         ('conn',      'Controlador:', 0.82),
         ('sys',       'Sistema:',     0.64),
-        ('mode',      'Modo:',        0.46),
-        ('twistlock', 'Twistlock:',   0.28),
-        ('sway',      'Balanceo:',    0.10),
+        ('twistlock', 'Twistlock:',   0.46),
+        ('sway',      'Balanceo:',    0.28),
     ]
     status_txts = {}
     for key, lbl, y in status_rows:
@@ -443,9 +440,7 @@ def update(_frame, artists):
         # ── Botones ───────────────────────────────────────────────────────
         toggle_state = {
             'cross':    s['system_on'],
-            'circle':   s['btn_raw']['circle'],
             'square':   s['twistlock_closed'],
-            'triangle': s['mode_auto'],
             'l1':       s['sway_ctrl'],
             'options':  s['emergency'],
             'r1':       s['emgy_ack'],
@@ -473,10 +468,6 @@ def update(_frame, artists):
         _set_status(st, 'sys',
                     'ON'         if s['system_on']         else 'OFF',
                     '#2ecc71'    if s['system_on']         else '#888888')
-
-        _set_status(st, 'mode',
-                    'AUTO'       if s['mode_auto']         else 'MANUAL',
-                    ACCENT       if s['mode_auto']         else '#f39c12')
 
         _set_status(st, 'twistlock',
                     'CERRADO'    if s['twistlock_closed']  else 'ABIERTO',

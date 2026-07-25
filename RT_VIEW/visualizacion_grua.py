@@ -41,9 +41,10 @@ SIM_UDP_FMT     = '<d'          # double little-endian (default Simulink UDP Sen
 SIM_TIMEOUT_S   = 1.0           # sin paquete → desconectado
 SIM_UPDATE_MS   = 33            # intervalo de animación [ms]  ≈ 30 fps
 
+
 # ─── Conexión UDP con contenedores en barco ──────────────────────────────────
 CONT_UDP_PORT   = 5011          # vector de 9 doubles: cantidad de containers por posición
-CONT_X_POSITIONS = [5, 10, 15, 20, 25, 30, 35, 40, 45]  # [m] posiciones X en el barco
+CONT_X_POSITIONS = list(np.linspace(1.5, 48.5, 19))  # [m] 19 posiciones en el barco
 CONT_MAX_STACK   = 30           # máximo pre-alocado (−20 + 30×2.59 = 57.7 m, hasta el boom)
 
 _cont_lock  = threading.Lock()
@@ -107,6 +108,9 @@ _sim_state = {
     'trucks':      [1, 1, 1, 1, 1],  # presencia de camiones (0=ausente, 1=presente)
     'truck_loads': [1, 1, 1, 1, 1],  # carga en camión (0=vacío, 1=con container)
     'escenario':   -1,                # -1=no informado 0=espera 1=carga 2=descarga 3=doble
+    'F_hw':          0.0,              # [N] fuerza medida por sensor en cable de izaje
+    'modo':          0,               # 0=manual 1=automático
+    'masa_estimada': 0.0,             # [kg] masa estimada de la carga
     'connected': False,
     'last_rx':   0.0,
 }
@@ -118,7 +122,7 @@ def _simulink_receiver():
     print(f"[Simulink] Escuchando UDP en {SIM_UDP_IP}:{SIM_UDP_PORT}")
     while True:
         try:
-            data, addr = sock.recvfrom(256)
+            data, addr = sock.recvfrom(512)
             n = len(data)
             with _sim_lock:
                 if n == 72:
@@ -144,13 +148,38 @@ def _simulink_receiver():
                     _sim_state['BRK_hE']      = bool(brk_he)
                     _sim_state['TLK']         = bool(tlk)
                     _sim_state['SWAY_CTR']    = bool(sway)
-                elif n == 232:
-                    # 29 doubles: 9 crane + 9 cont counts + 5 truck presence + 5 truck loads + 1 escenario
-                    vals = struct.unpack('<29d', data)
+                elif n == 336:
+                    # 42 doubles: 41 anteriores + masa_estimada
+                    vals = struct.unpack('<42d', data)
                     xt, thl, lh, brk_t, brk_h, brk_he, tlk, sway, ylidar = vals[:9]
-                    cnt_vals  = vals[9:18]
-                    trk_vals  = vals[18:23]
-                    load_vals = vals[23:28]
+                    cnt_vals  = vals[9:28]
+                    trk_vals  = vals[28:33]
+                    load_vals = vals[33:38]
+                    _sim_state['x_t_sim']       = float(xt)
+                    _sim_state['theta_l_sim']   = float(thl)
+                    _sim_state['l_h_sim']       = float(lh)
+                    _sim_state['BRK_t']         = bool(brk_t)
+                    _sim_state['BRK_h']         = bool(brk_h)
+                    _sim_state['BRK_hE']        = bool(brk_he)
+                    _sim_state['TLK']           = bool(tlk)
+                    _sim_state['SWAY_CTR']      = bool(sway)
+                    _sim_state['y_c0_lidar']    = float(ylidar)
+                    _sim_state['trucks']        = [bool(v) for v in trk_vals]
+                    _sim_state['truck_loads']   = [bool(v) for v in load_vals]
+                    _sim_state['escenario']     = int(round(vals[38]))
+                    _sim_state['F_hw']          = float(vals[39])
+                    _sim_state['modo']          = int(round(vals[40]))
+                    _sim_state['masa_estimada'] = float(vals[41])
+                    with _cont_lock:
+                        _cont_state['counts']    = [max(0, int(round(x))) for x in cnt_vals]
+                        _cont_state['last_rx']   = time.monotonic()
+                elif n == 328:
+                    # 41 doubles: 39 anteriores + F_hw + modo
+                    vals = struct.unpack('<41d', data)
+                    xt, thl, lh, brk_t, brk_h, brk_he, tlk, sway, ylidar = vals[:9]
+                    cnt_vals  = vals[9:28]
+                    trk_vals  = vals[28:33]
+                    load_vals = vals[33:38]
                     _sim_state['x_t_sim']     = float(xt)
                     _sim_state['theta_l_sim'] = float(thl)
                     _sim_state['l_h_sim']     = float(lh)
@@ -162,18 +191,20 @@ def _simulink_receiver():
                     _sim_state['y_c0_lidar']  = float(ylidar)
                     _sim_state['trucks']      = [bool(v) for v in trk_vals]
                     _sim_state['truck_loads'] = [bool(v) for v in load_vals]
-                    _sim_state['escenario']   = int(round(vals[28]))
+                    _sim_state['escenario']   = int(round(vals[38]))
+                    _sim_state['F_hw']        = float(vals[39])
+                    _sim_state['modo']        = int(round(vals[40]))
                     with _cont_lock:
-                        _cont_state['counts']    = [max(0, int(round(v))) for v in cnt_vals]
+                        _cont_state['counts']    = [max(0, int(round(x))) for x in cnt_vals]
                         _cont_state['connected'] = True
                         _cont_state['last_rx']   = time.monotonic()
-                elif n == 224:
-                    # 28 doubles: 9 crane + 9 container counts + 5 truck presence + 5 truck loads
-                    vals = struct.unpack('<28d', data)
+                elif n == 320:
+                    # 40 doubles: 39 anteriores + 1 F_hw
+                    vals = struct.unpack('<40d', data)
                     xt, thl, lh, brk_t, brk_h, brk_he, tlk, sway, ylidar = vals[:9]
-                    cnt_vals  = vals[9:18]
-                    trk_vals  = vals[18:23]
-                    load_vals = vals[23:28]
+                    cnt_vals  = vals[9:28]
+                    trk_vals  = vals[28:33]
+                    load_vals = vals[33:38]
                     _sim_state['x_t_sim']     = float(xt)
                     _sim_state['theta_l_sim'] = float(thl)
                     _sim_state['l_h_sim']     = float(lh)
@@ -185,16 +216,19 @@ def _simulink_receiver():
                     _sim_state['y_c0_lidar']  = float(ylidar)
                     _sim_state['trucks']      = [bool(v) for v in trk_vals]
                     _sim_state['truck_loads'] = [bool(v) for v in load_vals]
+                    _sim_state['escenario']   = int(round(vals[38]))
+                    _sim_state['F_hw']        = float(vals[39])
                     with _cont_lock:
-                        _cont_state['counts']    = [max(0, int(round(v))) for v in cnt_vals]
+                        _cont_state['counts']    = [max(0, int(round(x))) for x in cnt_vals]
                         _cont_state['connected'] = True
                         _cont_state['last_rx']   = time.monotonic()
-                elif n == 184:
-                    # 23 doubles: 9 crane + 9 container counts + 5 truck presence
-                    vals = struct.unpack('<23d', data)
+                elif n == 312:
+                    # 39 doubles: 9 crane + 19 cont counts + 5 truck presence + 5 truck loads + 1 escenario
+                    vals = struct.unpack('<39d', data)
                     xt, thl, lh, brk_t, brk_h, brk_he, tlk, sway, ylidar = vals[:9]
-                    cnt_vals  = vals[9:18]
-                    trk_vals  = vals[18:23]
+                    cnt_vals  = vals[9:28]
+                    trk_vals  = vals[28:33]
+                    load_vals = vals[33:38]
                     _sim_state['x_t_sim']     = float(xt)
                     _sim_state['theta_l_sim'] = float(thl)
                     _sim_state['l_h_sim']     = float(lh)
@@ -205,22 +239,8 @@ def _simulink_receiver():
                     _sim_state['SWAY_CTR']    = bool(sway)
                     _sim_state['y_c0_lidar']  = float(ylidar)
                     _sim_state['trucks']      = [bool(v) for v in trk_vals]
-                    with _cont_lock:
-                        _cont_state['counts']    = [max(0, int(round(v))) for v in cnt_vals]
-                        _cont_state['connected'] = True
-                        _cont_state['last_rx']   = time.monotonic()
-                elif n == 144:
-                    # 18 doubles: 9 crane state + 9 container counts
-                    xt, thl, lh, brk_t, brk_h, brk_he, tlk, sway, ylidar, *cnt_vals = struct.unpack('<18d', data)
-                    _sim_state['x_t_sim']     = float(xt)
-                    _sim_state['theta_l_sim'] = float(thl)
-                    _sim_state['l_h_sim']     = float(lh)
-                    _sim_state['BRK_t']       = bool(brk_t)
-                    _sim_state['BRK_h']       = bool(brk_h)
-                    _sim_state['BRK_hE']      = bool(brk_he)
-                    _sim_state['TLK']         = bool(tlk)
-                    _sim_state['SWAY_CTR']    = bool(sway)
-                    _sim_state['y_c0_lidar']  = float(ylidar)
+                    _sim_state['truck_loads'] = [bool(v) for v in load_vals]
+                    _sim_state['escenario']   = int(round(vals[38]))
                     with _cont_lock:
                         _cont_state['counts']    = [max(0, int(round(v))) for v in cnt_vals]
                         _cont_state['connected'] = True
@@ -305,6 +325,9 @@ BRK_h     = False   # Freno de operación de izaje
 BRK_hE    = False   # Freno de emergencia de izaje
 TLK       = True    # TLK (carga enganchada al spreader)
 SWAY_CTR  = True    # Controlador de balanceo activo
+
+TROLLEY_W = 4.0
+TROLLEY_H = 1.8
 
 # Posición del spreader/carga
 x_spreader = x_t + l_h * np.sin(theta_l)
@@ -477,6 +500,7 @@ TEXT_CLR   = '#1a2a3a'
 GRID_CLR   = '#b0b8c8'
 ANNOT_CLR  = '#2a4a6a'
 
+
 # ── Fondo / ambiente ─────────────────────────────────────────────────────────
 # Fondo del cielo — blanco puro (manejado por ax.set_facecolor)
 
@@ -592,6 +616,8 @@ for _cx in CONT_X_POSITIONS:
         _col.append((_fill, _edge))
     _ship_cont_patches.append(_col)
 
+# ── Matriz de ocupación ───────────────────────────────────────────────────────
+
 # ── Estructura de la grúa ──────────────────────────────────────────────────
 # Boom (viga horizontal superior)
 boom = patches.Rectangle((BOOM_X_LAND, Y_t0), BOOM_X_SEA - BOOM_X_LAND, BOOM_HEIGHT,
@@ -620,8 +646,6 @@ def _compute_pendulum(xt, lh, thl):
     ys = Y_t0 - lh * np.cos(thl)
     return xs, ys
 
-TROLLEY_W = 4.0
-TROLLEY_H = 1.8
 pulley_y  = Y_t0 - TROLLEY_H
 
 # Trolley — relleno (referencia para mover)
@@ -686,22 +710,22 @@ ax.legend(loc='upper right', fontsize=7.5, framealpha=0.85,
 dyn_cable, = ax.plot([x_t, x_spreader], [pulley_y, y_spreader + SPR_H],
                       color=CABLE_CLR, lw=1.8, zorder=8)
 
-# Spreader
+# Spreader: fondo en y_spreader, tope en y_spreader + SPR_H (incluido en l_h)
 cos_t = np.cos(theta_l); sin_t = np.sin(theta_l)
 hw = SPR_W / 2;          hh   = SPR_H / 2
 _corners_s = np.array([[-hw,-hh],[hw,-hh],[hw,hh],[-hw,hh]])
 _rot = np.array([[cos_t,-sin_t],[sin_t,cos_t]])
-_sxy = np.array([x_spreader, y_spreader + SPR_H/2])
+_sxy = np.array([x_spreader + SPR_H/2*sin_t, y_spreader + SPR_H/2*cos_t])
 dyn_spr  = plt.Polygon((_rot @ _corners_s.T).T + _sxy,
                          closed=True, color=SPREADER_CLR, zorder=11)
 dyn_spr_e = plt.Polygon((_rot @ _corners_s.T).T + _sxy,
                           closed=True, fill=False, edgecolor='#f0a000', lw=1.5, zorder=12)
 ax.add_patch(dyn_spr); ax.add_patch(dyn_spr_e)
 
-# Contenedor
+# Contenedor: centro en H_c/2 debajo del fondo del spreader
 _corners_c = np.array([[-W_c/2,-H_c/2],[W_c/2,-H_c/2],[W_c/2,H_c/2],[-W_c/2,H_c/2]])
-_cxy = np.array([x_spreader + (SPR_H/2 + H_c/2)*sin_t,
-                  y_spreader - (SPR_H/2 + H_c/2)*cos_t])
+_cxy = np.array([x_spreader + H_c/2*sin_t,
+                  y_spreader - H_c/2*cos_t])
 dyn_cont   = plt.Polygon((_rot @ _corners_c.T).T + _cxy,
                            closed=True, color='#c0392b', zorder=12, alpha=0.9)
 dyn_cont_e = plt.Polygon((_rot @ _corners_c.T).T + _cxy,
@@ -741,12 +765,11 @@ dyn_esc_txt = fig.text(0.875, 0.935, f'  {_ESC_INFO[-1][0]}  ',
                         bbox=dict(boxstyle='round,pad=0.4', fc=_ESC_INFO[0][1],
                                   ec='white', lw=1.8))
 
-# Indicador de modo (dentro del plot, esquina superior izquierda)
-modo_color = '#27ae60' if modo == 'AUTOMÁTICO' else '#e67e22'
-ax.text(0.01, 0.99, f'  MODO: {modo}  ', transform=ax.transAxes,
-        ha='left', va='top', fontsize=11, color='white', fontweight='bold',
-        zorder=25,
-        bbox=dict(boxstyle='round,pad=0.4', fc=modo_color, ec='white', lw=1.5, alpha=0.92))
+# Indicador de modo (dinámico)
+dyn_modo_txt = ax.text(0.01, 0.99, '  MODO: MANUAL  ', transform=ax.transAxes,
+                        ha='left', va='top', fontsize=11, color='white', fontweight='bold',
+                        zorder=25,
+                        bbox=dict(boxstyle='round,pad=0.4', fc='#e67e22', ec='white', lw=1.5, alpha=0.92))
 
 # ── Panel derecho: estado continuo + discretas ────────────────────────────────
 DARK = '#1a2a3a'
@@ -760,12 +783,14 @@ cont_var_labels = [
     '$l_{\\mathrm{sim}}$',
     '$\\theta_{l,\\mathrm{sim}}$',
     '$\\hat{m}$',
+    '$F_{hw}$',
 ]
 cont_var_inits = [
     f'{x_t:.2f} m',
     f'{l_h:.2f} m',
     f'{np.rad2deg(theta_l):.2f}°',
     f'{masa_est/1000:.2f} t',
+    '0.00 N',
 ]
 y_cur = 0.91
 row_gap = 0.072
@@ -854,6 +879,9 @@ def update_frame(_frame):
         truck_presence = list(_sim_state['trucks'])
         truck_loads    = list(_sim_state['truck_loads'])
         escenario      = _sim_state['escenario']
+        f_hw           = _sim_state['F_hw']
+        modo_val       = _sim_state['modo']
+        masa_estimada  = _sim_state['masa_estimada']
     with _cont_lock:
         cont_counts = list(_cont_state['counts'])
     with _ctrl_lock:
@@ -907,16 +935,16 @@ def update_frame(_frame):
     # Cable
     dyn_cable.set_data([xt_sim, xs], [pulley_y, ys + SPR_H])
 
-    # Spreader
-    sxy = np.array([xs, ys + SPR_H/2])
+    # Spreader: fondo en ys, tope en ys + SPR_H (incluido en l_h)
+    sxy = np.array([xs + SPR_H/2*st, ys + SPR_H/2*ct])
     hw  = SPR_W / 2; hh = SPR_H / 2
     cs  = np.array([[-hw,-hh],[hw,-hh],[hw,hh],[-hw,hh]])
     dyn_spr.set_xy((rot @ cs.T).T + sxy)
     dyn_spr_e.set_xy((rot @ cs.T).T + sxy)
 
-    # Contenedor
+    # Contenedor: centro en H_c/2 debajo del fondo del spreader
     cc  = np.array([[-W_c/2,-H_c/2],[W_c/2,-H_c/2],[W_c/2,H_c/2],[-W_c/2,H_c/2]])
-    cxy = np.array([xs + (SPR_H/2 + H_c/2)*st, ys - (SPR_H/2 + H_c/2)*ct])
+    cxy = np.array([xs + H_c/2*st, ys - H_c/2*ct])
     dyn_cont.set_xy((rot @ cc.T).T + cxy)
     dyn_cont_e.set_xy((rot @ cc.T).T + cxy)
     dyn_cont.set_visible(tlk)
@@ -928,6 +956,7 @@ def update_frame(_frame):
             p.set_visible(present)
         for p in tp['load']:
             p.set_visible(present and has_load)
+
 
     # Containers en el barco — show/hide según count
     for col_patches, count in zip(_ship_cont_patches, cont_counts):
@@ -941,6 +970,8 @@ def update_frame(_frame):
     dyn_val_txts['$x_{t,\\mathrm{sim}}$'].set_text(f'{xt_sim:.2f} m')
     dyn_val_txts['$\\theta_{l,\\mathrm{sim}}$'].set_text(f'{np.rad2deg(thl_sim):.2f}°')
     dyn_val_txts['$l_{\\mathrm{sim}}$'].set_text(f'{lh_sim:.2f} m')
+    dyn_val_txts['$F_{hw}$'].set_text(f'{f_hw:.1f} N')
+    dyn_val_txts['$\\hat{m}$'].set_text(f'{masa_estimada/1000:.2f} t')
 
     # Panel — variables discretas dinámicas
     for key, val in (('BRK_t', brk_t), ('BRK_h', brk_h),
@@ -980,6 +1011,14 @@ def update_frame(_frame):
     _cs('tlk',  'CERR'   if c_tlk  else 'ABTO',  _CPG if c_tlk  else '#e67e22')
     _cs('sway', 'ON'     if c_sway else 'OFF',    '#8e44ad' if c_sway else '#888888')
     _cs('emg',  '⚠ EMRG' if c_emg  else 'OK',    _CNR if c_emg  else _CPG)
+
+    # Indicador modo
+    if modo_val == 1:
+        dyn_modo_txt.set_text('  MODO: AUTOMÁTICO  ')
+        dyn_modo_txt.get_bbox_patch().set_facecolor('#27ae60')
+    else:
+        dyn_modo_txt.set_text('  MODO: MANUAL  ')
+        dyn_modo_txt.get_bbox_patch().set_facecolor('#e67e22')
 
     # Indicador escenario
     _elbl, _eclr = _ESC_INFO.get(escenario, _ESC_INFO[-1])

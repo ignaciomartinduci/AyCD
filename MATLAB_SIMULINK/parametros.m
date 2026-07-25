@@ -1,5 +1,5 @@
 % Flags de ejecución
-escenario = 1; % 0: espera- 1: ciclo simple carga - 2: ciclo simple descarga - 3: ciclo doble (carga + descarga)
+escenario = 3; % 0: espera- 1: ciclo simple carga - 2: ciclo simple descarga - 3: ciclo doble (carga + descarga)
 
 % Parámetros dados
 Y_t0 = 45; %  [m] Altura fija de poleas de suspension de izaje en el carro
@@ -110,7 +110,7 @@ T_s2 = 0.020;
 % Generación perfil de suelo 
 x_c0_left = -35;
 x_c0_right = 55;
-ship_load_percentage = 25; 
+ship_load_percentage = 100; 
 max_containers = 16;
 container_pillars = randi([0 max_containers*ship_load_percentage/100], 1, 19);
 container_pillars(1) = 0;    % fuerza que al menos uno sea el minimo
@@ -140,7 +140,7 @@ y_l0 = 7;
 l_h0 = (Y_t0-y_l0);
 theta_hm0 = -l_h0*i_h*2/r_hd;
 w_hm0 = 0;
-
+    
 % Parámetros de NIVEL 1
 
 w_hm_min_BRK = 999999999;
@@ -152,9 +152,12 @@ dx_grid_lidar = 0.01;
 lidar_grid_size = numel(x_c0_left:dx_grid_lidar:x_c0_right);
 PES_dy = 1.5; 
 truck_pickup_height = 3.59;
-l_h_safe = 11;
-pickup_safety_margin = 2.5;
-placement_safety_margin = H_c + 2.5;
+pickup_safety_margin = 1.3 * H_c;
+placement_safety_margin = 1.3 * H_c;
+dx_grid = 0.5;
+dy_grid = 0.5;
+n_cols = ceil((x_c0_right - x_c0_left)/dx_grid) + 1;
+n_rows = ceil((y_h_max - y_h_min)/dy_grid) + 1;
 
 % Parámetros de NIVEL 0
 
