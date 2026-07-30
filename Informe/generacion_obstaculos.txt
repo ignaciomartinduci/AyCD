@@ -1,0 +1,249 @@
+function [y_c0_contacto, y_c0_lidar, containers_pillars_state, trucks_state, trucks_has_load, carga_tomada] = ...
+    perfil_suelo(x_c0_left, x_c0_right, Y_sb, W_c, y_h_min, H_c, x_lidar_offset, x_l, ...
+                 container_pillars, TLK, x_t, trucks0, H_truck, Ts, rand_in, escenario, ...
+                 x_containers_left_lim, x_containers_right_lim, t_camion_transicion)
+
+persistent n_containers x_grid2 tlk_prev dx_grid idx_posiciones
+persistent trucks_state_p trucks_has_load_p idx_trucks lambda_truck grupo_camion
+persistent idx_zona_min idx_zona_max
+persistent truck_en_transicion truck_timer
+persistent carga_tomada_p
+
+% Declarar tamaño variable seguro para arreglos dinámicos persistentes
+coder.varsize('x_grid2', [1, 10000], [false, true]);
+coder.varsize('n_containers', [1, 10000], [false, true]);
+
+%% Inicialización de perfil de contenedores
+if isempty(n_containers)
+    dx_grid = 0.01;
+    x_grid2 = x_c0_left : dx_grid : x_c0_right;
+    n_containers = zeros(1, length(x_grid2));
+    tlk_prev     = false;
+    
+    % --- Limites de la zona valida de contenedores (nunca escribir fuera de esto) ---
+    idx_zona_min = round((x_containers_left_lim - x_c0_left) / dx_grid) + 1;
+    idx_zona_max = round((x_containers_right_lim - x_c0_left) / dx_grid) + 1;
+    idx_zona_min = max(1, min(length(x_grid2), idx_zona_min));
+    idx_zona_max = max(1, min(length(x_grid2), idx_zona_max));
+    
+    % --- Carga inicial de pilas (19 posiciones estáticas garantizadas 1x19) ---
+    n_pilares = 19;
+    x_posiciones = linspace(x_containers_left_lim, x_containers_right_lim, n_pilares);
+    idx_posiciones = zeros(1, 19);
+    medio_ancho_idx = round((W_c/2) / dx_grid);
+    
+    for k = 1:n_pilares
+        idx_pos = round((x_posiciones(k) - x_c0_left) / dx_grid) + 1;
+        idx_pos = max(1, min(length(x_grid2), idx_pos));
+        idx_posiciones(k) = idx_pos;
+        
+        idx_ini = max([1, idx_pos - medio_ancho_idx, idx_zona_min]);
+        idx_fin = min([length(x_grid2), idx_pos + medio_ancho_idx, idx_zona_max]);
+        n_containers(idx_ini:idx_fin) = container_pillars(k);
+    end
+    
+    % --- Inicialización de camiones ---
+    x_trucks_left = [-25 -20 -15 -10 -5];
+    idx_trucks = zeros(1, 5);
+    for k = 1:5
+        idx_t = round((x_trucks_left(k) - x_c0_left) / dx_grid) + 1;
+        idx_trucks(k) = max(1, min(length(x_grid2), idx_t));
+    end
+    
+    trucks_state_p      = double(trucks0(:)'); % Forzar dimensiones 1x5
+    trucks_has_load_p   = zeros(1,5);
+    lambda_truck        = -log(0.5) / 60;
+    grupo_camion        = ones(1,5);
+    truck_en_transicion = zeros(1,5);
+    truck_timer         = zeros(1,5);
+    carga_tomada_p      = false;
+end
+
+%% Índice más cercano a x_l (posición de la carga)
+idx = round((x_l - x_c0_left) / dx_grid) + 1;
+idx = max(1, min(length(x_grid2), idx));
+medio_ancho_idx = round((W_c/2) / dx_grid);
+
+% La ventana de escritura/lectura de la carga nunca invade fuera
+% de la zona valida de contenedores (evita que se mezcle con Y_sb u otras zonas)
+idx_ini_l = max([1, idx - medio_ancho_idx, idx_zona_min]);
+idx_fin_l = min([length(x_grid2), idx + medio_ancho_idx, idx_zona_max]);
+
+%% Flancos de TLK
+tlk_bool      = logical(TLK);
+flanco_bajada = tlk_prev && ~tlk_bool;   % Soltar carga (1 -> 0)
+flanco_subida = ~tlk_prev && tlk_bool;   % Tomar carga (0 -> 1)
+tlk_prev      = tlk_bool;
+
+% carga_tomada refleja directamente si el spreader esta enganchado a algo
+% (TLK activo).
+if flanco_subida
+    carga_tomada_p = true;
+elseif flanco_bajada
+    carga_tomada_p = false;
+end
+carga_tomada = carga_tomada_p;
+
+%% Identificar si la carga está sobre la posición de un camión
+W_trucks_idx = round((W_c/2) / dx_grid);
+sobre_camion_k = 0;
+for k = 1:5
+    if abs(idx - idx_trucks(k)) <= W_trucks_idx && trucks_state_p(k) == 1
+        sobre_camion_k = k;
+        break;
+    end
+end
+
+%% Manejo de escenarios
+if escenario ~= 0
+    switch escenario
+        case 1
+            grupo_camion = ones(1,5);     % Carga
+        case 2
+            grupo_camion = 2*ones(1,5);   % Descarga
+        case 3
+            grupo_camion = [2 2 1 1 1];   % Mixto
+    end
+end
+
+if sobre_camion_k > 0 && escenario ~= 0
+    k = sobre_camion_k;
+    if flanco_subida && grupo_camion(k) == 1 && trucks_has_load_p(k) == 1
+        % El camión libera la carga instantáneamente al spreader
+        trucks_has_load_p(k) = 0; 
+        
+        % Se arma un timer. El camión VACÍO se retira recién después
+        truck_en_transicion(k) = 1;
+        truck_timer(k) = 0;
+        
+    elseif flanco_bajada && grupo_camion(k) == 2 && trucks_has_load_p(k) == 0
+        % NUEVA CORRECCIÓN: Al depositar, el camión recibe la carga instantáneamente
+        trucks_has_load_p(k) = 1; 
+        
+        % Inicia el timer. El camión (CON CARGA) se retirará después de t_camion_transicion
+        truck_en_transicion(k) = 1;
+        truck_timer(k) = 0;
+    end
+else
+    % Solo modifica n_containers si la ventana de escritura cae dentro de la zona valida
+    if idx_fin_l >= idx_ini_l
+        
+        % Buscar el pilar fijo más cercano a la posición de la carga
+        [dist_min, pilar_cercano] = min(abs(idx - idx_posiciones));
+        
+        % Si la carga está sobre uno de los pilares del barco/patio (tolerancia de medio ancho)
+        if dist_min <= medio_ancho_idx
+            % Hacemos "snap" a los índices exactos con los que se inicializó ese pilar
+            idx_centro = idx_posiciones(pilar_cercano);
+            idx_ini_write = max([1, idx_centro - medio_ancho_idx, idx_zona_min]);
+            idx_fin_write = min([length(x_grid2), idx_centro + medio_ancho_idx, idx_zona_max]);
+        else
+            % Si está depositando fuera de las zonas predefinidas (caída libre)
+            idx_ini_write = idx_ini_l;
+            idx_fin_write = idx_fin_l;
+        end
+        
+        if flanco_bajada
+            altura_actual = max(n_containers(idx_ini_write:idx_fin_write));
+            n_containers(idx_ini_write:idx_fin_write) = max(n_containers(idx_ini_write:idx_fin_write), altura_actual + 1);
+        elseif flanco_subida
+            altura_actual = max(n_containers(idx_ini_write:idx_fin_write));
+            n_containers(idx_ini_write:idx_fin_write) = max(0, altura_actual - 1);
+        end
+    end
+end
+
+%% Reaparición probabilística
+if escenario ~= 0
+    p_ciclo = 1 - exp(-lambda_truck * Ts);
+    for k = 1:5
+        if trucks_state_p(k) == 0
+            if rand_in(k) < p_ciclo
+                trucks_state_p(k) = 1;
+                if grupo_camion(k) == 1
+                    trucks_has_load_p(k) = 1;
+                else
+                    trucks_has_load_p(k) = 0;
+                end
+                truck_en_transicion(k) = 0; % camion nuevo, sin transicion pendiente
+                truck_timer(k) = 0;
+            end
+        end
+    end
+end
+
+%% Altura fija según zona
+if x_l < -1
+    y_fijo = 0;
+elseif x_l >= -1 && x_l <= 0
+    y_fijo = Y_sb;
+else
+    y_fijo = y_h_min;
+end
+
+%% Aporte de altura de camiones
+h_truck_l = 0;
+for k = 1:5
+    if abs(idx - idx_trucks(k)) <= W_trucks_idx && trucks_state_p(k) == 1
+        % Discriminar entre camión con carga y plataforma vacía
+        if trucks_has_load_p(k) == 1
+            h_truck_l = H_truck + H_c; % Altura con contenedor (activo durante los 30s de salida)
+        else
+            h_truck_l = H_truck;       % Altura solo de la plataforma
+        end
+    end
+end
+
+%% Altura total de contacto
+if idx_fin_l >= idx_ini_l
+    altura_containers_l = max(n_containers(idx_ini_l:idx_fin_l));
+else
+    altura_containers_l = 0;
+end
+y_c0_contacto = y_fijo + altura_containers_l * H_c + h_truck_l;
+
+%% Resolucion de camiones en transicion (basado en TIEMPO)
+% Cada camion en transicion incrementa su timer en cada paso; cuando
+% supera t_camion_transicion segundos, recien ahi desaparece de verdad.
+for k = 1:5
+    if truck_en_transicion(k) == 1
+        truck_timer(k) = truck_timer(k) + Ts;
+        if truck_timer(k) >= t_camion_transicion
+            trucks_state_p(k)      = 0;
+            trucks_has_load_p(k)   = 0; % Limpia el camión y su carga
+            truck_en_transicion(k) = 0;
+            truck_timer(k)         = 0;
+        end
+    end
+end
+
+%% Lectura de Lidar
+x_laser = x_t + x_lidar_offset;
+idx_lidar = round((x_laser - x_c0_left) / dx_grid) + 1;
+idx_lidar = max(1, min(length(x_grid2), idx_lidar));
+
+if x_laser < -1
+    y_fijo_lidar = 0;
+elseif x_laser >= -1 && x_laser <= 0
+    y_fijo_lidar = Y_sb;
+else
+    y_fijo_lidar = y_h_min;
+end
+
+h_truck_lidar = 0;
+for k = 1:5
+    if abs(idx_lidar - idx_trucks(k)) <= W_trucks_idx && trucks_state_p(k) == 1
+        if trucks_has_load_p(k) == 1
+            h_truck_lidar = H_truck + H_c;
+        else
+            h_truck_lidar = H_truck;
+        end
+    end
+end
+y_c0_lidar = y_fijo_lidar + n_containers(idx_lidar) * H_c + h_truck_lidar;
+
+%% Salidas garantizadas
+containers_pillars_state = n_containers(idx_posiciones);
+trucks_state              = trucks_state_p;
+trucks_has_load           = trucks_has_load_p;
+end

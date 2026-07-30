@@ -12,292 +12,400 @@
 \citation{unctad2023}
 \citation{drewry2022}
 \citation{zpmc2023}
-\@writefile{toc}{\contentsline {section}{\numberline {1}Introducción}{4}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introducción}{5}{section.1}\protected@file@percent }
 \citation{iec61131}
 \citation{opcua}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Modelado matemático del sistema físico}{6}{section.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Subsistema \textit  {Trolley}}{6}{subsection.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}Accionamiento de traslación del carro}{7}{subsubsection.2.1.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Esquema simplificado del mecanismo de accionamiento de traslación del carro.}}{7}{figure.1}\protected@file@percent }
-\newlabel{fig:esquema-acc-carro}{{1}{7}{Esquema simplificado del mecanismo de accionamiento de traslación del carro}{figure.1}{}}
-\newlabel{eq:mov-tambor-t}{{1}{7}{Accionamiento de traslación del carro}{equation.1}{}}
-\newlabel{eq:mov-motor-t}{{2}{7}{Accionamiento de traslación del carro}{equation.2}{}}
-\newlabel{eq:relacion-t}{{3}{7}{Accionamiento de traslación del carro}{equation.3}{}}
-\newlabel{eq:acc-carro-ede}{{5}{7}{Accionamiento de traslación del carro}{equation.5}{}}
-\@writefile{toc}{\contentsline {paragraph}{Freno de operación del carro (eje rápido motor).}{8}{section*.5}\protected@file@percent }
-\newlabel{eq:freno-t-off}{{6}{8}{Freno de operación del carro (eje rápido motor)}{equation.6}{}}
-\newlabel{eq:freno-t-off-tanh}{{7}{8}{Freno de operación del carro (eje rápido motor)}{equation.7}{}}
-\newlabel{eq:freno-t-on}{{8}{8}{Freno de operación del carro (eje rápido motor)}{equation.8}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Diagrama de bloques del modelo del freno de operación del carro (Simulink).}}{8}{figure.2}\protected@file@percent }
-\newlabel{fig:bloques-freno-t}{{2}{8}{Diagrama de bloques del modelo del freno de operación del carro (Simulink)}{figure.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Diagrama de bloques del accionamiento de traslación del carro (Simulink).}}{9}{figure.3}\protected@file@percent }
-\newlabel{fig:bloques-acc-carro}{{3}{9}{Diagrama de bloques del accionamiento de traslación del carro (Simulink)}{figure.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.2}Modelo de cable elástico con amortiguamiento del carro}{9}{subsubsection.2.1.2}\protected@file@percent }
-\newlabel{eq:cable-carro}{{9}{9}{Modelo de cable elástico con amortiguamiento del carro}{equation.9}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Diagrama de bloques del modelo de cable elástico-amortiguado del carro (Simulink).}}{9}{figure.4}\protected@file@percent }
-\newlabel{fig:bloques-cable-carro}{{4}{9}{Diagrama de bloques del modelo de cable elástico-amortiguado del carro (Simulink)}{figure.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.3}Ecuación de movimiento del carro}{10}{subsubsection.2.1.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Esquema de variables del subsistema Carro--Cable--Carga.}}{10}{figure.5}\protected@file@percent }
-\newlabel{fig:esquema-carro}{{5}{10}{Esquema de variables del subsistema Carro--Cable--Carga}{figure.5}{}}
-\newlabel{eq:mov-carro}{{10}{10}{Ecuación de movimiento del carro}{equation.10}{}}
-\newlabel{eq:ede-carro}{{11}{10}{Ecuación de movimiento del carro}{equation.11}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Diagrama de bloques de la ecuación de movimiento del carro (Simulink).}}{11}{figure.6}\protected@file@percent }
-\newlabel{fig:bloques-mov-carro}{{6}{11}{Diagrama de bloques de la ecuación de movimiento del carro (Simulink)}{figure.6}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.4}Subsistema \textit  {Trolley} completo}{11}{subsubsection.2.1.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Diagrama de bloques del subsistema \textit  {Trolley} completo (Simulink). Las entradas $\theta _l$ y $F_{hw}$ se muestran desacopladas del subsistema \textit  {Hoist} para mayor claridad.}}{12}{figure.7}\protected@file@percent }
-\newlabel{fig:bloques-trolley}{{7}{12}{Diagrama de bloques del subsistema \textit {Trolley} completo (Simulink). Las entradas $\theta _l$ y $F_{hw}$ se muestran desacopladas del subsistema \textit {Hoist} para mayor claridad}{figure.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Subsistema \textit  {Hoist}}{12}{subsection.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Accionamiento de izaje de carga}{12}{subsubsection.2.2.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Esquema simplificado del mecanismo de accionamiento de izaje.}}{13}{figure.8}\protected@file@percent }
-\newlabel{fig:esquema-acc-hoist}{{8}{13}{Esquema simplificado del mecanismo de accionamiento de izaje}{figure.8}{}}
-\newlabel{eq:pos-carga-h}{{12}{13}{Accionamiento de izaje de carga}{equation.12}{}}
-\newlabel{eq:reeving-h}{{13}{13}{Accionamiento de izaje de carga}{equation.13}{}}
-\newlabel{eq:mov-tambor-h}{{14}{13}{Accionamiento de izaje de carga}{equation.14}{}}
-\newlabel{eq:relacion-h}{{16}{13}{Accionamiento de izaje de carga}{equation.16}{}}
-\newlabel{eq:despeje-h}{{17}{13}{Accionamiento de izaje de carga}{equation.17}{}}
-\newlabel{eq:mov-motor-h}{{18}{13}{Accionamiento de izaje de carga}{equation.18}{}}
-\newlabel{eq:acc-hoist-ede}{{24}{14}{Accionamiento de izaje de carga}{equation.24}{}}
-\@writefile{toc}{\contentsline {paragraph}{Frenos de operación y de emergencia del izaje.}{14}{section*.6}\protected@file@percent }
-\newlabel{eq:freno-h-off}{{25}{14}{Frenos de operación y de emergencia del izaje}{equation.25}{}}
-\newlabel{eq:freno-h-on}{{26}{14}{Frenos de operación y de emergencia del izaje}{equation.26}{}}
-\newlabel{eq:freno-he-off}{{27}{14}{Frenos de operación y de emergencia del izaje}{equation.27}{}}
-\newlabel{eq:freno-he-on}{{28}{15}{Frenos de operación y de emergencia del izaje}{equation.28}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Diagrama de bloques del modelo del freno de operación del izaje (Simulink).}}{15}{figure.9}\protected@file@percent }
-\newlabel{fig:bloques-freno-h-op}{{9}{15}{Diagrama de bloques del modelo del freno de operación del izaje (Simulink)}{figure.9}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Diagrama de bloques del modelo del freno de emergencia del izaje (Simulink).}}{15}{figure.10}\protected@file@percent }
-\newlabel{fig:bloques-freno-h-em}{{10}{15}{Diagrama de bloques del modelo del freno de emergencia del izaje (Simulink)}{figure.10}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Diagrama de bloques del accionamiento de izaje de carga (Simulink).}}{16}{figure.11}\protected@file@percent }
-\newlabel{fig:bloques-acc-hoist}{{11}{16}{Diagrama de bloques del accionamiento de izaje de carga (Simulink)}{figure.11}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Modelo de cable elástico-amortiguado de izaje}{16}{subsubsection.2.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{ON — Cable tensado.}{16}{section*.7}\protected@file@percent }
-\newlabel{eq:cable-hoist}{{29}{16}{ON — Cable tensado}{equation.29}{}}
-\newlabel{eq:Khw}{{30}{16}{ON — Cable tensado}{equation.30}{}}
-\newlabel{eq:bhw}{{31}{16}{ON — Cable tensado}{equation.31}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Diagrama de bloques del modelo del cable de izaje — cálculo de $F_{hw}$ (Simulink).}}{17}{figure.12}\protected@file@percent }
-\newlabel{fig:bloques-cable-hoist}{{12}{17}{Diagrama de bloques del modelo del cable de izaje — cálculo de $F_{hw}$ (Simulink)}{figure.12}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Diagrama de bloques del cálculo de la rigidez equivalente $K_{hw}(l_h)$ (Simulink).}}{17}{figure.13}\protected@file@percent }
-\newlabel{fig:bloques-Khw}{{13}{17}{Diagrama de bloques del cálculo de la rigidez equivalente $K_{hw}(l_h)$ (Simulink)}{figure.13}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Diagrama de bloques del cálculo del amortiguamiento equivalente $b_{hw}(l_h)$ (Simulink).}}{17}{figure.14}\protected@file@percent }
-\newlabel{fig:bloques-bhw}{{14}{17}{Diagrama de bloques del cálculo del amortiguamiento equivalente $b_{hw}(l_h)$ (Simulink)}{figure.14}{}}
-\@writefile{toc}{\contentsline {paragraph}{OFF — Cable flojo.}{18}{section*.8}\protected@file@percent }
-\newlabel{eq:cable-hoist-flojo}{{32}{18}{OFF — Cable flojo}{equation.32}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}Movimiento de la carga}{18}{subsubsection.2.2.3}\protected@file@percent }
-\newlabel{eq:tlk-mass}{{33}{18}{Movimiento de la carga}{equation.33}{}}
-\newlabel{eq:tlk-hc}{{34}{18}{Movimiento de la carga}{equation.34}{}}
-\@writefile{toc}{\contentsline {paragraph}{Ecuación de movimiento en el eje $x$ (horizontal).}{18}{section*.9}\protected@file@percent }
-\newlabel{eq:mov-carga-x}{{35}{18}{Ecuación de movimiento en el eje $x$ (horizontal)}{equation.35}{}}
-\newlabel{eq:Fcx}{{37}{18}{Ecuación de movimiento en el eje $x$ (horizontal)}{equation.37}{}}
-\@writefile{toc}{\contentsline {paragraph}{Ecuación de movimiento en el eje $y$ (vertical).}{18}{section*.10}\protected@file@percent }
-\newlabel{eq:mov-carga-y}{{38}{18}{Ecuación de movimiento en el eje $y$ (vertical)}{equation.38}{}}
-\newlabel{eq:Fcy}{{40}{19}{Ecuación de movimiento en el eje $y$ (vertical)}{equation.40}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Diagrama de bloques del movimiento de la carga completo (Simulink).}}{19}{figure.15}\protected@file@percent }
-\newlabel{fig:mov-carga-completo}{{15}{19}{Diagrama de bloques del movimiento de la carga completo (Simulink)}{figure.15}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Diagrama de bloques del cálculo de la fuerza de contacto vertical $F_{cy}$ (Simulink).}}{20}{figure.16}\protected@file@percent }
-\newlabel{fig:mov-carga-fcy}{{16}{20}{Diagrama de bloques del cálculo de la fuerza de contacto vertical $F_{cy}$ (Simulink)}{figure.16}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Diagrama de bloques del cálculo de la fuerza de contacto horizontal $F_{cx}$ (Simulink).}}{20}{figure.17}\protected@file@percent }
-\newlabel{fig:mov-carga-fcx}{{17}{20}{Diagrama de bloques del cálculo de la fuerza de contacto horizontal $F_{cx}$ (Simulink)}{figure.17}{}}
-\@writefile{toc}{\contentsline {paragraph}{Generación de masa aleatoria del container.}{20}{section*.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.4}Ángulo de balanceo y longitud real del cable}{21}{subsubsection.2.2.4}\protected@file@percent }
-\newlabel{eq:theta-l}{{41}{21}{Ángulo de balanceo y longitud real del cable}{equation.41}{}}
-\newlabel{eq:longitud-l}{{42}{21}{Ángulo de balanceo y longitud real del cable}{equation.42}{}}
-\newlabel{eq:dldt}{{43}{21}{Ángulo de balanceo y longitud real del cable}{equation.43}{}}
-\newlabel{eq:dtheta-l}{{44}{21}{Ángulo de balanceo y longitud real del cable}{equation.44}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Diagrama de bloques para el cálculo de $l(t)$, $\dot  {l}(t)$, $\theta _l(t)$ y $\dot  {\theta }_l(t)$ (Simulink).}}{22}{figure.18}\protected@file@percent }
-\newlabel{fig:bloques-theta-l}{{18}{22}{Diagrama de bloques para el cálculo de $l(t)$, $\dot {l}(t)$, $\theta _l(t)$ y $\dot {\theta }_l(t)$ (Simulink)}{figure.18}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.5}Subsistema \textit  {Hoist} completo}{22}{subsubsection.2.2.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Diagrama de bloques del subsistema \textit  {Hoist} completo (Simulink). Las entradas externas se muestran desacopladas del resto del sistema para mayor claridad.}}{23}{figure.19}\protected@file@percent }
-\newlabel{fig:bloques-hoist}{{19}{23}{Diagrama de bloques del subsistema \textit {Hoist} completo (Simulink). Las entradas externas se muestran desacopladas del resto del sistema para mayor claridad}{figure.19}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Generación del perfil de obstáculos $y_{c0}(x,t)$}{23}{subsection.2.3}\protected@file@percent }
-\newlabel{lst:perfil-suelo}{{1}{24}{MATLAB Function: generación del perfil de obstáculos $y_{c0}(x,t)$ (Simulink)}{lstlisting.1}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}MATLAB Function: generación del perfil de obstáculos $y_{c0}(x,t)$ (Simulink).}{24}{lstlisting.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces Perfil de obstáculos $y_{c0}(x,t)$ (línea continua) y lectura anticipada del sensor LIDAR $y_{c0,lidar}(x,t)$ (línea discontinua) durante una secuencia de carga/descarga.}}{25}{figure.20}\protected@file@percent }
-\newlabel{fig:perfil-suelo}{{20}{25}{Perfil de obstáculos $y_{c0}(x,t)$ (línea continua) y lectura anticipada del sensor LIDAR $y_{c0,lidar}(x,t)$ (línea discontinua) durante una secuencia de carga/descarga}{figure.20}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Fines de carrera y detectores de sobrevelocidad}{25}{subsection.2.4}\protected@file@percent }
-\newlabel{sec:fines-carrera}{{2.4}{25}{Fines de carrera y detectores de sobrevelocidad}{subsection.2.4}{}}
-\@writefile{toc}{\contentsline {paragraph}{Fines de carrera de traslación del carro.}{25}{section*.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Fines de carrera de izaje.}{26}{section*.13}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Detector de sobrevelocidad.}{26}{section*.14}\protected@file@percent }
-\newlabel{eq:overspeed}{{45}{26}{Detector de sobrevelocidad}{equation.45}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {21}{\ignorespaces Diagrama de bloques de fines de carrera y detectores de sobrevelocidad (Simulink).}}{27}{figure.21}\protected@file@percent }
-\newlabel{fig:bloques-fc}{{21}{27}{Diagrama de bloques de fines de carrera y detectores de sobrevelocidad (Simulink)}{figure.21}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Moduladores de torque de los accionamientos}{27}{subsection.2.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Modulador del carro.}{28}{section*.15}\protected@file@percent }
-\newlabel{eq:mod-carro}{{46}{28}{Modulador del carro}{equation.46}{}}
-\newlabel{eq:mod-carro-lim}{{47}{28}{Modulador del carro}{equation.47}{}}
-\@writefile{toc}{\contentsline {paragraph}{Modulador del izaje — con \textit  {Field Weakening}.}{28}{section*.16}\protected@file@percent }
-\newlabel{eq:mod-hoist}{{48}{28}{Modulador del izaje — con \textit {Field Weakening}}{equation.48}{}}
-\newlabel{eq:mod-hoist-lim}{{49}{28}{Modulador del izaje — con \textit {Field Weakening}}{equation.49}{}}
-\newlabel{eq:field-weakening}{{50}{28}{Modulador del izaje — con \textit {Field Weakening}}{equation.50}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {22}{\ignorespaces Diagrama de bloques del cálculo de $T_{hm\,Max}(t)$ con \textit  {Field Weakening} (Simulink).}}{29}{figure.22}\protected@file@percent }
-\newlabel{fig:bloques-fw}{{22}{29}{Diagrama de bloques del cálculo de $T_{hm\,Max}(t)$ con \textit {Field Weakening} (Simulink)}{figure.22}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {23}{\ignorespaces Diagrama de bloques del subsistema de moduladores de torque del carro y del izaje (Simulink).}}{29}{figure.23}\protected@file@percent }
-\newlabel{fig:bloques-moduladores}{{23}{29}{Diagrama de bloques del subsistema de moduladores de torque del carro y del izaje (Simulink)}{figure.23}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Sistema físico completo}{29}{subsection.2.6}\protected@file@percent }
-\newlabel{sec:sistema-completo}{{2.6}{29}{Sistema físico completo}{subsection.2.6}{}}
-\@writefile{toc}{\contentsline {paragraph}{Salidas sensadas.}{30}{section*.17}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Señales de fines de carrera y sobrevelocidad.}{30}{section*.18}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {24}{\ignorespaces Diagrama de bloques del sistema físico completo (Simulink).}}{31}{figure.24}\protected@file@percent }
-\newlabel{fig:sistema-completo}{{24}{31}{Diagrama de bloques del sistema físico completo (Simulink)}{figure.24}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Sistema híbrido de control y protección}{32}{section.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Nivel 2: Control Regulatorio}{32}{subsection.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Controlador de traslación del carro}{32}{subsubsection.3.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Análisis de controlabilidad y observabilidad.}{32}{section*.19}\protected@file@percent }
-\newlabel{eq:params-eq-t}{{51}{32}{Análisis de controlabilidad y observabilidad}{equation.51}{}}
-\newlabel{eq:ss-carro}{{52}{33}{Análisis de controlabilidad y observabilidad}{equation.52}{}}
-\newlabel{eq:wc-t}{{53}{33}{Análisis de controlabilidad y observabilidad}{equation.53}{}}
-\newlabel{eq:wo-t}{{54}{33}{Análisis de controlabilidad y observabilidad}{equation.54}{}}
-\newlabel{eq:rank-t}{{55}{33}{Análisis de controlabilidad y observabilidad}{equation.55}{}}
-\newlabel{eq:rank-obs-t}{{56}{33}{Análisis de controlabilidad y observabilidad}{equation.56}{}}
-\@writefile{toc}{\contentsline {paragraph}{Polos a lazo abierto del carro.}{33}{section*.20}\protected@file@percent }
-\newlabel{eq:cinematica-t}{{57}{33}{Polos a lazo abierto del carro}{equation.57}{}}
-\newlabel{eq:Ftw-despeje}{{58}{34}{Polos a lazo abierto del carro}{equation.58}{}}
-\newlabel{eq:Mteq-bteq}{{60}{34}{Polos a lazo abierto del carro}{equation.60}{}}
-\newlabel{eq:mov-equiv-t}{{61}{34}{Polos a lazo abierto del carro}{equation.61}{}}
-\newlabel{eq:ft-vel-t}{{62}{34}{Polos a lazo abierto del carro}{equation.62}{}}
-\newlabel{eq:ft-pos-t}{{63}{34}{Polos a lazo abierto del carro}{equation.63}{}}
-\newlabel{eq:polos-LA-t}{{64}{34}{Polos a lazo abierto del carro}{equation.64}{}}
-\@writefile{toc}{\contentsline {paragraph}{Diseño del controlador de posición del carro.}{34}{section*.21}\protected@file@percent }
-\newlabel{eq:pid-t}{{66}{34}{Diseño del controlador de posición del carro}{equation.66}{}}
-\newlabel{eq:ft-lc-t}{{68}{35}{Diseño del controlador de posición del carro}{equation.68}{}}
-\newlabel{eq:pol-des-t}{{69}{35}{Diseño del controlador de posición del carro}{equation.69}{}}
-\newlabel{eq:ganancias-t}{{70}{35}{Diseño del controlador de posición del carro}{equation.70}{}}
-\@writefile{toc}{\contentsline {paragraph}{Implementación discreta en Simulink.}{35}{section*.22}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {25}{\ignorespaces Subsistema integrador discreto por método de Tustin, reutilizado en todos los controladores y observadores del proyecto.}}{35}{figure.25}\protected@file@percent }
-\newlabel{fig:integrador-tustin}{{25}{35}{Subsistema integrador discreto por método de Tustin, reutilizado en todos los controladores y observadores del proyecto}{figure.25}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {26}{\ignorespaces Diagrama de bloques del controlador de traslación del carro discretizado (Simulink, $T_{s2} = 1$\,ms).}}{36}{figure.26}\protected@file@percent }
-\newlabel{fig:ctrl-carro-discreto}{{26}{36}{Diagrama de bloques del controlador de traslación del carro discretizado (Simulink, $T_{s2} = 1$\,ms)}{figure.26}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {27}{\ignorespaces Diagrama de bloques del observador de estados del carro discretizado (Simulink, $T_{s2} = 1$\,ms).}}{36}{figure.27}\protected@file@percent }
-\newlabel{fig:obs-carro-discreto}{{27}{36}{Diagrama de bloques del observador de estados del carro discretizado (Simulink, $T_{s2} = 1$\,ms)}{figure.27}{}}
-\@writefile{toc}{\contentsline {paragraph}{Desempeño del controlador de traslación.}{37}{section*.23}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {28}{\ignorespaces Traslación del carro — velocidad: consigna $v_t^*(t)$, estimada $\hat  {v}_t(t)$, velocidad en el tambor $\hat  {v}_{td}(t)$ y simulada $v_t(t)$ (spreader vacío, perfil trapezoidal).}}{37}{figure.28}\protected@file@percent }
-\newlabel{fig:carro-vel-cmp}{{28}{37}{Traslación del carro — velocidad: consigna $v_t^*(t)$, estimada $\hat {v}_t(t)$, velocidad en el tambor $\hat {v}_{td}(t)$ y simulada $v_t(t)$ (spreader vacío, perfil trapezoidal)}{figure.28}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {29}{\ignorespaces Traslación del carro — posición: consigna $x_t^*(t)$, estimada $\hat  {x}_t(t)$ y simulada $x_t(t)$ (carga máxima, perfil trapezoidal).}}{38}{figure.29}\protected@file@percent }
-\newlabel{fig:carro-pos-cmp}{{29}{38}{Traslación del carro — posición: consigna $x_t^*(t)$, estimada $\hat {x}_t(t)$ y simulada $x_t(t)$ (carga máxima, perfil trapezoidal)}{figure.29}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {30}{\ignorespaces Traslación del carro — comparativa de torque: consigna $T_{tm}^*(t)$ y salida del modulador $T_{tm}(t)$ (spreader vacío, perfil trapezoidal).}}{38}{figure.30}\protected@file@percent }
-\newlabel{fig:carro-torque}{{30}{38}{Traslación del carro — comparativa de torque: consigna $T_{tm}^*(t)$ y salida del modulador $T_{tm}(t)$ (spreader vacío, perfil trapezoidal)}{figure.30}{}}
-\newlabel{eq:T-friccion-carro}{{73}{38}{Desempeño del controlador de traslación}{equation.73}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Controlador de izaje de la carga}{39}{subsubsection.3.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Análisis de controlabilidad y observabilidad.}{39}{section*.24}\protected@file@percent }
-\newlabel{eq:params-eq-h}{{74}{39}{Análisis de controlabilidad y observabilidad}{equation.74}{}}
-\newlabel{eq:ss-hoist}{{75}{39}{Análisis de controlabilidad y observabilidad}{equation.75}{}}
-\newlabel{eq:wc-h}{{76}{39}{Análisis de controlabilidad y observabilidad}{equation.76}{}}
-\newlabel{eq:wo-h}{{77}{39}{Análisis de controlabilidad y observabilidad}{equation.77}{}}
-\newlabel{eq:rank-c-h}{{78}{39}{Análisis de controlabilidad y observabilidad}{equation.78}{}}
-\newlabel{eq:rank-o-h}{{79}{39}{Análisis de controlabilidad y observabilidad}{equation.79}{}}
-\@writefile{toc}{\contentsline {paragraph}{Polos a lazo abierto del izaje.}{39}{section*.25}\protected@file@percent }
-\newlabel{eq:cinem-h}{{80}{39}{Polos a lazo abierto del izaje}{equation.80}{}}
-\newlabel{eq:mov-equiv-h-raw}{{81}{39}{Polos a lazo abierto del izaje}{equation.81}{}}
-\newlabel{eq:Fhw-despeje}{{82}{40}{Polos a lazo abierto del izaje}{equation.82}{}}
-\newlabel{eq:Jheq-bheq}{{83}{40}{Polos a lazo abierto del izaje}{equation.83}{}}
-\newlabel{eq:mov-equiv-h}{{84}{40}{Polos a lazo abierto del izaje}{equation.84}{}}
-\newlabel{eq:ft-lh}{{85}{40}{Polos a lazo abierto del izaje}{equation.85}{}}
-\newlabel{eq:polos-LA-h}{{86}{40}{Polos a lazo abierto del izaje}{equation.86}{}}
-\@writefile{toc}{\contentsline {paragraph}{Diseño del controlador de longitud de cable de izaje.}{40}{section*.26}\protected@file@percent }
-\newlabel{eq:pid-h}{{87}{40}{Diseño del controlador de longitud de cable de izaje}{equation.87}{}}
-\newlabel{eq:ganancias-h}{{89}{40}{Diseño del controlador de longitud de cable de izaje}{equation.89}{}}
-\@writefile{toc}{\contentsline {paragraph}{Implementación discreta en Simulink.}{41}{section*.27}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {31}{\ignorespaces Diagrama de bloques del controlador de izaje de carga discretizado (Simulink, $T_{s2}=1$\,ms).}}{41}{figure.31}\protected@file@percent }
-\newlabel{fig:ctrl-hoist-discreto}{{31}{41}{Diagrama de bloques del controlador de izaje de carga discretizado (Simulink, $T_{s2}=1$\,ms)}{figure.31}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {32}{\ignorespaces Diagrama de bloques del observador de estados del izaje discretizado (Simulink, $T_{s2}=1$\,ms).}}{41}{figure.32}\protected@file@percent }
-\newlabel{fig:obs-hoist-discreto}{{32}{41}{Diagrama de bloques del observador de estados del izaje discretizado (Simulink, $T_{s2}=1$\,ms)}{figure.32}{}}
-\@writefile{toc}{\contentsline {paragraph}{Desempeño del controlador de izaje.}{41}{section*.28}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {33}{\ignorespaces Izaje de carga — velocidad de cable: consigna $\dot  {l}_h^*(t)$, estimada $\hat  {\dot  {l}}_h(t)$ y simulada $\dot  {l}_h(t)$ (carga máxima, perfil trapezoidal).}}{42}{figure.33}\protected@file@percent }
-\newlabel{fig:izaje-vel-cmp}{{33}{42}{Izaje de carga — velocidad de cable: consigna $\dot {l}_h^*(t)$, estimada $\hat {\dot {l}}_h(t)$ y simulada $\dot {l}_h(t)$ (carga máxima, perfil trapezoidal)}{figure.33}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {34}{\ignorespaces Izaje de carga — posición: consigna $l_h^*(t)$, estimada $\hat  {l}_h(t)$ y simulada $l_h(t)$ (carga máxima, perfil trapezoidal).}}{42}{figure.34}\protected@file@percent }
-\newlabel{fig:izaje-pos-cmp}{{34}{42}{Izaje de carga — posición: consigna $l_h^*(t)$, estimada $\hat {l}_h(t)$ y simulada $l_h(t)$ (carga máxima, perfil trapezoidal)}{figure.34}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {35}{\ignorespaces Izaje de carga — comparativa de torque: consigna $T_{hm}^*(t)$ y torque a la salida del modulador $T_{hm}(t)$ (carga máxima, perfil trapezoidal).}}{43}{figure.35}\protected@file@percent }
-\newlabel{fig:izaje-torque}{{35}{43}{Izaje de carga — comparativa de torque: consigna $T_{hm}^*(t)$ y torque a la salida del modulador $T_{hm}(t)$ (carga máxima, perfil trapezoidal)}{figure.35}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.3}Controlador de oscilación de la carga}{43}{subsubsection.3.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Modelo dinámico del péndulo de longitud variable.}{43}{section*.29}\protected@file@percent }
-\newlabel{eq:sway-x}{{92}{43}{Modelo dinámico del péndulo de longitud variable}{equation.92}{}}
-\newlabel{eq:sway-y}{{93}{43}{Modelo dinámico del péndulo de longitud variable}{equation.93}{}}
-\newlabel{eq:sway-geom-x}{{94}{43}{Modelo dinámico del péndulo de longitud variable}{equation.94}{}}
-\newlabel{eq:sway-geom-y}{{95}{43}{Modelo dinámico del péndulo de longitud variable}{equation.95}{}}
-\newlabel{eq:sway-dxl}{{96}{43}{Modelo dinámico del péndulo de longitud variable}{equation.96}{}}
-\newlabel{eq:sway-dyl}{{97}{43}{Modelo dinámico del péndulo de longitud variable}{equation.97}{}}
-\newlabel{eq:sway-ddxl}{{98}{44}{Modelo dinámico del péndulo de longitud variable}{equation.98}{}}
-\newlabel{eq:sway-ddyl}{{99}{44}{Modelo dinámico del péndulo de longitud variable}{equation.99}{}}
-\@writefile{toc}{\contentsline {paragraph}{Eliminación de la tensión del cable — ecuación del péndulo.}{44}{section*.30}\protected@file@percent }
-\newlabel{eq:pendulo}{{101}{44}{Eliminación de la tensión del cable — ecuación del péndulo}{equation.101}{}}
-\@writefile{toc}{\contentsline {paragraph}{Modelo LPV del balanceo.}{44}{section*.31}\protected@file@percent }
-\newlabel{eq:lpv-sway}{{102}{44}{Modelo LPV del balanceo}{equation.102}{}}
-\newlabel{eq:Beq}{{103}{44}{Modelo LPV del balanceo}{equation.103}{}}
-\newlabel{eq:Keq}{{104}{44}{Modelo LPV del balanceo}{equation.104}{}}
-\newlabel{eq:Geq}{{105}{44}{Modelo LPV del balanceo}{equation.105}{}}
-\@writefile{toc}{\contentsline {paragraph}{Ley de control — corrección de velocidad proporcional al ángulo.}{45}{section*.32}\protected@file@percent }
-\newlabel{eq:ctrl-sway}{{106}{45}{Ley de control — corrección de velocidad proporcional al ángulo}{equation.106}{}}
-\newlabel{eq:aeff}{{107}{45}{Ley de control — corrección de velocidad proporcional al ángulo}{equation.107}{}}
-\newlabel{eq:lc-sway}{{108}{45}{Ley de control — corrección de velocidad proporcional al ángulo}{equation.108}{}}
-\@writefile{toc}{\contentsline {paragraph}{Sintonización — amortiguamiento crítico.}{45}{section*.33}\protected@file@percent }
-\newlabel{eq:wo-lpv}{{109}{45}{Sintonización — amortiguamiento crítico}{equation.109}{}}
-\newlabel{eq:Kdo}{{111}{45}{Sintonización — amortiguamiento crítico}{equation.111}{}}
-\@writefile{toc}{\contentsline {paragraph}{Activación progresiva — \textit  {gain scheduling} por zona de operación.}{45}{section*.34}\protected@file@percent }
-\newlabel{eq:escala}{{112}{46}{Activación progresiva — \textit {gain scheduling} por zona de operación}{equation.112}{}}
-\@writefile{toc}{\contentsline {paragraph}{Implementación en Simulink como \textit  {MATLAB Function}.}{46}{section*.35}\protected@file@percent }
-\newlabel{lst:ctrl-balanceo}{{2}{46}{MATLAB Function: controlador de balanceo (Simulink, $T_{s2}=1$\,ms)}{lstlisting.2}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}MATLAB Function: controlador de balanceo (Simulink, $T_{s2}=1$\,ms).}{46}{lstlisting.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Desempeño del controlador de balanceo.}{46}{section*.36}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {36}{\ignorespaces Controlador de balanceo — velocidad: consigna original $v_t^*(t)$ y consigna modificada por el controlador de balanceo $v_{t,mod}^*(t)$.}}{47}{figure.36}\protected@file@percent }
-\newlabel{fig:sway-vel}{{36}{47}{Controlador de balanceo — velocidad: consigna original $v_t^*(t)$ y consigna modificada por el controlador de balanceo $v_{t,mod}^*(t)$}{figure.36}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {37}{\ignorespaces Controlador de balanceo — posición: consigna original $x_t^*(t)$, simulada $x_t(t)$ y estimada $\hat  {x}_t(t)$.}}{47}{figure.37}\protected@file@percent }
-\newlabel{fig:sway-pos}{{37}{47}{Controlador de balanceo — posición: consigna original $x_t^*(t)$, simulada $x_t(t)$ y estimada $\hat {x}_t(t)$}{figure.37}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {38}{\ignorespaces Controlador de balanceo — evolución conjunta de $\theta _l(t)$, $v_t(t)$ y $a_t(t)$ para analizar el comportamiento del ángulo de balanceo en cada región de aceleración y velocidad del carro.}}{48}{figure.38}\protected@file@percent }
-\newlabel{fig:sway-analisis}{{38}{48}{Controlador de balanceo — evolución conjunta de $\theta _l(t)$, $v_t(t)$ y $a_t(t)$ para analizar el comportamiento del ángulo de balanceo en cada región de aceleración y velocidad del carro}{figure.38}{}}
-\@writefile{toc}{\contentsline {paragraph}{Implementación en Simulink como \textit  {MATLAB Function}.}{48}{section*.37}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.4}Nivel 2 completo}{48}{subsubsection.3.1.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {39}{\ignorespaces Diagrama de bloques del Nivel~2 completo: controladores de traslación, izaje y oscilación integrados en Simulink ($T_{s2}=1$\,ms). Para mejorar la visibilidad del diagrama se han omitido las entradas a los generadores de trayectorias y otras consignas externas provenientes del Nivel~1.}}{49}{figure.39}\protected@file@percent }
-\newlabel{fig:nivel2-completo}{{39}{49}{Diagrama de bloques del Nivel~2 completo: controladores de traslación, izaje y oscilación integrados en Simulink ($T_{s2}=1$\,ms). Para mejorar la visibilidad del diagrama se han omitido las entradas a los generadores de trayectorias y otras consignas externas provenientes del Nivel~1}{figure.39}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Conversión de los diagramas de bloques del Nivel~2 a \textit  {MATLAB Function}}{49}{subsection.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Controlador de traslación del carro}{49}{subsubsection.3.2.1}\protected@file@percent }
-\newlabel{lst:pid-carro}{{3}{49}{MATLAB Function: controlador PID de traslación del carro ($T_{s2}=1$\,ms)}{lstlisting.3}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}MATLAB Function: controlador PID de traslación del carro ($T_{s2}=1$\,ms).}{49}{lstlisting.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Observador de estados del carro}{50}{subsubsection.3.2.2}\protected@file@percent }
-\newlabel{lst:obs-carro}{{4}{50}{MATLAB Function: observador de Luenberger del carro ($T_{s2}=1$\,ms)}{lstlisting.4}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4}MATLAB Function: observador de Luenberger del carro ($T_{s2}=1$\,ms).}{50}{lstlisting.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Controlador de izaje de carga}{51}{subsubsection.3.2.3}\protected@file@percent }
-\newlabel{lst:pid-izaje}{{5}{51}{MATLAB Function: controlador PID de izaje de carga ($T_{s2}=1$\,ms)}{lstlisting.5}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {5}MATLAB Function: controlador PID de izaje de carga ($T_{s2}=1$\,ms).}{51}{lstlisting.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}Observador de estados del izaje}{51}{subsubsection.3.2.4}\protected@file@percent }
-\newlabel{lst:obs-izaje}{{6}{51}{MATLAB Function: observador de Luenberger del izaje ($T_{s2}=1$\,ms)}{lstlisting.6}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6}MATLAB Function: observador de Luenberger del izaje ($T_{s2}=1$\,ms).}{51}{lstlisting.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.5}Controlador paralelo de balanceo}{52}{subsubsection.3.2.5}\protected@file@percent }
-\newlabel{lst:ctrl-balanceo-final}{{7}{52}{MATLAB Function: controlador paralelo de balanceo ($T_{s2}=1$\,ms)}{lstlisting.7}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {7}MATLAB Function: controlador paralelo de balanceo ($T_{s2}=1$\,ms).}{52}{lstlisting.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Nivel 0: Seguridad y Protección}{52}{subsection.3.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {40}{\ignorespaces Nivel~0 visto desde el exterior: entradas y salidas del autómata de seguridad y protección (Stateflow).}}{53}{figure.40}\protected@file@percent }
-\newlabel{fig:nivel0-io}{{40}{53}{Nivel~0 visto desde el exterior: entradas y salidas del autómata de seguridad y protección (Stateflow)}{figure.40}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {41}{\ignorespaces Diagrama de bloques del Nivel~0 completo: estados paralelos \texttt  {Emergencies} y \texttt  {Watchdog} (Stateflow, $T_{s0}=20$\,ms).}}{53}{figure.41}\protected@file@percent }
-\newlabel{fig:nivel0-completo}{{41}{53}{Diagrama de bloques del Nivel~0 completo: estados paralelos \texttt {Emergencies} y \texttt {Watchdog} (Stateflow, $T_{s0}=20$\,ms)}{figure.41}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Emergencies}{53}{subsubsection.3.3.1}\protected@file@percent }
-\newlabel{sec:emergencies}{{3.3.1}{53}{Emergencies}{subsubsection.3.3.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {42}{\ignorespaces Estado \texttt  {Emergencies}: estado de entrada \texttt  {Stand\_By} (Stateflow).}}{54}{figure.42}\protected@file@percent }
-\newlabel{fig:emergencies-standby}{{42}{54}{Estado \texttt {Emergencies}: estado de entrada \texttt {Stand\_By} (Stateflow)}{figure.42}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {43}{\ignorespaces Estado \texttt  {Emergencies} completo: \texttt  {Stand\_By} y transiciones hacia \texttt  {Trolley\_Emgy}, \texttt  {Hoist\_Emgy} y \texttt  {Global\_Emgy} (Stateflow).}}{54}{figure.43}\protected@file@percent }
-\newlabel{fig:emergencies-completo}{{43}{54}{Estado \texttt {Emergencies} completo: \texttt {Stand\_By} y transiciones hacia \texttt {Trolley\_Emgy}, \texttt {Hoist\_Emgy} y \texttt {Global\_Emgy} (Stateflow)}{figure.43}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Subestado \texttt  {Trolley\_Emgy}}{55}{subsubsection.3.3.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {44}{\ignorespaces Subestado \texttt  {Trolley\_Emgy}: acciones de entrada y selección de origen de la emergencia en \texttt  {Init} (Stateflow).}}{55}{figure.44}\protected@file@percent }
-\newlabel{fig:trolley-emgy-init}{{44}{55}{Subestado \texttt {Trolley\_Emgy}: acciones de entrada y selección de origen de la emergencia en \texttt {Init} (Stateflow)}{figure.44}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {45}{\ignorespaces Subestado \texttt  {Trolley\_Emgy} completo: \texttt  {Init}, \texttt  {Emgy\_Switch\_Min}, \texttt  {Emgy\_Switch\_Max}, \texttt  {Overspeed} y \texttt  {Solved} (Stateflow).}}{56}{figure.45}\protected@file@percent }
-\newlabel{fig:trolley-emgy-completo}{{45}{56}{Subestado \texttt {Trolley\_Emgy} completo: \texttt {Init}, \texttt {Emgy\_Switch\_Min}, \texttt {Emgy\_Switch\_Max}, \texttt {Overspeed} y \texttt {Solved} (Stateflow)}{figure.45}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Subestado \texttt  {Hoist\_Emgy}}{56}{subsubsection.3.3.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {46}{\ignorespaces Subestado \texttt  {Hoist\_Emgy}: acciones de entrada y selección de origen de la emergencia en \texttt  {Init} (Stateflow).}}{57}{figure.46}\protected@file@percent }
-\newlabel{fig:hoist-emgy-init}{{46}{57}{Subestado \texttt {Hoist\_Emgy}: acciones de entrada y selección de origen de la emergencia en \texttt {Init} (Stateflow)}{figure.46}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {47}{\ignorespaces Subestado \texttt  {Hoist\_Emgy} completo: \texttt  {Init}, \texttt  {Emgy\_Switch\_Min}, \texttt  {Emgy\_Switch\_Max}, \texttt  {Overspeed} y \texttt  {Solved} (Stateflow).}}{57}{figure.47}\protected@file@percent }
-\newlabel{fig:hoist-emgy-completo}{{47}{57}{Subestado \texttt {Hoist\_Emgy} completo: \texttt {Init}, \texttt {Emgy\_Switch\_Min}, \texttt {Emgy\_Switch\_Max}, \texttt {Overspeed} y \texttt {Solved} (Stateflow)}{figure.47}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.4}Subestado \texttt  {Global\_Emgy}}{57}{subsubsection.3.3.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {48}{\ignorespaces Subestado \texttt  {Global\_Emgy} completo: acciones de entrada, espera de $3$\,s y reconocimiento del operador en \texttt  {Waiting\_Global\_Emgy\_Ack} (Stateflow).}}{58}{figure.48}\protected@file@percent }
-\newlabel{fig:global-emgy-completo}{{48}{58}{Subestado \texttt {Global\_Emgy} completo: acciones de entrada, espera de $3$\,s y reconocimiento del operador en \texttt {Waiting\_Global\_Emgy\_Ack} (Stateflow)}{figure.48}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.5}Watchdog}{58}{subsubsection.3.3.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {49}{\ignorespaces Estado \texttt  {Watchdog} completo: \texttt  {Init}, \texttt  {Reset\_Counter}, \texttt  {Increase\_counter} y \texttt  {Watchdog\_Emgy} (Stateflow).}}{59}{figure.49}\protected@file@percent }
-\newlabel{fig:watchdog-completo}{{49}{59}{Estado \texttt {Watchdog} completo: \texttt {Init}, \texttt {Reset\_Counter}, \texttt {Increase\_counter} y \texttt {Watchdog\_Emgy} (Stateflow)}{figure.49}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Modelado matemático del sistema físico}{7}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Subsistema \textit  {Trolley}}{7}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}Accionamiento de traslación del carro}{8}{subsubsection.2.1.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Esquema simplificado del mecanismo de accionamiento de traslación del carro.}}{8}{figure.1}\protected@file@percent }
+\newlabel{fig:esquema-acc-carro}{{1}{8}{Esquema simplificado del mecanismo de accionamiento de traslación del carro}{figure.1}{}}
+\newlabel{eq:mov-tambor-t}{{1}{8}{Accionamiento de traslación del carro}{equation.1}{}}
+\newlabel{eq:mov-motor-t}{{2}{8}{Accionamiento de traslación del carro}{equation.2}{}}
+\newlabel{eq:relacion-t}{{3}{8}{Accionamiento de traslación del carro}{equation.3}{}}
+\newlabel{eq:acc-carro-ede}{{5}{8}{Accionamiento de traslación del carro}{equation.5}{}}
+\@writefile{toc}{\contentsline {paragraph}{Freno de operación del carro (eje rápido motor).}{9}{section*.5}\protected@file@percent }
+\newlabel{eq:freno-t-off}{{6}{9}{Freno de operación del carro (eje rápido motor)}{equation.6}{}}
+\newlabel{eq:freno-t-off-tanh}{{7}{9}{Freno de operación del carro (eje rápido motor)}{equation.7}{}}
+\newlabel{eq:freno-t-on}{{8}{9}{Freno de operación del carro (eje rápido motor)}{equation.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Diagrama de bloques del modelo del freno de operación del carro (Simulink).}}{9}{figure.2}\protected@file@percent }
+\newlabel{fig:bloques-freno-t}{{2}{9}{Diagrama de bloques del modelo del freno de operación del carro (Simulink)}{figure.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Diagrama de bloques del accionamiento de traslación del carro (Simulink).}}{10}{figure.3}\protected@file@percent }
+\newlabel{fig:bloques-acc-carro}{{3}{10}{Diagrama de bloques del accionamiento de traslación del carro (Simulink)}{figure.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.2}Modelo de cable elástico con amortiguamiento del carro}{10}{subsubsection.2.1.2}\protected@file@percent }
+\newlabel{eq:cable-carro}{{9}{10}{Modelo de cable elástico con amortiguamiento del carro}{equation.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Diagrama de bloques del modelo de cable elástico-amortiguado del carro (Simulink).}}{10}{figure.4}\protected@file@percent }
+\newlabel{fig:bloques-cable-carro}{{4}{10}{Diagrama de bloques del modelo de cable elástico-amortiguado del carro (Simulink)}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.3}Ecuación de movimiento del carro}{11}{subsubsection.2.1.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Esquema de variables del subsistema Carro--Cable--Carga.}}{11}{figure.5}\protected@file@percent }
+\newlabel{fig:esquema-carro}{{5}{11}{Esquema de variables del subsistema Carro--Cable--Carga}{figure.5}{}}
+\newlabel{eq:mov-carro}{{10}{11}{Ecuación de movimiento del carro}{equation.10}{}}
+\newlabel{eq:ede-carro}{{11}{11}{Ecuación de movimiento del carro}{equation.11}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Diagrama de bloques de la ecuación de movimiento del carro (Simulink).}}{12}{figure.6}\protected@file@percent }
+\newlabel{fig:bloques-mov-carro}{{6}{12}{Diagrama de bloques de la ecuación de movimiento del carro (Simulink)}{figure.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.4}Subsistema \textit  {Trolley} completo}{12}{subsubsection.2.1.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Diagrama de bloques del subsistema \textit  {Trolley} completo (Simulink). Las entradas $\theta _l$ y $F_{hw}$ se muestran desacopladas del subsistema \textit  {Hoist} para mayor claridad.}}{13}{figure.7}\protected@file@percent }
+\newlabel{fig:bloques-trolley}{{7}{13}{Diagrama de bloques del subsistema \textit {Trolley} completo (Simulink). Las entradas $\theta _l$ y $F_{hw}$ se muestran desacopladas del subsistema \textit {Hoist} para mayor claridad}{figure.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Subsistema \textit  {Hoist}}{13}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Accionamiento de izaje de carga}{13}{subsubsection.2.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Esquema simplificado del mecanismo de accionamiento de izaje.}}{14}{figure.8}\protected@file@percent }
+\newlabel{fig:esquema-acc-hoist}{{8}{14}{Esquema simplificado del mecanismo de accionamiento de izaje}{figure.8}{}}
+\newlabel{eq:pos-carga-h}{{12}{14}{Accionamiento de izaje de carga}{equation.12}{}}
+\newlabel{eq:reeving-h}{{13}{14}{Accionamiento de izaje de carga}{equation.13}{}}
+\newlabel{eq:mov-tambor-h}{{14}{14}{Accionamiento de izaje de carga}{equation.14}{}}
+\newlabel{eq:relacion-h}{{16}{14}{Accionamiento de izaje de carga}{equation.16}{}}
+\newlabel{eq:despeje-h}{{17}{14}{Accionamiento de izaje de carga}{equation.17}{}}
+\newlabel{eq:mov-motor-h}{{18}{14}{Accionamiento de izaje de carga}{equation.18}{}}
+\newlabel{eq:acc-hoist-ede}{{24}{15}{Accionamiento de izaje de carga}{equation.24}{}}
+\@writefile{toc}{\contentsline {paragraph}{Frenos de operación y de emergencia del izaje.}{15}{section*.6}\protected@file@percent }
+\newlabel{eq:freno-h-off}{{25}{15}{Frenos de operación y de emergencia del izaje}{equation.25}{}}
+\newlabel{eq:freno-h-on}{{26}{15}{Frenos de operación y de emergencia del izaje}{equation.26}{}}
+\newlabel{eq:freno-he-off}{{27}{15}{Frenos de operación y de emergencia del izaje}{equation.27}{}}
+\newlabel{eq:freno-he-on}{{28}{16}{Frenos de operación y de emergencia del izaje}{equation.28}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Diagrama de bloques del modelo del freno de operación del izaje (Simulink).}}{16}{figure.9}\protected@file@percent }
+\newlabel{fig:bloques-freno-h-op}{{9}{16}{Diagrama de bloques del modelo del freno de operación del izaje (Simulink)}{figure.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Diagrama de bloques del modelo del freno de emergencia del izaje (Simulink).}}{16}{figure.10}\protected@file@percent }
+\newlabel{fig:bloques-freno-h-em}{{10}{16}{Diagrama de bloques del modelo del freno de emergencia del izaje (Simulink)}{figure.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Diagrama de bloques del accionamiento de izaje de carga (Simulink).}}{17}{figure.11}\protected@file@percent }
+\newlabel{fig:bloques-acc-hoist}{{11}{17}{Diagrama de bloques del accionamiento de izaje de carga (Simulink)}{figure.11}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Modelo de cable elástico-amortiguado de izaje}{17}{subsubsection.2.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{ON — Cable tensado.}{17}{section*.7}\protected@file@percent }
+\newlabel{eq:cable-hoist}{{29}{17}{ON — Cable tensado}{equation.29}{}}
+\newlabel{eq:Khw}{{30}{17}{ON — Cable tensado}{equation.30}{}}
+\newlabel{eq:bhw}{{31}{17}{ON — Cable tensado}{equation.31}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Diagrama de bloques del modelo del cable de izaje — cálculo de $F_{hw}$ (Simulink).}}{18}{figure.12}\protected@file@percent }
+\newlabel{fig:bloques-cable-hoist}{{12}{18}{Diagrama de bloques del modelo del cable de izaje — cálculo de $F_{hw}$ (Simulink)}{figure.12}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Diagrama de bloques del cálculo de la rigidez equivalente $K_{hw}(l_h)$ (Simulink).}}{18}{figure.13}\protected@file@percent }
+\newlabel{fig:bloques-Khw}{{13}{18}{Diagrama de bloques del cálculo de la rigidez equivalente $K_{hw}(l_h)$ (Simulink)}{figure.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Diagrama de bloques del cálculo del amortiguamiento equivalente $b_{hw}(l_h)$ (Simulink).}}{18}{figure.14}\protected@file@percent }
+\newlabel{fig:bloques-bhw}{{14}{18}{Diagrama de bloques del cálculo del amortiguamiento equivalente $b_{hw}(l_h)$ (Simulink)}{figure.14}{}}
+\@writefile{toc}{\contentsline {paragraph}{OFF — Cable flojo.}{19}{section*.8}\protected@file@percent }
+\newlabel{eq:cable-hoist-flojo}{{32}{19}{OFF — Cable flojo}{equation.32}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}Movimiento de la carga}{19}{subsubsection.2.2.3}\protected@file@percent }
+\newlabel{eq:tlk-mass}{{33}{19}{Movimiento de la carga}{equation.33}{}}
+\newlabel{eq:tlk-hc}{{34}{19}{Movimiento de la carga}{equation.34}{}}
+\@writefile{toc}{\contentsline {paragraph}{Ecuación de movimiento en el eje $x$ (horizontal).}{19}{section*.9}\protected@file@percent }
+\newlabel{eq:mov-carga-x}{{35}{19}{Ecuación de movimiento en el eje $x$ (horizontal)}{equation.35}{}}
+\newlabel{eq:Fcx}{{37}{19}{Ecuación de movimiento en el eje $x$ (horizontal)}{equation.37}{}}
+\@writefile{toc}{\contentsline {paragraph}{Ecuación de movimiento en el eje $y$ (vertical).}{19}{section*.10}\protected@file@percent }
+\newlabel{eq:mov-carga-y}{{38}{19}{Ecuación de movimiento en el eje $y$ (vertical)}{equation.38}{}}
+\newlabel{eq:Fcy}{{40}{20}{Ecuación de movimiento en el eje $y$ (vertical)}{equation.40}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Diagrama de bloques del movimiento de la carga completo (Simulink).}}{20}{figure.15}\protected@file@percent }
+\newlabel{fig:mov-carga-completo}{{15}{20}{Diagrama de bloques del movimiento de la carga completo (Simulink)}{figure.15}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Diagrama de bloques del cálculo de la fuerza de contacto vertical $F_{cy}$ (Simulink).}}{21}{figure.16}\protected@file@percent }
+\newlabel{fig:mov-carga-fcy}{{16}{21}{Diagrama de bloques del cálculo de la fuerza de contacto vertical $F_{cy}$ (Simulink)}{figure.16}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Diagrama de bloques del cálculo de la fuerza de contacto horizontal $F_{cx}$ (Simulink).}}{21}{figure.17}\protected@file@percent }
+\newlabel{fig:mov-carga-fcx}{{17}{21}{Diagrama de bloques del cálculo de la fuerza de contacto horizontal $F_{cx}$ (Simulink)}{figure.17}{}}
+\@writefile{toc}{\contentsline {paragraph}{Generación de masa aleatoria del container.}{21}{section*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.4}Ángulo de balanceo y longitud real del cable}{22}{subsubsection.2.2.4}\protected@file@percent }
+\newlabel{eq:theta-l}{{41}{22}{Ángulo de balanceo y longitud real del cable}{equation.41}{}}
+\newlabel{eq:longitud-l}{{42}{22}{Ángulo de balanceo y longitud real del cable}{equation.42}{}}
+\newlabel{eq:dldt}{{43}{22}{Ángulo de balanceo y longitud real del cable}{equation.43}{}}
+\newlabel{eq:dtheta-l}{{44}{22}{Ángulo de balanceo y longitud real del cable}{equation.44}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Diagrama de bloques para el cálculo de $l(t)$, $\dot  {l}(t)$, $\theta _l(t)$ y $\dot  {\theta }_l(t)$ (Simulink).}}{23}{figure.18}\protected@file@percent }
+\newlabel{fig:bloques-theta-l}{{18}{23}{Diagrama de bloques para el cálculo de $l(t)$, $\dot {l}(t)$, $\theta _l(t)$ y $\dot {\theta }_l(t)$ (Simulink)}{figure.18}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.5}Subsistema \textit  {Hoist} completo}{23}{subsubsection.2.2.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Diagrama de bloques del subsistema \textit  {Hoist} completo (Simulink). Las entradas externas se muestran desacopladas del resto del sistema para mayor claridad.}}{24}{figure.19}\protected@file@percent }
+\newlabel{fig:bloques-hoist}{{19}{24}{Diagrama de bloques del subsistema \textit {Hoist} completo (Simulink). Las entradas externas se muestran desacopladas del resto del sistema para mayor claridad}{figure.19}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Generación del perfil de obstáculos $y_{c0}(x,t)$}{24}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Firma e inicialización de estado persistente.}{25}{section*.12}\protected@file@percent }
+\newlabel{lst:perfil-suelo-init}{{1}{25}{Firma e inicialización de la \textit {MATLAB Function} \texttt {perfil\_suelo}}{lstlisting.1}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}Firma e inicialización de la \textit  {MATLAB Function} \texttt  {perfil\_suelo}.}{25}{lstlisting.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Detección de flancos de TLK y estado de enganche.}{26}{section*.13}\protected@file@percent }
+\newlabel{lst:perfil-suelo-tlk}{{2}{26}{Detección de flancos de la señal $TLK$ y actualización de \texttt {carga\_tomada}}{lstlisting.2}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}Detección de flancos de la señal $TLK$ y actualización de \texttt  {carga\_tomada}.}{26}{lstlisting.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Lógica de interacción con camiones y actualización del perfil.}{27}{section*.14}\protected@file@percent }
+\newlabel{lst:perfil-suelo-camiones}{{3}{27}{Identificación del camión bajo la carga y actualización del perfil de contenedores}{lstlisting.3}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}Identificación del camión bajo la carga y actualización del perfil de contenedores.}{27}{lstlisting.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Reaparición probabilística de camiones y cálculo de altura total.}{28}{section*.15}\protected@file@percent }
+\newlabel{lst:perfil-suelo-altura}{{4}{28}{Reaparición de camiones, altura de contacto y resolución de transiciones}{lstlisting.4}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4}Reaparición de camiones, altura de contacto y resolución de transiciones.}{28}{lstlisting.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Lectura anticipada del LIDAR y salidas.}{29}{section*.16}\protected@file@percent }
+\newlabel{lst:perfil-suelo-lidar}{{5}{29}{Lectura del sensor LIDAR y generación de salidas}{lstlisting.5}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5}Lectura del sensor LIDAR y generación de salidas.}{29}{lstlisting.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces Perfil de obstáculos $y_{c0}(x,t)$ (línea continua) y lectura anticipada del sensor LIDAR $y_{c0,lidar}(x,t)$ (línea discontinua) durante una secuencia de carga/descarga.}}{30}{figure.20}\protected@file@percent }
+\newlabel{fig:perfil-suelo}{{20}{30}{Perfil de obstáculos $y_{c0}(x,t)$ (línea continua) y lectura anticipada del sensor LIDAR $y_{c0,lidar}(x,t)$ (línea discontinua) durante una secuencia de carga/descarga}{figure.20}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Fines de carrera y detectores de sobrevelocidad}{30}{subsection.2.4}\protected@file@percent }
+\newlabel{sec:fines-carrera}{{2.4}{30}{Fines de carrera y detectores de sobrevelocidad}{subsection.2.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Fines de carrera de traslación del carro.}{31}{section*.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Fines de carrera de izaje.}{31}{section*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Detector de sobrevelocidad.}{31}{section*.19}\protected@file@percent }
+\newlabel{eq:overspeed}{{45}{31}{Detector de sobrevelocidad}{equation.45}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {21}{\ignorespaces Diagrama de bloques de fines de carrera y detectores de sobrevelocidad (Simulink).}}{32}{figure.21}\protected@file@percent }
+\newlabel{fig:bloques-fc}{{21}{32}{Diagrama de bloques de fines de carrera y detectores de sobrevelocidad (Simulink)}{figure.21}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Moduladores de torque de los accionamientos}{32}{subsection.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Modulador del carro.}{33}{section*.20}\protected@file@percent }
+\newlabel{eq:mod-carro}{{46}{33}{Modulador del carro}{equation.46}{}}
+\newlabel{eq:mod-carro-lim}{{47}{33}{Modulador del carro}{equation.47}{}}
+\@writefile{toc}{\contentsline {paragraph}{Modulador del izaje — con \textit  {Field Weakening}.}{33}{section*.21}\protected@file@percent }
+\newlabel{eq:mod-hoist}{{48}{33}{Modulador del izaje — con \textit {Field Weakening}}{equation.48}{}}
+\newlabel{eq:mod-hoist-lim}{{49}{33}{Modulador del izaje — con \textit {Field Weakening}}{equation.49}{}}
+\newlabel{eq:field-weakening}{{50}{33}{Modulador del izaje — con \textit {Field Weakening}}{equation.50}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {22}{\ignorespaces Diagrama de bloques del cálculo de $T_{hm\,Max}(t)$ con \textit  {Field Weakening} (Simulink).}}{33}{figure.22}\protected@file@percent }
+\newlabel{fig:bloques-fw}{{22}{33}{Diagrama de bloques del cálculo de $T_{hm\,Max}(t)$ con \textit {Field Weakening} (Simulink)}{figure.22}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {23}{\ignorespaces Diagrama de bloques del subsistema de moduladores de torque del carro y del izaje (Simulink).}}{34}{figure.23}\protected@file@percent }
+\newlabel{fig:bloques-moduladores}{{23}{34}{Diagrama de bloques del subsistema de moduladores de torque del carro y del izaje (Simulink)}{figure.23}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Sistema físico completo}{34}{subsection.2.6}\protected@file@percent }
+\newlabel{sec:sistema-completo}{{2.6}{34}{Sistema físico completo}{subsection.2.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Salidas sensadas.}{35}{section*.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Señales de fines de carrera y sobrevelocidad.}{35}{section*.23}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {24}{\ignorespaces Diagrama de bloques del sistema físico completo (Simulink).}}{36}{figure.24}\protected@file@percent }
+\newlabel{fig:sistema-completo}{{24}{36}{Diagrama de bloques del sistema físico completo (Simulink)}{figure.24}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Sistema híbrido de control y protección}{37}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Nivel 2: Control Regulatorio}{37}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Controlador de traslación del carro}{37}{subsubsection.3.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Análisis de controlabilidad y observabilidad.}{37}{section*.24}\protected@file@percent }
+\newlabel{eq:params-eq-t}{{51}{37}{Análisis de controlabilidad y observabilidad}{equation.51}{}}
+\newlabel{eq:ss-carro}{{52}{38}{Análisis de controlabilidad y observabilidad}{equation.52}{}}
+\newlabel{eq:wc-t}{{53}{38}{Análisis de controlabilidad y observabilidad}{equation.53}{}}
+\newlabel{eq:wo-t}{{54}{38}{Análisis de controlabilidad y observabilidad}{equation.54}{}}
+\newlabel{eq:rank-t}{{55}{38}{Análisis de controlabilidad y observabilidad}{equation.55}{}}
+\newlabel{eq:rank-obs-t}{{56}{38}{Análisis de controlabilidad y observabilidad}{equation.56}{}}
+\@writefile{toc}{\contentsline {paragraph}{Polos a lazo abierto del carro.}{38}{section*.25}\protected@file@percent }
+\newlabel{eq:cinematica-t}{{57}{38}{Polos a lazo abierto del carro}{equation.57}{}}
+\newlabel{eq:Ftw-despeje}{{58}{39}{Polos a lazo abierto del carro}{equation.58}{}}
+\newlabel{eq:Mteq-bteq}{{60}{39}{Polos a lazo abierto del carro}{equation.60}{}}
+\newlabel{eq:mov-equiv-t}{{61}{39}{Polos a lazo abierto del carro}{equation.61}{}}
+\newlabel{eq:ft-vel-t}{{62}{39}{Polos a lazo abierto del carro}{equation.62}{}}
+\newlabel{eq:ft-pos-t}{{63}{39}{Polos a lazo abierto del carro}{equation.63}{}}
+\newlabel{eq:polos-LA-t}{{64}{39}{Polos a lazo abierto del carro}{equation.64}{}}
+\@writefile{toc}{\contentsline {paragraph}{Diseño del controlador de posición del carro.}{39}{section*.26}\protected@file@percent }
+\newlabel{eq:pid-t}{{66}{39}{Diseño del controlador de posición del carro}{equation.66}{}}
+\newlabel{eq:ft-lc-t}{{68}{40}{Diseño del controlador de posición del carro}{equation.68}{}}
+\newlabel{eq:pol-des-t}{{69}{40}{Diseño del controlador de posición del carro}{equation.69}{}}
+\newlabel{eq:ganancias-t}{{70}{40}{Diseño del controlador de posición del carro}{equation.70}{}}
+\@writefile{toc}{\contentsline {paragraph}{Lazo externo de posición — generación de consigna de velocidad.}{40}{section*.27}\protected@file@percent }
+\newlabel{eq:ft-pos-ext}{{73}{40}{Lazo externo de posición — generación de consigna de velocidad}{equation.73}{}}
+\newlabel{lst:ctrl-pos-ext}{{6}{41}{Lazo externo de posición del carro: generación de consigna de velocidad}{lstlisting.6}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6}Lazo externo de posición del carro: generación de consigna de velocidad.}{41}{lstlisting.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Implementación discreta en Simulink.}{41}{section*.28}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {25}{\ignorespaces Subsistema integrador discreto por método de Tustin, reutilizado en todos los controladores y observadores del proyecto.}}{41}{figure.25}\protected@file@percent }
+\newlabel{fig:integrador-tustin}{{25}{41}{Subsistema integrador discreto por método de Tustin, reutilizado en todos los controladores y observadores del proyecto}{figure.25}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {26}{\ignorespaces Diagrama de bloques del controlador de traslación del carro discretizado (Simulink, $T_{s2} = 1$\,ms).}}{42}{figure.26}\protected@file@percent }
+\newlabel{fig:ctrl-carro-discreto}{{26}{42}{Diagrama de bloques del controlador de traslación del carro discretizado (Simulink, $T_{s2} = 1$\,ms)}{figure.26}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {27}{\ignorespaces Diagrama de bloques del observador de estados del carro discretizado (Simulink, $T_{s2} = 1$\,ms).}}{42}{figure.27}\protected@file@percent }
+\newlabel{fig:obs-carro-discreto}{{27}{42}{Diagrama de bloques del observador de estados del carro discretizado (Simulink, $T_{s2} = 1$\,ms)}{figure.27}{}}
+\@writefile{toc}{\contentsline {paragraph}{Desempeño del controlador de traslación.}{43}{section*.29}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {28}{\ignorespaces Traslación del carro — velocidad: consigna $v_t^*(t)$, estimada $\hat  {v}_t(t)$, velocidad en el tambor $\hat  {v}_{td}(t)$ y simulada $v_t(t)$ (spreader vacío, perfil trapezoidal).}}{43}{figure.28}\protected@file@percent }
+\newlabel{fig:carro-vel-cmp}{{28}{43}{Traslación del carro — velocidad: consigna $v_t^*(t)$, estimada $\hat {v}_t(t)$, velocidad en el tambor $\hat {v}_{td}(t)$ y simulada $v_t(t)$ (spreader vacío, perfil trapezoidal)}{figure.28}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {29}{\ignorespaces Traslación del carro — posición: consigna $x_t^*(t)$, estimada $\hat  {x}_t(t)$ y simulada $x_t(t)$ (carga máxima, perfil trapezoidal).}}{44}{figure.29}\protected@file@percent }
+\newlabel{fig:carro-pos-cmp}{{29}{44}{Traslación del carro — posición: consigna $x_t^*(t)$, estimada $\hat {x}_t(t)$ y simulada $x_t(t)$ (carga máxima, perfil trapezoidal)}{figure.29}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {30}{\ignorespaces Traslación del carro — comparativa de torque: consigna $T_{tm}^*(t)$ y salida del modulador $T_{tm}(t)$ (spreader vacío, perfil trapezoidal).}}{44}{figure.30}\protected@file@percent }
+\newlabel{fig:carro-torque}{{30}{44}{Traslación del carro — comparativa de torque: consigna $T_{tm}^*(t)$ y salida del modulador $T_{tm}(t)$ (spreader vacío, perfil trapezoidal)}{figure.30}{}}
+\newlabel{eq:T-friccion-carro}{{74}{44}{Desempeño del controlador de traslación}{equation.74}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Controlador de izaje de la carga}{45}{subsubsection.3.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Análisis de controlabilidad y observabilidad.}{45}{section*.30}\protected@file@percent }
+\newlabel{eq:params-eq-h}{{75}{45}{Análisis de controlabilidad y observabilidad}{equation.75}{}}
+\newlabel{eq:ss-hoist}{{76}{45}{Análisis de controlabilidad y observabilidad}{equation.76}{}}
+\newlabel{eq:wc-h}{{77}{45}{Análisis de controlabilidad y observabilidad}{equation.77}{}}
+\newlabel{eq:wo-h}{{78}{45}{Análisis de controlabilidad y observabilidad}{equation.78}{}}
+\newlabel{eq:rank-c-h}{{79}{45}{Análisis de controlabilidad y observabilidad}{equation.79}{}}
+\newlabel{eq:rank-o-h}{{80}{45}{Análisis de controlabilidad y observabilidad}{equation.80}{}}
+\@writefile{toc}{\contentsline {paragraph}{Polos a lazo abierto del izaje.}{45}{section*.31}\protected@file@percent }
+\newlabel{eq:cinem-h}{{81}{45}{Polos a lazo abierto del izaje}{equation.81}{}}
+\newlabel{eq:mov-equiv-h-raw}{{82}{45}{Polos a lazo abierto del izaje}{equation.82}{}}
+\newlabel{eq:Fhw-despeje}{{83}{46}{Polos a lazo abierto del izaje}{equation.83}{}}
+\newlabel{eq:Jheq-bheq}{{84}{46}{Polos a lazo abierto del izaje}{equation.84}{}}
+\newlabel{eq:mov-equiv-h}{{85}{46}{Polos a lazo abierto del izaje}{equation.85}{}}
+\newlabel{eq:ft-lh}{{86}{46}{Polos a lazo abierto del izaje}{equation.86}{}}
+\newlabel{eq:polos-LA-h}{{87}{46}{Polos a lazo abierto del izaje}{equation.87}{}}
+\@writefile{toc}{\contentsline {paragraph}{Diseño del controlador de longitud de cable de izaje.}{46}{section*.32}\protected@file@percent }
+\newlabel{eq:pid-h}{{88}{46}{Diseño del controlador de longitud de cable de izaje}{equation.88}{}}
+\newlabel{eq:ganancias-h}{{90}{46}{Diseño del controlador de longitud de cable de izaje}{equation.90}{}}
+\@writefile{toc}{\contentsline {paragraph}{Implementación discreta en Simulink.}{47}{section*.33}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {31}{\ignorespaces Diagrama de bloques del controlador de izaje de carga discretizado (Simulink, $T_{s2}=1$\,ms).}}{47}{figure.31}\protected@file@percent }
+\newlabel{fig:ctrl-hoist-discreto}{{31}{47}{Diagrama de bloques del controlador de izaje de carga discretizado (Simulink, $T_{s2}=1$\,ms)}{figure.31}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {32}{\ignorespaces Diagrama de bloques del observador de estados del izaje discretizado (Simulink, $T_{s2}=1$\,ms).}}{47}{figure.32}\protected@file@percent }
+\newlabel{fig:obs-hoist-discreto}{{32}{47}{Diagrama de bloques del observador de estados del izaje discretizado (Simulink, $T_{s2}=1$\,ms)}{figure.32}{}}
+\@writefile{toc}{\contentsline {paragraph}{Lazo externo de posición de izaje — generación de consigna de velocidad de cable.}{47}{section*.34}\protected@file@percent }
+\newlabel{lst:ctrl-pos-hoist}{{7}{48}{Lazo externo de posición de izaje: generación de consigna de velocidad de cable}{lstlisting.7}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {7}Lazo externo de posición de izaje: generación de consigna de velocidad de cable.}{48}{lstlisting.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Desempeño del controlador de izaje.}{48}{section*.35}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {33}{\ignorespaces Izaje de carga — velocidad de cable: consigna $\dot  {l}_h^*(t)$, estimada $\hat  {\dot  {l}}_h(t)$ y simulada $\dot  {l}_h(t)$ (carga máxima, perfil trapezoidal).}}{49}{figure.33}\protected@file@percent }
+\newlabel{fig:izaje-vel-cmp}{{33}{49}{Izaje de carga — velocidad de cable: consigna $\dot {l}_h^*(t)$, estimada $\hat {\dot {l}}_h(t)$ y simulada $\dot {l}_h(t)$ (carga máxima, perfil trapezoidal)}{figure.33}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {34}{\ignorespaces Izaje de carga — posición: consigna $l_h^*(t)$, estimada $\hat  {l}_h(t)$ y simulada $l_h(t)$ (carga máxima, perfil trapezoidal).}}{49}{figure.34}\protected@file@percent }
+\newlabel{fig:izaje-pos-cmp}{{34}{49}{Izaje de carga — posición: consigna $l_h^*(t)$, estimada $\hat {l}_h(t)$ y simulada $l_h(t)$ (carga máxima, perfil trapezoidal)}{figure.34}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {35}{\ignorespaces Izaje de carga — comparativa de torque: consigna $T_{hm}^*(t)$ y torque a la salida del modulador $T_{hm}(t)$ (carga máxima, perfil trapezoidal).}}{50}{figure.35}\protected@file@percent }
+\newlabel{fig:izaje-torque}{{35}{50}{Izaje de carga — comparativa de torque: consigna $T_{hm}^*(t)$ y torque a la salida del modulador $T_{hm}(t)$ (carga máxima, perfil trapezoidal)}{figure.35}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.3}Controlador de oscilación de la carga}{50}{subsubsection.3.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Modelo dinámico del péndulo de longitud variable.}{50}{section*.36}\protected@file@percent }
+\newlabel{eq:sway-x}{{93}{50}{Modelo dinámico del péndulo de longitud variable}{equation.93}{}}
+\newlabel{eq:sway-y}{{94}{50}{Modelo dinámico del péndulo de longitud variable}{equation.94}{}}
+\newlabel{eq:sway-geom-x}{{95}{50}{Modelo dinámico del péndulo de longitud variable}{equation.95}{}}
+\newlabel{eq:sway-geom-y}{{96}{50}{Modelo dinámico del péndulo de longitud variable}{equation.96}{}}
+\newlabel{eq:sway-dxl}{{97}{50}{Modelo dinámico del péndulo de longitud variable}{equation.97}{}}
+\newlabel{eq:sway-dyl}{{98}{50}{Modelo dinámico del péndulo de longitud variable}{equation.98}{}}
+\newlabel{eq:sway-ddxl}{{99}{51}{Modelo dinámico del péndulo de longitud variable}{equation.99}{}}
+\newlabel{eq:sway-ddyl}{{100}{51}{Modelo dinámico del péndulo de longitud variable}{equation.100}{}}
+\@writefile{toc}{\contentsline {paragraph}{Eliminación de la tensión del cable — ecuación del péndulo.}{51}{section*.37}\protected@file@percent }
+\newlabel{eq:pendulo}{{102}{51}{Eliminación de la tensión del cable — ecuación del péndulo}{equation.102}{}}
+\@writefile{toc}{\contentsline {paragraph}{Modelo LPV del balanceo.}{51}{section*.38}\protected@file@percent }
+\newlabel{eq:lpv-sway}{{103}{51}{Modelo LPV del balanceo}{equation.103}{}}
+\newlabel{eq:Beq}{{104}{51}{Modelo LPV del balanceo}{equation.104}{}}
+\newlabel{eq:Keq}{{105}{51}{Modelo LPV del balanceo}{equation.105}{}}
+\newlabel{eq:Geq}{{106}{51}{Modelo LPV del balanceo}{equation.106}{}}
+\@writefile{toc}{\contentsline {paragraph}{Ley de control — corrección de velocidad proporcional al ángulo.}{52}{section*.39}\protected@file@percent }
+\newlabel{eq:ctrl-sway}{{107}{52}{Ley de control — corrección de velocidad proporcional al ángulo}{equation.107}{}}
+\newlabel{eq:aeff}{{108}{52}{Ley de control — corrección de velocidad proporcional al ángulo}{equation.108}{}}
+\newlabel{eq:lc-sway}{{109}{52}{Ley de control — corrección de velocidad proporcional al ángulo}{equation.109}{}}
+\@writefile{toc}{\contentsline {paragraph}{Sintonización — amortiguamiento crítico.}{52}{section*.40}\protected@file@percent }
+\newlabel{eq:wo-lpv}{{110}{52}{Sintonización — amortiguamiento crítico}{equation.110}{}}
+\newlabel{eq:Kdo}{{112}{52}{Sintonización — amortiguamiento crítico}{equation.112}{}}
+\@writefile{toc}{\contentsline {paragraph}{Activación progresiva — \textit  {gain scheduling} por zona de operación.}{52}{section*.41}\protected@file@percent }
+\newlabel{eq:escala}{{113}{53}{Activación progresiva — \textit {gain scheduling} por zona de operación}{equation.113}{}}
+\@writefile{toc}{\contentsline {paragraph}{Implementación en Simulink como \textit  {MATLAB Function}.}{53}{section*.42}\protected@file@percent }
+\newlabel{lst:ctrl-balanceo}{{8}{53}{MATLAB Function: controlador de balanceo (Simulink, $T_{s2}=1$\,ms)}{lstlisting.8}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {8}MATLAB Function: controlador de balanceo (Simulink, $T_{s2}=1$\,ms).}{53}{lstlisting.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Desempeño del controlador de balanceo.}{53}{section*.43}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {36}{\ignorespaces Controlador de balanceo — velocidad: consigna original $v_t^*(t)$ y consigna modificada por el controlador de balanceo $v_{t,mod}^*(t)$.}}{54}{figure.36}\protected@file@percent }
+\newlabel{fig:sway-vel}{{36}{54}{Controlador de balanceo — velocidad: consigna original $v_t^*(t)$ y consigna modificada por el controlador de balanceo $v_{t,mod}^*(t)$}{figure.36}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {37}{\ignorespaces Controlador de balanceo — posición: consigna original $x_t^*(t)$, simulada $x_t(t)$ y estimada $\hat  {x}_t(t)$.}}{54}{figure.37}\protected@file@percent }
+\newlabel{fig:sway-pos}{{37}{54}{Controlador de balanceo — posición: consigna original $x_t^*(t)$, simulada $x_t(t)$ y estimada $\hat {x}_t(t)$}{figure.37}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {38}{\ignorespaces Controlador de balanceo — evolución conjunta de $\theta _l(t)$, $v_t(t)$ y $a_t(t)$ para analizar el comportamiento del ángulo de balanceo en cada región de aceleración y velocidad del carro.}}{55}{figure.38}\protected@file@percent }
+\newlabel{fig:sway-analisis}{{38}{55}{Controlador de balanceo — evolución conjunta de $\theta _l(t)$, $v_t(t)$ y $a_t(t)$ para analizar el comportamiento del ángulo de balanceo en cada región de aceleración y velocidad del carro}{figure.38}{}}
+\@writefile{toc}{\contentsline {paragraph}{Implementación en Simulink como \textit  {MATLAB Function}.}{55}{section*.44}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.4}Nivel 2 completo}{55}{subsubsection.3.1.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {39}{\ignorespaces Diagrama de bloques del Nivel~2 completo: controladores de traslación, izaje y oscilación integrados en Simulink ($T_{s2}=1$\,ms). Para mejorar la visibilidad del diagrama se han omitido las entradas a los generadores de trayectorias y otras consignas externas provenientes del Nivel~1.}}{56}{figure.39}\protected@file@percent }
+\newlabel{fig:nivel2-completo}{{39}{56}{Diagrama de bloques del Nivel~2 completo: controladores de traslación, izaje y oscilación integrados en Simulink ($T_{s2}=1$\,ms). Para mejorar la visibilidad del diagrama se han omitido las entradas a los generadores de trayectorias y otras consignas externas provenientes del Nivel~1}{figure.39}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Conversión de los diagramas de bloques del Nivel~2 a \textit  {MATLAB Function}}{56}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Controlador de traslación del carro}{56}{subsubsection.3.2.1}\protected@file@percent }
+\newlabel{lst:pid-carro}{{9}{56}{MATLAB Function: controlador PID de traslación del carro ($T_{s2}=1$\,ms)}{lstlisting.9}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {9}MATLAB Function: controlador PID de traslación del carro ($T_{s2}=1$\,ms).}{56}{lstlisting.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Observador de estados del carro}{57}{subsubsection.3.2.2}\protected@file@percent }
+\newlabel{lst:obs-carro}{{10}{57}{MATLAB Function: observador de Luenberger del carro ($T_{s2}=1$\,ms)}{lstlisting.10}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {10}MATLAB Function: observador de Luenberger del carro ($T_{s2}=1$\,ms).}{57}{lstlisting.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Controlador de izaje de carga}{58}{subsubsection.3.2.3}\protected@file@percent }
+\newlabel{lst:pid-izaje}{{11}{58}{MATLAB Function: controlador PID de izaje de carga ($T_{s2}=1$\,ms)}{lstlisting.11}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {11}MATLAB Function: controlador PID de izaje de carga ($T_{s2}=1$\,ms).}{58}{lstlisting.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}Observador de estados del izaje}{58}{subsubsection.3.2.4}\protected@file@percent }
+\newlabel{lst:obs-izaje}{{12}{58}{MATLAB Function: observador de Luenberger del izaje ($T_{s2}=1$\,ms)}{lstlisting.12}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {12}MATLAB Function: observador de Luenberger del izaje ($T_{s2}=1$\,ms).}{58}{lstlisting.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.5}Controlador paralelo de balanceo}{59}{subsubsection.3.2.5}\protected@file@percent }
+\newlabel{lst:ctrl-balanceo-final}{{13}{59}{MATLAB Function: controlador paralelo de balanceo ($T_{s2}=1$\,ms)}{lstlisting.13}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {13}MATLAB Function: controlador paralelo de balanceo ($T_{s2}=1$\,ms).}{59}{lstlisting.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Nivel 1: Control Supervisor}{59}{subsection.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {40}{\ignorespaces Esquema de entradas y salidas del Nivel~1.}}{60}{figure.40}\protected@file@percent }
+\newlabel{fig:nivel1-io}{{40}{60}{Esquema de entradas y salidas del Nivel~1}{figure.40}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Estructura general — Heartbeat y estado OFF}{60}{subsubsection.3.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {41}{\ignorespaces Estructura paralela del Nivel~1: \texttt  {Heartbeat\_Generator} y estado \texttt  {OFF} de \texttt  {Supervisory\_Control}.}}{61}{figure.41}\protected@file@percent }
+\newlabel{fig:nivel1-off-heartbeat}{{41}{61}{Estructura paralela del Nivel~1: \texttt {Heartbeat\_Generator} y estado \texttt {OFF} de \texttt {Supervisory\_Control}}{figure.41}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Lógica de frenos}{61}{subsubsection.3.3.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {42}{\ignorespaces Lógica de frenos: subestados paralelos \texttt  {BRK\_t\_Logic} y \texttt  {BRK\_h\_Logic}.}}{62}{figure.42}\protected@file@percent }
+\newlabel{fig:nivel1-brk}{{42}{62}{Lógica de frenos: subestados paralelos \texttt {BRK\_t\_Logic} y \texttt {BRK\_h\_Logic}}{figure.42}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Fines de carrera}{62}{subsubsection.3.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {43}{\ignorespaces Subestado \texttt  {Limit\_Switch}: cuatro ramas paralelas de detección de fines de carrera.}}{63}{figure.43}\protected@file@percent }
+\newlabel{fig:nivel1-fc}{{43}{63}{Subestado \texttt {Limit\_Switch}: cuatro ramas paralelas de detección de fines de carrera}{figure.43}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.4}Modos de operación}{63}{subsubsection.3.3.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {44}{\ignorespaces Subestado \texttt  {Mode}: lógica de conmutación entre operación manual y automática.}}{64}{figure.44}\protected@file@percent }
+\newlabel{fig:nivel1-mode}{{44}{64}{Subestado \texttt {Mode}: lógica de conmutación entre operación manual y automática}{figure.44}{}}
+\@writefile{toc}{\contentsline {paragraph}{Función \texttt  {rate\_limiter}.}{64}{section*.45}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.5}Lógica de \textit  {twistlocks}}{65}{subsubsection.3.3.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {45}{\ignorespaces Subestado \texttt  {TLK\_Logic}: lógica de apertura y cierre de \textit  {twistlocks} con condición de seguridad sobre la fuerza en cable.}}{65}{figure.45}\protected@file@percent }
+\newlabel{fig:nivel1-tlk}{{45}{65}{Subestado \texttt {TLK\_Logic}: lógica de apertura y cierre de \textit {twistlocks} con condición de seguridad sobre la fuerza en cable}{figure.45}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.6}Control de balanceo de carga}{65}{subsubsection.3.3.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {46}{\ignorespaces Subestado \texttt  {Sway\_Control\_Mode}: habilitación del controlador de balanceo con condición de longitud mínima de cable.}}{66}{figure.46}\protected@file@percent }
+\newlabel{fig:nivel1-sway}{{46}{66}{Subestado \texttt {Sway\_Control\_Mode}: habilitación del controlador de balanceo con condición de longitud mínima de cable}{figure.46}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.7}Mapa LIDAR}{66}{subsubsection.3.3.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {47}{\ignorespaces Subestado \texttt  {Lidar\_Map}: construcción incremental del mapa de alturas y estimación de pilas de contenedores a partir del LIDAR.}}{67}{figure.47}\protected@file@percent }
+\newlabel{fig:nivel1-lidar}{{47}{67}{Subestado \texttt {Lidar\_Map}: construcción incremental del mapa de alturas y estimación de pilas de contenedores a partir del LIDAR}{figure.47}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.8}Banderas de movimiento}{67}{subsubsection.3.3.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Carro — \texttt  {Trolley\_Movement\_Flags}.}{67}{section*.46}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {48}{\ignorespaces Subestado \texttt  {Trolley\_Movement\_Flags}: detección de carro detenido con condición de balanceo amortiguado.}}{68}{figure.48}\protected@file@percent }
+\newlabel{fig:nivel1-trolley-flags}{{48}{68}{Subestado \texttt {Trolley\_Movement\_Flags}: detección de carro detenido con condición de balanceo amortiguado}{figure.48}{}}
+\@writefile{toc}{\contentsline {paragraph}{Izaje — \texttt  {Hoist\_Movement\_Flags}.}{68}{section*.47}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {49}{\ignorespaces Subestado \texttt  {Hoist\_Movement\_Flags}: detección de izaje detenido.}}{68}{figure.49}\protected@file@percent }
+\newlabel{fig:nivel1-hoist-flags}{{49}{68}{Subestado \texttt {Hoist\_Movement\_Flags}: detección de izaje detenido}{figure.49}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.9}Planificador de trayectorias}{68}{subsubsection.3.3.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Escaneo LIDAR y retorno a \textit  {homing}.}{69}{section*.48}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Selección de escenario.}{69}{section*.49}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {50}{\ignorespaces Estructura general del \texttt  {Trajectory\_Planner}: selección de escenario, escaneo LIDAR y retorno a \textit  {homing}.}}{70}{figure.50}\protected@file@percent }
+\newlabel{fig:nivel1-traj-planner}{{50}{70}{Estructura general del \texttt {Trajectory\_Planner}: selección de escenario, escaneo LIDAR y retorno a \textit {homing}}{figure.50}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.10}Ciclo operativo — \texttt  {Pickup\_And\_Place\_Loop}}{70}{subsubsection.3.3.10}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {51}{\ignorespaces Lógica de \texttt  {Init} dentro de \texttt  {Pickup\_And\_Place\_Loop}: reanudación por historia o inicialización según \texttt  {loop\_initialized}.}}{70}{figure.51}\protected@file@percent }
+\newlabel{fig:nivel1-loop-init}{{51}{70}{Lógica de \texttt {Init} dentro de \texttt {Pickup\_And\_Place\_Loop}: reanudación por historia o inicialización según \texttt {loop\_initialized}}{figure.51}{}}
+\@writefile{toc}{\contentsline {paragraph}{Escenario 1 — Descarga (tierra $\to $ barco).}{71}{section*.50}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Escenario 2 — Carga (barco $\to $ tierra).}{71}{section*.51}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Escenario 3 — Ciclo doble (descarga + carga).}{72}{section*.52}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {52}{\ignorespaces Estados del ciclo \texttt  {Pickup\_And\_Place\_Loop}.}}{72}{figure.52}\protected@file@percent }
+\newlabel{fig:nivel1-pickup-loop}{{52}{72}{Estados del ciclo \texttt {Pickup\_And\_Place\_Loop}}{figure.52}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.11}Generación de trayectorias}{72}{subsubsection.3.3.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Trayectoria del carro.}{73}{section*.53}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Trayectoria del izaje.}{73}{section*.54}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Nivel 0: Seguridad y Protección}{74}{subsection.3.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {53}{\ignorespaces Nivel~0 visto desde el exterior: entradas y salidas del autómata de seguridad y protección (Stateflow).}}{75}{figure.53}\protected@file@percent }
+\newlabel{fig:nivel0-io}{{53}{75}{Nivel~0 visto desde el exterior: entradas y salidas del autómata de seguridad y protección (Stateflow)}{figure.53}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {54}{\ignorespaces Diagrama de bloques del Nivel~0 completo: estados paralelos \texttt  {Emergencies} y \texttt  {Watchdog} (Stateflow, $T_{s0}=20$\,ms).}}{76}{figure.54}\protected@file@percent }
+\newlabel{fig:nivel0-completo}{{54}{76}{Diagrama de bloques del Nivel~0 completo: estados paralelos \texttt {Emergencies} y \texttt {Watchdog} (Stateflow, $T_{s0}=20$\,ms)}{figure.54}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}Emergencies}{76}{subsubsection.3.4.1}\protected@file@percent }
+\newlabel{sec:emergencies}{{3.4.1}{76}{Emergencies}{subsubsection.3.4.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {55}{\ignorespaces Estado \texttt  {Emergencies}: estado de entrada \texttt  {Stand\_By} (Stateflow).}}{77}{figure.55}\protected@file@percent }
+\newlabel{fig:emergencies-standby}{{55}{77}{Estado \texttt {Emergencies}: estado de entrada \texttt {Stand\_By} (Stateflow)}{figure.55}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {56}{\ignorespaces Estado \texttt  {Emergencies} completo: \texttt  {Stand\_By} y transiciones hacia \texttt  {Trolley\_Emgy}, \texttt  {Hoist\_Emgy} y \texttt  {Global\_Emgy} (Stateflow).}}{78}{figure.56}\protected@file@percent }
+\newlabel{fig:emergencies-completo}{{56}{78}{Estado \texttt {Emergencies} completo: \texttt {Stand\_By} y transiciones hacia \texttt {Trolley\_Emgy}, \texttt {Hoist\_Emgy} y \texttt {Global\_Emgy} (Stateflow)}{figure.56}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}Subestado \texttt  {Trolley\_Emgy}}{78}{subsubsection.3.4.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {57}{\ignorespaces Subestado \texttt  {Trolley\_Emgy} completo: \texttt  {Init}, \texttt  {Emgy\_Switch\_Min}, \texttt  {Emgy\_Switch\_Max}, \texttt  {Overspeed\_Delay}, \texttt  {Overspeed} y \texttt  {Solved} (Stateflow).}}{80}{figure.57}\protected@file@percent }
+\newlabel{fig:trolley-emgy-completo}{{57}{80}{Subestado \texttt {Trolley\_Emgy} completo: \texttt {Init}, \texttt {Emgy\_Switch\_Min}, \texttt {Emgy\_Switch\_Max}, \texttt {Overspeed\_Delay}, \texttt {Overspeed} y \texttt {Solved} (Stateflow)}{figure.57}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3}Subestado \texttt  {Hoist\_Emgy}}{80}{subsubsection.3.4.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {58}{\ignorespaces Subestado \texttt  {Hoist\_Emgy} completo: \texttt  {Init}, \texttt  {Emgy\_Switch\_Min}, \texttt  {Emgy\_Switch\_Max}, \texttt  {Overspeed\_Delay}, \texttt  {Overspeed} y \texttt  {Solved} (Stateflow).}}{82}{figure.58}\protected@file@percent }
+\newlabel{fig:hoist-emgy-completo}{{58}{82}{Subestado \texttt {Hoist\_Emgy} completo: \texttt {Init}, \texttt {Emgy\_Switch\_Min}, \texttt {Emgy\_Switch\_Max}, \texttt {Overspeed\_Delay}, \texttt {Overspeed} y \texttt {Solved} (Stateflow)}{figure.58}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.4}Subestado \texttt  {Global\_Emgy}}{82}{subsubsection.3.4.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {59}{\ignorespaces Subestado \texttt  {Global\_Emgy} completo: acciones de entrada, espera de $3$\,s y reconocimiento del operador en \texttt  {Waiting\_Global\_Emgy\_Ack} (Stateflow).}}{83}{figure.59}\protected@file@percent }
+\newlabel{fig:global-emgy-completo}{{59}{83}{Subestado \texttt {Global\_Emgy} completo: acciones de entrada, espera de $3$\,s y reconocimiento del operador en \texttt {Waiting\_Global\_Emgy\_Ack} (Stateflow)}{figure.59}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.5}Watchdog}{83}{subsubsection.3.4.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {60}{\ignorespaces Estado \texttt  {Watchdog} completo: \texttt  {Init}, \texttt  {Reset\_Counter}, \texttt  {Increase\_counter} y \texttt  {Watchdog\_Emgy} (Stateflow).}}{84}{figure.60}\protected@file@percent }
+\newlabel{fig:watchdog-completo}{{60}{84}{Estado \texttt {Watchdog} completo: \texttt {Init}, \texttt {Reset\_Counter}, \texttt {Increase\_counter} y \texttt {Watchdog\_Emgy} (Stateflow)}{figure.60}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Implementación de los Niveles 0 y 1 en CODESYS}{85}{section.4}\protected@file@percent }
+\newlabel{sec:codesys}{{4}{85}{Implementación de los Niveles 0 y 1 en CODESYS}{section.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Interfaz HMI}{86}{section.5}\protected@file@percent }
+\newlabel{sec:hmi}{{5}{86}{Interfaz HMI}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Control de mando — Joystick PS4}{86}{subsection.5.1}\protected@file@percent }
+\newlabel{sec:hmi-ps4}{{5.1}{86}{Control de mando — Joystick PS4}{subsection.5.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Script de diagnóstico (\texttt  {diagnostico\_control.py}).}{86}{section*.55}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {61}{\ignorespaces Script de diagnóstico \texttt  {diagnostico\_control.py}: visualización en tiempo real de ejes analógicos y botones digitales del control PS4 para identificación de índices (Python/pygame/matplotlib).}}{86}{figure.61}\protected@file@percent }
+\newlabel{fig:hmi-diagnostico}{{61}{86}{Script de diagnóstico \texttt {diagnostico\_control.py}: visualización en tiempo real de ejes analógicos y botones digitales del control PS4 para identificación de índices (Python/pygame/matplotlib)}{figure.61}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Mapeado del control PS4 DualShock~4: índices pygame y función asignada.}}{87}{table.1}\protected@file@percent }
+\newlabel{tab:ps4-mapping}{{1}{87}{Mapeado del control PS4 DualShock~4: índices pygame y función asignada}{table.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Script principal (\texttt  {controller\_reader.py}) — comunicación con Simulink y visualización.}{87}{section*.56}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {62}{\ignorespaces Visualización en tiempo real del script \texttt  {controller\_reader.py}: sticks analógicos, botones, barras de velocidad y panel de estado del control PS4 durante la operación de la grúa (Python/pygame/matplotlib).}}{88}{figure.62}\protected@file@percent }
+\newlabel{fig:hmi-controlador}{{62}{88}{Visualización en tiempo real del script \texttt {controller\_reader.py}: sticks analógicos, botones, barras de velocidad y panel de estado del control PS4 durante la operación de la grúa (Python/pygame/matplotlib)}{figure.62}{}}
+\@writefile{toc}{\contentsline {paragraph}{Recepción en Simulink — bloque \texttt  {UDP Receive} y desempaquetado.}{88}{section*.57}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {63}{\ignorespaces Configuración del bloque \texttt  {UDP Receive} en Simulink: puerto 5005, buffer de 14\,bytes, salida \texttt  {uint8} (Instrument Control Toolbox).}}{89}{figure.63}\protected@file@percent }
+\newlabel{fig:hmi-udp-config}{{63}{89}{Configuración del bloque \texttt {UDP Receive} en Simulink: puerto 5005, buffer de 14\,bytes, salida \texttt {uint8} (Instrument Control Toolbox)}{figure.63}{}}
+\newlabel{lst:parse-udp}{{14}{89}{\textit {MATLAB Function}: desempaquetado del datagrama UDP proveniente del control PS4}{lstlisting.14}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {14}\textit  {MATLAB Function}: desempaquetado del datagrama UDP proveniente del control PS4.}{89}{lstlisting.14}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {64}{\ignorespaces Bloque de lectura UDP completo en Simulink: \texttt  {UDP Receive} y \textit  {MATLAB Function} \texttt  {parse\_udp\_packet} con sus siete salidas hacia el sistema de control.}}{90}{figure.64}\protected@file@percent }
+\newlabel{fig:hmi-udp-completo}{{64}{90}{Bloque de lectura UDP completo en Simulink: \texttt {UDP Receive} y \textit {MATLAB Function} \texttt {parse\_udp\_packet} con sus siete salidas hacia el sistema de control}{figure.64}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Visualización en tiempo real — RT\_VIEW}{90}{subsection.5.2}\protected@file@percent }
+\newlabel{sec:hmi-rtview}{{5.2}{90}{Visualización en tiempo real — RT\_VIEW}{subsection.5.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Fuentes de datos — canales UDP.}{90}{section*.58}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Transmisor UDP en Simulink.}{91}{section*.59}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {65}{\ignorespaces Configuración del bloque \textit  {UDP Send} en Simulink para el canal de datos de RT\_VIEW (puerto~5010, loopback).}}{91}{figure.65}\protected@file@percent }
+\newlabel{fig:rt-udp-send}{{65}{91}{Configuración del bloque \textit {UDP Send} en Simulink para el canal de datos de RT\_VIEW (puerto~5010, loopback)}{figure.65}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {66}{\ignorespaces Subsistema transmisor completo en Simulink: multiplexado de señales y bloque \textit  {UDP Send} hacia RT\_VIEW.}}{92}{figure.66}\protected@file@percent }
+\newlabel{fig:rt-transmisor}{{66}{92}{Subsistema transmisor completo en Simulink: multiplexado de señales y bloque \textit {UDP Send} hacia RT\_VIEW}{figure.66}{}}
+\@writefile{toc}{\contentsline {paragraph}{Elementos de la visualización.}{92}{section*.60}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {67}{\ignorespaces Visualización 2D en tiempo real de la grúa STS (\texttt  {visualizacion\_grua.py}): vista central con geometría animada, panel izquierdo de control PS4 y panel derecho de variables de estado (Python/matplotlib).}}{93}{figure.67}\protected@file@percent }
+\newlabel{fig:rt-view}{{67}{93}{Visualización 2D en tiempo real de la grúa STS (\texttt {visualizacion\_grua.py}): vista central con geometría animada, panel izquierdo de control PS4 y panel derecho de variables de estado (Python/matplotlib)}{figure.67}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Panel de monitoreo en Simulink — Dashboard}{94}{subsection.5.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {68}{\ignorespaces Panel de monitoreo del sistema desarrollado con la librería \textit  {Dashboard} de Simulink.}}{94}{figure.68}\protected@file@percent }
+\newlabel{fig:hmi-dashboard}{{68}{94}{Panel de monitoreo del sistema desarrollado con la librería \textit {Dashboard} de Simulink}{figure.68}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Resultados}{95}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Rendimiento: ciclo simple}{95}{subsection.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Pruebas adicionales}{95}{subsection.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.1}Fines de carrera}{95}{subsubsection.6.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.2}Límites de sobrevelocidad}{95}{subsubsection.6.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.3}Emergencias}{95}{subsubsection.6.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.4}Sobrecarga}{95}{subsubsection.6.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.5}Estimación de masa}{95}{subsubsection.6.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Enlaces a videos}{95}{subsection.6.3}\protected@file@percent }
 \bibcite{guia2025}{1}
 \bibcite{unctad2023}{2}
 \bibcite{drewry2022}{3}
 \bibcite{zpmc2023}{4}
 \bibcite{iec61131}{5}
 \bibcite{opcua}{6}
-\@writefile{toc}{\contentsline {section}{Referencias}{60}{figure.49}\protected@file@percent }
-\newlabel{LastPage}{{3.3.5}{60}{Watchdog}{page.60}{}}
-\gdef\lastpage@lastpage{60}
-\gdef\lastpage@lastpageHy{60}
-\gdef \@abspage@last{60}
+\@writefile{toc}{\contentsline {section}{Referencias}{96}{subsection.6.3}\protected@file@percent }
+\newlabel{LastPage}{{6.3}{96}{Enlaces a videos}{page.96}{}}
+\gdef\lastpage@lastpage{96}
+\gdef\lastpage@lastpageHy{96}
+\gdef \@abspage@last{96}

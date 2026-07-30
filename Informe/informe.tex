@@ -32,6 +32,7 @@
 
 % --- Math & Other Utilities ---
 \usepackage{amsmath, amssymb}
+\usepackage{tabularx}
 \usepackage{float}
 \usepackage{url}
 \usepackage{listings}
@@ -115,7 +116,7 @@
 \fancyhead[R]{%
     \footnotesize
     Alumnos: Martín D., Sorrentino\\
-    Fecha: 12/06/26
+    Fecha: 29/07/26
 }
 
 % — Footer: centred page number —
@@ -445,7 +446,7 @@ proporcional a la velocidad angular del eje rápido pero no puede superar el tor
 de frenado $T_{tb\,Max}$. La formulación con $\tanh$ de~\eqref{eq:freno-t-off-tanh} aproxima
 la misma saturación con una función suave y diferenciable en todo el dominio, ventajosa
 para simulación continua. En operación normal el Nivel~1 (Control Supervisor) energiza el
-freno antes de iniciar cualquier movimiento (\textit{Torque Proving logic}) y lo
+freno antes de iniciar cualquier movimiento y lo
 desenergiza al detener el carro, garantizando la inmovilidad del sistema cuando el motor
 no está activo.
 
@@ -1068,85 +1069,304 @@ sección~\ref{sec:sistema-completo}, al ensamblar el modelo físico completo.
 \subsection{Generación del perfil de obstáculos \texorpdfstring{$y_{c0}(x,t)$}{yc0(x,t)}}
 
 El perfil de obstáculos $y_{c0}(x,t)$ representa la altura de la superficie de apoyo
-en función de la posición horizontal $x$ y el tiempo $t$. Este perfil evoluciona
-dinámicamente a medida que se depositan o retiran contenedores durante la operación.
-Se implementa como una \textit{MATLAB Function} en Simulink con variables persistentes,
-que mantienen el estado del perfil entre pasos de simulación.
-
-El modelo discretiza el recorrido del carro en una grilla de posiciones separadas por
-$W_c$ (ancho del container), y lleva la cuenta de contenedores apilados en cada celda.
-La altura total en cada punto es la suma de la altura fija de zona más la contribución
-de los contenedores apilados. La función genera dos salidas:
+en función de la posición horizontal $x$ y el tiempo $t$. Se implementa como una
+\textit{MATLAB Function} en Simulink con variables persistentes que mantienen el estado
+completo del entorno entre pasos de simulación. La versión extendida del modelo incorpora,
+además del apilado de contenedores en patio y barco, la presencia dinámica de camiones de
+transporte terrestre, la gestión de escenarios de carga/descarga y una lectura anticipada
+del sensor LIDAR\@. La función expone seis salidas:
 
 \begin{itemize}
     \item \textbf{\texttt{y\_c0\_contacto}}: altura real bajo la posición de la carga
     $x_l(t)$, utilizada en el modelo de fuerzas de contacto
     $F_{cx}$ y $F_{cy}$~\eqref{eq:Fcx}\eqref{eq:Fcy}.
-    \item \textbf{\texttt{y\_c0\_lidar}}: altura leída por el sensor LIDAR, ubicado a
-    $x_{lidar\_offset}$ por delante del spreader, que anticipa el perfil para la
-    planificación de trayectorias del Nivel~1.
+    \item \textbf{\texttt{y\_c0\_lidar}}: altura anticipada leída por el sensor LIDAR,
+    ubicado a $x_{lidar\_offset}$ por delante del spreader.
+    \item \textbf{\texttt{containers\_pillars\_state}}: vector con la altura (en número de
+    contenedores) de cada una de las 19 posiciones de apilado del patio/barco.
+    \item \textbf{\texttt{trucks\_state}}: vector de presencia de los 5 camiones
+    (1\,=\,presente, 0\,=\,ausente).
+    \item \textbf{\texttt{trucks\_has\_load}}: indica qué camiones llevan contenedor.
+    \item \textbf{\texttt{carga\_tomada}}: bandera que refleja si el spreader está
+    actualmente enganchado a una carga (señal $TLK$ activa).
 \end{itemize}
 
-La actualización del perfil se dispara por flancos de la señal $TLK$:
-\textbf{flanco descendente} (depósito de container: $TLK: 1\to 0$) incrementa el
-contador en la celda actual; \textbf{flanco ascendente} (toma de container:
-$TLK: 0\to 1$) lo decrementa.
+La implementación se describe a continuación dividida en bloques funcionales.
 
-\begin{lstlisting}[style=matlab, caption={MATLAB Function: generación del perfil de obstáculos $y_{c0}(x,t)$ (Simulink).}, label=lst:perfil-suelo]
-function [y_c0_contacto, y_c0_lidar] = perfil_suelo(...
-    x_t_min, x_t_max, Y_sb, W_c, y_h_min, H_c, ...
-    x_lidar_offset, x_l, TLK)
+% ------------------------------------------------------------------
+\paragraph{Firma e inicialización de estado persistente.}\leavevmode
 
-persistent n_containers x_grid tlk_prev
+\begin{lstlisting}[style=matlab, caption={Firma e inicialización de la \textit{MATLAB Function} \texttt{perfil\_suelo}.}, label=lst:perfil-suelo-init]
+function [y_c0_contacto, y_c0_lidar, containers_pillars_state, ...
+          trucks_state, trucks_has_load, carga_tomada] = ...
+    perfil_suelo(x_c0_left, x_c0_right, Y_sb, W_c, y_h_min, H_c, ...
+                 x_lidar_offset, x_l, container_pillars, TLK, x_t, ...
+                 trucks0, H_truck, Ts, rand_in, escenario, ...
+                 x_containers_left_lim, x_containers_right_lim, ...
+                 t_camion_transicion)
 
-%% Inicializacion de perfil
+persistent n_containers x_grid2 tlk_prev dx_grid idx_posiciones
+persistent trucks_state_p trucks_has_load_p idx_trucks lambda_truck grupo_camion
+persistent idx_zona_min idx_zona_max
+persistent truck_en_transicion truck_timer
+persistent carga_tomada_p
+
+coder.varsize('x_grid2',     [1, 10000], [false, true]);
+coder.varsize('n_containers', [1, 10000], [false, true]);
+
 if isempty(n_containers)
-    x_grid       = x_t_min : W_c : x_t_max;
-    n_containers = zeros(1, length(x_grid));
-    tlk_prev     = 0;
+    dx_grid  = 0.01;
+    x_grid2  = x_c0_left : dx_grid : x_c0_right;
+    n_containers = zeros(1, length(x_grid2));
+    tlk_prev     = false;
+
+    % Limites de la zona valida de contenedores
+    idx_zona_min = round((x_containers_left_lim  - x_c0_left) / dx_grid) + 1;
+    idx_zona_max = round((x_containers_right_lim - x_c0_left) / dx_grid) + 1;
+    idx_zona_min = max(1, min(length(x_grid2), idx_zona_min));
+    idx_zona_max = max(1, min(length(x_grid2), idx_zona_max));
+
+    % Carga inicial: 19 posiciones de pilas estaticas
+    n_pilares    = 19;
+    x_posiciones = linspace(x_containers_left_lim, x_containers_right_lim, n_pilares);
+    idx_posiciones   = zeros(1, 19);
+    medio_ancho_idx  = round((W_c/2) / dx_grid);
+    for k = 1:n_pilares
+        idx_pos = round((x_posiciones(k) - x_c0_left) / dx_grid) + 1;
+        idx_pos = max(1, min(length(x_grid2), idx_pos));
+        idx_posiciones(k) = idx_pos;
+        idx_ini = max([1, idx_pos - medio_ancho_idx, idx_zona_min]);
+        idx_fin = min([length(x_grid2), idx_pos + medio_ancho_idx, idx_zona_max]);
+        n_containers(idx_ini:idx_fin) = container_pillars(k);
+    end
+
+    % Inicializacion de camiones (5 posiciones fijas en zona muelle)
+    x_trucks_left = [-25 -20 -15 -10 -5];
+    idx_trucks = zeros(1, 5);
+    for k = 1:5
+        idx_t = round((x_trucks_left(k) - x_c0_left) / dx_grid) + 1;
+        idx_trucks(k) = max(1, min(length(x_grid2), idx_t));
+    end
+
+    trucks_state_p      = double(trucks0(:)');
+    trucks_has_load_p   = zeros(1, 5);
+    lambda_truck        = -log(0.5) / 60;
+    grupo_camion        = ones(1, 5);
+    truck_en_transicion = zeros(1, 5);
+    truck_timer         = zeros(1, 5);
+    carga_tomada_p      = false;
 end
-
-%% Indice mas cercano a x_l
-[~, idx] = min(abs(x_grid - x_l));
-
-%% Deposito y extraccion de contenedores por flanco de TLK
-flanco_bajada = (tlk_prev == 1) && (TLK == 0);  % deposito
-flanco_subida = (tlk_prev == 0) && (TLK == 1);  % toma
-
-if flanco_bajada
-    n_containers(idx) = n_containers(idx) + 1;
-elseif flanco_subida
-    n_containers(idx) = max(0, n_containers(idx) - 1);
-end
-
-tlk_prev = TLK;
-
-%% Altura fija segun zona
-if x_l < -W_c/2
-    y_fijo = 0;             % zona muelle
-elseif x_l <= W_c/2
-    y_fijo = Y_sb;          % sill beam (borde de muelle)
-else
-    y_fijo = y_h_min;       % zona barco
-end
-
-%% Altura total en posicion de la carga
-y_c0_contacto = y_fijo + n_containers(idx) * H_c;
-
-%% Lectura LIDAR (posicion adelantada x_lidar_offset)
-x_laser = x_l + x_lidar_offset; 
-[~, idx_lidar] = min(abs(x_grid - x_laser));
-
-if x_laser < -W_c/2
-    y_fijo_lidar = 0;
-elseif x_laser <= W_c/2
-    y_fijo_lidar = Y_sb;
-else
-    y_fijo_lidar = y_h_min;
-end
-
-y_c0_lidar = y_fijo_lidar + n_containers(idx_lidar) * H_c;
 \end{lstlisting}
+
+La grilla de perfil se construye con resolución de $1\,\text{cm}$ ($dx = 0.01\,\text{m}$)
+sobre el rango $[x_{c0,left},\, x_{c0,right}]$. Las 19 posiciones fijas de apilado se
+distribuyen uniformemente dentro de la zona válida de contenedores y se inicializan con los
+valores provistos por el vector \texttt{container\_pillars}. Cada pila ocupa una ventana de
+ancho $W_c$ sobre la grilla, evitando solapamientos con otras zonas del entorno. Los 5
+camiones se colocan inicialmente en posiciones negativas del eje $x$ (zona de muelle),
+con sus índices de grilla precalculados. La tasa de reaparición $\lambda_{truck}$ se
+calibra para una vida media de 60\,s.
+
+% ------------------------------------------------------------------
+\paragraph{Detección de flancos de TLK y estado de enganche.}\leavevmode
+
+\begin{lstlisting}[style=matlab, caption={Detección de flancos de la señal $TLK$ y actualización de \texttt{carga\_tomada}.}, label=lst:perfil-suelo-tlk]
+%% Indice de la carga y ventana de escritura
+idx = round((x_l - x_c0_left) / dx_grid) + 1;
+idx = max(1, min(length(x_grid2), idx));
+medio_ancho_idx = round((W_c/2) / dx_grid);
+idx_ini_l = max([1, idx - medio_ancho_idx, idx_zona_min]);
+idx_fin_l = min([length(x_grid2), idx + medio_ancho_idx, idx_zona_max]);
+
+%% Flancos de TLK
+tlk_bool      = logical(TLK);
+flanco_bajada = tlk_prev && ~tlk_bool;   % Soltar carga (1->0)
+flanco_subida = ~tlk_prev && tlk_bool;   % Tomar carga  (0->1)
+tlk_prev      = tlk_bool;
+
+if flanco_subida
+    carga_tomada_p = true;
+elseif flanco_bajada
+    carga_tomada_p = false;
+end
+carga_tomada = carga_tomada_p;
+\end{lstlisting}
+
+La posición de la carga $x_l(t)$ se mapea a un índice de grilla; la ventana de
+escritura queda siempre confinada dentro de la zona válida de contenedores para
+evitar interferencias con otras regiones del perfil. La señal $TLK$ se monitorea
+flanco a flanco: el \textbf{flanco ascendente} ($0\!\to\!1$) indica que el spreader
+acaba de enganchar una carga, y el \textbf{flanco descendente} ($1\!\to\!0$) indica
+que la acaba de soltar.
+
+% ------------------------------------------------------------------
+\paragraph{Lógica de interacción con camiones y actualización del perfil.}\leavevmode
+
+\begin{lstlisting}[style=matlab, caption={Identificación del camión bajo la carga y actualización del perfil de contenedores.}, label=lst:perfil-suelo-camiones]
+%% Identificar si la carga esta sobre un camion
+W_trucks_idx = round((W_c/2) / dx_grid);
+sobre_camion_k = 0;
+for k = 1:5
+    if abs(idx - idx_trucks(k)) <= W_trucks_idx && trucks_state_p(k) == 1
+        sobre_camion_k = k;
+        break;
+    end
+end
+
+%% Asignacion de grupo segun escenario
+if escenario ~= 0
+    switch escenario
+        case 1,  grupo_camion = ones(1,5);        % Solo carga
+        case 2,  grupo_camion = 2*ones(1,5);      % Solo descarga
+        case 3,  grupo_camion = [2 2 1 1 1];      % Mixto
+    end
+end
+
+%% Transferencia de carga entre camion y spreader
+if sobre_camion_k > 0 && escenario ~= 0
+    k = sobre_camion_k;
+    if flanco_subida && grupo_camion(k) == 1 && trucks_has_load_p(k) == 1
+        trucks_has_load_p(k)   = 0;   % Spreader toma la carga del camion
+        truck_en_transicion(k) = 1;
+        truck_timer(k)         = 0;
+    elseif flanco_bajada && grupo_camion(k) == 2 && trucks_has_load_p(k) == 0
+        trucks_has_load_p(k)   = 1;   % Spreader deposita la carga en el camion
+        truck_en_transicion(k) = 1;
+        truck_timer(k)         = 0;
+    end
+else
+    % Actualizar perfil de patio/barco si no hay camion bajo la carga
+    if idx_fin_l >= idx_ini_l
+        [dist_min, pilar_cercano] = min(abs(idx - idx_posiciones));
+        if dist_min <= medio_ancho_idx
+            % Snap al pilar mas cercano
+            idx_centro     = idx_posiciones(pilar_cercano);
+            idx_ini_write  = max([1, idx_centro - medio_ancho_idx, idx_zona_min]);
+            idx_fin_write  = min([length(x_grid2), idx_centro + medio_ancho_idx, idx_zona_max]);
+        else
+            idx_ini_write = idx_ini_l;
+            idx_fin_write = idx_fin_l;
+        end
+        if flanco_bajada
+            altura_actual = max(n_containers(idx_ini_write:idx_fin_write));
+            n_containers(idx_ini_write:idx_fin_write) = ...
+                max(n_containers(idx_ini_write:idx_fin_write), altura_actual + 1);
+        elseif flanco_subida
+            altura_actual = max(n_containers(idx_ini_write:idx_fin_write));
+            n_containers(idx_ini_write:idx_fin_write) = max(0, altura_actual - 1);
+        end
+    end
+end
+\end{lstlisting}
+
+Cuando la carga queda sobre un camión activo, la transferencia es directa entre
+el spreader y ese camión (sin tocar el perfil de patio). Cuando la carga se deposita
+sobre el patio o el barco, se aplica un mecanismo de \textit{snap}: si la posición
+está dentro de la tolerancia de $W_c/2$ de un pilar predefinido, el depósito se
+alinea exactamente con ese pilar para preservar la coherencia geométrica del apilado.
+Los tres escenarios configurables determinan el rol de cada camión: \textbf{caso~1}
+(solo carga desde muelle), \textbf{caso~2} (solo descarga hacia muelle) y
+\textbf{caso~3} (operación mixta).
+
+% ------------------------------------------------------------------
+\paragraph{Reaparición probabilística de camiones y cálculo de altura total.}\leavevmode
+
+\begin{lstlisting}[style=matlab, caption={Reaparición de camiones, altura de contacto y resolución de transiciones.}, label=lst:perfil-suelo-altura]
+%% Reaparicion probabilistica de camiones
+if escenario ~= 0
+    p_ciclo = 1 - exp(-lambda_truck * Ts);
+    for k = 1:5
+        if trucks_state_p(k) == 0 && rand_in(k) < p_ciclo
+            trucks_state_p(k)      = 1;
+            trucks_has_load_p(k)   = (grupo_camion(k) == 1);
+            truck_en_transicion(k) = 0;
+            truck_timer(k)         = 0;
+        end
+    end
+end
+
+%% Altura fija segun zona bajo la carga
+if x_l < -1,             y_fijo = 0;
+elseif x_l <= 0,         y_fijo = Y_sb;
+else,                     y_fijo = y_h_min;
+end
+
+%% Aporte de altura de camiones
+h_truck_l = 0;
+for k = 1:5
+    if abs(idx - idx_trucks(k)) <= W_trucks_idx && trucks_state_p(k) == 1
+        h_truck_l = H_truck + trucks_has_load_p(k) * H_c;
+    end
+end
+
+%% Altura total de contacto bajo la carga
+if idx_fin_l >= idx_ini_l
+    altura_containers_l = max(n_containers(idx_ini_l:idx_fin_l));
+else
+    altura_containers_l = 0;
+end
+y_c0_contacto = y_fijo + altura_containers_l * H_c + h_truck_l;
+
+%% Resolucion de camiones en transicion (basada en tiempo)
+for k = 1:5
+    if truck_en_transicion(k) == 1
+        truck_timer(k) = truck_timer(k) + Ts;
+        if truck_timer(k) >= t_camion_transicion
+            trucks_state_p(k)      = 0;
+            trucks_has_load_p(k)   = 0;
+            truck_en_transicion(k) = 0;
+            truck_timer(k)         = 0;
+        end
+    end
+end
+\end{lstlisting}
+
+La reaparición de cada camión sigue un proceso de Poisson discretizado: en cada paso
+de simulación, un camión ausente reaparece con probabilidad
+$p_{ciclo} = 1 - e^{-\lambda_{truck}\,T_s}$, donde $\lambda_{truck} = \ln(2)/60\,\text{s}^{-1}$
+corresponde a una vida media de 60\,s. La altura de contacto bajo la carga agrega:
+la altura de zona fija (muelle, \textit{sill beam} o barco), la contribución de los
+contenedores apilados en esa celda, y la altura del camión presente (plataforma sola
+$H_{truck}$ o plataforma con contenedor $H_{truck}+H_c$). Una vez que el spreader
+transfiere la carga a un camión (o viceversa), se activa un temporizador que, al
+superar $t_{camion\_transicion}$, retira el camión del escenario y libera su ranura
+para una futura reaparición.
+
+% ------------------------------------------------------------------
+\paragraph{Lectura anticipada del LIDAR y salidas.}\leavevmode
+
+\begin{lstlisting}[style=matlab, caption={Lectura del sensor LIDAR y generación de salidas.}, label=lst:perfil-suelo-lidar]
+%% Lectura de LIDAR (posicion adelantada)
+x_laser   = x_t + x_lidar_offset;
+idx_lidar = round((x_laser - x_c0_left) / dx_grid) + 1;
+idx_lidar = max(1, min(length(x_grid2), idx_lidar));
+
+if x_laser < -1,         y_fijo_lidar = 0;
+elseif x_laser <= 0,     y_fijo_lidar = Y_sb;
+else,                     y_fijo_lidar = y_h_min;
+end
+
+h_truck_lidar = 0;
+for k = 1:5
+    if abs(idx_lidar - idx_trucks(k)) <= W_trucks_idx && trucks_state_p(k) == 1
+        h_truck_lidar = H_truck + trucks_has_load_p(k) * H_c;
+    end
+end
+y_c0_lidar = y_fijo_lidar + n_containers(idx_lidar) * H_c + h_truck_lidar;
+
+%% Salidas garantizadas
+containers_pillars_state = n_containers(idx_posiciones);
+trucks_state             = trucks_state_p;
+trucks_has_load          = trucks_has_load_p;
+\end{lstlisting}
+
+La lectura del LIDAR evalúa el perfil en la posición $x_t + x_{lidar\_offset}$, es
+decir, por delante del carro (no de la carga), lo que permite al Nivel~1 anticipar
+obstáculos antes de que el spreader llegue a esa posición. Aplica la misma lógica de
+zona fija y aporte de camiones que la lectura de contacto. El vector
+\texttt{containers\_pillars\_state} extrae del perfil continuo los valores en las 19
+posiciones de pilar, de modo que el supervisor tenga información compacta del estado
+actual del patio.
 
 La Figura~\ref{fig:perfil-suelo} muestra un ejemplo del perfil $y_{c0}(x,t)$ generado
 durante una secuencia de operación, junto con la lectura anticipada del LIDAR.
@@ -1657,6 +1877,55 @@ del controlador:
     k_{tsia}  = M_{t,eq}\,\omega_d^3\,\eta^3
 \end{equation}
 
+\paragraph{Lazo externo de posición — generación de consigna de velocidad.}
+
+La consigna de posición $x_{t,ref}(t)$ proviene del planificador de trayectorias del
+Nivel~1 (Control Supervisor). Sobre ella opera un lazo proporcional externo cuya salida
+es la consigna de velocidad $v_{t,ref}(t) = \mathrm{sat}_{v_{max}}(K_p\,e_x(t))$,
+con $e_x(t) = x_{t,ref}(t) - \hat{x}_t(t)$ y $v_{max} = 4{,}0$\,m/s, que alimenta
+al PID interno de torque.
+
+Asumiendo que el lazo interno de velocidad es suficientemente rápido como para
+aproximarse a ganancia unitaria ($v_t \approx v_{t,ref}$), la planta vista por este
+controlador externo es un integrador puro ($\dot{x}_t = v_t$, es decir $P(s)=1/s$).
+La función de transferencia de lazo cerrado resulta entonces de primer orden:
+
+\begin{equation}
+    \label{eq:ft-pos-ext}
+    \frac{X_t(s)}{X_{t,ref}(s)} = \frac{K_p/s}{1 + K_p/s} = \frac{K_p}{s + K_p}
+\end{equation}
+
+con constante de tiempo $\tau = 1/K_p$. De aquí se desprende que $K_p$ tiene unidades
+de $\text{s}^{-1}$ y fija la rapidez de convergencia del lazo de posición.
+
+La ganancia $K_p = 0{,}11\,\text{s}^{-1}$ ($\tau \approx 9{,}1$\,s) se determinó de
+forma empírica: se partió de un valor inicial $K_p = 1$ y se aplicó una reducción por
+\textit{bisección sucesiva} —dividiendo a la mitad en cada iteración— hasta que la
+respuesta dejó de presentar oscilaciones sostenidas alrededor de la referencia;
+a partir de ese punto se realizó un ajuste fino manual que llevó al valor definitivo,
+el cual ofrece un seguimiento sin sobrepaso apreciable dentro del rango de operación
+normal del carro.
+
+\begin{lstlisting}[style=matlab, caption={Lazo externo de posición del carro: generación de consigna de velocidad.}, label=lst:ctrl-pos-ext]
+function v_t_ref = controlador_posicion(x_t_ref, x_hat, v_t_ff, v_td_hat, v_max)
+
+    Kp = 0.11;
+    Kd = 0;
+
+    e_x = x_t_ref - x_hat;
+
+    v_calculada = Kp * e_x + v_t_ff * Kd;
+
+    if v_calculada > v_max
+        v_t_ref = v_max;
+    elseif v_calculada < -v_max
+        v_t_ref = -v_max;
+    else
+        v_t_ref = v_calculada;
+    end
+end
+\end{lstlisting}
+
 \paragraph{Implementación discreta en Simulink.}
 
 El controlador y el observador de estados se implementan en Simulink mediante bloques
@@ -1949,6 +2218,34 @@ mismo subsistema de la Figura~\ref{fig:integrador-tustin}.
              (Simulink, $T_{s2}=1$\,ms).}
     \label{fig:obs-hoist-discreto}
 \end{figure}
+
+\paragraph{Lazo externo de posición de izaje — generación de consigna de velocidad de cable.}\leavevmode
+
+De manera análoga al carro~\eqref{eq:ft-pos-ext}, el lazo externo de izaje cierra un
+controlador proporcional $K_{p,h} = 0{,}5\,\text{s}^{-1}$ ($\tau_h = 2$\,s) sobre el
+integrador $1/s$ de longitud de cable, resultando en la misma estructura de primer orden
+$K_{p,h}/(s+K_{p,h})$. La diferencia respecto al carro reside en la saturación de
+velocidad de cable $\dot{l}_{h,ref}$, que es variable en función de la masa estimada
+$\hat{m}$: cuando $\hat{m} > 16\,000$\,kg (contenedor pesado) la saturación se reduce
+a $\pm 1{,}5$\,m/s para limitar las solicitaciones mecánicas; en caso contrario se
+permite hasta $\pm 3{,}0$\,m/s.
+
+\begin{lstlisting}[style=matlab, caption={Lazo externo de posición de izaje: generación de consigna de velocidad de cable.}, label=lst:ctrl-pos-hoist]
+function dl_h_ref = controlador_posicion(l_h_ref, l_h_sensor, dl_h_ff, m_est)
+
+    Kp = 0.5;
+
+    e_l_h = l_h_ref - l_h_sensor;
+
+    dl_h_ref = Kp * e_l_h;
+
+    if m_est > 16000
+        dl_h_ref = min([1.5,  max([dl_h_ref, -1.5])]);
+    else
+        dl_h_ref = min([3,    max([dl_h_ref, -3])]);
+    end
+end
+\end{lstlisting}
 
 \paragraph{Desempeño del controlador de izaje.}
 
@@ -2556,6 +2853,558 @@ end
 \end{lstlisting}
 
 % ---- 3.3 -------------------------------------------------------
+\subsection{Nivel 1: Control Supervisor}
+
+El Nivel~1 es el responsable de ejecutar la \textbf{lógica de funcionamiento normal}
+de la grúa STS. Opera con período de muestreo $T_{s1} = 20$\,ms e implementa el
+movimiento coordinado del carro y el izaje, la gestión de frenos y \textit{twistlocks},
+la detección de fines de carrera, el almacenamiento de lecturas del LIDAR\@, la
+generación de trayectorias para el Nivel~2 y el pulso de vida (\textit{heartbeat})
+que el Nivel~0 monitorea mediante su autómata \textit{Watchdog}.
+
+La Figura~\ref{fig:nivel1-io} muestra el esquema de entradas y salidas del Nivel~1.
+
+\begin{figure}[H]
+    \centering
+    \img{src/esquema\_nivel1\_io.png}
+    \caption{Esquema de entradas y salidas del Nivel~1.}
+    \label{fig:nivel1-io}
+\end{figure}
+
+\subsubsection{Estructura general — Heartbeat y estado OFF}
+
+El autómata se implementa en Stateflow con dos subestados ejecutados en
+\textbf{paralelo (AND)}: \texttt{Heartbeat\_Generator} y \texttt{Supervisory\_Control}
+(Figura~\ref{fig:nivel1-off-heartbeat}).
+
+\texttt{Heartbeat\_Generator} alterna entre \texttt{Heartbeat\_High}
+(\texttt{heartbeat = true}) y \texttt{Heartbeat\_Low} (\texttt{heartbeat = false})
+cada $200$\,ms, produciendo una onda cuadrada de $2{,}5$\,Hz que el Nivel~0
+verifica continuamente.
+
+\texttt{Supervisory\_Control} arranca en \texttt{OFF}, que inicializa todas las salidas
+a valores seguros: frenos abiertos, TLK y balanceo desactivados, referencias de
+velocidad nulas, alarmas en \texttt{false} y vectores de memoria del LIDAR y estimación
+de masa en cero. Cuando el operador activa el sistema (\texttt{P\_APN}), el autómata
+sale de \texttt{OFF} —registrando \texttt{state\_SISTEMA\_ON = true}— y transiciona al
+estado activo (\texttt{ON}). Si \texttt{P\_APN} se desactiva, el sistema retorna a
+\texttt{OFF} (\texttt{[\textasciitilde{}P\_APN]}). Dentro de \texttt{ON}, todos los
+subestados descritos en las secciones siguientes (\texttt{BRK\_Logic},
+\texttt{Limit\_Switch}, \texttt{Mode}, entre otros) se ejecutan de forma
+\textbf{paralela (AND)}, de modo que la lógica de frenos, la detección de fines de
+carrera y el control de modo operan simultáneamente en cada paso de muestreo.
+
+\begin{figure}[H]
+    \centering
+    \img{src/nivel1\_off\_heartbeat.png}
+    \caption{Estructura paralela del Nivel~1: \texttt{Heartbeat\_Generator} y estado
+             \texttt{OFF} de \texttt{Supervisory\_Control}.}
+    \label{fig:nivel1-off-heartbeat}
+\end{figure}
+
+\subsubsection{Lógica de frenos}
+
+Dentro del estado activo de \texttt{Supervisory\_Control} opera el subestado paralelo
+\texttt{BRK\_Logic}, con dos ramas independientes: \texttt{BRK\_t\_Logic} (freno de
+carro) y \texttt{BRK\_h\_Logic} (freno de izaje).
+
+Ambas ramas parten del estado \textbf{cerrado} (\texttt{BRK\_x = false}) y
+transicionan al estado \textbf{abierto} (\texttt{BRK\_x = true}) cuando no hay fines
+de carrera activos y la posición se encuentra alejada $1{,}5$\,m de los límites
+físicos. Para el carro:
+\[
+    \lnot(\mathtt{FC\_carro\_max} \lor \mathtt{FC\_carro\_min})
+    \;\land\; x_{t,est} < x_{t,max} - 1{,}5
+    \;\land\; x_{t,est} > x_{t,min} + 1{,}5
+\]
+y análogamente para el izaje con $l_{h,sensor}$, $l_{h,min}$ y $l_{h,max}$.
+
+El freno se cierra cuando se activa un fin de carrera \textbf{y} la velocidad del motor
+supera el umbral $\omega_{min,BRK} = 0{,}01$\,rad/s, evitando cierres bruscos cuando
+el motor ya está prácticamente detenido.
+
+\begin{figure}[H]
+    \centering
+    \img{src/nivel1\_brk\_logic.png}
+    \caption{Lógica de frenos: subestados paralelos \texttt{BRK\_t\_Logic} y
+             \texttt{BRK\_h\_Logic}.}
+    \label{fig:nivel1-brk}
+\end{figure}
+
+\subsubsection{Fines de carrera}
+
+El subestado paralelo \texttt{Limit\_Switch} monitorea de forma continua (\texttt{during})
+los cuatro fines de carrera del sistema mediante cuatro ramas paralelas independientes:
+\texttt{Trolley\_Min\_Logic}, \texttt{Trolley\_Max\_Logic}, \texttt{Hoist\_Min\_Logic}
+y \texttt{Hoist\_Max\_Logic} (Figura~\ref{fig:nivel1-fc}).
+
+Cada rama sigue la misma lógica biestable: en estado \textit{Low} la alarma está en
+\texttt{false}; al activarse el sensor correspondiente la alarma pasa a \texttt{true}
+(estado \textit{High}), y regresa a \texttt{false} en cuanto el sensor se desactiva.
+Las cuatro alarmas generadas son \texttt{FC\_t\_min\_alarm}, \texttt{FC\_t\_max\_alarm},
+\texttt{FC\_h\_min\_alarm} y \texttt{FC\_h\_max\_alarm}.
+
+Estas señales son utilizadas por el ciclo operativo del Nivel~1 para interrumpir o
+inhibir los movimientos activos: ante la activación de un fin de carrera, la lógica
+supervisora detiene el movimiento en la dirección correspondiente, evitando que el carro
+o la carga alcancen los topes mecánicos.
+
+\begin{figure}[H]
+    \centering
+    \img{src/nivel1\_limit\_switch.png}
+    \caption{Subestado \texttt{Limit\_Switch}: cuatro ramas paralelas de detección de
+             fines de carrera.}
+    \label{fig:nivel1-fc}
+\end{figure}
+
+\subsubsection{Modos de operación}
+
+El subestado paralelo \texttt{Mode} (Figura~\ref{fig:nivel1-mode}) gestiona los dos
+modos de operación del sistema. Si \texttt{operation\_mode} es verdadero se activa el
+estado \texttt{Automatic}, reservado para la ejecución del ciclo operativo automático.
+Si \texttt{operation\_mode} es falso el sistema pasa al estado \texttt{Manual}, que
+permite al operador comandar directamente la grúa mediante el joystick PS4.
+
+Al entrar en \texttt{Manual} se congelan las referencias actuales
+(\texttt{x\_t\_ref = x\_t\_est}, \texttt{l\_h\_ref = l\_h\_sensor}) para evitar saltos
+bruscos en las consignas del Nivel~2. Durante la operación manual, las consignas de
+velocidad se calculan a cada paso de muestreo aplicando la función
+\texttt{rate\_limiter} a los comandos del joystick escalados (\texttt{JS\_trolley\_cmd}
+$\times 0{,}15$, \texttt{JS\_hoist\_cmd} $\times 0{,}15$). Si se detecta una alarma de
+fin de carrera, la consigna de velocidad en esa dirección se satura a cero
+($v_{t,ref} = \max(0, v_{t,ref})$ ante \texttt{FC\_t\_min\_alarm}, o
+$v_{t,ref} = \min(0, v_{t,ref})$ ante \texttt{FC\_t\_max\_alarm}, y análogamente para
+el izaje), impidiendo que el operador pueda seguir moviendo el eje hacia el límite.
+Las referencias de posición se integran por el método trapezoidal:
+\[
+    x_{t,ref}^{(k)} = x_{t,ref}^{(k-1)} + T_{s1}\,\frac{v_{t,ref}^{(k)} + v_{t,ref}^{(k-1)}}{2}
+\]
+y de forma equivalente para $l_{h,ref}$.
+
+\begin{figure}[H]
+    \centering
+    \img{src/nivel1\_mode.png}
+    \caption{Subestado \texttt{Mode}: lógica de conmutación entre operación manual y
+             automática.}
+    \label{fig:nivel1-mode}
+\end{figure}
+
+\paragraph{Función \texttt{rate\_limiter}.}\leavevmode
+
+La función limita la tasa de cambio de la consigna de velocidad para respetar las
+aceleraciones máximas admisibles por los accionamientos. Para el carro la aceleración
+máxima es $a_{t,max} = 0{,}72$\,m/s$^2$; para el izaje, $a_{h,max} = 0{,}675$\,m/s$^2$.
+El incremento máximo por paso es $\Delta v_{max} = a_{max}\,T_{s1}$, y la salida se
+obtiene saturando el incremento pedido:
+\[
+    v_{out}^{(k)} = v_{prev} + \mathrm{sat}_{[-\Delta v_{max},\,\Delta v_{max}]}\!\left(v_{in} - v_{prev}\right)
+\]
+
+Para el izaje se aplica adicionalmente un límite de velocidad por potencia constante
+antes del limitador de pendiente. Con potencia nominal $P = 956\,150$\,W, la velocidad
+máxima de izaje en función de la masa total es:
+\[
+    v_{h,max}(m) = \frac{P}{m\,g}
+\]
+de modo que al aumentar la masa la consigna de entrada ya llega acotada al limitador,
+y la desaceleración resultante respeta $a_{h,max}$ en lugar de producir un escalón.
+
+\subsubsection{Lógica de \textit{twistlocks}}
+
+El subestado paralelo \texttt{TLK\_Logic} (Figura~\ref{fig:nivel1-tlk}) gestiona la
+apertura y cierre de los \textit{twistlocks}. Consta de tres estados: \texttt{Init},
+\texttt{TLK\_Closed} (\texttt{TLK = true}) y \texttt{TLK\_Opened} (\texttt{TLK =
+false}). Al ingresar al subestado, \texttt{Init} lee el estado actual del sensor TLK
+para determinar el estado inicial: si \texttt{TLK} es verdadero transiciona a
+\texttt{TLK\_Closed} (prioridad~1), en caso contrario a \texttt{TLK\_Opened}
+(prioridad~2).
+
+La condición de conmutación entre ambos estados incorpora una restricción de seguridad:
+el cambio solo se ejecuta cuando la fuerza medida en el cable es nula, es decir, cuando el contenedor está apoyado y no
+hay carga suspendida. Esto impide abrir los \textit{twistlocks} mientras el contenedor
+está izado, evitando una caída. La señal de comando \texttt{cmd\_TLK} proviene del
+operador o del ciclo automático: si \texttt{cmd\_TLK} es verdadero y la fuerza es nula,
+el sistema cierra los \textit{twistlocks}; si \texttt{cmd\_TLK} es falso y la fuerza
+es nula, los abre.
+
+\begin{figure}[H]
+    \centering
+    \img{src/nivel1\_tlk\_logic.png}
+    \caption{Subestado \texttt{TLK\_Logic}: lógica de apertura y cierre de
+             \textit{twistlocks} con condición de seguridad sobre la fuerza en cable.}
+    \label{fig:nivel1-tlk}
+\end{figure}
+
+\subsubsection{Control de balanceo de carga}
+
+El subestado paralelo \texttt{Sway\_Control\_Mode} (Figura~\ref{fig:nivel1-sway})
+habilita o inhibe el controlador paralelo de balanceo del Nivel~2. Consta de dos
+estados: \texttt{Sway\_Control\_ON} y \texttt{Sway\_Control\_OFF}, que activan o
+desactivan la señal \texttt{sway\_ctr\_enable}, respectivamente. El estado inicial es
+\texttt{ON}.
+
+La habilitación requiere que el operador lo haya solicitado mediante \texttt{cmd\_sway\_ctr}
+\textbf{y} que la longitud del cable sea suficiente ($l_{h,sensor} > 12$\,m), condición
+que garantiza que el péndulo tenga dinámica apreciable. El controlador se inhibe si el
+operador lo desactiva \textbf{o} si el cable es demasiado corto ($l_{h,sensor} < 10$\,m),
+con una histéresis de $2$\,m entre ambos umbrales para evitar conmutaciones repetidas
+cerca del límite.
+
+\begin{figure}[H]
+    \centering
+    \img{src/nivel1\_sway\_control.png}
+    \caption{Subestado \texttt{Sway\_Control\_Mode}: habilitación del controlador de
+             balanceo con condición de longitud mínima de cable.}
+    \label{fig:nivel1-sway}
+\end{figure}
+
+\subsubsection{Mapa LIDAR}
+
+El subestado paralelo \texttt{Lidar\_Map} (Figura~\ref{fig:nivel1-lidar}) construye y
+mantiene un mapa de alturas del entorno a partir de las lecturas del sensor LIDAR
+montado solidariamente al carro.
+
+Al ingresar al estado (\texttt{entry}) se inicializa el mapa: se calcula el índice de
+grilla correspondiente a la posición $x = 0$ (límite tierra/barco) y todos los
+elementos desde ese índice hasta el final del vector se inicializan a $y_{h,min}$,
+reflejo de la altura mínima de la zona terrestre. El contador interno \texttt{cc} se
+pone en cero.
+
+Durante la operación (\texttt{during}), en cada paso de muestreo se actualiza la celda
+de la grilla correspondiente a la posición actual del LIDAR
+($x_{lidar} = x_{t,est} + x_{lidar,offset}$) con la lectura $y_{c0,lidar}$ proveniente
+del Nivel~2. El mapa se construye así de forma incremental a medida que el carro
+recorre su trayectoria.
+
+A partir del mapa acumulado se calculan dos salidas de interés para el ciclo operativo:
+
+\begin{itemize}
+    \item \textbf{Longitud de cable segura} $l_{h,safe}$: se obtiene como la diferencia
+    entre la altura del pórtico y la máxima altura registrada en todo el mapa, con un
+    margen adicional de $1{,}5\,H_c$:
+    \[
+        l_{h,safe} = 45 - \max(\mathtt{lidar\_map}) - 1{,}5\,H_c
+    \]
+    Esta longitud es la máxima a la que puede descender el spreader sin riesgo de
+    colisión, y es utilizada por el planificador de trayectorias.
+
+    \item \textbf{Conteo de pilas de contenedores}: para cada una de las 19 posiciones
+    fijas de pilas se busca el máximo de altura en una ventana espacial centrada en esa
+    posición. El ancho de la ventana se calcula como la distancia recorrida por el carro
+    a velocidad máxima en un paso de muestreo del Nivel~2
+    ($\mathtt{window\_idx} = \lfloor v_{t,\mathrm{max}}\,T_{s2} / \Delta x_{lidar} \rfloor$),
+    compensando el hecho de que las lecturas del LIDAR no siempre coinciden
+    exactamente con el centro de cada pila. La altura neta de contenedores se
+    convierte a número entero de unidades mediante:
+    \[
+        \mathtt{container\_pillars}(i) = \max\!\left(0,\,
+        \left\lceil \frac{\mathtt{pillar\_height} - y_{h,min}}{H_c} - \epsilon \right\rceil \right)
+    \]
+    donde $\epsilon = 10^{-6}$ evita redondeos espurios por errores numéricos.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \img{src/nivel1\_lidar\_map.png}
+    \caption{Subestado \texttt{Lidar\_Map}: construcción incremental del mapa de alturas
+             y estimación de pilas de contenedores a partir del LIDAR.}
+    \label{fig:nivel1-lidar}
+\end{figure}
+
+\subsubsection{Banderas de movimiento}
+
+Los subestados paralelos \texttt{Trolley\_Movement\_Flags} y
+\texttt{Hoist\_Movement\_Flags} generan señales de estado que el ciclo operativo del
+Nivel~1 utiliza para habilitar las transiciones entre los distintos segmentos de
+movimiento: por ejemplo, iniciar el izaje recién cuando el carro ha llegado a destino y
+el balanceo se ha disipado.
+
+\paragraph{Carro — \texttt{Trolley\_Movement\_Flags}.}\leavevmode
+
+Tiene tres estados. El estado inicial es \texttt{Trolley\_Moving}
+(\texttt{trolley\_moving = true}). Cuando el error de posición y la velocidad estimada
+son suficientemente pequeños ($|x_{t,est} - x_{t,obj}| \leq 0{,}03$\,m y
+$|v_{t,est}| \leq 0{,}05$\,m/s) se transiciona a \texttt{Trolley\_Stopped}. Desde
+allí, si el balanceo se estabiliza ($|\omega_{l,sensor}| \leq 0{,}005$\,rad/s y
+$|\theta_{l,sensor}| \leq 0{,}005$\,rad) el sistema avanza a
+\texttt{Trolley\_Stopped\_Complete} (\texttt{trolley\_stopped\_complete = true}),
+señalizando que el carro está detenido y el péndulo amortiguado. Si el balanceo vuelve
+a crecer ($|\omega_l| > 0{,}01$ o $|\theta_l| > 0{,}01$) se retorna a
+\texttt{Trolley\_Stopped}. En cualquier estado detenido, si el error de posición o la
+velocidad superan los umbrales de retorno ($0{,}1$\,m o $0{,}15$\,m según el estado)
+el autómata vuelve a \texttt{Trolley\_Moving}.
+
+\begin{figure}[H]
+    \centering
+    \img{src/nivel1\_trolley\_flags.png}
+    \caption{Subestado \texttt{Trolley\_Movement\_Flags}: detección de carro detenido
+             con condición de balanceo amortiguado.}
+    \label{fig:nivel1-trolley-flags}
+\end{figure}
+
+\paragraph{Izaje — \texttt{Hoist\_Movement\_Flags}.}\leavevmode
+
+Tiene dos estados: \texttt{Hoist\_Moving} (inicial) y \texttt{Hoist\_Stopped}. La
+transición a detenido ocurre cuando el error de longitud de cable es menor a $0{,}05$\,m
+y la velocidad estimada de izaje $|\dot{l}_{h,est}| \leq 0{,}05$\,m/s. El regreso a
+\texttt{Hoist\_Moving} se produce si el error supera $0{,}1$\,m o la velocidad
+$0{,}1$\,m/s, asegurando histéresis en la detección del estado detenido.
+
+\begin{figure}[H]
+    \centering
+    \img{src/nivel1\_hoist\_flags.png}
+    \caption{Subestado \texttt{Hoist\_Movement\_Flags}: detección de izaje detenido.}
+    \label{fig:nivel1-hoist-flags}
+\end{figure}
+
+\subsubsection{Planificador de trayectorias}
+
+El subestado \texttt{Trajectory\_Planner} coordina la secuencia completa de movimientos
+del ciclo operativo. La generación de las trayectorias de referencia en sí se describe
+en la sección siguiente; aquí se presenta la estructura del planificador y la lógica de
+escaneo LIDAR, retorno a \textit{homing} y selección de escenario.
+
+\paragraph{Escaneo LIDAR y retorno a \textit{homing}.}\leavevmode
+
+Al ingresar al planificador se ejecutan tres fases secuenciales de escaneo:
+
+\begin{enumerate}
+    \item \textbf{\texttt{Line\_Scan\_Rise}}: el spreader sube hasta la altura segura
+    calculada por el mapa LIDAR ($l_{h,obj} = l_{h,safe}$). La trayectoria de izaje se
+    genera con la función \texttt{generador\_trayectoria\_izaje}, inicializada en la
+    entrada al estado y actualizada en cada paso. La transición al siguiente estado
+    ocurre cuando el izaje se detiene o cuando el progreso supera el $80$\,\%.
+
+    \item \textbf{\texttt{Line\_Scan\_Move}}: el carro recorre en dirección $+x$ hasta
+    la posición $x_{t,obj} = 49{,}5$\,m, mientras el LIDAR construye el mapa de alturas
+    del barco. Las trayectorias de carro e izaje se actualizan en paralelo en cada paso.
+    La transición ocurre cuando el carro llega a destino (\texttt{trolley\_stopped}).
+
+    \item \textbf{\texttt{Line\_Scan\_Return}}: el carro regresa a la posición de
+    \textit{homing} ($x_{t,obj} = -29{,}5$\,m). Al detenerse tanto el carro como el
+    izaje (\texttt{trolley\_stopped \&\& hoist\_stopped}), el planificador transiciona
+    a \texttt{Scenario\_Selector}.
+\end{enumerate}
+
+\paragraph{Selección de escenario.}\leavevmode
+
+Una vez completado el retorno, \texttt{Scenario\_Selector} inicializa la ganancia del
+controlador de balanceo (\texttt{sway\_ctr\_gain = 1}) y determina el ciclo a ejecutar
+según la variable \texttt{escenario}:
+
+\begin{itemize}
+    \item \textbf{Escenario 0}: el sistema permanece en \texttt{Waiting}
+    (\texttt{v\_t\_ref = 0}, \texttt{dl\_h\_ref = 0}), sin ejecutar ningún ciclo.
+    \item \textbf{Escenario 1}: ciclo de descarga simple — el carro toma un contenedor
+    de tierra y lo deposita en el barco.
+    \item \textbf{Escenario 2}: ciclo de carga simple — el carro recoge un contenedor
+    del barco y lo deposita en tierra.
+    \item \textbf{Escenario 3}: ciclo doble — combina una operación de carga y una de
+    descarga en un mismo recorrido.
+\end{itemize}
+
+Cuando \texttt{escenario} $\neq 0$, el planificador ingresa al estado
+\texttt{Pickup\_And\_Place\_Loop}, que implementa el ciclo operativo correspondiente.
+Si durante la ejecución se activa cualquier alarma de fin de carrera, el planificador
+aborta el ciclo y retorna a \texttt{Scenario\_Selector}. Su lógica se describe en
+detalle en la sección siguiente.
+
+\begin{figure}[H]
+    \centering
+    \img{src/nivel1\_trajectory\_planner.png}
+    \caption{Estructura general del \texttt{Trajectory\_Planner}: selección de
+             escenario, escaneo LIDAR y retorno a \textit{homing}.}
+    \label{fig:nivel1-traj-planner}
+\end{figure}
+
+\subsubsection{Ciclo operativo — \texttt{Pickup\_And\_Place\_Loop}}
+
+El estado \texttt{Pickup\_And\_Place\_Loop} implementa el ciclo de carga y descarga
+de contenedores. Está compuesto por una secuencia de estados que encadenan los
+movimientos de carro e izaje para llevar el spreader desde la posición de origen hasta
+el destino, realizar la operación (tomar o depositar el contenedor) y regresar.
+La Figura~\ref{fig:nivel1-pickup-loop} muestra la estructura completa del ciclo.
+
+Al salir del estado \texttt{Pickup\_And\_Place\_Loop} se registra
+\texttt{loop\_initialized = true}. De este modo, si el ciclo es interrumpido (por
+ejemplo por una alarma de fin de carrera) y luego se vuelve a ingresar, el estado
+\texttt{Init} interno detecta esta variable y, en lugar de reiniciar desde el primer
+estado, delega la decisión a la \textbf{unión histórica} (\textit{history junction}),
+que retoma la ejecución desde el último estado activo antes de la interrupción. Si
+\texttt{loop\_initialized} es falso (primera entrada), \texttt{Init} transiciona a
+\texttt{Scenario\_Selector} para inicializar el ciclo desde cero
+(Figura~\ref{fig:nivel1-loop-init}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{src/nivel1\_loop\_init.png}
+    \caption{Lógica de \texttt{Init} dentro de \texttt{Pickup\_And\_Place\_Loop}:
+             reanudación por historia o inicialización según \texttt{loop\_initialized}.}
+    \label{fig:nivel1-loop-init}
+\end{figure}
+
+Las transiciones entre estados se basan en las \textbf{banderas de movimiento}
+descritas anteriormente: cuando un estado genera un movimiento de izaje, la transición
+al estado siguiente requiere \texttt{hoist\_stopped}; cuando genera un movimiento de
+carro, requiere \texttt{trolley\_stopped} o \texttt{trolley\_stopped\_complete} según
+corresponda. Esto garantiza que cada segmento del ciclo espera la condición de
+estaticidad del eje que estuvo en movimiento antes de continuar.
+
+\paragraph{Escenario 1 — Descarga (tierra $\to$ barco).}\leavevmode
+
+El ciclo recoge un contenedor del camión en tierra y lo deposita en el barco:
+
+\begin{enumerate}
+    \item \textbf{Truck\_Pickup\_Raise}: sube el spreader hasta altura de tránsito.
+    Antes de ejecutar el movimiento se selecciona el camión destino: se recorre el
+    vector de estado de camiones y se elige el primero que esté presente y con carga,
+    calculando su posición como $x_{t,obj} = -25 + (i-1) \times 5$\,m.
+
+    \item \textbf{Truck\_Pickup\_Move}: desplaza el carro hasta la posición del camión
+    seleccionado.
+
+    \item \textbf{Truck\_Pickup\_Descend}: baja el spreader hasta el contenedor.
+
+    \item \textbf{Truck\_Pickup\_Manual}: el sistema pasa a modo manual
+    (\texttt{operation\_mode = false}) y realiza la \textbf{estimación de masa} mientras
+    el operador cierra los TLK. Durante este estado se acumulan muestras de la fuerza
+    medida en el cable: cada muestra válida ($F_{hw,sensor} > 8000\,g$) agrega al
+    vector una estimación $\hat{m}_k = 2\,F_{hw,sensor}/g$. Al salir del estado se
+    llama a \texttt{estimar\_masa}, que calcula la media de las muestras válidas con
+    rechazo de \textit{outliers} por criterio $2\sigma$, obteniendo $\hat{m}$ para el
+    limitador de velocidad por potencia del \texttt{rate\_limiter}.
+
+    \item \textbf{Ship\_Placement\_Raise}: sube el contenedor hasta altura de tránsito.
+
+    \item \textbf{Ship\_Placement\_Move}: antes de trasladar, se selecciona la posición
+    de destino en el barco como la pila con menor cantidad de contenedores apilados:
+    \[
+        i^* = \arg\min_{i \in \{1,\ldots,19\}} \mathtt{container\_pillars}(i),
+        \quad
+        x_{t,obj} = x_{left} + (i^* - 1)\,\Delta x
+    \]
+    Luego el carro se desplaza hasta esa posición.
+
+    \item \textbf{Ship\_Placement\_Descend}: la altura objetivo se calcula a partir del
+    mapa LIDAR mediante la función \texttt{xpos2ypos}, que convierte la posición
+    horizontal $x_{t,obj}$ al índice de grilla correspondiente y devuelve
+    $l_{h,obj} = 45 - \mathtt{lidar\_map}(\mathtt{idx})$, restando luego un margen de
+    seguridad $l_{h,obj} = l_{h,obj} - \Delta_{safety}$. El spreader desciende hasta
+    esa cota.
+
+    \item \textbf{Ship\_Placement\_Manual}: el operador abre los TLK para depositar el
+    contenedor. El ciclo retorna a \textbf{Truck\_Pickup\_Raise} para la siguiente
+    iteración.
+\end{enumerate}
+
+\paragraph{Escenario 2 — Carga (barco $\to$ tierra).}\leavevmode
+
+El ciclo es el inverso del Escenario~1: el spreader se dirige primero al barco, donde
+se selecciona la pila con \textit{mayor} cantidad de contenedores como posición de
+recogida (\texttt{Ship\_Pickup}), y luego traslada el contenedor a tierra, donde se
+elige el camión vacío disponible como destino de depósito (\texttt{Truck\_Placement}).
+La selección de posiciones y la estimación de masa siguen la misma lógica descripta
+anteriormente, adaptada al sentido inverso.
+
+\paragraph{Escenario 3 — Ciclo doble (descarga + carga).}\leavevmode
+
+Combina ambos ciclos en un único recorrido: primero ejecuta el ciclo del Escenario~1
+completo y luego, sin regresar a \textit{homing}, ejecuta el ciclo del Escenario~2,
+completando un ciclo de ida y vuelta.
+
+\begin{figure}[H]
+    \centering
+    \img{src/nivel1\_pickup\_loop.png}
+    \caption{Estados del ciclo \texttt{Pickup\_And\_Place\_Loop}.}
+    \label{fig:nivel1-pickup-loop}
+\end{figure}
+
+\subsubsection{Generación de trayectorias}
+
+Las referencias de posición y velocidad para el Nivel~2 se generan mediante perfiles de
+\textbf{perfil en S} (aceleración sinusoidal), que limitan el \textit{jerk} —variación
+temporal de la aceleración— para reducir las excitaciones mecánicas sobre la estructura
+y el cable. Ambas funciones (\texttt{generador\_trayectoria} para el carro y
+\texttt{generador\_trayectoria\_izaje} para el izaje) utilizan variables persistentes
+para congelar el perfil planificado: cuando se llaman con \texttt{NEW\_TRAJ = 1}
+calculan y almacenan los parámetros de la trayectoria; en llamadas sucesivas con
+\texttt{NEW\_TRAJ = 0} evalúan ese perfil congelado en función del tiempo real
+transcurrido, sin recalcular. Todas las funciones devuelven además una salida de
+\textbf{progreso} $p \in [0, 1]$, calculada como la fracción del tiempo total de la
+trayectoria ya transcurrido, que el planificador utiliza como condición de transición
+anticipada entre estados.
+
+\paragraph{Trayectoria del carro.}\leavevmode
+
+El perfil de aceleración es sinusoidal:
+\[
+    a(t) = a_{max}\,\sin\!\left(\frac{\pi\,t}{t_a}\right)
+\]
+con $a_{max} = 0{,}8$\,m/s$^2$ y $v_{max} = 4{,}0$\,m/s. Integrando se obtiene la
+velocidad y la posición:
+\[
+    v(t) = \frac{a_{max}\,t_a}{\pi}\left(1 - \cos\frac{\pi t}{t_a}\right),
+    \qquad
+    x(t) = x_0 + \frac{a_{max}\,t_a}{\pi}\left(t - \frac{t_a}{\pi}\sin\frac{\pi t}{t_a}\right)
+\]
+La duración de la fase de aceleración se obtiene imponiendo $v(t_a) = v_{max}$:
+\[
+    t_a = \frac{\pi\,v_{max}}{2\,a_{max}}
+\]
+El perfil completo tiene tres fases: aceleración ($0 \leq t < t_a$), crucero a $v_{max}$
+($t_a \leq t < t_a + t_c$) y desaceleración simétrica ($t_a + t_c \leq t \leq t_{total}$).
+Si la distancia total $D$ es insuficiente para alcanzar $v_{max}$, la velocidad pico se
+reduce a $v_{pico} = \sqrt{2\,a_{max}\,D/\pi}$ y la fase de crucero desaparece.
+
+\paragraph{Trayectoria del izaje.}\leavevmode
+
+El generador de izaje extiende el perfil anterior para contemplar dos aspectos
+adicionales:
+
+\begin{itemize}
+    \item \textbf{Velocidad inicial no nula}: cuando se planifica una nueva trayectoria
+    el mecanismo ya puede estar en movimiento con velocidad $v_0$. Las fases de
+    aceleración y deceleración son entonces asimétricas: la aceleración lleva el sistema
+    de $v_0$ a $v_p$ en tiempo $t_a = 2(v_p - v_0)/a_{max}$, mientras que la
+    deceleración va de $v_p$ a $0$ en $t_d = 2\,v_p/a_{max}$.
+
+    \item \textbf{Límite de velocidad por potencia constante}: la potencia disponible
+    del accionamiento de izaje se modela como constante $P = m_{nom}\,g\,v_{h,load}$.
+    La velocidad máxima admisible en función de la masa izada estimada $\hat{m}$ es:
+    \[
+        v_{max}(\hat{m}) = \frac{P}{\hat{m}\,g}
+        = \frac{m_{nom}\,v_{h,load}}{\hat{m}}
+    \]
+    saturada entre $v_{h,load} = 1{,}5$\,m/s (carga nominal) y $v_{h,noload} = 3{,}0$\,m/s
+    (sin carga). Esto garantiza que al aumentar la masa izada la trayectoria se adapta
+    automáticamente para no superar la potencia disponible.
+\end{itemize}
+
+El perfil resultante mantiene la forma sinusoidal en aceleración y deceleración, con la
+integración ajustada para partir de $v_0 \neq 0$. Se implementan además casos especiales
+para distancias muy cortas o velocidades iniciales elevadas, donde el sistema pasa
+directamente a desacelerar sin fase de crucero.
+
+\medskip
+\noindent
+\fbox{%
+\begin{minipage}{0.97\textwidth}
+\small
+\textbf{Nota sobre movimiento sincronizado.}
+En el ciclo operativo, el carro y el izaje pueden estar en movimiento simultáneo.
+Para coordinar ambos ejes sin imponer una sincronización rígida en tiempo, el
+planificador utiliza la variable de \textbf{progreso} $p \in [0, 1]$ como condición
+de habilitación de las transiciones entre estados: en lugar de esperar a que un eje
+llegue exactamente a su destino (condición de estaticidad estricta), la transición
+puede habilitarse en cuanto el progreso de la trayectoria activa supera un umbral
+predefinido (por ejemplo $p > 0{,}8$). Esto suaviza las condiciones de transición y
+permite iniciar el siguiente segmento de movimiento antes de que el eje termine
+completamente su recorrido, evitando tiempos muertos entre fases y logrando un
+movimiento coordinado más fluido entre carro e izaje.
+\end{minipage}%
+}
+
+% ---- 3.4 -------------------------------------------------------
 \subsection{Nivel 0: Seguridad y Protección}
 
 El Nivel~0 implementa el sistema de \textbf{seguridad y protección} de la grúa STS
@@ -2573,7 +3422,7 @@ indicando sus señales de entrada y salida hacia el resto del sistema.
 
 \begin{figure}[H]
     \centering
-    \imgpending{src/esquema\_nivel0\_io.png}
+    \img{src/esquema\_nivel0\_io.png}
     \caption{Nivel~0 visto desde el exterior: entradas y salidas del autómata de
              seguridad y protección (Stateflow).}
     \label{fig:nivel0-io}
@@ -2591,7 +3440,7 @@ escalar a un estado seguro cuando el Nivel~1 deja de responder.
 
 \begin{figure}[H]
     \centering
-    \imgpending{src/nivel\_0\_completo.png}
+    \img{src/nivel\_0\_completo.png}
     \caption{Diagrama de bloques del Nivel~0 completo: estados paralelos
              \texttt{Emergencies} y \texttt{Watchdog} (Stateflow, $T_{s0}=20$\,ms).}
     \label{fig:nivel0-completo}
@@ -2602,17 +3451,24 @@ escalar a un estado seguro cuando el Nivel~1 deja de responder.
 \label{sec:emergencies}
 
 El estado \texttt{Emergencies} resuelve la supervisión y gestión de las emergencias del
-sistema. Su estado de entrada es \texttt{Stand\_By}, en el cual se mantienen liberadas
-todas las variables de salida del Nivel~0 para que el Nivel~1 ejecute su control de
-forma regular, sin restricción alguna sobre la operación de la grúa. Su acción de
-entrada energiza los tres frenos del sistema ($BRK_t = BRK_h = BRK_{hE} = \text{On}$),
-liberándolos hacia el control del Nivel~1. Mientras permanece en \texttt{Stand\_By}, el
-autómata evalúa de forma continua las condiciones de transición, a la espera de que
-alguna de ellas se satisfaga para escalar al estado de emergencia correspondiente.
+sistema. Su estado de entrada es \texttt{Stand\_By}, en el cual el Nivel~0 deja pasar
+íntegramente las consignas provenientes del Nivel~1 hacia la planta: es decir, en
+operación normal el Nivel~0 actúa como un canal transparente que permite al Nivel~1
+ejercer el control con total libertad. Esta arquitectura implica que es siempre el
+Nivel~0 quien determina si las salidas del Nivel~1 llegan o no a los accionamientos;
+ante cualquier emergencia, simplemente deja de retransmitir esas consignas y toma el
+control directo de las salidas. La acción de \textit{entry} de \texttt{Stand\_By} inicializa las banderas internas
+\texttt{hoist\_solved} y \texttt{trolley\_solved} en \texttt{false}. Durante la
+permanencia en este estado (\textit{during}), el freno de emergencia de izaje se
+mantiene energizado de forma fija ($BRK_{hE} = \texttt{true}$), mientras que los frenos
+de traslación e izaje normal se retransmiten directamente desde el Nivel~1
+($BRK_t = BRK_{t,nvl1}$, $BRK_h = BRK_{h,nvl1}$). El autómata evalúa de forma continua
+las condiciones de transición, a la espera de que alguna de ellas se satisfaga para
+escalar al estado de emergencia correspondiente.
 
 \begin{figure}[H]
     \centering
-    \imgpending{src/nivel0\_emergencies\_standby.png}
+    \img{src/nivel0\_emergencies\_standby.png}
     \caption{Estado \texttt{Emergencies}: estado de entrada \texttt{Stand\_By} (Stateflow).}
     \label{fig:emergencies-standby}
 \end{figure}
@@ -2654,7 +3510,7 @@ emergencia.
 
 \begin{figure}[H]
     \centering
-    \imgpending{src/nivel0\_emergencies\_completo.png}
+    \img{src/nivel0\_emergencies\_completo.png}
     \caption{Estado \texttt{Emergencies} completo: \texttt{Stand\_By} y transiciones
              hacia \texttt{Trolley\_Emgy}, \texttt{Hoist\_Emgy} y \texttt{Global\_Emgy}
              (Stateflow).}
@@ -2664,86 +3520,77 @@ emergencia.
 % ---- 3.3.2 -------------------------------------------------------
 \subsubsection{Subestado \texttt{Trolley\_Emgy}}
 
-Al ingresar a \texttt{Trolley\_Emgy} se ejecutan tres acciones de entrada: se activa la
-variable de emergencia \texttt{Trolley\_Emgy}, que informa al Nivel~1 la condición de
-falla para que tome la acción correspondiente; el Nivel~0 toma el control directo de la
-señal $BRK_t$ —generada en operación normal por el Nivel~1— y la desenergiza
-($BRK_t = \text{Off}$), aplicando el torque de frenado por fricción de~\eqref{eq:freno-t-off}
-para detener el carro de forma inmediata; y se desactiva el controlador de balanceo
-(\texttt{sway\_ctr\_enable~=~0}), dado que con el freno aplicado no tiene sentido
-amortiguar activamente la oscilación de la carga.
+Al ingresar a \texttt{Trolley\_Emgy} se ejecutan las siguientes acciones de entrada:
+se activa la variable de emergencia \texttt{trolley\_emgy}, que informa al Nivel~1 la
+condición de falla; el Nivel~0 toma el control directo de la señal $BRK_t$ y la
+desenergiza ($BRK_t = \texttt{false}$), aplicando el freno de traslación
+de~\eqref{eq:freno-t-off} para detener el carro de forma inmediata; se inicializa
+\texttt{trolley\_solved = false}; y se fija la consigna de posición al valor estimado
+actual (\texttt{x\_t\_ref = x\_t\_estimada}) y la consigna de velocidad a cero
+(\texttt{v\_t\_ref = 0}), congelando la referencia en el punto donde ocurrió la
+emergencia.
 
 El estado de entrada es \texttt{Init}, encargado de seleccionar el origen de la
-emergencia entre los tres orígenes que activan \texttt{Trolley\_Emgy}
-(Sección~\ref{sec:emergencies}). A cada una de estas condiciones se le agrega, mediante
-conjunción, una espera de $3$\,s (\texttt{after(3,sec)}) que permite al sistema reducir
-su dinámica antes de proceder al subestado correspondiente:
+emergencia entre los tres que activan \texttt{Trolley\_Emgy}
+(Sección~\ref{sec:emergencies}):
 
 \begin{itemize}
-    \item $\texttt{FCE\_trolley\_min} \land \texttt{after(3,sec)} \;\Rightarrow\;
+    \item $\texttt{FCE\_carro\_min} \land \texttt{after(3000,msec)} \;\Rightarrow\;
           \texttt{Emgy\_Switch\_Min}$
-    \item $\texttt{FCE\_trolley\_max} \land \texttt{after(3,sec)} \;\Rightarrow\;
+    \item $\texttt{FCE\_carro\_max} \land \texttt{after(3000,msec)} \;\Rightarrow\;
           \texttt{Emgy\_Switch\_Max}$
-    \item $\texttt{sobrevelocidad\_carro} \land \texttt{after(3,sec)} \;\Rightarrow\;
-          \texttt{Overspeed}$
+    \item $\texttt{sobrevelocidad\_carro} \;\Rightarrow\; \texttt{Overspeed\_Delay}$
 \end{itemize}
 
-\begin{figure}[H]
-    \centering
-    \imgpending{src/nivel0\_trolley\_emgy\_init.png}
-    \caption{Subestado \texttt{Trolley\_Emgy}: acciones de entrada y selección de origen
-             de la emergencia en \texttt{Init} (Stateflow).}
-    \label{fig:trolley-emgy-init}
-\end{figure}
+Para las condiciones de fin de carrera, la espera de $3$\,s está incorporada en la
+propia condición de transición, permitiendo que el carro termine de detenerse antes de
+continuar. Para la sobrevelocidad, en cambio, la transición hacia \texttt{Overspeed\_Delay}
+es inmediata y es ese estado intermedio quien impone los $3$\,s de espera
+(\texttt{after(3000,msec)}) antes de pasar a \texttt{Overspeed}.
 
 Los subestados \texttt{Emgy\_Switch\_Min} y \texttt{Emgy\_Switch\_Max} implementan la
 misma lógica de forma espejada. En su acción de entrada se energiza el freno
-($BRK_t = \text{On}$), liberando los frenos para permitir el reposicionamiento manual
-del carro hacia una zona definida como segura para la operación. Para ello se fuerza la
-referencia de velocidad del carro \texttt{v\_t\_ref} a tomar valores acotados y de signo
-único: positivos en \texttt{Emgy\_Switch\_Min}, alejando al carro del extremo mínimo, y
-negativos en \texttt{Emgy\_Switch\_Max}, alejándolo del extremo máximo, limitados además
-en magnitud para evitar movimientos a alta velocidad:
+($BRK_t = \texttt{true}$), liberándolo para permitir el reposicionamiento manual del
+carro. Durante la permanencia en estos subestados (\textit{during}), la referencia de
+velocidad del carro \texttt{v\_t\_ref} toma valores acotados y de signo único: solo
+positivos en \texttt{Emgy\_Switch\_Min}, alejando al carro del extremo mínimo, y solo
+negativos en \texttt{Emgy\_Switch\_Max}, alejándolo del extremo máximo:
 
 \begin{center}
     \texttt{Emgy\_Switch\_Min:}\quad\texttt{v\_t\_ref = max(min(vx\_joystick, 0.5), 0)} \\[6pt]
     \texttt{Emgy\_Switch\_Max:}\quad\texttt{v\_t\_ref = min(max(vx\_joystick, -0.5), 0)}
 \end{center}
 
-La consigna de velocidad de izaje \texttt{dl\_h\_ref}, en cambio, se libera sin
-restricciones al valor introducido por el joystick (\texttt{vy\_joystick}), dado que la
-emergencia es exclusiva del mecanismo de traslación. La transición desde ambos
-subestados hacia \texttt{Solved} evalúa que la posición estimada del carro proveniente
-del Nivel~2, \texttt{x\_t\_estimada}, se encuentre más hacia el interior del recorrido
-que una posición de seguridad (\texttt{x\_t\_safety\_min} o \texttt{x\_t\_safety\_max},
-según corresponda), definida a $3$\,m del fin de carrera de emergencia correspondiente
-en la dirección de operación segura.
+La consigna de velocidad de izaje \texttt{dl\_h\_ref} se libera al joystick
+(\texttt{vy\_joystick}), dado que la emergencia es exclusiva del mecanismo de
+traslación. La transición hacia \texttt{Solved} evalúa que la posición estimada
+\texttt{x\_t\_estimada} haya superado una posición de seguridad interior al recorrido
+(\texttt{x\_t\_safety\_min} o \texttt{x\_t\_safety\_max} según corresponda).
 
-El tercer subestado alcanzable desde \texttt{Init} es \texttt{Overspeed}, al que se
-llega tras los mismos $3$\,s de espera cuando el origen de la emergencia es la
-sobrevelocidad. En su acción de entrada se energiza el freno ($BRK_t = \text{On}$),
-liberando el eje, y se habilita el controlador de balanceo
-(\texttt{sway\_ctr\_enable~=~1}) para eliminar cualquier dinámica residual en el ángulo
-de la carga inducida por la
-desaceleración brusca previa. La transición hacia \texttt{Solved} se ejecuta cuando el
-ángulo de balanceo verifica $|\theta_l| < 1^\circ$.
+El camino de sobrevelocidad llega a \texttt{Overspeed} tras los $3$\,s en
+\texttt{Overspeed\_Delay}. La acción de entrada de \texttt{Overspeed} desactiva el
+controlador de balanceo (\texttt{sway\_ctr\_enable = false}) para evitar que interfiera
+durante la transición. Internamente, \texttt{Overspeed} contiene su propio \texttt{Init}
+que, tras otros $3$\,s adicionales, pasa a \texttt{Sway\_Control}: allí se energiza el
+freno ($BRK_t = \texttt{true}$) y se rehabilita el controlador de balanceo
+(\texttt{sway\_ctr\_enable = true}) para disipar la oscilación residual inducida por la
+frenada brusca. Desde \texttt{Sway\_Control}, la transición hacia \texttt{Solved} se
+ejecuta cuando el ángulo de balanceo verifica $|\theta_l| < 1^\circ$, o bien de forma
+incondicional tras $10$\,s (\texttt{after(10,sec)}) como salvaguarda temporal.
 
-En el subestado \texttt{Solved}, común a los tres caminos anteriores, se resetea la
-variable de emergencia \texttt{Trolley\_Emgy} y se activa la variable
-\texttt{Trolley\_solved}, que habilita la transición externa
-$\texttt{Trolley\_Emgy} \to \texttt{Stand\_By}$ de regreso al estado padre
-\texttt{Emergencies}.
+En el subestado \texttt{Solved}, común a los tres caminos anteriores, se resetea
+\texttt{trolley\_emgy} y se activa \texttt{trolley\_solved}, habilitando la transición
+externa de regreso a \texttt{Stand\_By}.
 
 La Figura~\ref{fig:trolley-emgy-completo} muestra el subestado \texttt{Trolley\_Emgy}
-completo, incluyendo \texttt{Init}, los tres caminos de emergencia y el estado
-\texttt{Solved}.
+completo con todos sus estados internos y transiciones.
 
 \begin{figure}[H]
     \centering
-    \imgpending{src/nivel0\_trolley\_emgy\_completo.png}
+    \img{src/nivel0_trolley_emgy.png}
     \caption{Subestado \texttt{Trolley\_Emgy} completo: \texttt{Init},
-             \texttt{Emgy\_Switch\_Min}, \texttt{Emgy\_Switch\_Max}, \texttt{Overspeed}
-             y \texttt{Solved} (Stateflow).}
+             \texttt{Emgy\_Switch\_Min}, \texttt{Emgy\_Switch\_Max},
+             \texttt{Overspeed\_Delay}, \texttt{Overspeed} y \texttt{Solved} (Stateflow).}
     \label{fig:trolley-emgy-completo}
 \end{figure}
 
@@ -2751,72 +3598,60 @@ completo, incluyendo \texttt{Init}, los tres caminos de emergencia y el estado
 \subsubsection{Subestado \texttt{Hoist\_Emgy}}
 
 El subestado \texttt{Hoist\_Emgy} es análogo a \texttt{Trolley\_Emgy} pero aplicado al
-mecanismo de izaje. Al ingresar se activa la variable de emergencia
-\texttt{hoist\_emgy}, que informa al Nivel~1 la condición de falla, y el Nivel~0 toma el
-control directo de los dos frenos del izaje, desenergizándolos ($BRK_h = \text{Off}$,
-$BRK_{hE} = \text{Off}$) para detener el tambor de forma inmediata mediante la acción
-conjunta del freno de operación~\eqref{eq:freno-h-off} y del freno de
-emergencia~\eqref{eq:freno-he-off}.
+mecanismo de izaje. Al ingresar se ejecutan las acciones de entrada: se activa
+\texttt{hoist\_emgy} para informar al Nivel~1 la condición de falla; el Nivel~0
+desenergiza ambos frenos del izaje ($BRK_h = \texttt{false}$, $BRK_{hE} = \texttt{false}$)
+para detener el tambor de forma inmediata mediante la acción conjunta del freno de
+operación~\eqref{eq:freno-h-off} y del freno de emergencia~\eqref{eq:freno-he-off};
+se inicializa \texttt{hoist\_solved = false}; y se fija la consigna de velocidad de
+cable a cero (\texttt{dl\_h\_ref = 0}).
 
-El estado de entrada es \texttt{Init}, que selecciona el origen de la emergencia entre
-los tres orígenes que activan \texttt{Hoist\_Emgy} (Sección~\ref{sec:emergencies}), cada
-uno con la misma espera de $3$\,s antes de proceder al subestado correspondiente:
+El estado de entrada es \texttt{Init}, que selecciona el origen de la emergencia:
 
 \begin{itemize}
-    \item $\texttt{FCE\_hoist\_min} \land \texttt{after(3,sec)} \;\Rightarrow\;
+    \item $\texttt{FCE\_izaje\_min} \land \texttt{after(3000,msec)} \;\Rightarrow\;
           \texttt{Emgy\_Switch\_Min}$
-    \item $\texttt{FCE\_hoist\_max} \land \texttt{after(3,sec)} \;\Rightarrow\;
+    \item $\texttt{FCE\_izaje\_max} \land \texttt{after(3000,msec)} \;\Rightarrow\;
           \texttt{Emgy\_Switch\_Max}$
-    \item $\texttt{sobrevelocidad\_izaje} \land \texttt{after(3,sec)} \;\Rightarrow\;
-          \texttt{Overspeed}$
+    \item $\texttt{sobrevelocidad\_izaje} \;\Rightarrow\; \texttt{Overspeed\_Delay}$
 \end{itemize}
 
-\begin{figure}[H]
-    \centering
-    \imgpending{src/nivel0\_hoist\_emgy\_init.png}
-    \caption{Subestado \texttt{Hoist\_Emgy}: acciones de entrada y selección de origen
-             de la emergencia en \texttt{Init} (Stateflow).}
-    \label{fig:hoist-emgy-init}
-\end{figure}
+Al igual que en \texttt{Trolley\_Emgy}, la sobrevelocidad transiciona inmediatamente a
+\texttt{Overspeed\_Delay}, que impone los $3$\,s de espera antes de pasar a
+\texttt{Overspeed}.
 
 Los subestados \texttt{Emgy\_Switch\_Min} y \texttt{Emgy\_Switch\_Max} replican la lógica
 de \texttt{Trolley\_Emgy} de forma espejada. En su acción de entrada se energizan ambos
-frenos del izaje ($BRK_h = \text{On}$, $BRK_{hE} = \text{On}$), liberando el tambor para
-permitir el reposicionamiento manual de la carga hacia una zona definida como segura. La
-referencia de velocidad del carro \texttt{v\_t\_ref} queda liberada sin restricciones al
-valor del joystick (\texttt{vx\_joystick}), dado que la emergencia es exclusiva del
-mecanismo de izaje, mientras que la referencia de velocidad de izaje
-\texttt{dl\_h\_ref} se acota de forma análoga a \texttt{v\_t\_ref} en
-\texttt{Trolley\_Emgy}:
+frenos del izaje ($BRK_h = \texttt{true}$, $BRK_{hE} = \texttt{true}$), liberando el
+tambor para el reposicionamiento manual. Durante la permanencia (\textit{during}), la
+referencia de velocidad del carro \texttt{v\_t\_ref} se libera directamente al joystick
+(\texttt{vx\_joystick}) sin restricción de signo, dado que la emergencia es exclusiva del
+izaje, mientras que \texttt{dl\_h\_ref} se acota con signo único:
 
 \begin{center}
     \texttt{Emgy\_Switch\_Min:}\quad\texttt{dl\_h\_ref = max(min(vy\_joystick, 0.5), 0)} \\[6pt]
     \texttt{Emgy\_Switch\_Max:}\quad\texttt{dl\_h\_ref = min(max(vy\_joystick, -0.5), 0)}
 \end{center}
 
-La transición desde ambos subestados hacia \texttt{Solved} evalúa que la longitud de
-cable estimada proveniente del Nivel~2, \texttt{l\_h\_estimada}, se encuentre más hacia
-el interior del recorrido que una posición de seguridad (\texttt{l\_h\_safety\_min} o
-\texttt{l\_h\_safety\_max}, según corresponda), definida a $3$\,m del fin de carrera de
-emergencia correspondiente en la dirección de operación segura.
+La transición hacia \texttt{Solved} evalúa que la longitud de cable medida \texttt{l\_h}
+haya superado el umbral de seguridad correspondiente (\texttt{l\_h\_safety\_min} o
+\texttt{l\_h\_safety\_max}).
 
-El tercer subestado alcanzable desde \texttt{Init} es \texttt{Overspeed}: tras los mismos
-$3$\,s de espera, su única acción de entrada es energizar ambos frenos del izaje
-($BRK_h = \text{On}$, $BRK_{hE} = \text{On}$), liberando el tambor, tras lo cual se
-transiciona directamente a \texttt{Solved}.
+En \texttt{Overspeed}, la acción de entrada energiza ambos frenos del izaje
+($BRK_h = \texttt{true}$, $BRK_{hE} = \texttt{true}$). A diferencia de
+\texttt{Trolley\_Emgy}, no existe un subestado de control de balanceo: la transición
+hacia \texttt{Solved} se dispara tras $500$\,ms (\texttt{after(500,msec)}), con
+un máximo de $10$\,s como salvaguarda temporal.
 
-En el subestado \texttt{Solved}, común a los tres caminos anteriores, se resetea la
-variable de emergencia \texttt{hoist\_emgy} y se activa la variable
-\texttt{hoist\_solved}, que habilita la transición externa
-$\texttt{Hoist\_Emgy} \to \texttt{Stand\_By}$ de regreso al estado padre
-\texttt{Emergencies}.
+En \texttt{Solved} se resetea \texttt{hoist\_emgy} y se activa \texttt{hoist\_solved},
+habilitando la transición externa de regreso a \texttt{Stand\_By}.
 
 \begin{figure}[H]
     \centering
-    \imgpending{src/nivel0\_hoist\_emgy\_completo.png}
+    \img{src/nivel0\_hoist\_emgy.png}
     \caption{Subestado \texttt{Hoist\_Emgy} completo: \texttt{Init},
-             \texttt{Emgy\_Switch\_Min}, \texttt{Emgy\_Switch\_Max}, \texttt{Overspeed}
-             y \texttt{Solved} (Stateflow).}
+             \texttt{Emgy\_Switch\_Min}, \texttt{Emgy\_Switch\_Max},
+             \texttt{Overspeed\_Delay}, \texttt{Overspeed} y \texttt{Solved} (Stateflow).}
     \label{fig:hoist-emgy-completo}
 \end{figure}
 
@@ -2832,24 +3667,24 @@ recuperación requiere reconocimiento explícito del operador en lugar de una co
 posición segura evaluada automáticamente.
 
 En su acción de entrada se desenergizan simultáneamente los tres frenos del sistema
-($BRK_t = \text{Off}$, $BRK_h = \text{Off}$, $BRK_{hE} = \text{Off}$), deteniendo de
-forma inmediata tanto el carro como el izaje, y se activa la variable
-\texttt{global\_emgy}. Mientras permanece en este subestado (acción \texttt{during}) se
-fuerzan a cero las referencias de velocidad de ambos mecanismos,
-\texttt{v\_t\_ref~=~0} y \texttt{dl\_h\_ref~=~0}, como resguardo adicional a nivel de
-consigna independiente del estado de los frenos.
+($BRK_{hE} = \texttt{false}$, $BRK_t = \texttt{false}$, $BRK_h = \texttt{false}$),
+deteniendo de forma inmediata tanto el carro como el izaje; se activa la variable
+\texttt{emgy}; y se desactiva el controlador de balanceo
+(\texttt{sway\_ctr\_enable = false}). Durante la permanencia (\textit{during}) se
+fuerzan a cero las referencias de velocidad de ambos mecanismos (\texttt{v\_t\_ref = 0},
+\texttt{dl\_h\_ref = 0}), como resguardo adicional a nivel de consigna independiente
+del estado de los frenos.
 
 Transcurridos $3$\,s (\texttt{after(3000,msec)}) se transiciona a
-\texttt{Waiting\_Global\_Emgy\_Ack}, un subestado de espera en el que el sistema
-permanece detenido hasta que el operador reconoce la emergencia desde la HMI. Solo ante
-la señal \texttt{cmd\_global\_emgy\_ack} se ejecuta la transición de regreso a
-\texttt{Stand\_By}, con la acción asociada $\texttt{global\_emgy} = \text{false}$ que
-desactiva la variable de emergencia; al reingresar a \texttt{Stand\_By} se reenergizan
-los tres frenos, liberando nuevamente el control de los mecanismos hacia el Nivel~1.
+\texttt{Waiting\_Global\_Emgy\_Ack}, subestado de espera en el que el sistema permanece
+detenido hasta que el operador reconoce la emergencia desde la HMI. Solo ante la señal
+\texttt{cmd\_global\_emgy\_ack} se ejecuta la transición de regreso a \texttt{Stand\_By},
+con la acción asociada \texttt{\{emgy = false;\}} que desactiva la bandera de emergencia
+global antes de retornar al modo normal de operación.
 
 \begin{figure}[H]
     \centering
-    \imgpending{src/nivel0\_global\_emgy\_completo.png}
+    \img{src/nivel0\_global\_emgy\_completo.png}
     \caption{Subestado \texttt{Global\_Emgy} completo: acciones de entrada, espera de
              $3$\,s y reconocimiento del operador en \texttt{Waiting\_Global\_Emgy\_Ack}
              (Stateflow).}
@@ -2895,11 +3730,391 @@ junto con \texttt{cmd\_emgy\_stop}, una de las dos condiciones de entrada a
 
 \begin{figure}[H]
     \centering
-    \imgpending{src/nivel0\_watchdog\_completo.png}
+    \img{src/nivel0\_watchdog\_completo.png}
     \caption{Estado \texttt{Watchdog} completo: \texttt{Init}, \texttt{Reset\_Counter},
              \texttt{Increase\_counter} y \texttt{Watchdog\_Emgy} (Stateflow).}
     \label{fig:watchdog-completo}
 \end{figure}
+
+% ── SECCIÓN 4 ────────────────────────────────────────────────
+\newpage
+\section{Implementación de los Niveles 0 y 1 en CODESYS}
+\label{sec:codesys}
+
+% TODO: contenido
+
+% ── SECCIÓN 5 ────────────────────────────────────────────────
+\newpage
+\section{Interfaz HMI}
+\label{sec:hmi}
+
+La interfaz HMI del sistema se compone de dos subsistemas independientes: el
+\textbf{control de mando} basado en un joystick PS4 con comunicación UDP hacia
+Simulink, y la \textbf{visualización en tiempo real} de la grúa implementada como
+una animación 2D en Python.
+
+\subsection{Control de mando — Joystick PS4}
+\label{sec:hmi-ps4}
+
+La interfaz de operación se implementó sobre un control inalámbrico \textbf{PS4
+DualShock~4}, gestionado desde un equipo de escritorio mediante dos scripts Python
+desarrollados a medida. El control expone dos sticks analógicos y un conjunto de
+botones digitales que se mapean directamente a las consignas y señales de mando del
+sistema.
+
+\paragraph{Script de diagnóstico (\texttt{diagnostico\_control.py}).}\leavevmode
+
+Antes de configurar el mapeado definitivo de ejes y botones, se desarrolló un script
+auxiliar de diagnóstico que enumera en tiempo real \textit{todos} los ejes analógicos y
+botones detectados por la biblioteca \textit{pygame}. La visualización muestra barras
+proporcionales para cada eje (hasta 12) y celdas iluminadas para cada botón (hasta 16),
+indicando además el índice del último botón presionado. Esta herramienta permitió
+determinar de forma empírica qué índice de pygame corresponde a cada control físico del
+mando, independientemente del driver o sistema operativo utilizado.
+
+\begin{figure}[H]
+    \centering
+    \img{src/hmi\_diagnostico.png}
+    \caption{Script de diagnóstico \texttt{diagnostico\_control.py}: visualización en
+             tiempo real de ejes analógicos y botones digitales del control PS4 para
+             identificación de índices (Python/pygame/matplotlib).}
+    \label{fig:hmi-diagnostico}
+\end{figure}
+
+El resultado del diagnóstico determinó el mapeado definitivo de ejes y botones que
+se muestra en la Tabla~\ref{tab:ps4-mapping}.
+
+\begin{table}[H]
+\centering
+\caption{Mapeado del control PS4 DualShock~4: índices pygame y función asignada.}
+\label{tab:ps4-mapping}
+\begin{tabularx}{\textwidth}{clp{2.4cm}lX}
+\hline
+\textbf{Índice} & \textbf{Control físico} & \textbf{Tipo} & \textbf{Señal} & \textbf{Función} \\
+\hline
+Eje 0  & Stick izquierdo (X) & Analógico        & \texttt{trolley\_cmd}      & Consigna de velocidad del carro $[-4{,}0;\,+4{,}0]$\,m/s \\
+Eje 3  & Stick derecho (Y)   & Analógico        & \texttt{hoist\_cmd}        & Consigna de velocidad de cable $[-3{,}0;\,+3{,}0]$\,m/s  \\
+\hline
+Btn 0  & Cruz (\textbf{X})    & Digital (toggle) & \texttt{system\_on}        & Habilitación del sistema ON/OFF        \\
+Btn 2  & Cuadrado ($\square$) & Digital (toggle) & \texttt{twistlock\_closed} & Apertura/cierre del twistlock          \\
+Btn 9  & \textbf{L1}          & Digital (toggle) & \texttt{sway\_ctrl}        & Activación del control de balanceo     \\
+Btn 6  & \textbf{Options}     & Digital (toggle) & \texttt{emergency}         & Comando de emergencia manual           \\
+Btn 10 & \textbf{R1}          & Digital (toggle) & \texttt{emgy\_ack}         & Reconocimiento de emergencia global    \\
+\hline
+\end{tabularx}
+\end{table}
+
+\paragraph{Script principal (\texttt{controller\_reader.py}) — comunicación con
+Simulink y visualización.}\leavevmode
+
+El script principal realiza tres funciones en paralelo mediante un hilo dedicado y
+un bucle de animación:
+
+\begin{enumerate}
+    \item \textbf{Lectura del control}: mediante \textit{pygame} se leen los ejes
+    analógicos del stick izquierdo (eje~0 → traslación del carro) y del stick derecho
+    (eje~3 → velocidad de cable de izaje), con una zona muerta de $\pm 0{,}12$ para
+    eliminar derivas mecánicas. Cinco botones se procesan por flanco de subida como
+    biestables: \textit{cross} (sistema ON/OFF), \textit{square} (twistlock),
+    \textit{L1} (control de balanceo), \textit{Options} (emergencia) y \textit{R1}
+    (reconocimiento de emergencia global).
+
+    \item \textbf{Comunicación con Simulink via UDP}: el script actúa como emisor UDP
+    hacia la dirección de \textit{loopback} \texttt{127.0.0.1}, puerto \texttt{5005},
+    enviando un paquete binario de \textbf{13~bytes} en formato \textit{big-endian} cada
+    $50$\,ms. La estructura del paquete sigue el formato \texttt{!ffBBBBB}:
+
+    \begin{center}
+    \begin{tabular}{clll}
+        \hline
+        \textbf{Bytes} & \textbf{Tipo} & \textbf{Campo} & \textbf{Descripción} \\
+        \hline
+        0--3   & \texttt{float32} & \texttt{trolley\_cmd}      & Consigna de velocidad del carro [m/s] \\
+        4--7   & \texttt{float32} & \texttt{hoist\_cmd}        & Consigna de velocidad de cable [m/s]  \\
+        8      & \texttt{uint8}   & \texttt{system\_on}        & Sistema habilitado (0/1)              \\
+        9      & \texttt{uint8}   & \texttt{twistlock\_closed} & Twistlock cerrado (0/1)               \\
+        10     & \texttt{uint8}   & \texttt{sway\_ctrl}        & Control de balanceo activo (0/1)      \\
+        11     & \texttt{uint8}   & \texttt{emergency}         & Emergencia activa (0/1)               \\
+        12     & \texttt{uint8}   & \texttt{emgy\_ack}         & Reconocimiento de emergencia (0/1)    \\
+        \hline
+    \end{tabular}
+    \end{center}
+
+    Ante la desconexión del mando, el script envía automáticamente un paquete de
+    \textit{estado seguro} con todos los campos en cero, garantizando que Simulink no
+    retenga la última consigna. Adicionalmente se envía un paquete extendido de
+    $14$~bytes al puerto \texttt{5006} (añadiendo un byte de presencia del joystick)
+    para la visualización en tiempo real de la grúa~2D.
+
+    \item \textbf{Visualización del estado}: una ventana \textit{matplotlib} animada a
+    $50$\,ms muestra en tiempo real la posición de ambos sticks, el valor numérico de
+    las consignas de velocidad, el estado activo/inactivo de cada botón, barras de
+    velocidad normalizadas para carro e izaje, un panel de estado del sistema y una
+    franja de emergencia destacada en rojo cuando la emergencia está activa.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \img{src/hmi\_controlador.png}
+    \caption{Visualización en tiempo real del script \texttt{controller\_reader.py}:
+             sticks analógicos, botones, barras de velocidad y panel de estado del
+             control PS4 durante la operación de la grúa (Python/pygame/matplotlib).}
+    \label{fig:hmi-controlador}
+\end{figure}
+
+\paragraph{Recepción en Simulink — bloque \texttt{UDP Receive} y desempaquetado.}\leavevmode
+
+En el lado de Simulink, la recepción del datagrama se realiza mediante el bloque
+\textbf{UDP Receive} del \textit{Instrument Control Toolbox}, configurado para
+escuchar en el puerto local \texttt{5005}, aceptar datagramas de cualquier origen
+(\texttt{Remote IP: '0.0.0.0'}), con un \textit{receive buffer} de \textbf{14~bytes}
+y tipo de dato de salida \texttt{uint8}. El período de muestreo del bloque se fija en
+$1$\,s, de modo que actúa como fuente asíncrona: Simulink toma la última muestra
+disponible en cada paso de tiempo de la simulación.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{src/hmi_udp_receive_config.png}
+    \caption{Configuración del bloque \texttt{UDP Receive} en Simulink: puerto 5005,
+             buffer de 14\,bytes, salida \texttt{uint8} (Instrument Control Toolbox).}
+    \label{fig:hmi-udp-config}
+\end{figure}
+
+La salida del bloque es un vector \texttt{uint8(1$\times$13)} con los bytes crudos del
+datagrama. Su desempaquetado se delega a la \textit{MATLAB Function}
+\texttt{parse\_udp\_packet}, que reconstruye los valores de punto flotante y los flags
+booleanos respetando el orden de bytes \textit{big-endian} empleado por Python
+(\texttt{struct.pack('!ffBBBBB', ...)}):
+
+\begin{lstlisting}[style=matlab, caption={\textit{MATLAB Function}: desempaquetado del datagrama UDP proveniente del control PS4.}, label=lst:parse-udp]
+function [trolley_cmd, hoist_cmd, system_on, twistlock, ...
+          sway_ctrl, emergency, emgy_ack] = parse_udp_packet(data)
+
+trolley_cmd = 0; hoist_cmd = 0;
+system_on   = 0; twistlock = 0;
+sway_ctrl   = 0; emergency = 0; emgy_ack = 0;
+
+if numel(data) < 13
+    return
+end
+
+raw = uint8(data(:)');
+
+trolley_cmd = double(typecast(raw(4:-1:1), 'single'));
+hoist_cmd   = double(typecast(raw(8:-1:5), 'single'));
+
+system_on = double(raw(9));
+twistlock = double(raw(10));
+sway_ctrl = double(raw(11));
+emergency = double(raw(12));
+emgy_ack  = double(raw(13));
+\end{lstlisting}
+
+Los primeros 8~bytes contienen dos valores \texttt{float32} en big-endian; dado que
+MATLAB corre sobre arquitectura little-endian (x86), es necesario invertir el orden
+de los bytes de cada campo antes de aplicar \texttt{typecast}
+(\texttt{raw(4:-1:1)} y \texttt{raw(8:-1:5)}) para obtener el valor correcto.
+Los bytes del 9 al 13 son \texttt{uint8} individuales que se convierten directamente
+a \texttt{double} para su uso en los bloques de Simulink. En caso de recibir un
+paquete con menos de 13~bytes (por ejemplo, durante el arranque antes de que el
+script Python esté activo), la función retorna el estado seguro con todas las salidas
+en cero.
+
+\begin{figure}[H]
+    \centering
+    \img{src/hmi\_udp\_lector\_completo.png}
+    \caption{Bloque de lectura UDP completo en Simulink: \texttt{UDP Receive} y
+             \textit{MATLAB Function} \texttt{parse\_udp\_packet} con sus siete
+             salidas hacia el sistema de control.}
+    \label{fig:hmi-udp-completo}
+\end{figure}
+
+\subsection{Visualización en tiempo real — RT\_VIEW}
+\label{sec:hmi-rtview}
+
+La visualización en tiempo real se implementó como una animación 2D de la grúa STS
+en Python (\texttt{visualizacion\_grua.py}), animada mediante
+\textit{matplotlib.animation} a $\approx 30$\,fps. La ventana replica el estado
+completo del sistema en tiempo real, mostrando simultáneamente la geometría de la
+grúa, el estado del entorno (barco, contenedores apilados, camiones) y un panel de
+variables del sistema.
+
+La simulación en Simulink se configura con \textbf{tiempo de simulación infinito} y
+un \textbf{pacing ratio de 1} (tiempo de simulación = tiempo real), de modo que el
+modelo avanza en tiempo real y el script Python recibe datos coherentes con el reloj
+del operador.
+
+\paragraph{Fuentes de datos — canales UDP.}\leavevmode
+
+El script mantiene tres hilos receptores independientes, cada uno escuchando en un
+puerto distinto:
+
+\begin{itemize}
+    \item \textbf{Puerto 5010 — Simulink}: paquete de \textit{doubles} little-endian
+    cuyo tamaño varía según la versión del bloque UDP Send activo en Simulink
+    (formatos de 8 a 336~bytes). El paquete más completo incluye:
+    posición simulada del carro $x_{t,sim}$, longitud de cable simulada $l_{h,sim}$,
+    ángulo de balanceo simulado $\theta_{l,sim}$, señales discretas de frenos y
+    twistlock ($BRK_t$, $BRK_h$, $BRK_{hE}$, $TLK$, $SWAY\_CTR$), lectura del
+    LIDAR $y_{c0,lidar}$, los 19 contadores de pilas de contenedores en el barco,
+    presencia y carga de los 5 camiones, escenario activo, fuerza medida en cable
+    $F_{hw}$, modo de operación y masa estimada $\hat{m}$.
+
+    \item \textbf{Puerto 5006 — Joystick}: mirror del paquete enviado por
+    \texttt{controller\_reader.py} (formato extendido de 15~bytes, véase
+    Sección~\ref{sec:hmi-ps4}), con las consignas de velocidad y el estado de los
+    botones del control PS4.
+
+    \item \textbf{Puerto 5011 — Contenedores} (canal alternativo): vector de
+    9~\textit{doubles} con los contadores de pilas, utilizado cuando el bloque
+    Simulink envía ese subconjunto en un datagrama separado.
+\end{itemize}
+
+\paragraph{Transmisor UDP en Simulink.}\leavevmode
+
+El envío de datos desde Simulink hacia RT\_VIEW se realiza mediante un bloque
+\textit{UDP Send} configurado con dirección de destino \texttt{127.0.0.1} y
+puerto remoto \textbf{5010}, operando sobre loopback local. El tamaño del buffer
+de envío es de 8192~bytes, suficiente para el paquete más extenso (336~bytes de
+\textit{doubles} little-endian). La Figura~\ref{fig:rt-udp-send} muestra la
+configuración del bloque, y la Figura~\ref{fig:rt-transmisor} el subsistema
+transmisor completo dentro del modelo Simulink.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{src/rtview\_udp\_send\_config.png}
+    \caption{Configuración del bloque \textit{UDP Send} en Simulink para el canal de datos de RT\_VIEW (puerto~5010, loopback).}
+    \label{fig:rt-udp-send}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \img{src/rtview\_transmisor\_completo.png}
+    \caption{Subsistema transmisor completo en Simulink: multiplexado de señales y bloque \textit{UDP Send} hacia RT\_VIEW.}
+    \label{fig:rt-transmisor}
+\end{figure}
+
+\paragraph{Elementos de la visualización.}\leavevmode
+
+La ventana se divide en tres paneles:
+
+\begin{itemize}
+    \item \textbf{Panel izquierdo} (fondo oscuro): estado del control PS4
+    —indicador de conexión del joystick, barras de velocidad normalizadas de carro
+    e izaje, y estado de las señales discretas (sistema ON/OFF, modo, twistlock,
+    balanceo, emergencia).
+
+    \item \textbf{Vista central}: animación 2D a escala real de la grúa,
+    incluyendo la estructura del pórtico, el boom, el carro con sus ruedas y polea,
+    el cable de izaje, el spreader y el contenedor suspendido (rotado con el ángulo
+    de balanceo $\theta_l$). El sensor LIDAR se representa como un cuerpo solidario
+    al carro con su haz de medición y el perfil acumulado de lecturas a lo largo del
+    recorrido. El entorno incluye el muelle, el agua, el barco con sus bodegas, las
+    pilas de contenedores que crecen o se reducen dinámicamente en las 19 posiciones,
+    y hasta 5 camiones de transporte terrestre que aparecen y desaparecen con o sin
+    contenedor según el estado reportado por Simulink.
+
+    \item \textbf{Panel derecho}: variables de estado numéricas actualizadas en
+    tiempo real, separadas en continuas ($x_{t,sim}$, $l_{h,sim}$,
+    $\theta_{l,sim}$, $\hat{m}$, $F_{hw}$) y discretas con pastillas de color
+    semafórico ($BRK_t$, $BRK_h$, $BRK_{hE}$, $TLK$, $SWAY\_CTR$).
+\end{itemize}
+
+En la parte superior de la ventana se muestran además tres indicadores de estado
+global: conexión con Simulink, modo de operación (manual/automático) y escenario
+activo (espera, ciclo carga, ciclo descarga, ciclo doble).
+
+\begin{figure}[H]
+    \centering
+    \img{src/grua\_STS\_2D.png}
+    \caption{Visualización 2D en tiempo real de la grúa STS (\texttt{visualizacion\_grua.py}):
+             vista central con geometría animada, panel izquierdo de control PS4 y
+             panel derecho de variables de estado (Python/matplotlib).}
+    \label{fig:rt-view}
+\end{figure}
+
+\medskip
+\noindent
+\fbox{%
+\begin{minipage}{0.97\textwidth}
+\small
+\textbf{Nota sobre la fidelidad temporal de la visualización.}
+Aunque la animación se actualiza nominalmente a $\approx 30$\,fps y Simulink corre
+con pacing 1:1, la visualización introduce varias fuentes de latencia que pueden
+hacer que lo observado en pantalla no refleje el estado instantáneo del sistema:
+(i)~el intervalo de envío del bloque \textit{UDP Send} de Simulink introduce un
+retardo de hasta un paso de muestreo entre el estado interno del modelo y el datagrama
+efectivamente emitido; (ii)~el hilo receptor Python opera con un \textit{timeout} de
+$500$\,ms, por lo que ante una ráfaga de paquetes solo se procesa el último disponible
+al momento de la lectura, pudiendo saltearse estados intermedios; (iii)~el renderizado
+del canvas de \textit{matplotlib} no está garantizado en tiempo real: en equipos con
+carga elevada o drivers gráficos lentos, el tiempo de dibujado puede acumularse y
+generar un desfase visible entre la animación y el modelo. Por todo esto, la
+visualización RT\_VIEW debe considerarse como una herramienta de monitoreo cualitativo
+y diagnóstico rápido, no como una fuente de referencia temporal precisa. Para
+verificar el estado exacto del sistema, la evolución de señales y el cumplimiento de
+consignas, siempre debe recurrirse a las gráficas y \textit{scopes} internos de
+Simulink.
+\end{minipage}%
+}
+
+% ---- 5.3 -------------------------------------------------------
+\subsection{Panel de monitoreo en Simulink — Dashboard}
+
+Como complemento a las herramientas de visualización externas, se desarrolló un panel
+de monitoreo directamente en el entorno Simulink utilizando la librería
+\textit{Simulation 3D\,/\,Dashboard} de MATLAB. Esta librería permite incorporar
+elementos gráficos interactivos —indicadores luminosos, medidores analógicos, displays
+numéricos, entre otros— directamente en el diagrama de bloques, conectados en tiempo de
+compilación a las señales del modelo. El panel resultante refleja el estado del sistema
+durante la simulación sin necesidad de herramientas externas, con un diseño gráfico
+organizado según la lógica de operación de la grúa. La Figura~\ref{fig:hmi-dashboard}
+muestra el aspecto del panel durante una sesión de simulación.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{src/hmi_dashboard.png}
+    \caption{Panel de monitoreo del sistema desarrollado con la librería \textit{Dashboard} de Simulink.}
+    \label{fig:hmi-dashboard}
+\end{figure}
+
+% ── RESULTADOS ──────────────────────────────────────────────
+\newpage
+\section{Resultados}
+
+\textbf{TODO}
+
+\subsection{Rendimiento: ciclo simple}
+
+\textbf{TODO}
+
+\subsection{Pruebas adicionales}
+
+\textbf{TODO}
+
+\subsubsection{Fines de carrera}
+
+\textbf{TODO}
+
+\subsubsection{Límites de sobrevelocidad}
+
+\textbf{TODO}
+
+\subsubsection{Emergencias}
+
+\textbf{TODO}
+
+\subsubsection{Sobrecarga}
+
+\textbf{TODO}
+
+\subsubsection{Estimación de masa}
+
+\textbf{TODO}
+
+\subsection{Enlaces a videos}
+
+\textbf{TODO}
 
 % ── BIBLIOGRAPHY ────────────────────────────────────────────
 \newpage

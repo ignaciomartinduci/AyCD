@@ -384,8 +384,8 @@ def build_figure():
                            fontweight='bold', zorder=6)
 
     # pie de figura — izquierda: control | derecha: UDP
-    conn_text = fig.text(0.05, 0.006, '[~] Buscando control PS4...',
-                          ha='left', va='bottom', fontsize=8, color='#555555')
+    conn_text = fig.text(0.05, 0.935, '[~] Buscando control PS4...',
+                          ha='left', va='center', fontsize=8, color='#555555')
     udp_text  = fig.text(0.95, 0.006, f'UDP → {UDP_IP}:{UDP_PORT}',
                           ha='right', va='bottom', fontsize=8, color=ACCENT)
 

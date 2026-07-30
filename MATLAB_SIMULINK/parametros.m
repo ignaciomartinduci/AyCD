@@ -143,8 +143,8 @@ w_hm0 = 0;
     
 % Parámetros de NIVEL 1
 
-w_hm_min_BRK = 999999999;
-w_tm_min_BRK = 999999999;
+w_hm_min_BRK = 0.01;
+w_tm_min_BRK = 0.01;
 
 % Parámetros adicionales de NIVEL 1
 

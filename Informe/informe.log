@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.4.30)  23 JUN 2026 11:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.4.30)  29 JUL 2026 12:01
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -235,35 +235,44 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-)) (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
+)) (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/tools\tabularx.sty
+Package: tabularx 2023/12/11 v2.12a `tabularx' package (DPC)
+\TX@col@width=\dimen173
+\TX@old@table=\dimen174
+\TX@old@col=\dimen175
+\TX@target=\dimen176
+\TX@delta=\dimen177
+\TX@cols=\count303
+\TX@ftn=\toks30
+) (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count303
-\float@exts=\toks30
+\c@float@type=\count304
+\float@exts=\toks31
 \float@box=\box57
-\@float@everytoks=\toks31
+\@float@everytoks=\toks32
 \@floatcapt=\box58
 ) (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
 \Urlmuskip=\muskip18
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 ) (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.sty
-\lst@mode=\count304
+\lst@mode=\count305
 \lst@gtempboxa=\box59
-\lst@token=\toks32
-\lst@length=\count305
-\lst@currlwidth=\dimen173
-\lst@column=\count306
-\lst@pos=\count307
-\lst@lostspace=\dimen174
-\lst@width=\dimen175
-\lst@newlines=\count308
-\lst@lineno=\count309
-\lst@maxwidth=\dimen176
+\lst@token=\toks33
+\lst@length=\count306
+\lst@currlwidth=\dimen178
+\lst@column=\count307
+\lst@pos=\count308
+\lst@lostspace=\dimen179
+\lst@width=\dimen180
+\lst@newlines=\count309
+\lst@lineno=\count310
+\lst@maxwidth=\dimen181
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstpatch.sty
 File: lstpatch.sty 2025/11/14 1.11b (Carsten Heinz)
 ) (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty
 File: lstmisc.sty 2025/11/14 1.11b (Carsten Heinz)
-\c@lstnumber=\count310
-\lst@skipnumbers=\count311
+\c@lstnumber=\count311
+\lst@skipnumbers=\count312
 \lst@framebox=\box60
 ) (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.cfg
 File: listings.cfg 2025/11/14 1.11b listings configuration
@@ -305,16 +314,16 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 ))
-\c@section@level=\count312
+\c@section@level=\count313
 ) (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
 Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count313
+\etb@tempcnta=\count314
 ) (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.sty
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
 )
-\@linkdim=\dimen177
-\Hy@linkcounter=\count314
-\Hy@pagecounter=\count315
+\@linkdim=\dimen182
+\Hy@linkcounter=\count315
+\Hy@pagecounter=\count316
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
 File: pd1enc.def 2026-04-24 v7.01q Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
@@ -322,7 +331,7 @@ Now handling font encoding PD1 ...
 ) (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-\Hy@SavedSpaceFactor=\count316
+\Hy@SavedSpaceFactor=\count317
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def
 File: puenc.def 2026-04-24 v7.01q Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
@@ -335,17 +344,17 @@ Package hyperref Info: Plain pages OFF on input line 4214.
 Package hyperref Info: Backreferencing OFF on input line 4219.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4466.
-\c@Hy@tempcnt=\count317
+\c@Hy@tempcnt=\count318
 LaTeX Info: Redefining \url on input line 4805.
-\XeTeXLinkMargin=\dimen178
+\XeTeXLinkMargin=\dimen183
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 ))
-\Fld@menulength=\count318
-\Field@Width=\dimen179
-\Fld@charsize=\dimen180
+\Fld@menulength=\count319
+\Field@Width=\dimen184
+\Fld@charsize=\dimen185
 Package hyperref Info: Hyper figures OFF on input line 6091.
 Package hyperref Info: Link nesting OFF on input line 6096.
 Package hyperref Info: Hyper index ON on input line 6099.
@@ -353,15 +362,15 @@ Package hyperref Info: backreferencing OFF on input line 6106.
 Package hyperref Info: Link coloring OFF on input line 6111.
 Package hyperref Info: Link coloring with OCG OFF on input line 6116.
 Package hyperref Info: PDF/A mode OFF on input line 6121.
-\Hy@abspage=\count319
-\c@Item=\count320
-\c@Hfootnote=\count321
+\Hy@abspage=\count320
+\c@Item=\count321
+\c@Hfootnote=\count322
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
 File: hpdftex.def 2026-04-24 v7.01q Hyperref driver for pdfTeX
-\Fld@listcount=\count322
-\c@bookmark@seq@number=\count323
+\Fld@listcount=\count323
+\c@bookmark@seq@number=\count324
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfilecheck.sty
 Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniquecounter.sty
@@ -372,7 +381,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 28
 \Hy@SectionHShift=\skip71
 ) (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2026-02-18 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count324
+\l__color_backend_stack_int=\count325
 ) (informe.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
@@ -381,26 +390,26 @@ Package babel Info: 'spanish' activates 'spanish' shorthands.
 )
 \openout1 = `informe.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 143.
-LaTeX Font Info:    ... okay on input line 143.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 143.
-LaTeX Font Info:    ... okay on input line 143.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 143.
-LaTeX Font Info:    ... okay on input line 143.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 143.
-LaTeX Font Info:    ... okay on input line 143.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 143.
-LaTeX Font Info:    ... okay on input line 143.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 143.
-LaTeX Font Info:    ... okay on input line 143.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 143.
-LaTeX Font Info:    ... okay on input line 143.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 143.
-LaTeX Font Info:    ... okay on input line 143.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 143.
-LaTeX Font Info:    ... okay on input line 143.
-LaTeX Info: Redefining \. on input line 143.
-LaTeX Info: Redefining \% on input line 143.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Info: Redefining \. on input line 144.
+LaTeX Info: Redefining \% on input line 144.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -438,33 +447,33 @@ LaTeX Info: Redefining \% on input line 143.
 
 (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count325
-\scratchdimen=\dimen181
+\scratchcounter=\count326
+\scratchdimen=\dimen186
 \scratchbox=\box61
-\nofMPsegments=\count326
-\nofMParguments=\count327
-\everyMPshowfont=\toks33
-\MPscratchCnt=\count328
-\MPscratchDim=\dimen182
-\MPnumerator=\count329
-\makeMPintoPDFobject=\count330
-\everyMPtoPDFconversion=\toks34
+\nofMPsegments=\count327
+\nofMParguments=\count328
+\everyMPshowfont=\toks34
+\MPscratchCnt=\count329
+\MPscratchDim=\dimen187
+\MPnumerator=\count330
+\makeMPintoPDFobject=\count331
+\everyMPtoPDFconversion=\toks35
 ) (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-\c@lstlisting=\count331
-Package hyperref Info: Link coloring OFF on input line 143.
+\c@lstlisting=\count332
+Package hyperref Info: Link coloring OFF on input line 144.
  (informe.out) (informe.out)
 \@outlinefile=\write3
 \openout3 = `informe.out'.
 
-<src/header.png, id=147, 296.60812pt x 47.42719pt>
+<src/header.png, id=250, 296.60812pt x 47.42719pt>
 File: src/header.png Graphic file (type png)
 <use src/header.png>
-Package pdftex.def Info: src/header.png  used on input line 150.
+Package pdftex.def Info: src/header.png  used on input line 151.
 (pdftex.def)             Requested size: 295.90588pt x 47.31706pt.
  [1
 
@@ -478,350 +487,637 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 LaTeX Font Info:    Trying to load font information for U+msb on input line 4.
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-))
+) [3])
 \tf@toc=\write4
 \openout4 = `informe.toc'.
 
- [3] [4] [5] [6]
-<src/esquema_acc_carro.png, id=246, 1275.26437pt x 566.86781pt>
+ [4] [5] [6] [7]
+<src/esquema_acc_carro.png, id=381, 1275.26437pt x 566.86781pt>
 File: src/esquema_acc_carro.png Graphic file (type png)
 <use src/esquema_acc_carro.png>
-Package pdftex.def Info: src/esquema_acc_carro.png  used on input line 357.
+Package pdftex.def Info: src/esquema_acc_carro.png  used on input line 358.
 (pdftex.def)             Requested size: 364.19667pt x 161.8877pt.
- [7 <./src/esquema_acc_carro.png>]
-<src/modelo_freno_carro.png, id=271, 1047.915pt x 292.84406pt>
+ [8 <./src/esquema_acc_carro.png>]
+<src/modelo_freno_carro.png, id=405, 1047.915pt x 292.84406pt>
 File: src/modelo_freno_carro.png Graphic file (type png)
 <use src/modelo_freno_carro.png>
-Package pdftex.def Info: src/modelo_freno_carro.png  used on input line 458.
+Package pdftex.def Info: src/modelo_freno_carro.png  used on input line 459.
 (pdftex.def)             Requested size: 455.24411pt x 127.21632pt.
-<src/modelo_acc_carro.png, id=273, 1620.80531pt x 699.36281pt>
+<src/modelo_acc_carro.png, id=407, 1620.80531pt x 699.36281pt>
 File: src/modelo_acc_carro.png Graphic file (type png)
 <use src/modelo_acc_carro.png>
-Package pdftex.def Info: src/modelo_acc_carro.png  used on input line 469.
+Package pdftex.def Info: src/modelo_acc_carro.png  used on input line 470.
 (pdftex.def)             Requested size: 455.24411pt x 196.42851pt.
- [8 <./src/modelo_freno_carro.png>]
-<src/modelo_cable_carro.png, id=287, 859.71187pt x 344.03531pt>
+ [9 <./src/modelo_freno_carro.png>]
+<src/modelo_cable_carro.png, id=421, 859.71187pt x 344.03531pt>
 File: src/modelo_cable_carro.png Graphic file (type png)
 <use src/modelo_cable_carro.png>
-Package pdftex.def Info: src/modelo_cable_carro.png  used on input line 497.
+Package pdftex.def Info: src/modelo_cable_carro.png  used on input line 498.
 (pdftex.def)             Requested size: 455.24411pt x 182.18036pt.
- [9 <./src/modelo_acc_carro.png> <./src/modelo_cable_carro.png>]
-<src/esquema_carro.png, id=298, 737.00343pt x 860.46469pt>
+ [10 <./src/modelo_acc_carro.png> <./src/modelo_cable_carro.png>]
+<src/esquema_carro.png, id=432, 737.00343pt x 860.46469pt>
 File: src/esquema_carro.png Graphic file (type png)
 <use src/esquema_carro.png>
-Package pdftex.def Info: src/esquema_carro.png  used on input line 510.
+Package pdftex.def Info: src/esquema_carro.png  used on input line 511.
 (pdftex.def)             Requested size: 273.14923pt x 318.90527pt.
- [10 <./src/esquema_carro.png>]
-<src/modelo_carro.png, id=311, 1009.52156pt x 407.27156pt>
+ [11 <./src/esquema_carro.png>]
+<src/modelo_carro.png, id=445, 1009.52156pt x 407.27156pt>
 File: src/modelo_carro.png Graphic file (type png)
 <use src/modelo_carro.png>
-Package pdftex.def Info: src/modelo_carro.png  used on input line 549.
+Package pdftex.def Info: src/modelo_carro.png  used on input line 550.
 (pdftex.def)             Requested size: 455.24411pt x 183.662pt.
-<src/modelo_carro_completo.png, id=314, 1081.03876pt x 486.31688pt>
+<src/modelo_carro_completo.png, id=448, 1081.03876pt x 486.31688pt>
 File: src/modelo_carro_completo.png Graphic file (type png)
 <use src/modelo_carro_completo.png>
-Package pdftex.def Info: src/modelo_carro_completo.png  used on input line 569.
+Package pdftex.def Info: src/modelo_carro_completo.png  used on input line 570.
 (pdftex.def)             Requested size: 455.24411pt x 204.7934pt.
- [11 <./src/modelo_carro.png>]
-<src/esquema_acc_izaje.png, id=325, 1111.15125pt x 544.28343pt>
+ [12 <./src/modelo_carro.png>]
+<src/esquema_acc_izaje.png, id=459, 1111.15125pt x 544.28343pt>
 File: src/esquema_acc_izaje.png Graphic file (type png)
 <use src/esquema_acc_izaje.png>
-Package pdftex.def Info: src/esquema_acc_izaje.png  used on input line 606.
+Package pdftex.def Info: src/esquema_acc_izaje.png  used on input line 607.
 (pdftex.def)             Requested size: 364.19667pt x 178.39323pt.
- [12 <./src/modelo_carro_completo.png>] [13 <./src/esquema_acc_izaje.png>] [14]
-<src/modelo_freno_izaje.png, id=370, 1255.69125pt x 347.79938pt>
+ [13 <./src/modelo_carro_completo.png>] [14 <./src/esquema_acc_izaje.png>] [15]
+<src/modelo_freno_izaje.png, id=504, 1255.69125pt x 347.79938pt>
 File: src/modelo_freno_izaje.png Graphic file (type png)
 <use src/modelo_freno_izaje.png>
-Package pdftex.def Info: src/modelo_freno_izaje.png  used on input line 760.
+Package pdftex.def Info: src/modelo_freno_izaje.png  used on input line 761.
 (pdftex.def)             Requested size: 455.24411pt x 126.08864pt.
-<src/modelo_freno_emergencia_izaje.png, id=371, 1056.19594pt x 281.55188pt>
+<src/modelo_freno_emergencia_izaje.png, id=505, 1056.19594pt x 281.55188pt>
 File: src/modelo_freno_emergencia_izaje.png Graphic file (type png)
 <use src/modelo_freno_emergencia_izaje.png>
-Package pdftex.def Info: src/modelo_freno_emergencia_izaje.png  used on input line 767.
+Package pdftex.def Info: src/modelo_freno_emergencia_izaje.png  used on input line 768.
 (pdftex.def)             Requested size: 455.24411pt x 121.35278pt.
-<src/modelo_acc_izaje.png, id=373, 1216.545pt x 687.31781pt>
+<src/modelo_acc_izaje.png, id=507, 1216.545pt x 687.31781pt>
 File: src/modelo_acc_izaje.png Graphic file (type png)
 <use src/modelo_acc_izaje.png>
-Package pdftex.def Info: src/modelo_acc_izaje.png  used on input line 777.
+Package pdftex.def Info: src/modelo_acc_izaje.png  used on input line 778.
 (pdftex.def)             Requested size: 455.24411pt x 257.19818pt.
- [15 <./src/modelo_freno_izaje.png> <./src/modelo_freno_emergencia_izaje.png>]
-<src/modelo_cable_izaje.png, id=389, 987.69pt x 435.87843pt>
+ [16 <./src/modelo_freno_izaje.png> <./src/modelo_freno_emergencia_izaje.png>]
+<src/modelo_cable_izaje.png, id=523, 987.69pt x 435.87843pt>
 File: src/modelo_cable_izaje.png Graphic file (type png)
 <use src/modelo_cable_izaje.png>
-Package pdftex.def Info: src/modelo_cable_izaje.png  used on input line 828.
+Package pdftex.def Info: src/modelo_cable_izaje.png  used on input line 829.
 (pdftex.def)             Requested size: 455.24411pt x 200.89891pt.
- [16 <./src/modelo_acc_izaje.png>]
-<src/modelo_Khw.png, id=403, 547.2947pt x 250.68657pt>
+ [17 <./src/modelo_acc_izaje.png>]
+<src/modelo_Khw.png, id=537, 547.2947pt x 250.68657pt>
 File: src/modelo_Khw.png Graphic file (type png)
 <use src/modelo_Khw.png>
-Package pdftex.def Info: src/modelo_Khw.png  used on input line 836.
+Package pdftex.def Info: src/modelo_Khw.png  used on input line 837.
 (pdftex.def)             Requested size: 341.43307pt x 156.39565pt.
-<src/modelo_bhw.png, id=404, 867.99281pt x 363.60844pt>
+<src/modelo_bhw.png, id=538, 867.99281pt x 363.60844pt>
 File: src/modelo_bhw.png Graphic file (type png)
 <use src/modelo_bhw.png>
-Package pdftex.def Info: src/modelo_bhw.png  used on input line 844.
+Package pdftex.def Info: src/modelo_bhw.png  used on input line 845.
 (pdftex.def)             Requested size: 341.43307pt x 143.02731pt.
- [17 <./src/modelo_cable_izaje.png> <./src/modelo_Khw.png> <./src/modelo_bhw.png>] [18]
-<src/modelo_mov_carga.png, id=431, 805.50937pt x 643.6547pt>
+ [18 <./src/modelo_cable_izaje.png> <./src/modelo_Khw.png> <./src/modelo_bhw.png>] [19]
+<src/modelo_mov_carga.png, id=566, 805.50937pt x 643.6547pt>
 File: src/modelo_mov_carga.png Graphic file (type png)
 <use src/modelo_mov_carga.png>
-Package pdftex.def Info: src/modelo_mov_carga.png  used on input line 945.
+Package pdftex.def Info: src/modelo_mov_carga.png  used on input line 946.
 (pdftex.def)             Requested size: 455.24411pt x 363.7638pt.
-<src/modelo_Fcy.png, id=432, 1218.05063pt x 599.23875pt>
+<src/modelo_Fcy.png, id=567, 1218.05063pt x 599.23875pt>
 File: src/modelo_Fcy.png Graphic file (type png)
 <use src/modelo_Fcy.png>
-Package pdftex.def Info: src/modelo_Fcy.png  used on input line 952.
+Package pdftex.def Info: src/modelo_Fcy.png  used on input line 953.
 (pdftex.def)             Requested size: 455.24411pt x 223.9642pt.
- [19 <./src/modelo_mov_carga.png>]
-<src/modelo_Fcx.png, id=445, 882.29625pt x 587.94656pt>
+ [20 <./src/modelo_mov_carga.png>]
+<src/modelo_Fcx.png, id=579, 882.29625pt x 587.94656pt>
 File: src/modelo_Fcx.png Graphic file (type png)
 <use src/modelo_Fcx.png>
-Package pdftex.def Info: src/modelo_Fcx.png  used on input line 960.
+Package pdftex.def Info: src/modelo_Fcx.png  used on input line 961.
 (pdftex.def)             Requested size: 455.24411pt x 303.36554pt.
- [20 <./src/modelo_Fcy.png> <./src/modelo_Fcx.png>]
-<src/modelo_theta_l.png, id=456, 450.68375pt x 442.65375pt>
+ [21 <./src/modelo_Fcy.png> <./src/modelo_Fcx.png>]
+<src/modelo_theta_l.png, id=590, 450.68375pt x 442.65375pt>
 File: src/modelo_theta_l.png Graphic file (type png)
 <use src/modelo_theta_l.png>
-Package pdftex.def Info: src/modelo_theta_l.png  used on input line 1028.
+Package pdftex.def Info: src/modelo_theta_l.png  used on input line 1029.
 (pdftex.def)             Requested size: 455.24411pt x 447.15779pt.
- [21] [22 <./src/modelo_theta_l.png>]
-<src/modelo_izaje_completo.png, id=476, 947.79094pt x 660.96938pt>
+ [22] [23 <./src/modelo_theta_l.png>]
+<src/modelo_izaje_completo.png, id=610, 947.79094pt x 660.96938pt>
 File: src/modelo_izaje_completo.png Graphic file (type png)
 <use src/modelo_izaje_completo.png>
-Package pdftex.def Info: src/modelo_izaje_completo.png  used on input line 1060.
+Package pdftex.def Info: src/modelo_izaje_completo.png  used on input line 1061.
 (pdftex.def)             Requested size: 455.24411pt x 317.4735pt.
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <12> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 1082.
- [23 <./src/modelo_izaje_completo.png>] (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 1080.
+ [24 <./src/modelo_izaje_completo.png>] (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 1095.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 1099.
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 1096.
- [24]
-<src/modelo_suelo.png, id=547, 1431.84938pt x 674.52pt>
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 1100.
+ [25] [26] [27] [28] [29]
+<src/modelo_suelo.png, id=855, 1431.84938pt x 674.52pt>
 File: src/modelo_suelo.png Graphic file (type png)
 <use src/modelo_suelo.png>
-Package pdftex.def Info: src/modelo_suelo.png  used on input line 1156.
+Package pdftex.def Info: src/modelo_suelo.png  used on input line 1376.
 (pdftex.def)             Requested size: 455.24411pt x 214.45105pt.
- [25 <./src/modelo_suelo.png (PNG copy)>]
-<src/modelo_fines_carrera.png, id=561, 596.98032pt x 711.4078pt>
+ [30 <./src/modelo_suelo.png (PNG copy)>]
+<src/modelo_fines_carrera.png, id=873, 473.26813pt x 525.965pt>
 File: src/modelo_fines_carrera.png Graphic file (type png)
 <use src/modelo_fines_carrera.png>
-Package pdftex.def Info: src/modelo_fines_carrera.png  used on input line 1217.
-(pdftex.def)             Requested size: 455.24411pt x 542.51009pt.
- [26] [27 <./src/modelo_fines_carrera.png>]
-<src/modelo_field_weakening.png, id=580, 1206.00563pt x 423.83344pt>
+Package pdftex.def Info: src/modelo_fines_carrera.png  used on input line 1437.
+(pdftex.def)             Requested size: 455.24411pt x 505.94792pt.
+ [31] [32 <./src/modelo_fines_carrera.png>]
+<src/modelo_field_weakening.png, id=893, 1206.00563pt x 423.83344pt>
 File: src/modelo_field_weakening.png Graphic file (type png)
 <use src/modelo_field_weakening.png>
-Package pdftex.def Info: src/modelo_field_weakening.png  used on input line 1286.
+Package pdftex.def Info: src/modelo_field_weakening.png  used on input line 1506.
 (pdftex.def)             Requested size: 455.24411pt x 159.98482pt.
- [28]
-<src/modelo_moduladores.png, id=595, 1144.275pt x 499.11469pt>
+<src/modelo_moduladores.png, id=895, 1144.275pt x 499.11469pt>
 File: src/modelo_moduladores.png Graphic file (type png)
 <use src/modelo_moduladores.png>
-Package pdftex.def Info: src/modelo_moduladores.png  used on input line 1297.
+Package pdftex.def Info: src/modelo_moduladores.png  used on input line 1517.
 (pdftex.def)             Requested size: 455.24411pt x 198.56848pt.
-
-Overfull \hbox (1.66353pt too wide) in paragraph at lines 1315--1319
+ [33 <./src/modelo_field_weakening.png>]
+Overfull \hbox (1.66353pt too wide) in paragraph at lines 1535--1539
 \T1/cmr/m/n/12 emer-gen-cia, ca-ja re-duc-to-ra y tam-bor), mo-de-lo de ca-ble de iza-je elástico-amortiguado,
  []
 
-[29 <./src/modelo_field_weakening.png> <./src/modelo_moduladores.png>]
-Overfull \hbox (1.3441pt too wide) in paragraph at lines 1372--1374
+[34 <./src/modelo_moduladores.png>]
+Overfull \hbox (1.3441pt too wide) in paragraph at lines 1592--1594
 []\T1/cmtt/m/n/12 sobrevelocidad_izaje_noload\T1/cmr/m/n/12 : de-tec-tor de so-bre-ve-lo-ci-dad de iza-je sin car-ga (aten-
  []
 
-[30]
-<src/sistema_fisico_completo.png, id=612, 834.86906pt x 745.28438pt>
+<src/sistema_fisico_completo.png, id=918, 834.86906pt x 745.28438pt>
 File: src/sistema_fisico_completo.png Graphic file (type png)
 <use src/sistema_fisico_completo.png>
-Package pdftex.def Info: src/sistema_fisico_completo.png  used on input line 1381.
+Package pdftex.def Info: src/sistema_fisico_completo.png  used on input line 1601.
 (pdftex.def)             Requested size: 455.24411pt x 406.40506pt.
- [31 <./src/sistema_fisico_completo.png>] [32]
-Overfull \hbox (16.22676pt too wide) detected at line 1473
+[35] [36 <./src/sistema_fisico_completo.png>] [37]
+Overfull \hbox (16.22676pt too wide) detected at line 1693
 [][][]\OML/cmm/m/it/12 A[] \OT1/cmr/m/n/12 = [] \OML/cmm/m/it/12 ;  B[] \OT1/cmr/m/n/12 = [] \OML/cmm/m/it/12 ;  C[] \OT1/cmr/m/n/12 = []
  []
 
-[33]
-Overfull \hbox (9.4621pt too wide) detected at line 1563
+[38]
+Overfull \hbox (9.4621pt too wide) detected at line 1783
 [][][]\OML/cmm/m/it/12 M[] \OT1/cmr/m/n/12 = []  [] + [](\OML/cmm/m/it/12 M[] \OT1/cmr/m/n/12 + \OML/cmm/m/it/12 m[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 TLK\OT1/cmr/m/n/12 )) [[]]\OML/cmm/m/it/12 ;  b[] \OT1/cmr/m/n/12 = []  [] + [] \OML/cmm/m/it/12 b[]
  []
 
-[34]
-<src/integrador_tustin.png, id=670, 851.43094pt x 294.34969pt>
+[39] [40]
+<src/integrador_tustin.png, id=996, 851.43094pt x 294.34969pt>
 File: src/integrador_tustin.png Graphic file (type png)
 <use src/integrador_tustin.png>
-Package pdftex.def Info: src/integrador_tustin.png  used on input line 1672.
+Package pdftex.def Info: src/integrador_tustin.png  used on input line 1941.
 (pdftex.def)             Requested size: 455.24411pt x 157.38344pt.
-<src/controlador_carro_discreto.png, id=671, 956.82469pt x 411.78844pt>
+<src/controlador_carro_discreto.png, id=997, 956.82469pt x 411.78844pt>
 File: src/controlador_carro_discreto.png Graphic file (type png)
 <use src/controlador_carro_discreto.png>
-Package pdftex.def Info: src/controlador_carro_discreto.png  used on input line 1680.
+Package pdftex.def Info: src/controlador_carro_discreto.png  used on input line 1949.
 (pdftex.def)             Requested size: 455.24411pt x 195.92198pt.
- [35 <./src/integrador_tustin.png>]
-<src/observador_carro_discreto.png, id=686, 667.49374pt x 486.81876pt>
+ [41 <./src/integrador_tustin.png>]
+<src/observador_carro_discreto.png, id=1024, 667.49374pt x 486.81876pt>
 File: src/observador_carro_discreto.png Graphic file (type png)
 <use src/observador_carro_discreto.png>
-Package pdftex.def Info: src/observador_carro_discreto.png  used on input line 1688.
+Package pdftex.def Info: src/observador_carro_discreto.png  used on input line 1957.
 (pdftex.def)             Requested size: 455.24411pt x 332.02776pt.
- [36 <./src/controlador_carro_discreto.png> <./src/observador_carro_discreto.png>]
-<src/velocidad_carro_comparativa_INFORME.jpg, id=696, 2569.6pt x 1335.99126pt>
+ [42 <./src/controlador_carro_discreto.png> <./src/observador_carro_discreto.png>]
+<src/velocidad_carro_comparativa_INFORME.jpg, id=1034, 2569.6pt x 1335.99126pt>
 File: src/velocidad_carro_comparativa_INFORME.jpg Graphic file (type jpg)
 <use src/velocidad_carro_comparativa_INFORME.jpg>
-Package pdftex.def Info: src/velocidad_carro_comparativa_INFORME.jpg  used on input line 1710.
+Package pdftex.def Info: src/velocidad_carro_comparativa_INFORME.jpg  used on input line 1979.
 (pdftex.def)             Requested size: 455.24411pt x 236.67633pt.
-<src/posicion_carro_comparativa_INFORME.jpg, id=697, 2569.6pt x 1335.99126pt>
+<src/posicion_carro_comparativa_INFORME.jpg, id=1035, 2569.6pt x 1335.99126pt>
 File: src/posicion_carro_comparativa_INFORME.jpg Graphic file (type jpg)
 <use src/posicion_carro_comparativa_INFORME.jpg>
-Package pdftex.def Info: src/posicion_carro_comparativa_INFORME.jpg  used on input line 1719.
+Package pdftex.def Info: src/posicion_carro_comparativa_INFORME.jpg  used on input line 1988.
 (pdftex.def)             Requested size: 455.24411pt x 236.67633pt.
- [37 <./src/velocidad_carro_comparativa_INFORME.jpg>]
-<src/torque_carro_INFORME.jpg, id=706, 2312.64pt x 1078.0275pt>
+ [43 <./src/velocidad_carro_comparativa_INFORME.jpg>]
+<src/torque_carro_INFORME.jpg, id=1044, 2312.64pt x 1078.0275pt>
 File: src/torque_carro_INFORME.jpg Graphic file (type jpg)
 <use src/torque_carro_INFORME.jpg>
-Package pdftex.def Info: src/torque_carro_INFORME.jpg  used on input line 1727.
+Package pdftex.def Info: src/torque_carro_INFORME.jpg  used on input line 1996.
 (pdftex.def)             Requested size: 455.24411pt x 212.19666pt.
- [38 <./src/posicion_carro_comparativa_INFORME.jpg> <./src/torque_carro_INFORME.jpg>]
-Overfull \hbox (10.22464pt too wide) detected at line 1778
+ [44 <./src/posicion_carro_comparativa_INFORME.jpg> <./src/torque_carro_INFORME.jpg>]
+Overfull \hbox (10.22464pt too wide) detected at line 2047
 [][][]\OML/cmm/m/it/12 A[] \OT1/cmr/m/n/12 = [] \OML/cmm/m/it/12 ;  B[] \OT1/cmr/m/n/12 = [] \OML/cmm/m/it/12 ;  B[] \OT1/cmr/m/n/12 = [] \OML/cmm/m/it/12 ;  C[] \OT1/cmr/m/n/12 = []
  []
 
 
-Overfull \hbox (19.78427pt too wide) in paragraph at lines 1798--1801
+Overfull \hbox (19.78427pt too wide) in paragraph at lines 2067--2070
 []\T1/cmr/m/n/12 La ob-ser-va-bi-li-dad pue-de ve-ri-fi-car-se ana-lí-ti-ca-men-te: $\OMS/cmsy/m/n/12 W[]$ \T1/cmr/m/n/12 es la iden-ti-dad, con $[]\OT1/cmr/m/n/12 (\OMS/cmsy/m/n/12 W[]\OT1/cmr/m/n/12 ) =
  []
 
 
-Overfull \hbox (39.88531pt too wide) detected at line 1840
+Overfull \hbox (39.88531pt too wide) detected at line 2109
 [][][]\OMS/cmsy/m/n/12 ^^@[] \OML/cmm/m/it/12 J[] []\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 t\OT1/cmr/m/n/12 ) = \OML/cmm/m/it/12 T[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 t\OT1/cmr/m/n/12 ) + \OML/cmm/m/it/12 T[] []t; BRK[][] \OT1/cmr/m/n/12 + [] + [] \OML/cmm/m/it/12 b[] []\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 t\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ^^@ [] \OML/cmm/m/it/12 F[] []t; l\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 t\OT1/cmr/m/n/12 ) \OML/cmm/m/it/12 > l[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 t\OT1/cmr/m/n/12 )[]
  []
 
-[39]
-Overfull \hbox (51.81178pt too wide) detected at line 1910
+[45]
+Overfull \hbox (51.81178pt too wide) detected at line 2179
 []
  []
 
-[40]
-<src/controlador_izaje_discreto.png, id=753, 1191.7022pt x 474.27188pt>
+[46]
+<src/controlador_izaje_discreto.png, id=1091, 1191.7022pt x 474.27188pt>
 File: src/controlador_izaje_discreto.png Graphic file (type png)
 <use src/controlador_izaje_discreto.png>
-Package pdftex.def Info: src/controlador_izaje_discreto.png  used on input line 1939.
+Package pdftex.def Info: src/controlador_izaje_discreto.png  used on input line 2208.
 (pdftex.def)             Requested size: 455.24411pt x 181.1732pt.
-<src/observador_izaje_discreto.png, id=754, 1512.40031pt x 567.62062pt>
+<src/observador_izaje_discreto.png, id=1092, 1512.40031pt x 567.62062pt>
 File: src/observador_izaje_discreto.png Graphic file (type png)
 <use src/observador_izaje_discreto.png>
-Package pdftex.def Info: src/observador_izaje_discreto.png  used on input line 1947.
+Package pdftex.def Info: src/observador_izaje_discreto.png  used on input line 2216.
 (pdftex.def)             Requested size: 455.24411pt x 170.85913pt.
- [41 <./src/controlador_izaje_discreto.png> <./src/observador_izaje_discreto.png>]
-<src/velocidad_izaje_comparativa_INFORME.jpg, id=768, 2312.64pt x 1078.0275pt>
+ [47 <./src/controlador_izaje_discreto.png> <./src/observador_izaje_discreto.png>]
+<src/velocidad_izaje_comparativa_INFORME.jpg, id=1107, 2312.64pt x 1078.0275pt>
 File: src/velocidad_izaje_comparativa_INFORME.jpg Graphic file (type jpg)
 <use src/velocidad_izaje_comparativa_INFORME.jpg>
-Package pdftex.def Info: src/velocidad_izaje_comparativa_INFORME.jpg  used on input line 1966.
+Package pdftex.def Info: src/velocidad_izaje_comparativa_INFORME.jpg  used on input line 2263.
 (pdftex.def)             Requested size: 455.24411pt x 212.19666pt.
-<src/posicion_izaje_comparativa_INFORME.jpg, id=769, 2569.6pt x 1335.99126pt>
+ [48]
+<src/posicion_izaje_comparativa_INFORME.jpg, id=1129, 2569.6pt x 1335.99126pt>
 File: src/posicion_izaje_comparativa_INFORME.jpg Graphic file (type jpg)
 <use src/posicion_izaje_comparativa_INFORME.jpg>
-Package pdftex.def Info: src/posicion_izaje_comparativa_INFORME.jpg  used on input line 1974.
+Package pdftex.def Info: src/posicion_izaje_comparativa_INFORME.jpg  used on input line 2271.
 (pdftex.def)             Requested size: 455.24411pt x 236.67633pt.
-<src/torque_izaje_INFORME.jpg, id=770, 2312.64pt x 1078.0275pt>
+<src/torque_izaje_INFORME.jpg, id=1130, 2312.64pt x 1078.0275pt>
 File: src/torque_izaje_INFORME.jpg Graphic file (type jpg)
 <use src/torque_izaje_INFORME.jpg>
-Package pdftex.def Info: src/torque_izaje_INFORME.jpg  used on input line 1982.
+Package pdftex.def Info: src/torque_izaje_INFORME.jpg  used on input line 2279.
 (pdftex.def)             Requested size: 455.24411pt x 212.19666pt.
- [42 <./src/velocidad_izaje_comparativa_INFORME.jpg> <./src/posicion_izaje_comparativa_INFORME.jpg>] [43 <./src/torque_izaje_INFORME.jpg>] [44]
+ [49 <./src/velocidad_izaje_comparativa_INFORME.jpg> <./src/posicion_izaje_comparativa_INFORME.jpg>] [50 <./src/torque_izaje_INFORME.jpg>] [51]
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2206.
-
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2206.
-
-Missing character: There is no ° in font cmr12!
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2206.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2503.
 
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2206.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2503.
 
 Missing character: There is no ° in font cmr12!
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2209.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2503.
 
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2209.
-
-Missing character: There is no ° in font cmr12!
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2209.
-
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2209.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2503.
 
 Missing character: There is no ° in font cmr12!
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2210.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2506.
 
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2210.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2506.
+
+Missing character: There is no ° in font cmr12!
+
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2506.
+
+
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2506.
 
 Missing character: There is no ° in font cmr12!
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2210.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2507.
 
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2210.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2507.
 
 Missing character: There is no ° in font cmr12!
-[45]
-Overfull \hbox (0.26674pt too wide) in paragraph at lines 2233--2235
+
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2507.
+
+
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2507.
+
+Missing character: There is no ° in font cmr12!
+[52]
+Overfull \hbox (0.26674pt too wide) in paragraph at lines 2530--2532
  []\T1/cmr/bx/n/12 Implementación en Si-mu-link co-mo \T1/cmr/bx/it/12 MATLAB Fun-ction\T1/cmr/bx/n/12 .[] \T1/cmr/m/n/12 La im-ple-men-ta-ción com-
  []
 
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <8> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 2237.
-<src/balanceo_consigna_INFORME.jpg, id=837, 2569.6pt x 1335.99126pt>
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 2534.
+<src/balanceo_consigna_INFORME.jpg, id=1196, 2569.6pt x 1335.99126pt>
 File: src/balanceo_consigna_INFORME.jpg Graphic file (type jpg)
 <use src/balanceo_consigna_INFORME.jpg>
-Package pdftex.def Info: src/balanceo_consigna_INFORME.jpg  used on input line 2281.
+Package pdftex.def Info: src/balanceo_consigna_INFORME.jpg  used on input line 2578.
 (pdftex.def)             Requested size: 455.24411pt x 236.67633pt.
-[46]
-<src/balanceo_posicion_INFORME.jpg, id=881, 2569.6pt x 1335.99126pt>
+[53]
+<src/balanceo_posicion_INFORME.jpg, id=1240, 2569.6pt x 1335.99126pt>
 File: src/balanceo_posicion_INFORME.jpg Graphic file (type jpg)
 <use src/balanceo_posicion_INFORME.jpg>
-Package pdftex.def Info: src/balanceo_posicion_INFORME.jpg  used on input line 2289.
+Package pdftex.def Info: src/balanceo_posicion_INFORME.jpg  used on input line 2586.
 (pdftex.def)             Requested size: 455.24411pt x 236.67633pt.
-<src/balanceo_angulo_INFORME.jpg, id=882, 2569.6pt x 1335.99126pt>
+<src/balanceo_angulo_INFORME.jpg, id=1241, 2569.6pt x 1335.99126pt>
 File: src/balanceo_angulo_INFORME.jpg Graphic file (type jpg)
 <use src/balanceo_angulo_INFORME.jpg>
-Package pdftex.def Info: src/balanceo_angulo_INFORME.jpg  used on input line 2303.
+Package pdftex.def Info: src/balanceo_angulo_INFORME.jpg  used on input line 2600.
 (pdftex.def)             Requested size: 455.24411pt x 236.67633pt.
- [47 <./src/balanceo_consigna_INFORME.jpg> <./src/balanceo_posicion_INFORME.jpg>]
-<src/nivel_2_completo.png, id=890, 962.09438pt x 489.32813pt>
+ [54 <./src/balanceo_consigna_INFORME.jpg> <./src/balanceo_posicion_INFORME.jpg>]
+<src/nivel_2_completo.png, id=1249, 962.09438pt x 489.32813pt>
 File: src/nivel_2_completo.png Graphic file (type png)
 <use src/nivel_2_completo.png>
-Package pdftex.def Info: src/nivel_2_completo.png  used on input line 2340.
+Package pdftex.def Info: src/nivel_2_completo.png  used on input line 2637.
 (pdftex.def)             Requested size: 455.24411pt x 231.54475pt.
- [48 <./src/balanceo_angulo_INFORME.jpg>]
-Overfull \hbox (11.5145pt too wide) in paragraph at lines 2349--2349
+ [55 <./src/balanceo_angulo_INFORME.jpg>]
+Overfull \hbox (11.5145pt too wide) in paragraph at lines 2646--2646
 []\T1/cmr/bx/n/14.4 Conversión de los dia-gra-mas de blo-ques del Ni-vel 2 a \T1/cmr/bx/it/14.4 MATLAB
  []
 
-[49 <./src/nivel_2_completo.png>] [50] [51] [52] [53] [54] [55]
-Underfull \hbox (badness 10000) in paragraph at lines 2746--2746
-[]\T1/cmr/m/n/12 Figura 45: []Subestado \T1/cmtt/m/n/12 Trolley_Emgy \T1/cmr/m/n/12 com-ple-to: \T1/cmtt/m/n/12 Init\T1/cmr/m/n/12 , \T1/cmtt/m/n/12 Emgy_Switch_Min\T1/cmr/m/n/12 ,
+[56 <./src/nivel_2_completo.png>] [57] [58]
+<src/esquema_nivel1_io.png, id=1406, 356.83313pt x 438.13687pt>
+File: src/esquema_nivel1_io.png Graphic file (type png)
+<use src/esquema_nivel1_io.png>
+Package pdftex.def Info: src/esquema_nivel1_io.png  used on input line 2869.
+(pdftex.def)             Requested size: 455.24411pt x 559.00151pt.
+ [59]
+Overfull \hbox (37.9723pt too wide) in paragraph at lines 2880--2884
+[]\T1/cmtt/m/n/12 Heartbeat_Generator \T1/cmr/m/n/12 al-ter-na en-tre \T1/cmtt/m/n/12 Heartbeat_High \T1/cmr/m/n/12 (\T1/cmtt/m/n/12 heartbeat = true\T1/cmr/m/n/12 ) y \T1/cmtt/m/n/12 Heartbeat_Low
  []
 
-[56]
-Overfull \hbox (15.42769pt too wide) in paragraph at lines 2782--2791
+[60 <./src/esquema_nivel1_io.png>]
+<src/nivel1_off_heartbeat.png, id=1457, 626.34pt x 536.50438pt>
+File: src/nivel1_off_heartbeat.png Graphic file (type png)
+<use src/nivel1_off_heartbeat.png>
+Package pdftex.def Info: src/nivel1_off_heartbeat.png  used on input line 2899.
+(pdftex.def)             Requested size: 455.24411pt x 389.95854pt.
+
+Overfull \hbox (18.1792pt too wide) in paragraph at lines 2907--2910
+[]\T1/cmr/m/n/12 Dentro del es-ta-do ac-ti-vo de \T1/cmtt/m/n/12 Supervisory_Control \T1/cmr/m/n/12 ope-ra el subes-ta-do pa-ra-le-lo \T1/cmtt/m/n/12 BRK_Logic\T1/cmr/m/n/12 ,
+ []
+
+[61 <./src/nivel1_off_heartbeat.png>]
+<src/nivel1_brk_logic.png, id=1465, 914.41624pt x 507.39563pt>
+File: src/nivel1_brk_logic.png Graphic file (type png)
+<use src/nivel1_brk_logic.png>
+Package pdftex.def Info: src/nivel1_brk_logic.png  used on input line 2928.
+(pdftex.def)             Requested size: 455.24411pt x 252.60553pt.
+
+Overfull \hbox (36.7772pt too wide) in paragraph at lines 2936--2940
+\T1/cmr/m/n/12 fi-nes de ca-rre-ra del sis-te-ma me-dian-te cua-tro ra-mas pa-ra-le-las in-de-pen-dien-tes: \T1/cmtt/m/n/12 Trolley_Min_Logic\T1/cmr/m/n/12 ,
+ []
+
+<src/nivel1_limit_switch.png, id=1467, 571.13374pt x 445.665pt>
+File: src/nivel1_limit_switch.png Graphic file (type png)
+<use src/nivel1_limit_switch.png>
+Package pdftex.def Info: src/nivel1_limit_switch.png  used on input line 2954.
+(pdftex.def)             Requested size: 455.24411pt x 355.23363pt.
+[62 <./src/nivel1_brk_logic.png>]
+<src/nivel1_mode.png, id=1478, 402.00188pt x 507.8975pt>
+File: src/nivel1_mode.png Graphic file (type png)
+<use src/nivel1_mode.png>
+Package pdftex.def Info: src/nivel1_mode.png  used on input line 2986.
+(pdftex.def)             Requested size: 455.24411pt x 575.16524pt.
+ [63 <./src/nivel1_limit_switch.png>] [64 <./src/nivel1_mode.png>]
+<src/nivel1_tlk_logic.png, id=1494, 712.16063pt x 248.93pt>
+File: src/nivel1_tlk_logic.png Graphic file (type png)
+<use src/nivel1_tlk_logic.png>
+Package pdftex.def Info: src/nivel1_tlk_logic.png  used on input line 3032.
+(pdftex.def)             Requested size: 455.24411pt x 159.12473pt.
+
+Overfull \hbox (29.5903pt too wide) in paragraph at lines 3040--3045
+\T1/cmr/m/n/12 pa-ra-le-lo de ba-lan-ceo del Ni-vel 2. Cons-ta de dos es-ta-dos: \T1/cmtt/m/n/12 Sway_Control_ON \T1/cmr/m/n/12 y \T1/cmtt/m/n/12 Sway_Control_OFF\T1/cmr/m/n/12 ,
+ []
+
+[65 <./src/nivel1_tlk_logic.png>]
+<src/nivel1_sway_control.png, id=1504, 711.15688pt x 257.96375pt>
+File: src/nivel1_sway_control.png Graphic file (type png)
+<use src/nivel1_sway_control.png>
+Package pdftex.def Info: src/nivel1_sway_control.png  used on input line 3055.
+(pdftex.def)             Requested size: 455.24411pt x 165.13953pt.
+ [66 <./src/nivel1_sway_control.png>]
+<src/nivel1_lidar_map.png, id=1513, 692.5875pt x 395.97937pt>
+File: src/nivel1_lidar_map.png Graphic file (type png)
+<use src/nivel1_lidar_map.png>
+Package pdftex.def Info: src/nivel1_lidar_map.png  used on input line 3108.
+(pdftex.def)             Requested size: 455.24411pt x 260.28377pt.
+ [67 <./src/nivel1_lidar_map.png>]
+<src/nivel1_trolley_flags.png, id=1522, 974.13937pt x 298.11375pt>
+File: src/nivel1_trolley_flags.png Graphic file (type png)
+<use src/nivel1_trolley_flags.png>
+Package pdftex.def Info: src/nivel1_trolley_flags.png  used on input line 3139.
+(pdftex.def)             Requested size: 455.24411pt x 139.31743pt.
+<src/nivel1_hoist_flags.png, id=1523, 632.3625pt x 240.9pt>
+File: src/nivel1_hoist_flags.png Graphic file (type png)
+<use src/nivel1_hoist_flags.png>
+Package pdftex.def Info: src/nivel1_hoist_flags.png  used on input line 3155.
+(pdftex.def)             Requested size: 455.24411pt x 173.42947pt.
+ [68 <./src/nivel1_trolley_flags.png> <./src/nivel1_hoist_flags.png>]
+Overfull \hbox (89.96536pt too wide) in paragraph at lines 3172--3177
+\T1/cmr/m/n/12 DAR ($\OML/cmm/m/it/12 l[] \OT1/cmr/m/n/12 = \OML/cmm/m/it/12 l[]$\T1/cmr/m/n/12 ). La tra-yec-to-ria de iza-je se ge-ne-ra con la fun-ción \T1/cmtt/m/n/12 generador_trayectoria_izaje\T1/cmr/m/n/12 ,
+ []
+
+
+Overfull \hbox (8.97307pt too wide) in paragraph at lines 3206--3211
+\T1/cmr/m/n/12 quier alar-ma de fin de ca-rre-ra, el pla-ni-fi-ca-dor abor-ta el ci-clo y re-tor-na a \T1/cmtt/m/n/12 Scenario_Selector\T1/cmr/m/n/12 .
+ []
+
+<src/nivel1_trajectory_planner.png, id=1534, 783.42688pt x 299.61937pt>
+File: src/nivel1_trajectory_planner.png Graphic file (type png)
+<use src/nivel1_trajectory_planner.png>
+Package pdftex.def Info: src/nivel1_trajectory_planner.png  used on input line 3214.
+(pdftex.def)             Requested size: 455.24411pt x 174.10852pt.
+[69]
+<src/nivel1_loop_init.png, id=1547, 188.705pt x 145.04187pt>
+File: src/nivel1_loop_init.png Graphic file (type png)
+<use src/nivel1_loop_init.png>
+Package pdftex.def Info: src/nivel1_loop_init.png  used on input line 3240.
+(pdftex.def)             Requested size: 182.09486pt x 139.96008pt.
+ [70 <./src/nivel1_trajectory_planner.png> <./src/nivel1_loop_init.png>] [71]
+<src/nivel1_pickup_loop.png, id=1573, 587.19376pt x 519.9425pt>
+File: src/nivel1_pickup_loop.png Graphic file (type png)
+<use src/nivel1_pickup_loop.png>
+Package pdftex.def Info: src/nivel1_pickup_loop.png  used on input line 3317.
+(pdftex.def)             Requested size: 455.24411pt x 403.10202pt.
+ [72 <./src/nivel1_pickup_loop.png>] [73]
+<src/esquema_nivel0_io.png, id=1590, 602.75188pt x 468.24937pt>
+File: src/esquema_nivel0_io.png Graphic file (type png)
+<use src/esquema_nivel0_io.png>
+Package pdftex.def Info: src/esquema_nivel0_io.png  used on input line 3425.
+(pdftex.def)             Requested size: 455.24411pt x 353.65114pt.
+ [74]
+<src/nivel_0_completo.png, id=1599, 876.77562pt x 510.90875pt>
+File: src/nivel_0_completo.png Graphic file (type png)
+<use src/nivel_0_completo.png>
+Package pdftex.def Info: src/nivel_0_completo.png  used on input line 3443.
+(pdftex.def)             Requested size: 455.24411pt x 265.27649pt.
+ [75 <./src/esquema_nivel0_io.png>]
+<src/nivel0_emergencies_standby.png, id=1607, 1085.55562pt x 232.36812pt>
+File: src/nivel0_emergencies_standby.png Graphic file (type png)
+<use src/nivel0_emergencies_standby.png>
+Package pdftex.def Info: src/nivel0_emergencies_standby.png  used on input line 3471.
+(pdftex.def)             Requested size: 455.24411pt x 97.44856pt.
+ [76 <./src/nivel_0_completo.png>]
+<src/nivel0_emergencies_completo.png, id=1617, 944.02687pt x 471.7625pt>
+File: src/nivel0_emergencies_completo.png Graphic file (type png)
+<use src/nivel0_emergencies_completo.png>
+Package pdftex.def Info: src/nivel0_emergencies_completo.png  used on input line 3513.
+(pdftex.def)             Requested size: 455.24411pt x 227.5016pt.
+ [77 <./src/nivel0_emergencies_standby.png>] [78 <./src/nivel0_emergencies_completo.png>]
+<src/nivel0_trolley_emgy.png, id=1635, 534.49687pt x 483.30562pt>
+File: src/nivel0_trolley_emgy.png Graphic file (type png)
+<use src/nivel0_trolley_emgy.png>
+Package pdftex.def Info: src/nivel0_trolley_emgy.png  used on input line 3590.
+(pdftex.def)             Requested size: 455.24411pt x 411.6598pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 3593--3593
+[]\T1/cmr/m/n/12 Figura 57: []Subestado \T1/cmtt/m/n/12 Trolley_Emgy \T1/cmr/m/n/12 com-ple-to: \T1/cmtt/m/n/12 Init\T1/cmr/m/n/12 , \T1/cmtt/m/n/12 Emgy_Switch_Min\T1/cmr/m/n/12 ,
+ []
+
+[79]
+Overfull \hbox (56.15446pt too wide) in paragraph at lines 3619--3622
+[]\T1/cmr/m/n/12 Al igual que en \T1/cmtt/m/n/12 Trolley_Emgy\T1/cmr/m/n/12 , la so-bre-ve-lo-ci-dad tran-si-cio-na in-me-dia-ta-men-te a \T1/cmtt/m/n/12 Overspeed_Delay\T1/cmr/m/n/12 ,
+ []
+
+[80 <./src/nivel0_trolley_emgy.png>]
+Overfull \hbox (15.42769pt too wide) in paragraph at lines 3623--3630
 []\T1/cmr/m/n/12 Los subes-ta-dos \T1/cmtt/m/n/12 Emgy_Switch_Min \T1/cmr/m/n/12 y \T1/cmtt/m/n/12 Emgy_Switch_Max \T1/cmr/m/n/12 re-pli-can la ló-gi-ca de \T1/cmtt/m/n/12 Trolley_Emgy
  []
 
-[57] [58] [59]
-Underfull \hbox (badness 3058) in paragraph at lines 2939--2943
+<src/nivel0_hoist_emgy.png, id=1651, 534.49687pt x 483.30562pt>
+File: src/nivel0_hoist_emgy.png Graphic file (type png)
+<use src/nivel0_hoist_emgy.png>
+Package pdftex.def Info: src/nivel0_hoist_emgy.png  used on input line 3651.
+(pdftex.def)             Requested size: 455.24411pt x 411.6598pt.
+[81] [82 <./src/nivel0_hoist_emgy.png>]
+<src/nivel0_global_emgy_completo.png, id=1664, 620.81938pt x 286.06876pt>
+File: src/nivel0_global_emgy_completo.png Graphic file (type png)
+<use src/nivel0_global_emgy_completo.png>
+Package pdftex.def Info: src/nivel0_global_emgy_completo.png  used on input line 3687.
+(pdftex.def)             Requested size: 455.24411pt x 209.7713pt.
+ [83 <./src/nivel0_global_emgy_completo.png>]
+<src/nivel0_watchdog_completo.png, id=1674, 960.58875pt x 331.73938pt>
+File: src/nivel0_watchdog_completo.png Graphic file (type png)
+<use src/nivel0_watchdog_completo.png>
+Package pdftex.def Info: src/nivel0_watchdog_completo.png  used on input line 3733.
+(pdftex.def)             Requested size: 455.24411pt x 157.21843pt.
+ [84 <./src/nivel0_watchdog_completo.png>] [85]
+Overfull \hbox (8.44537pt too wide) in paragraph at lines 3759--3764
+[]\T1/cmr/m/n/12 La in-ter-faz de ope-ra-ción se im-ple-men-tó so-bre un con-trol in-alám-bri-co \T1/cmr/bx/n/12 PS4 DualShock 4\T1/cmr/m/n/12 ,
+ []
+
+<src/hmi_diagnostico.png, id=1688, 1284.29813pt x 721.69624pt>
+File: src/hmi_diagnostico.png Graphic file (type png)
+<use src/hmi_diagnostico.png>
+Package pdftex.def Info: src/hmi_diagnostico.png  used on input line 3777.
+(pdftex.def)             Requested size: 455.24411pt x 255.81302pt.
+
+Underfull \hbox (badness 3417) in paragraph at lines 3804--3804
+[]|\T1/cmr/m/n/12 Consigna de ve-
+ []
+
+
+Underfull \hbox (badness 1038) in paragraph at lines 3804--3804
+\T1/cmr/m/n/12 lo-ci-dad del ca-rro
+ []
+
+
+Underfull \hbox (badness 3417) in paragraph at lines 3804--3804
+[]|\T1/cmr/m/n/12 Consigna de ve-
+ []
+
+
+Underfull \hbox (badness 2735) in paragraph at lines 3804--3804
+\T1/cmr/m/n/12 lo-ci-dad de ca-ble
+ []
+
+
+Underfull \hbox (badness 1205) in paragraph at lines 3804--3804
+[]|\T1/cmr/m/n/12 Digital (tog-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3804--3804
+[]|\T1/cmr/m/n/12 Habilitación del
+ []
+
+
+Underfull \hbox (badness 1205) in paragraph at lines 3804--3804
+[]|\T1/cmr/m/n/12 Digital (tog-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3804--3804
+[]|\T1/cmr/m/n/12 Apertura/cierre
+ []
+
+
+Underfull \hbox (badness 1205) in paragraph at lines 3804--3804
+[]|\T1/cmr/m/n/12 Digital (tog-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3804--3804
+[]|\T1/cmr/m/n/12 Activación del
+ []
+
+
+Underfull \hbox (badness 1205) in paragraph at lines 3804--3804
+[]|\T1/cmr/m/n/12 Digital (tog-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3804--3804
+[]|\T1/cmr/m/n/12 Comando de
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3804--3804
+\T1/cmr/m/n/12 emer-gen-cia ma-
+ []
+
+
+Underfull \hbox (badness 1205) in paragraph at lines 3804--3804
+[]|\T1/cmr/m/n/12 Digital (tog-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3804--3804
+[]|\T1/cmr/m/n/12 Reconocimiento
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3804--3804
+\T1/cmr/m/n/12 de emer-gen-cia
+ []
+
+[86 <./src/hmi_diagnostico.png>] [87]
+<src/hmi_controlador.png, id=1709, 971.63pt x 568.1225pt>
+File: src/hmi_controlador.png Graphic file (type png)
+<use src/hmi_controlador.png>
+Package pdftex.def Info: src/hmi_controlador.png  used on input line 3858.
+(pdftex.def)             Requested size: 455.24411pt x 266.1854pt.
+ [88 <./src/hmi_controlador.png>]
+<src/hmi_udp_receive_config.png, id=1719, 312.16624pt x 422.07687pt>
+File: src/hmi_udp_receive_config.png Graphic file (type png)
+<use src/hmi_udp_receive_config.png>
+Package pdftex.def Info: src/hmi_udp_receive_config.png  used on input line 3877.
+(pdftex.def)             Requested size: 227.62206pt x 307.77222pt.
+ [89 <./src/hmi_udp_receive_config.png>]
+<src/hmi_udp_lector_completo.png, id=1740, 788.9475pt x 242.9075pt>
+File: src/hmi_udp_lector_completo.png Graphic file (type png)
+<use src/hmi_udp_lector_completo.png>
+Package pdftex.def Info: src/hmi_udp_lector_completo.png  used on input line 3925.
+(pdftex.def)             Requested size: 455.24411pt x 140.16367pt.
+ [90 <./src/hmi_udp_lector_completo.png>]
+<src/rtview_udp_send_config.png, id=1761, 314.67563pt x 281.55188pt>
+File: src/rtview_udp_send_config.png Graphic file (type png)
+<use src/rtview_udp_send_config.png>
+Package pdftex.def Info: src/rtview_udp_send_config.png  used on input line 3985.
+(pdftex.def)             Requested size: 227.62206pt x 203.66234pt.
+<src/rtview_transmisor_completo.png, id=1762, 486.81876pt x 434.12187pt>
+File: src/rtview_transmisor_completo.png Graphic file (type png)
+<use src/rtview_transmisor_completo.png>
+Package pdftex.def Info: src/rtview_transmisor_completo.png  used on input line 3992.
+(pdftex.def)             Requested size: 455.24411pt x 405.96812pt.
+ [91 <./src/rtview_udp_send_config.png>] [92 <./src/rtview_transmisor_completo.png>]
+<src/grua_STS_2D.png, id=1780, 1284.29813pt x 721.69624pt>
+File: src/grua_STS_2D.png Graphic file (type png)
+<use src/grua_STS_2D.png>
+Package pdftex.def Info: src/grua_STS_2D.png  used on input line 4029.
+(pdftex.def)             Requested size: 455.24411pt x 255.81302pt.
+ [93 <./src/grua_STS_2D.png>]
+<src/hmi_dashboard.png, id=1790, 729.22438pt x 425.08812pt>
+File: src/hmi_dashboard.png Graphic file (type png)
+<use src/hmi_dashboard.png>
+Package pdftex.def Info: src/hmi_dashboard.png  used on input line 4076.
+(pdftex.def)             Requested size: 455.24411pt x 265.37456pt.
+ [94 <./src/hmi_dashboard.png>] [95]
+Underfull \hbox (badness 3058) in paragraph at lines 4154--4158
 \T1/cmr/m/it/12 Con-cepts\T1/cmr/m/n/12 . OPC Foun-da-tion, Scot-ts-da-le, AZ, 2017. Dis-po-ni-ble en: []$\T1/cmtt/m/n/12 https : / /
  []
 
-[60] 
+[96] 
 enddocument/afterlastpage (AED): lastpage setting LastPage.
 (informe.aux
 LaTeX Info: Redefining \. on input line 11.
@@ -831,25 +1127,21 @@ LaTeX Info: Redefining \% on input line 11.
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-03-20>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `informe.out' has not changed.
-(rerunfilecheck)             Checksum: 8E50A3350A0E85A5077D0D01DE156225;8166.
+(rerunfilecheck)             Checksum: 534864E5AFEFE58712E84E0B2AF5545A;13111.
  ) 
 Here is how much of TeX's memory you used:
- 16501 strings out of 467691
- 255749 string characters out of 5414019
- 1204783 words of memory out of 5000000
- 44791 multiletter control sequences out of 15000+600000
- 652337 words of font info for 100 fonts, out of 8000000 for 9000
+ 17273 strings out of 467691
+ 270827 string characters out of 5414019
+ 1210124 words of memory out of 5000000
+ 45230 multiletter control sequences out of 15000+600000
+ 654550 words of font info for 110 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,20n,84p,537b,2713s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecit1095.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1095.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt0800.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecit1000.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0600.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0800.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbi1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbi1440.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1095.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on informe.pdf (60 pages, 5733245 bytes).
+ 75i,20n,84p,537b,2715s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1095.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt0800.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecit1000.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0600.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0800.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbi1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbi1440.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1095.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on informe.pdf (96 pages, 8818433 bytes).
 PDF statistics:
- 2064 PDF objects out of 2073 (max. 8388607)
- 555 named destinations out of 1000 (max. 500000)
- 489 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2923 PDF objects out of 2984 (max. 8388607)
+ 882 named destinations out of 1000 (max. 500000)
+ 842 words of extra memory for PDF output out of 10000 (max. 10000000)
 

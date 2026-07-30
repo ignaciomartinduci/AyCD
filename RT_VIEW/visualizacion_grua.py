@@ -889,7 +889,6 @@ def update_frame(_frame):
         tc        = _ctrl_state['trolley_cmd']
         hc        = _ctrl_state['hoist_cmd']
         c_sys     = _ctrl_state['system_on']
-        c_mode    = _ctrl_state['mode_auto']
         c_tlk     = _ctrl_state['twistlock_closed']
         c_sway    = _ctrl_state['sway_ctrl']
         c_emg     = _ctrl_state['emergency']
@@ -1007,7 +1006,7 @@ def update_frame(_frame):
     def _cs(key, txt, clr): dyn_ctrl_status[key].set_text(txt); dyn_ctrl_status[key].set_color(clr)
     _cs('sys',  'CONECTADO' if sim_ok else 'DESCONECTADO', _CPG if sim_ok else _CNR)
     _cs('csys', 'ON'     if c_sys  else 'OFF',    _CPG if c_sys  else '#888888')
-    _cs('mode', 'AUTO'   if c_mode else 'MANUAL', _CAC if c_mode else '#f39c12')
+    _cs('mode', 'AUTO'   if modo_val == 1 else 'MANUAL', _CAC if modo_val == 1 else '#f39c12')
     _cs('tlk',  'CERR'   if c_tlk  else 'ABTO',  _CPG if c_tlk  else '#e67e22')
     _cs('sway', 'ON'     if c_sway else 'OFF',    '#8e44ad' if c_sway else '#888888')
     _cs('emg',  '⚠ EMRG' if c_emg  else 'OK',    _CNR if c_emg  else _CPG)
@@ -1036,7 +1035,7 @@ def update_frame(_frame):
 ani = animation.FuncAnimation(fig, update_frame, interval=SIM_UPDATE_MS,
                                cache_frame_data=False)
 
-plt.savefig('RT_VIEW/grua_STS_2D.png', dpi=150, bbox_inches='tight',
+plt.savefig('grua_STS_2D.png', dpi=150, bbox_inches='tight',
             facecolor=fig.get_facecolor())
-print("Imagen guardada en RT_VIEW/grua_STS_2D.png")
+print("Imagen guardada en grua_STS_2D.png")
 plt.show()

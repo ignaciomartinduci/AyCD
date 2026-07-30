@@ -1,70 +1,119 @@
 \babel@toc {spanish}{}\relax 
-\contentsline {section}{\numberline {1}Introducción}{4}{section.1}%
-\contentsline {section}{\numberline {2}Modelado matemático del sistema físico}{6}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Subsistema \textit {Trolley}}{6}{subsection.2.1}%
-\contentsline {subsubsection}{\numberline {2.1.1}Accionamiento de traslación del carro}{7}{subsubsection.2.1.1}%
-\contentsline {paragraph}{Freno de operación del carro (eje rápido motor).}{8}{section*.5}%
-\contentsline {subsubsection}{\numberline {2.1.2}Modelo de cable elástico con amortiguamiento del carro}{9}{subsubsection.2.1.2}%
-\contentsline {subsubsection}{\numberline {2.1.3}Ecuación de movimiento del carro}{10}{subsubsection.2.1.3}%
-\contentsline {subsubsection}{\numberline {2.1.4}Subsistema \textit {Trolley} completo}{11}{subsubsection.2.1.4}%
-\contentsline {subsection}{\numberline {2.2}Subsistema \textit {Hoist}}{12}{subsection.2.2}%
-\contentsline {subsubsection}{\numberline {2.2.1}Accionamiento de izaje de carga}{12}{subsubsection.2.2.1}%
-\contentsline {paragraph}{Frenos de operación y de emergencia del izaje.}{14}{section*.6}%
-\contentsline {subsubsection}{\numberline {2.2.2}Modelo de cable elástico-amortiguado de izaje}{16}{subsubsection.2.2.2}%
-\contentsline {paragraph}{ON — Cable tensado.}{16}{section*.7}%
-\contentsline {paragraph}{OFF — Cable flojo.}{18}{section*.8}%
-\contentsline {subsubsection}{\numberline {2.2.3}Movimiento de la carga}{18}{subsubsection.2.2.3}%
-\contentsline {paragraph}{Ecuación de movimiento en el eje $x$ (horizontal).}{18}{section*.9}%
-\contentsline {paragraph}{Ecuación de movimiento en el eje $y$ (vertical).}{18}{section*.10}%
-\contentsline {paragraph}{Generación de masa aleatoria del container.}{20}{section*.11}%
-\contentsline {subsubsection}{\numberline {2.2.4}Ángulo de balanceo y longitud real del cable}{21}{subsubsection.2.2.4}%
-\contentsline {subsubsection}{\numberline {2.2.5}Subsistema \textit {Hoist} completo}{22}{subsubsection.2.2.5}%
-\contentsline {subsection}{\numberline {2.3}Generación del perfil de obstáculos $y_{c0}(x,t)$}{23}{subsection.2.3}%
-\contentsline {subsection}{\numberline {2.4}Fines de carrera y detectores de sobrevelocidad}{25}{subsection.2.4}%
-\contentsline {paragraph}{Fines de carrera de traslación del carro.}{25}{section*.12}%
-\contentsline {paragraph}{Fines de carrera de izaje.}{26}{section*.13}%
-\contentsline {paragraph}{Detector de sobrevelocidad.}{26}{section*.14}%
-\contentsline {subsection}{\numberline {2.5}Moduladores de torque de los accionamientos}{27}{subsection.2.5}%
-\contentsline {paragraph}{Modulador del carro.}{28}{section*.15}%
-\contentsline {paragraph}{Modulador del izaje — con \textit {Field Weakening}.}{28}{section*.16}%
-\contentsline {subsection}{\numberline {2.6}Sistema físico completo}{29}{subsection.2.6}%
-\contentsline {paragraph}{Salidas sensadas.}{30}{section*.17}%
-\contentsline {paragraph}{Señales de fines de carrera y sobrevelocidad.}{30}{section*.18}%
-\contentsline {section}{\numberline {3}Sistema híbrido de control y protección}{32}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Nivel 2: Control Regulatorio}{32}{subsection.3.1}%
-\contentsline {subsubsection}{\numberline {3.1.1}Controlador de traslación del carro}{32}{subsubsection.3.1.1}%
-\contentsline {paragraph}{Análisis de controlabilidad y observabilidad.}{32}{section*.19}%
-\contentsline {paragraph}{Polos a lazo abierto del carro.}{33}{section*.20}%
-\contentsline {paragraph}{Diseño del controlador de posición del carro.}{34}{section*.21}%
-\contentsline {paragraph}{Implementación discreta en Simulink.}{35}{section*.22}%
-\contentsline {paragraph}{Desempeño del controlador de traslación.}{37}{section*.23}%
-\contentsline {subsubsection}{\numberline {3.1.2}Controlador de izaje de la carga}{39}{subsubsection.3.1.2}%
-\contentsline {paragraph}{Análisis de controlabilidad y observabilidad.}{39}{section*.24}%
-\contentsline {paragraph}{Polos a lazo abierto del izaje.}{39}{section*.25}%
-\contentsline {paragraph}{Diseño del controlador de longitud de cable de izaje.}{40}{section*.26}%
-\contentsline {paragraph}{Implementación discreta en Simulink.}{41}{section*.27}%
-\contentsline {paragraph}{Desempeño del controlador de izaje.}{41}{section*.28}%
-\contentsline {subsubsection}{\numberline {3.1.3}Controlador de oscilación de la carga}{43}{subsubsection.3.1.3}%
-\contentsline {paragraph}{Modelo dinámico del péndulo de longitud variable.}{43}{section*.29}%
-\contentsline {paragraph}{Eliminación de la tensión del cable — ecuación del péndulo.}{44}{section*.30}%
-\contentsline {paragraph}{Modelo LPV del balanceo.}{44}{section*.31}%
-\contentsline {paragraph}{Ley de control — corrección de velocidad proporcional al ángulo.}{45}{section*.32}%
-\contentsline {paragraph}{Sintonización — amortiguamiento crítico.}{45}{section*.33}%
-\contentsline {paragraph}{Activación progresiva — \textit {gain scheduling} por zona de operación.}{45}{section*.34}%
-\contentsline {paragraph}{Implementación en Simulink como \textit {MATLAB Function}.}{46}{section*.35}%
-\contentsline {paragraph}{Desempeño del controlador de balanceo.}{46}{section*.36}%
-\contentsline {paragraph}{Implementación en Simulink como \textit {MATLAB Function}.}{48}{section*.37}%
-\contentsline {subsubsection}{\numberline {3.1.4}Nivel 2 completo}{48}{subsubsection.3.1.4}%
-\contentsline {subsection}{\numberline {3.2}Conversión de los diagramas de bloques del Nivel~2 a \textit {MATLAB Function}}{49}{subsection.3.2}%
-\contentsline {subsubsection}{\numberline {3.2.1}Controlador de traslación del carro}{49}{subsubsection.3.2.1}%
-\contentsline {subsubsection}{\numberline {3.2.2}Observador de estados del carro}{50}{subsubsection.3.2.2}%
-\contentsline {subsubsection}{\numberline {3.2.3}Controlador de izaje de carga}{51}{subsubsection.3.2.3}%
-\contentsline {subsubsection}{\numberline {3.2.4}Observador de estados del izaje}{51}{subsubsection.3.2.4}%
-\contentsline {subsubsection}{\numberline {3.2.5}Controlador paralelo de balanceo}{52}{subsubsection.3.2.5}%
-\contentsline {subsection}{\numberline {3.3}Nivel 0: Seguridad y Protección}{52}{subsection.3.3}%
-\contentsline {subsubsection}{\numberline {3.3.1}Emergencies}{53}{subsubsection.3.3.1}%
-\contentsline {subsubsection}{\numberline {3.3.2}Subestado \texttt {Trolley\_Emgy}}{55}{subsubsection.3.3.2}%
-\contentsline {subsubsection}{\numberline {3.3.3}Subestado \texttt {Hoist\_Emgy}}{56}{subsubsection.3.3.3}%
-\contentsline {subsubsection}{\numberline {3.3.4}Subestado \texttt {Global\_Emgy}}{57}{subsubsection.3.3.4}%
-\contentsline {subsubsection}{\numberline {3.3.5}Watchdog}{58}{subsubsection.3.3.5}%
-\contentsline {section}{Referencias}{60}{figure.49}%
+\contentsline {section}{\numberline {1}Introducción}{5}{section.1}%
+\contentsline {section}{\numberline {2}Modelado matemático del sistema físico}{7}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Subsistema \textit {Trolley}}{7}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Accionamiento de traslación del carro}{8}{subsubsection.2.1.1}%
+\contentsline {paragraph}{Freno de operación del carro (eje rápido motor).}{9}{section*.5}%
+\contentsline {subsubsection}{\numberline {2.1.2}Modelo de cable elástico con amortiguamiento del carro}{10}{subsubsection.2.1.2}%
+\contentsline {subsubsection}{\numberline {2.1.3}Ecuación de movimiento del carro}{11}{subsubsection.2.1.3}%
+\contentsline {subsubsection}{\numberline {2.1.4}Subsistema \textit {Trolley} completo}{12}{subsubsection.2.1.4}%
+\contentsline {subsection}{\numberline {2.2}Subsistema \textit {Hoist}}{13}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Accionamiento de izaje de carga}{13}{subsubsection.2.2.1}%
+\contentsline {paragraph}{Frenos de operación y de emergencia del izaje.}{15}{section*.6}%
+\contentsline {subsubsection}{\numberline {2.2.2}Modelo de cable elástico-amortiguado de izaje}{17}{subsubsection.2.2.2}%
+\contentsline {paragraph}{ON — Cable tensado.}{17}{section*.7}%
+\contentsline {paragraph}{OFF — Cable flojo.}{19}{section*.8}%
+\contentsline {subsubsection}{\numberline {2.2.3}Movimiento de la carga}{19}{subsubsection.2.2.3}%
+\contentsline {paragraph}{Ecuación de movimiento en el eje $x$ (horizontal).}{19}{section*.9}%
+\contentsline {paragraph}{Ecuación de movimiento en el eje $y$ (vertical).}{19}{section*.10}%
+\contentsline {paragraph}{Generación de masa aleatoria del container.}{21}{section*.11}%
+\contentsline {subsubsection}{\numberline {2.2.4}Ángulo de balanceo y longitud real del cable}{22}{subsubsection.2.2.4}%
+\contentsline {subsubsection}{\numberline {2.2.5}Subsistema \textit {Hoist} completo}{23}{subsubsection.2.2.5}%
+\contentsline {subsection}{\numberline {2.3}Generación del perfil de obstáculos $y_{c0}(x,t)$}{24}{subsection.2.3}%
+\contentsline {paragraph}{Firma e inicialización de estado persistente.}{25}{section*.12}%
+\contentsline {paragraph}{Detección de flancos de TLK y estado de enganche.}{26}{section*.13}%
+\contentsline {paragraph}{Lógica de interacción con camiones y actualización del perfil.}{27}{section*.14}%
+\contentsline {paragraph}{Reaparición probabilística de camiones y cálculo de altura total.}{28}{section*.15}%
+\contentsline {paragraph}{Lectura anticipada del LIDAR y salidas.}{29}{section*.16}%
+\contentsline {subsection}{\numberline {2.4}Fines de carrera y detectores de sobrevelocidad}{30}{subsection.2.4}%
+\contentsline {paragraph}{Fines de carrera de traslación del carro.}{31}{section*.17}%
+\contentsline {paragraph}{Fines de carrera de izaje.}{31}{section*.18}%
+\contentsline {paragraph}{Detector de sobrevelocidad.}{31}{section*.19}%
+\contentsline {subsection}{\numberline {2.5}Moduladores de torque de los accionamientos}{32}{subsection.2.5}%
+\contentsline {paragraph}{Modulador del carro.}{33}{section*.20}%
+\contentsline {paragraph}{Modulador del izaje — con \textit {Field Weakening}.}{33}{section*.21}%
+\contentsline {subsection}{\numberline {2.6}Sistema físico completo}{34}{subsection.2.6}%
+\contentsline {paragraph}{Salidas sensadas.}{35}{section*.22}%
+\contentsline {paragraph}{Señales de fines de carrera y sobrevelocidad.}{35}{section*.23}%
+\contentsline {section}{\numberline {3}Sistema híbrido de control y protección}{37}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Nivel 2: Control Regulatorio}{37}{subsection.3.1}%
+\contentsline {subsubsection}{\numberline {3.1.1}Controlador de traslación del carro}{37}{subsubsection.3.1.1}%
+\contentsline {paragraph}{Análisis de controlabilidad y observabilidad.}{37}{section*.24}%
+\contentsline {paragraph}{Polos a lazo abierto del carro.}{38}{section*.25}%
+\contentsline {paragraph}{Diseño del controlador de posición del carro.}{39}{section*.26}%
+\contentsline {paragraph}{Lazo externo de posición — generación de consigna de velocidad.}{40}{section*.27}%
+\contentsline {paragraph}{Implementación discreta en Simulink.}{41}{section*.28}%
+\contentsline {paragraph}{Desempeño del controlador de traslación.}{43}{section*.29}%
+\contentsline {subsubsection}{\numberline {3.1.2}Controlador de izaje de la carga}{45}{subsubsection.3.1.2}%
+\contentsline {paragraph}{Análisis de controlabilidad y observabilidad.}{45}{section*.30}%
+\contentsline {paragraph}{Polos a lazo abierto del izaje.}{45}{section*.31}%
+\contentsline {paragraph}{Diseño del controlador de longitud de cable de izaje.}{46}{section*.32}%
+\contentsline {paragraph}{Implementación discreta en Simulink.}{47}{section*.33}%
+\contentsline {paragraph}{Lazo externo de posición de izaje — generación de consigna de velocidad de cable.}{47}{section*.34}%
+\contentsline {paragraph}{Desempeño del controlador de izaje.}{48}{section*.35}%
+\contentsline {subsubsection}{\numberline {3.1.3}Controlador de oscilación de la carga}{50}{subsubsection.3.1.3}%
+\contentsline {paragraph}{Modelo dinámico del péndulo de longitud variable.}{50}{section*.36}%
+\contentsline {paragraph}{Eliminación de la tensión del cable — ecuación del péndulo.}{51}{section*.37}%
+\contentsline {paragraph}{Modelo LPV del balanceo.}{51}{section*.38}%
+\contentsline {paragraph}{Ley de control — corrección de velocidad proporcional al ángulo.}{52}{section*.39}%
+\contentsline {paragraph}{Sintonización — amortiguamiento crítico.}{52}{section*.40}%
+\contentsline {paragraph}{Activación progresiva — \textit {gain scheduling} por zona de operación.}{52}{section*.41}%
+\contentsline {paragraph}{Implementación en Simulink como \textit {MATLAB Function}.}{53}{section*.42}%
+\contentsline {paragraph}{Desempeño del controlador de balanceo.}{53}{section*.43}%
+\contentsline {paragraph}{Implementación en Simulink como \textit {MATLAB Function}.}{55}{section*.44}%
+\contentsline {subsubsection}{\numberline {3.1.4}Nivel 2 completo}{55}{subsubsection.3.1.4}%
+\contentsline {subsection}{\numberline {3.2}Conversión de los diagramas de bloques del Nivel~2 a \textit {MATLAB Function}}{56}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Controlador de traslación del carro}{56}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Observador de estados del carro}{57}{subsubsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.3}Controlador de izaje de carga}{58}{subsubsection.3.2.3}%
+\contentsline {subsubsection}{\numberline {3.2.4}Observador de estados del izaje}{58}{subsubsection.3.2.4}%
+\contentsline {subsubsection}{\numberline {3.2.5}Controlador paralelo de balanceo}{59}{subsubsection.3.2.5}%
+\contentsline {subsection}{\numberline {3.3}Nivel 1: Control Supervisor}{59}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}Estructura general — Heartbeat y estado OFF}{60}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}Lógica de frenos}{61}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.3}Fines de carrera}{62}{subsubsection.3.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.4}Modos de operación}{63}{subsubsection.3.3.4}%
+\contentsline {paragraph}{Función \texttt {rate\_limiter}.}{64}{section*.45}%
+\contentsline {subsubsection}{\numberline {3.3.5}Lógica de \textit {twistlocks}}{65}{subsubsection.3.3.5}%
+\contentsline {subsubsection}{\numberline {3.3.6}Control de balanceo de carga}{65}{subsubsection.3.3.6}%
+\contentsline {subsubsection}{\numberline {3.3.7}Mapa LIDAR}{66}{subsubsection.3.3.7}%
+\contentsline {subsubsection}{\numberline {3.3.8}Banderas de movimiento}{67}{subsubsection.3.3.8}%
+\contentsline {paragraph}{Carro — \texttt {Trolley\_Movement\_Flags}.}{67}{section*.46}%
+\contentsline {paragraph}{Izaje — \texttt {Hoist\_Movement\_Flags}.}{68}{section*.47}%
+\contentsline {subsubsection}{\numberline {3.3.9}Planificador de trayectorias}{68}{subsubsection.3.3.9}%
+\contentsline {paragraph}{Escaneo LIDAR y retorno a \textit {homing}.}{69}{section*.48}%
+\contentsline {paragraph}{Selección de escenario.}{69}{section*.49}%
+\contentsline {subsubsection}{\numberline {3.3.10}Ciclo operativo — \texttt {Pickup\_And\_Place\_Loop}}{70}{subsubsection.3.3.10}%
+\contentsline {paragraph}{Escenario 1 — Descarga (tierra $\to $ barco).}{71}{section*.50}%
+\contentsline {paragraph}{Escenario 2 — Carga (barco $\to $ tierra).}{71}{section*.51}%
+\contentsline {paragraph}{Escenario 3 — Ciclo doble (descarga + carga).}{72}{section*.52}%
+\contentsline {subsubsection}{\numberline {3.3.11}Generación de trayectorias}{72}{subsubsection.3.3.11}%
+\contentsline {paragraph}{Trayectoria del carro.}{73}{section*.53}%
+\contentsline {paragraph}{Trayectoria del izaje.}{73}{section*.54}%
+\contentsline {subsection}{\numberline {3.4}Nivel 0: Seguridad y Protección}{74}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}Emergencies}{76}{subsubsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.2}Subestado \texttt {Trolley\_Emgy}}{78}{subsubsection.3.4.2}%
+\contentsline {subsubsection}{\numberline {3.4.3}Subestado \texttt {Hoist\_Emgy}}{80}{subsubsection.3.4.3}%
+\contentsline {subsubsection}{\numberline {3.4.4}Subestado \texttt {Global\_Emgy}}{82}{subsubsection.3.4.4}%
+\contentsline {subsubsection}{\numberline {3.4.5}Watchdog}{83}{subsubsection.3.4.5}%
+\contentsline {section}{\numberline {4}Implementación de los Niveles 0 y 1 en CODESYS}{85}{section.4}%
+\contentsline {section}{\numberline {5}Interfaz HMI}{86}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Control de mando — Joystick PS4}{86}{subsection.5.1}%
+\contentsline {paragraph}{Script de diagnóstico (\texttt {diagnostico\_control.py}).}{86}{section*.55}%
+\contentsline {paragraph}{Script principal (\texttt {controller\_reader.py}) — comunicación con Simulink y visualización.}{87}{section*.56}%
+\contentsline {paragraph}{Recepción en Simulink — bloque \texttt {UDP Receive} y desempaquetado.}{88}{section*.57}%
+\contentsline {subsection}{\numberline {5.2}Visualización en tiempo real — RT\_VIEW}{90}{subsection.5.2}%
+\contentsline {paragraph}{Fuentes de datos — canales UDP.}{90}{section*.58}%
+\contentsline {paragraph}{Transmisor UDP en Simulink.}{91}{section*.59}%
+\contentsline {paragraph}{Elementos de la visualización.}{92}{section*.60}%
+\contentsline {subsection}{\numberline {5.3}Panel de monitoreo en Simulink — Dashboard}{94}{subsection.5.3}%
+\contentsline {section}{\numberline {6}Resultados}{95}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Rendimiento: ciclo simple}{95}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Pruebas adicionales}{95}{subsection.6.2}%
+\contentsline {subsubsection}{\numberline {6.2.1}Fines de carrera}{95}{subsubsection.6.2.1}%
+\contentsline {subsubsection}{\numberline {6.2.2}Límites de sobrevelocidad}{95}{subsubsection.6.2.2}%
+\contentsline {subsubsection}{\numberline {6.2.3}Emergencias}{95}{subsubsection.6.2.3}%
+\contentsline {subsubsection}{\numberline {6.2.4}Sobrecarga}{95}{subsubsection.6.2.4}%
+\contentsline {subsubsection}{\numberline {6.2.5}Estimación de masa}{95}{subsubsection.6.2.5}%
+\contentsline {subsection}{\numberline {6.3}Enlaces a videos}{95}{subsection.6.3}%
+\contentsline {section}{Referencias}{96}{subsection.6.3}%
