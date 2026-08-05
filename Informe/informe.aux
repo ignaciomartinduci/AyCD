@@ -108,6 +108,7 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Diagrama de bloques del subsistema \textit  {Hoist} completo (Simulink). Las entradas externas se muestran desacopladas del resto del sistema para mayor claridad.}}{24}{figure.19}\protected@file@percent }
 \newlabel{fig:bloques-hoist}{{19}{24}{Diagrama de bloques del subsistema \textit {Hoist} completo (Simulink). Las entradas externas se muestran desacopladas del resto del sistema para mayor claridad}{figure.19}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Generación del perfil de obstáculos $y_{c0}(x,t)$}{24}{subsection.2.3}\protected@file@percent }
+\newlabel{subsec:perfil-obstaculos}{{2.3}{24}{Generación del perfil de obstáculos \texorpdfstring {$y_{c0}(x,t)$}{yc0(x,t)}}{subsection.2.3}{}}
 \@writefile{toc}{\contentsline {paragraph}{Firma e inicialización de estado persistente.}{25}{section*.12}\protected@file@percent }
 \newlabel{lst:perfil-suelo-init}{{1}{25}{Firma e inicialización de la \textit {MATLAB Function} \texttt {perfil\_suelo}}{lstlisting.1}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {1}Firma e inicialización de la \textit  {MATLAB Function} \texttt  {perfil\_suelo}.}{25}{lstlisting.1}\protected@file@percent }
@@ -154,6 +155,7 @@
 \@writefile{toc}{\contentsline {section}{\numberline {3}Sistema híbrido de control y protección}{37}{section.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Nivel 2: Control Regulatorio}{37}{subsection.3.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Controlador de traslación del carro}{37}{subsubsection.3.1.1}\protected@file@percent }
+\newlabel{subsubsec:ctrl-carro}{{3.1.1}{37}{Controlador de traslación del carro}{subsubsection.3.1.1}{}}
 \@writefile{toc}{\contentsline {paragraph}{Análisis de controlabilidad y observabilidad.}{37}{section*.24}\protected@file@percent }
 \newlabel{eq:params-eq-t}{{51}{37}{Análisis de controlabilidad y observabilidad}{equation.51}{}}
 \newlabel{eq:ss-carro}{{52}{38}{Análisis de controlabilidad y observabilidad}{equation.52}{}}
@@ -194,6 +196,7 @@
 \newlabel{fig:carro-torque}{{30}{44}{Traslación del carro — comparativa de torque: consigna $T_{tm}^*(t)$ y salida del modulador $T_{tm}(t)$ (spreader vacío, perfil trapezoidal)}{figure.30}{}}
 \newlabel{eq:T-friccion-carro}{{74}{44}{Desempeño del controlador de traslación}{equation.74}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Controlador de izaje de la carga}{45}{subsubsection.3.1.2}\protected@file@percent }
+\newlabel{subsubsec:ctrl-izaje}{{3.1.2}{45}{Controlador de izaje de la carga}{subsubsection.3.1.2}{}}
 \@writefile{toc}{\contentsline {paragraph}{Análisis de controlabilidad y observabilidad.}{45}{section*.30}\protected@file@percent }
 \newlabel{eq:params-eq-h}{{75}{45}{Análisis de controlabilidad y observabilidad}{equation.75}{}}
 \newlabel{eq:ss-hoist}{{76}{45}{Análisis de controlabilidad y observabilidad}{equation.76}{}}
@@ -264,148 +267,260 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {38}{\ignorespaces Controlador de balanceo — evolución conjunta de $\theta _l(t)$, $v_t(t)$ y $a_t(t)$ para analizar el comportamiento del ángulo de balanceo en cada región de aceleración y velocidad del carro.}}{55}{figure.38}\protected@file@percent }
 \newlabel{fig:sway-analisis}{{38}{55}{Controlador de balanceo — evolución conjunta de $\theta _l(t)$, $v_t(t)$ y $a_t(t)$ para analizar el comportamiento del ángulo de balanceo en cada región de aceleración y velocidad del carro}{figure.38}{}}
 \@writefile{toc}{\contentsline {paragraph}{Implementación en Simulink como \textit  {MATLAB Function}.}{55}{section*.44}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.4}Nivel 2 completo}{55}{subsubsection.3.1.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {39}{\ignorespaces Diagrama de bloques del Nivel~2 completo: controladores de traslación, izaje y oscilación integrados en Simulink ($T_{s2}=1$\,ms). Para mejorar la visibilidad del diagrama se han omitido las entradas a los generadores de trayectorias y otras consignas externas provenientes del Nivel~1.}}{56}{figure.39}\protected@file@percent }
-\newlabel{fig:nivel2-completo}{{39}{56}{Diagrama de bloques del Nivel~2 completo: controladores de traslación, izaje y oscilación integrados en Simulink ($T_{s2}=1$\,ms). Para mejorar la visibilidad del diagrama se han omitido las entradas a los generadores de trayectorias y otras consignas externas provenientes del Nivel~1}{figure.39}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Conversión de los diagramas de bloques del Nivel~2 a \textit  {MATLAB Function}}{56}{subsection.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Controlador de traslación del carro}{56}{subsubsection.3.2.1}\protected@file@percent }
-\newlabel{lst:pid-carro}{{9}{56}{MATLAB Function: controlador PID de traslación del carro ($T_{s2}=1$\,ms)}{lstlisting.9}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {9}MATLAB Function: controlador PID de traslación del carro ($T_{s2}=1$\,ms).}{56}{lstlisting.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Observador de estados del carro}{57}{subsubsection.3.2.2}\protected@file@percent }
-\newlabel{lst:obs-carro}{{10}{57}{MATLAB Function: observador de Luenberger del carro ($T_{s2}=1$\,ms)}{lstlisting.10}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {10}MATLAB Function: observador de Luenberger del carro ($T_{s2}=1$\,ms).}{57}{lstlisting.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Controlador de izaje de carga}{58}{subsubsection.3.2.3}\protected@file@percent }
-\newlabel{lst:pid-izaje}{{11}{58}{MATLAB Function: controlador PID de izaje de carga ($T_{s2}=1$\,ms)}{lstlisting.11}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {11}MATLAB Function: controlador PID de izaje de carga ($T_{s2}=1$\,ms).}{58}{lstlisting.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}Observador de estados del izaje}{58}{subsubsection.3.2.4}\protected@file@percent }
-\newlabel{lst:obs-izaje}{{12}{58}{MATLAB Function: observador de Luenberger del izaje ($T_{s2}=1$\,ms)}{lstlisting.12}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {12}MATLAB Function: observador de Luenberger del izaje ($T_{s2}=1$\,ms).}{58}{lstlisting.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.5}Controlador paralelo de balanceo}{59}{subsubsection.3.2.5}\protected@file@percent }
-\newlabel{lst:ctrl-balanceo-final}{{13}{59}{MATLAB Function: controlador paralelo de balanceo ($T_{s2}=1$\,ms)}{lstlisting.13}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {13}MATLAB Function: controlador paralelo de balanceo ($T_{s2}=1$\,ms).}{59}{lstlisting.13}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Nivel 1: Control Supervisor}{59}{subsection.3.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {40}{\ignorespaces Esquema de entradas y salidas del Nivel~1.}}{60}{figure.40}\protected@file@percent }
-\newlabel{fig:nivel1-io}{{40}{60}{Esquema de entradas y salidas del Nivel~1}{figure.40}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Estructura general — Heartbeat y estado OFF}{60}{subsubsection.3.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {41}{\ignorespaces Estructura paralela del Nivel~1: \texttt  {Heartbeat\_Generator} y estado \texttt  {OFF} de \texttt  {Supervisory\_Control}.}}{61}{figure.41}\protected@file@percent }
-\newlabel{fig:nivel1-off-heartbeat}{{41}{61}{Estructura paralela del Nivel~1: \texttt {Heartbeat\_Generator} y estado \texttt {OFF} de \texttt {Supervisory\_Control}}{figure.41}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Lógica de frenos}{61}{subsubsection.3.3.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {42}{\ignorespaces Lógica de frenos: subestados paralelos \texttt  {BRK\_t\_Logic} y \texttt  {BRK\_h\_Logic}.}}{62}{figure.42}\protected@file@percent }
-\newlabel{fig:nivel1-brk}{{42}{62}{Lógica de frenos: subestados paralelos \texttt {BRK\_t\_Logic} y \texttt {BRK\_h\_Logic}}{figure.42}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Fines de carrera}{62}{subsubsection.3.3.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {43}{\ignorespaces Subestado \texttt  {Limit\_Switch}: cuatro ramas paralelas de detección de fines de carrera.}}{63}{figure.43}\protected@file@percent }
-\newlabel{fig:nivel1-fc}{{43}{63}{Subestado \texttt {Limit\_Switch}: cuatro ramas paralelas de detección de fines de carrera}{figure.43}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.4}Modos de operación}{63}{subsubsection.3.3.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {44}{\ignorespaces Subestado \texttt  {Mode}: lógica de conmutación entre operación manual y automática.}}{64}{figure.44}\protected@file@percent }
-\newlabel{fig:nivel1-mode}{{44}{64}{Subestado \texttt {Mode}: lógica de conmutación entre operación manual y automática}{figure.44}{}}
-\@writefile{toc}{\contentsline {paragraph}{Función \texttt  {rate\_limiter}.}{64}{section*.45}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.5}Lógica de \textit  {twistlocks}}{65}{subsubsection.3.3.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {45}{\ignorespaces Subestado \texttt  {TLK\_Logic}: lógica de apertura y cierre de \textit  {twistlocks} con condición de seguridad sobre la fuerza en cable.}}{65}{figure.45}\protected@file@percent }
-\newlabel{fig:nivel1-tlk}{{45}{65}{Subestado \texttt {TLK\_Logic}: lógica de apertura y cierre de \textit {twistlocks} con condición de seguridad sobre la fuerza en cable}{figure.45}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.6}Control de balanceo de carga}{65}{subsubsection.3.3.6}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {46}{\ignorespaces Subestado \texttt  {Sway\_Control\_Mode}: habilitación del controlador de balanceo con condición de longitud mínima de cable.}}{66}{figure.46}\protected@file@percent }
-\newlabel{fig:nivel1-sway}{{46}{66}{Subestado \texttt {Sway\_Control\_Mode}: habilitación del controlador de balanceo con condición de longitud mínima de cable}{figure.46}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.7}Mapa LIDAR}{66}{subsubsection.3.3.7}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {47}{\ignorespaces Subestado \texttt  {Lidar\_Map}: construcción incremental del mapa de alturas y estimación de pilas de contenedores a partir del LIDAR.}}{67}{figure.47}\protected@file@percent }
-\newlabel{fig:nivel1-lidar}{{47}{67}{Subestado \texttt {Lidar\_Map}: construcción incremental del mapa de alturas y estimación de pilas de contenedores a partir del LIDAR}{figure.47}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.8}Banderas de movimiento}{67}{subsubsection.3.3.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Carro — \texttt  {Trolley\_Movement\_Flags}.}{67}{section*.46}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {48}{\ignorespaces Subestado \texttt  {Trolley\_Movement\_Flags}: detección de carro detenido con condición de balanceo amortiguado.}}{68}{figure.48}\protected@file@percent }
-\newlabel{fig:nivel1-trolley-flags}{{48}{68}{Subestado \texttt {Trolley\_Movement\_Flags}: detección de carro detenido con condición de balanceo amortiguado}{figure.48}{}}
-\@writefile{toc}{\contentsline {paragraph}{Izaje — \texttt  {Hoist\_Movement\_Flags}.}{68}{section*.47}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {49}{\ignorespaces Subestado \texttt  {Hoist\_Movement\_Flags}: detección de izaje detenido.}}{68}{figure.49}\protected@file@percent }
-\newlabel{fig:nivel1-hoist-flags}{{49}{68}{Subestado \texttt {Hoist\_Movement\_Flags}: detección de izaje detenido}{figure.49}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.9}Planificador de trayectorias}{68}{subsubsection.3.3.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Escaneo LIDAR y retorno a \textit  {homing}.}{69}{section*.48}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Selección de escenario.}{69}{section*.49}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {50}{\ignorespaces Estructura general del \texttt  {Trajectory\_Planner}: selección de escenario, escaneo LIDAR y retorno a \textit  {homing}.}}{70}{figure.50}\protected@file@percent }
-\newlabel{fig:nivel1-traj-planner}{{50}{70}{Estructura general del \texttt {Trajectory\_Planner}: selección de escenario, escaneo LIDAR y retorno a \textit {homing}}{figure.50}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.10}Ciclo operativo — \texttt  {Pickup\_And\_Place\_Loop}}{70}{subsubsection.3.3.10}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {51}{\ignorespaces Lógica de \texttt  {Init} dentro de \texttt  {Pickup\_And\_Place\_Loop}: reanudación por historia o inicialización según \texttt  {loop\_initialized}.}}{70}{figure.51}\protected@file@percent }
-\newlabel{fig:nivel1-loop-init}{{51}{70}{Lógica de \texttt {Init} dentro de \texttt {Pickup\_And\_Place\_Loop}: reanudación por historia o inicialización según \texttt {loop\_initialized}}{figure.51}{}}
-\@writefile{toc}{\contentsline {paragraph}{Escenario 1 — Descarga (tierra $\to $ barco).}{71}{section*.50}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Escenario 2 — Carga (barco $\to $ tierra).}{71}{section*.51}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Escenario 3 — Ciclo doble (descarga + carga).}{72}{section*.52}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {52}{\ignorespaces Estados del ciclo \texttt  {Pickup\_And\_Place\_Loop}.}}{72}{figure.52}\protected@file@percent }
-\newlabel{fig:nivel1-pickup-loop}{{52}{72}{Estados del ciclo \texttt {Pickup\_And\_Place\_Loop}}{figure.52}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.11}Generación de trayectorias}{72}{subsubsection.3.3.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Trayectoria del carro.}{73}{section*.53}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Trayectoria del izaje.}{73}{section*.54}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Nivel 0: Seguridad y Protección}{74}{subsection.3.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {53}{\ignorespaces Nivel~0 visto desde el exterior: entradas y salidas del autómata de seguridad y protección (Stateflow).}}{75}{figure.53}\protected@file@percent }
-\newlabel{fig:nivel0-io}{{53}{75}{Nivel~0 visto desde el exterior: entradas y salidas del autómata de seguridad y protección (Stateflow)}{figure.53}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {54}{\ignorespaces Diagrama de bloques del Nivel~0 completo: estados paralelos \texttt  {Emergencies} y \texttt  {Watchdog} (Stateflow, $T_{s0}=20$\,ms).}}{76}{figure.54}\protected@file@percent }
-\newlabel{fig:nivel0-completo}{{54}{76}{Diagrama de bloques del Nivel~0 completo: estados paralelos \texttt {Emergencies} y \texttt {Watchdog} (Stateflow, $T_{s0}=20$\,ms)}{figure.54}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}Emergencies}{76}{subsubsection.3.4.1}\protected@file@percent }
-\newlabel{sec:emergencies}{{3.4.1}{76}{Emergencies}{subsubsection.3.4.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {55}{\ignorespaces Estado \texttt  {Emergencies}: estado de entrada \texttt  {Stand\_By} (Stateflow).}}{77}{figure.55}\protected@file@percent }
-\newlabel{fig:emergencies-standby}{{55}{77}{Estado \texttt {Emergencies}: estado de entrada \texttt {Stand\_By} (Stateflow)}{figure.55}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {56}{\ignorespaces Estado \texttt  {Emergencies} completo: \texttt  {Stand\_By} y transiciones hacia \texttt  {Trolley\_Emgy}, \texttt  {Hoist\_Emgy} y \texttt  {Global\_Emgy} (Stateflow).}}{78}{figure.56}\protected@file@percent }
-\newlabel{fig:emergencies-completo}{{56}{78}{Estado \texttt {Emergencies} completo: \texttt {Stand\_By} y transiciones hacia \texttt {Trolley\_Emgy}, \texttt {Hoist\_Emgy} y \texttt {Global\_Emgy} (Stateflow)}{figure.56}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}Subestado \texttt  {Trolley\_Emgy}}{78}{subsubsection.3.4.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {57}{\ignorespaces Subestado \texttt  {Trolley\_Emgy} completo: \texttt  {Init}, \texttt  {Emgy\_Switch\_Min}, \texttt  {Emgy\_Switch\_Max}, \texttt  {Overspeed\_Delay}, \texttt  {Overspeed} y \texttt  {Solved} (Stateflow).}}{80}{figure.57}\protected@file@percent }
-\newlabel{fig:trolley-emgy-completo}{{57}{80}{Subestado \texttt {Trolley\_Emgy} completo: \texttt {Init}, \texttt {Emgy\_Switch\_Min}, \texttt {Emgy\_Switch\_Max}, \texttt {Overspeed\_Delay}, \texttt {Overspeed} y \texttt {Solved} (Stateflow)}{figure.57}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3}Subestado \texttt  {Hoist\_Emgy}}{80}{subsubsection.3.4.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {58}{\ignorespaces Subestado \texttt  {Hoist\_Emgy} completo: \texttt  {Init}, \texttt  {Emgy\_Switch\_Min}, \texttt  {Emgy\_Switch\_Max}, \texttt  {Overspeed\_Delay}, \texttt  {Overspeed} y \texttt  {Solved} (Stateflow).}}{82}{figure.58}\protected@file@percent }
-\newlabel{fig:hoist-emgy-completo}{{58}{82}{Subestado \texttt {Hoist\_Emgy} completo: \texttt {Init}, \texttt {Emgy\_Switch\_Min}, \texttt {Emgy\_Switch\_Max}, \texttt {Overspeed\_Delay}, \texttt {Overspeed} y \texttt {Solved} (Stateflow)}{figure.58}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.4}Subestado \texttt  {Global\_Emgy}}{82}{subsubsection.3.4.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {59}{\ignorespaces Subestado \texttt  {Global\_Emgy} completo: acciones de entrada, espera de $3$\,s y reconocimiento del operador en \texttt  {Waiting\_Global\_Emgy\_Ack} (Stateflow).}}{83}{figure.59}\protected@file@percent }
-\newlabel{fig:global-emgy-completo}{{59}{83}{Subestado \texttt {Global\_Emgy} completo: acciones de entrada, espera de $3$\,s y reconocimiento del operador en \texttt {Waiting\_Global\_Emgy\_Ack} (Stateflow)}{figure.59}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.5}Watchdog}{83}{subsubsection.3.4.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {60}{\ignorespaces Estado \texttt  {Watchdog} completo: \texttt  {Init}, \texttt  {Reset\_Counter}, \texttt  {Increase\_counter} y \texttt  {Watchdog\_Emgy} (Stateflow).}}{84}{figure.60}\protected@file@percent }
-\newlabel{fig:watchdog-completo}{{60}{84}{Estado \texttt {Watchdog} completo: \texttt {Init}, \texttt {Reset\_Counter}, \texttt {Increase\_counter} y \texttt {Watchdog\_Emgy} (Stateflow)}{figure.60}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Implementación de los Niveles 0 y 1 en CODESYS}{85}{section.4}\protected@file@percent }
-\newlabel{sec:codesys}{{4}{85}{Implementación de los Niveles 0 y 1 en CODESYS}{section.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Interfaz HMI}{86}{section.5}\protected@file@percent }
-\newlabel{sec:hmi}{{5}{86}{Interfaz HMI}{section.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Control de mando — Joystick PS4}{86}{subsection.5.1}\protected@file@percent }
-\newlabel{sec:hmi-ps4}{{5.1}{86}{Control de mando — Joystick PS4}{subsection.5.1}{}}
-\@writefile{toc}{\contentsline {paragraph}{Script de diagnóstico (\texttt  {diagnostico\_control.py}).}{86}{section*.55}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {61}{\ignorespaces Script de diagnóstico \texttt  {diagnostico\_control.py}: visualización en tiempo real de ejes analógicos y botones digitales del control PS4 para identificación de índices (Python/pygame/matplotlib).}}{86}{figure.61}\protected@file@percent }
-\newlabel{fig:hmi-diagnostico}{{61}{86}{Script de diagnóstico \texttt {diagnostico\_control.py}: visualización en tiempo real de ejes analógicos y botones digitales del control PS4 para identificación de índices (Python/pygame/matplotlib)}{figure.61}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Mapeado del control PS4 DualShock~4: índices pygame y función asignada.}}{87}{table.1}\protected@file@percent }
-\newlabel{tab:ps4-mapping}{{1}{87}{Mapeado del control PS4 DualShock~4: índices pygame y función asignada}{table.1}{}}
-\@writefile{toc}{\contentsline {paragraph}{Script principal (\texttt  {controller\_reader.py}) — comunicación con Simulink y visualización.}{87}{section*.56}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {62}{\ignorespaces Visualización en tiempo real del script \texttt  {controller\_reader.py}: sticks analógicos, botones, barras de velocidad y panel de estado del control PS4 durante la operación de la grúa (Python/pygame/matplotlib).}}{88}{figure.62}\protected@file@percent }
-\newlabel{fig:hmi-controlador}{{62}{88}{Visualización en tiempo real del script \texttt {controller\_reader.py}: sticks analógicos, botones, barras de velocidad y panel de estado del control PS4 durante la operación de la grúa (Python/pygame/matplotlib)}{figure.62}{}}
-\@writefile{toc}{\contentsline {paragraph}{Recepción en Simulink — bloque \texttt  {UDP Receive} y desempaquetado.}{88}{section*.57}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {63}{\ignorespaces Configuración del bloque \texttt  {UDP Receive} en Simulink: puerto 5005, buffer de 14\,bytes, salida \texttt  {uint8} (Instrument Control Toolbox).}}{89}{figure.63}\protected@file@percent }
-\newlabel{fig:hmi-udp-config}{{63}{89}{Configuración del bloque \texttt {UDP Receive} en Simulink: puerto 5005, buffer de 14\,bytes, salida \texttt {uint8} (Instrument Control Toolbox)}{figure.63}{}}
-\newlabel{lst:parse-udp}{{14}{89}{\textit {MATLAB Function}: desempaquetado del datagrama UDP proveniente del control PS4}{lstlisting.14}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {14}\textit  {MATLAB Function}: desempaquetado del datagrama UDP proveniente del control PS4.}{89}{lstlisting.14}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {64}{\ignorespaces Bloque de lectura UDP completo en Simulink: \texttt  {UDP Receive} y \textit  {MATLAB Function} \texttt  {parse\_udp\_packet} con sus siete salidas hacia el sistema de control.}}{90}{figure.64}\protected@file@percent }
-\newlabel{fig:hmi-udp-completo}{{64}{90}{Bloque de lectura UDP completo en Simulink: \texttt {UDP Receive} y \textit {MATLAB Function} \texttt {parse\_udp\_packet} con sus siete salidas hacia el sistema de control}{figure.64}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Visualización en tiempo real — RT\_VIEW}{90}{subsection.5.2}\protected@file@percent }
-\newlabel{sec:hmi-rtview}{{5.2}{90}{Visualización en tiempo real — RT\_VIEW}{subsection.5.2}{}}
-\@writefile{toc}{\contentsline {paragraph}{Fuentes de datos — canales UDP.}{90}{section*.58}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Transmisor UDP en Simulink.}{91}{section*.59}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {65}{\ignorespaces Configuración del bloque \textit  {UDP Send} en Simulink para el canal de datos de RT\_VIEW (puerto~5010, loopback).}}{91}{figure.65}\protected@file@percent }
-\newlabel{fig:rt-udp-send}{{65}{91}{Configuración del bloque \textit {UDP Send} en Simulink para el canal de datos de RT\_VIEW (puerto~5010, loopback)}{figure.65}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {66}{\ignorespaces Subsistema transmisor completo en Simulink: multiplexado de señales y bloque \textit  {UDP Send} hacia RT\_VIEW.}}{92}{figure.66}\protected@file@percent }
-\newlabel{fig:rt-transmisor}{{66}{92}{Subsistema transmisor completo en Simulink: multiplexado de señales y bloque \textit {UDP Send} hacia RT\_VIEW}{figure.66}{}}
-\@writefile{toc}{\contentsline {paragraph}{Elementos de la visualización.}{92}{section*.60}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {67}{\ignorespaces Visualización 2D en tiempo real de la grúa STS (\texttt  {visualizacion\_grua.py}): vista central con geometría animada, panel izquierdo de control PS4 y panel derecho de variables de estado (Python/matplotlib).}}{93}{figure.67}\protected@file@percent }
-\newlabel{fig:rt-view}{{67}{93}{Visualización 2D en tiempo real de la grúa STS (\texttt {visualizacion\_grua.py}): vista central con geometría animada, panel izquierdo de control PS4 y panel derecho de variables de estado (Python/matplotlib)}{figure.67}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Panel de monitoreo en Simulink — Dashboard}{94}{subsection.5.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {68}{\ignorespaces Panel de monitoreo del sistema desarrollado con la librería \textit  {Dashboard} de Simulink.}}{94}{figure.68}\protected@file@percent }
-\newlabel{fig:hmi-dashboard}{{68}{94}{Panel de monitoreo del sistema desarrollado con la librería \textit {Dashboard} de Simulink}{figure.68}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Resultados}{95}{section.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Rendimiento: ciclo simple}{95}{subsection.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Pruebas adicionales}{95}{subsection.6.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.1}Fines de carrera}{95}{subsubsection.6.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.2}Límites de sobrevelocidad}{95}{subsubsection.6.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.3}Emergencias}{95}{subsubsection.6.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.4}Sobrecarga}{95}{subsubsection.6.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.5}Estimación de masa}{95}{subsubsection.6.2.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Enlaces a videos}{95}{subsection.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.4}Diseño del observador de estados del carro}{55}{subsubsection.3.1.4}\protected@file@percent }
+\newlabel{subsubsec:obs-carro}{{3.1.4}{55}{Diseño del observador de estados del carro}{subsubsection.3.1.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Estructura del observador.}{55}{section*.45}\protected@file@percent }
+\newlabel{eq:obs-carro}{{114}{55}{Estructura del observador}{equation.114}{}}
+\@writefile{toc}{\contentsline {paragraph}{Dinámica del error de estimación.}{56}{section*.46}\protected@file@percent }
+\newlabel{eq:error-obs-carro}{{115}{56}{Dinámica del error de estimación}{equation.115}{}}
+\@writefile{toc}{\contentsline {paragraph}{Criterio de sintonía.}{56}{section*.47}\protected@file@percent }
+\newlabel{eq:polos-obs-carro}{{116}{56}{Criterio de sintonía}{equation.116}{}}
+\@writefile{toc}{\contentsline {paragraph}{Cálculo de la matriz de ganancias.}{56}{section*.48}\protected@file@percent }
+\newlabel{eq:Lt}{{117}{56}{Cálculo de la matriz de ganancias}{equation.117}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {39}{\ignorespaces Observador de estados del carro implementado por bloques en Simulink ($T_{s2} = 1$\,ms), con las ganancias de retroalimentación $\mathbf  {L}_t$.}}{57}{figure.39}\protected@file@percent }
+\newlabel{fig:obs-carro-bloques}{{39}{57}{Observador de estados del carro implementado por bloques en Simulink ($T_{s2} = 1$\,ms), con las ganancias de retroalimentación $\mathbf {L}_t$}{figure.39}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.5}Diseño del observador de estados del izaje}{57}{subsubsection.3.1.5}\protected@file@percent }
+\newlabel{subsubsec:obs-izaje}{{3.1.5}{57}{Diseño del observador de estados del izaje}{subsubsection.3.1.5}{}}
+\newlabel{eq:obs-izaje}{{118}{57}{Diseño del observador de estados del izaje}{equation.118}{}}
+\@writefile{toc}{\contentsline {paragraph}{Criterio de sintonía.}{57}{section*.49}\protected@file@percent }
+\newlabel{eq:polo-base-obs-h}{{119}{57}{Criterio de sintonía}{equation.119}{}}
+\newlabel{eq:polos-obs-izaje}{{120}{58}{Criterio de sintonía}{equation.120}{}}
+\newlabel{eq:Lh}{{121}{58}{Criterio de sintonía}{equation.121}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {40}{\ignorespaces Observador de estados del izaje implementado por bloques en Simulink ($T_{s2} = 1$\,ms), con las ganancias de retroalimentación $\mathbf  {L}_h$.}}{58}{figure.40}\protected@file@percent }
+\newlabel{fig:obs-izaje-bloques}{{40}{58}{Observador de estados del izaje implementado por bloques en Simulink ($T_{s2} = 1$\,ms), con las ganancias de retroalimentación $\mathbf {L}_h$}{figure.40}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.6}Nivel 2 completo}{58}{subsubsection.3.1.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {41}{\ignorespaces Diagrama de bloques del Nivel~2 completo: controladores de traslación, izaje y oscilación integrados en Simulink ($T_{s2}=1$\,ms). Para mejorar la visibilidad del diagrama se han omitido las entradas a los generadores de trayectorias y otras consignas externas provenientes del Nivel~1.}}{59}{figure.41}\protected@file@percent }
+\newlabel{fig:nivel2-completo}{{41}{59}{Diagrama de bloques del Nivel~2 completo: controladores de traslación, izaje y oscilación integrados en Simulink ($T_{s2}=1$\,ms). Para mejorar la visibilidad del diagrama se han omitido las entradas a los generadores de trayectorias y otras consignas externas provenientes del Nivel~1}{figure.41}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Conversión de los diagramas de bloques del Nivel~2 a \textit  {MATLAB Function}}{59}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Controlador de traslación del carro}{59}{subsubsection.3.2.1}\protected@file@percent }
+\newlabel{lst:pid-carro}{{9}{59}{MATLAB Function: controlador PID de traslación del carro ($T_{s2}=1$\,ms)}{lstlisting.9}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {9}MATLAB Function: controlador PID de traslación del carro ($T_{s2}=1$\,ms).}{59}{lstlisting.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Observador de estados del carro}{60}{subsubsection.3.2.2}\protected@file@percent }
+\newlabel{lst:obs-carro}{{10}{60}{MATLAB Function: observador de Luenberger del carro ($T_{s2}=1$\,ms)}{lstlisting.10}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {10}MATLAB Function: observador de Luenberger del carro ($T_{s2}=1$\,ms).}{60}{lstlisting.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Controlador de izaje de carga}{61}{subsubsection.3.2.3}\protected@file@percent }
+\newlabel{lst:pid-izaje}{{11}{61}{MATLAB Function: controlador PID de izaje de carga ($T_{s2}=1$\,ms)}{lstlisting.11}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {11}MATLAB Function: controlador PID de izaje de carga ($T_{s2}=1$\,ms).}{61}{lstlisting.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}Observador de estados del izaje}{61}{subsubsection.3.2.4}\protected@file@percent }
+\newlabel{lst:obs-izaje}{{12}{61}{MATLAB Function: observador de Luenberger del izaje ($T_{s2}=1$\,ms)}{lstlisting.12}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {12}MATLAB Function: observador de Luenberger del izaje ($T_{s2}=1$\,ms).}{61}{lstlisting.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.5}Controlador paralelo de balanceo}{62}{subsubsection.3.2.5}\protected@file@percent }
+\newlabel{lst:ctrl-balanceo-final}{{13}{62}{MATLAB Function: controlador paralelo de balanceo ($T_{s2}=1$\,ms)}{lstlisting.13}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {13}MATLAB Function: controlador paralelo de balanceo ($T_{s2}=1$\,ms).}{62}{lstlisting.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Nivel 1: Control Supervisor}{62}{subsection.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {42}{\ignorespaces Esquema de entradas y salidas del Nivel~1.}}{63}{figure.42}\protected@file@percent }
+\newlabel{fig:nivel1-io}{{42}{63}{Esquema de entradas y salidas del Nivel~1}{figure.42}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Estructura general — Heartbeat y estado OFF}{64}{subsubsection.3.3.1}\protected@file@percent }
+\newlabel{subsubsec:nivel1-heartbeat-off}{{3.3.1}{64}{Estructura general — Heartbeat y estado OFF}{subsubsection.3.3.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {43}{\ignorespaces Estructura paralela del Nivel~1: \texttt  {Heartbeat\_Generator} y estado \texttt  {OFF} de \texttt  {Supervisory\_Control}.}}{64}{figure.43}\protected@file@percent }
+\newlabel{fig:nivel1-off-heartbeat}{{43}{64}{Estructura paralela del Nivel~1: \texttt {Heartbeat\_Generator} y estado \texttt {OFF} de \texttt {Supervisory\_Control}}{figure.43}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Lógica de frenos}{65}{subsubsection.3.3.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {44}{\ignorespaces Lógica de frenos: subestados paralelos \texttt  {BRK\_t\_Logic} y \texttt  {BRK\_h\_Logic}.}}{65}{figure.44}\protected@file@percent }
+\newlabel{fig:nivel1-brk}{{44}{65}{Lógica de frenos: subestados paralelos \texttt {BRK\_t\_Logic} y \texttt {BRK\_h\_Logic}}{figure.44}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Fines de carrera}{65}{subsubsection.3.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {45}{\ignorespaces Subestado \texttt  {Limit\_Switch}: cuatro ramas paralelas de detección de fines de carrera.}}{66}{figure.45}\protected@file@percent }
+\newlabel{fig:nivel1-fc}{{45}{66}{Subestado \texttt {Limit\_Switch}: cuatro ramas paralelas de detección de fines de carrera}{figure.45}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.4}Modos de operación}{66}{subsubsection.3.3.4}\protected@file@percent }
+\newlabel{subsubsec:nivel1-mode}{{3.3.4}{66}{Modos de operación}{subsubsection.3.3.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {46}{\ignorespaces Subestado \texttt  {Mode}: lógica de conmutación entre operación manual y automática.}}{68}{figure.46}\protected@file@percent }
+\newlabel{fig:nivel1-mode}{{46}{68}{Subestado \texttt {Mode}: lógica de conmutación entre operación manual y automática}{figure.46}{}}
+\@writefile{toc}{\contentsline {paragraph}{Función \texttt  {rate\_limiter}.}{68}{section*.50}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.5}Lógica de \textit  {twistlocks}}{69}{subsubsection.3.3.5}\protected@file@percent }
+\newlabel{subsubsec:nivel1-tlk}{{3.3.5}{69}{Lógica de \textit {twistlocks}}{subsubsection.3.3.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {47}{\ignorespaces Subestado \texttt  {TLK\_Logic}: lógica de apertura y cierre de \textit  {twistlocks} con condición de seguridad sobre la fuerza en cable.}}{69}{figure.47}\protected@file@percent }
+\newlabel{fig:nivel1-tlk}{{47}{69}{Subestado \texttt {TLK\_Logic}: lógica de apertura y cierre de \textit {twistlocks} con condición de seguridad sobre la fuerza en cable}{figure.47}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.6}Control de balanceo de carga}{69}{subsubsection.3.3.6}\protected@file@percent }
+\newlabel{subsubsec:nivel1-sway}{{3.3.6}{69}{Control de balanceo de carga}{subsubsection.3.3.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {48}{\ignorespaces Subestado \texttt  {Sway\_Control\_Mode}: habilitación del controlador de balanceo con condición de longitud mínima de cable.}}{70}{figure.48}\protected@file@percent }
+\newlabel{fig:nivel1-sway}{{48}{70}{Subestado \texttt {Sway\_Control\_Mode}: habilitación del controlador de balanceo con condición de longitud mínima de cable}{figure.48}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.7}Mapa LIDAR}{70}{subsubsection.3.3.7}\protected@file@percent }
+\newlabel{subsubsec:nivel1-lidar}{{3.3.7}{70}{Mapa LIDAR}{subsubsection.3.3.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {49}{\ignorespaces Subestado \texttt  {Lidar\_Map}: construcción incremental del mapa de alturas y estimación de pilas de contenedores a partir del LIDAR.}}{71}{figure.49}\protected@file@percent }
+\newlabel{fig:nivel1-lidar}{{49}{71}{Subestado \texttt {Lidar\_Map}: construcción incremental del mapa de alturas y estimación de pilas de contenedores a partir del LIDAR}{figure.49}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.8}Banderas de movimiento}{71}{subsubsection.3.3.8}\protected@file@percent }
+\newlabel{subsubsec:nivel1-flags}{{3.3.8}{71}{Banderas de movimiento}{subsubsection.3.3.8}{}}
+\@writefile{toc}{\contentsline {paragraph}{Carro — \texttt  {Trolley\_Movement\_Flags}.}{71}{section*.51}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {50}{\ignorespaces Subestado \texttt  {Trolley\_Movement\_Flags}: detección de carro detenido con condición de balanceo amortiguado.}}{72}{figure.50}\protected@file@percent }
+\newlabel{fig:nivel1-trolley-flags}{{50}{72}{Subestado \texttt {Trolley\_Movement\_Flags}: detección de carro detenido con condición de balanceo amortiguado}{figure.50}{}}
+\@writefile{toc}{\contentsline {paragraph}{Izaje — \texttt  {Hoist\_Movement\_Flags}.}{72}{section*.52}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {51}{\ignorespaces Subestado \texttt  {Hoist\_Movement\_Flags}: detección de izaje detenido.}}{72}{figure.51}\protected@file@percent }
+\newlabel{fig:nivel1-hoist-flags}{{51}{72}{Subestado \texttt {Hoist\_Movement\_Flags}: detección de izaje detenido}{figure.51}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.9}Planificador de trayectorias}{72}{subsubsection.3.3.9}\protected@file@percent }
+\newlabel{subsubsec:nivel1-traj}{{3.3.9}{72}{Planificador de trayectorias}{subsubsection.3.3.9}{}}
+\@writefile{toc}{\contentsline {paragraph}{Escaneo LIDAR y retorno a \textit  {homing}.}{73}{section*.53}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Selección de escenario.}{73}{section*.54}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {52}{\ignorespaces Estructura general del \texttt  {Trajectory\_Planner}: selección de escenario, escaneo LIDAR y retorno a \textit  {homing}.}}{74}{figure.52}\protected@file@percent }
+\newlabel{fig:nivel1-traj-planner}{{52}{74}{Estructura general del \texttt {Trajectory\_Planner}: selección de escenario, escaneo LIDAR y retorno a \textit {homing}}{figure.52}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.10}Ciclo operativo — \texttt  {Pickup\_And\_Place\_Loop}}{74}{subsubsection.3.3.10}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {53}{\ignorespaces Lógica de \texttt  {Init} dentro de \texttt  {Pickup\_And\_Place\_Loop}: reanudación por historia o inicialización según \texttt  {loop\_initialized}.}}{74}{figure.53}\protected@file@percent }
+\newlabel{fig:nivel1-loop-init}{{53}{74}{Lógica de \texttt {Init} dentro de \texttt {Pickup\_And\_Place\_Loop}: reanudación por historia o inicialización según \texttt {loop\_initialized}}{figure.53}{}}
+\@writefile{toc}{\contentsline {paragraph}{Escenario 1 — Descarga (tierra $\to $ barco).}{75}{section*.55}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Escenario 2 — Carga (barco $\to $ tierra).}{75}{section*.56}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Escenario 3 — Ciclo doble (descarga + carga).}{76}{section*.57}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {54}{\ignorespaces Estados del ciclo \texttt  {Pickup\_And\_Place\_Loop}.}}{76}{figure.54}\protected@file@percent }
+\newlabel{fig:nivel1-pickup-loop}{{54}{76}{Estados del ciclo \texttt {Pickup\_And\_Place\_Loop}}{figure.54}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.11}Generación de trayectorias}{76}{subsubsection.3.3.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Trayectoria del carro.}{77}{section*.58}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Trayectoria del izaje.}{77}{section*.59}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Nivel 0: Seguridad y Protección}{78}{subsection.3.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {55}{\ignorespaces Nivel~0 visto desde el exterior: entradas y salidas del autómata de seguridad y protección (Stateflow).}}{79}{figure.55}\protected@file@percent }
+\newlabel{fig:nivel0-io}{{55}{79}{Nivel~0 visto desde el exterior: entradas y salidas del autómata de seguridad y protección (Stateflow)}{figure.55}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {56}{\ignorespaces Diagrama de bloques del Nivel~0 completo: estados paralelos \texttt  {Emergencies} y \texttt  {Watchdog} (Stateflow, $T_{s0}=20$\,ms).}}{80}{figure.56}\protected@file@percent }
+\newlabel{fig:nivel0-completo}{{56}{80}{Diagrama de bloques del Nivel~0 completo: estados paralelos \texttt {Emergencies} y \texttt {Watchdog} (Stateflow, $T_{s0}=20$\,ms)}{figure.56}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}Emergencies}{80}{subsubsection.3.4.1}\protected@file@percent }
+\newlabel{sec:emergencies}{{3.4.1}{80}{Emergencies}{subsubsection.3.4.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {57}{\ignorespaces Estado \texttt  {Emergencies}: estado de entrada \texttt  {Stand\_By} (Stateflow).}}{81}{figure.57}\protected@file@percent }
+\newlabel{fig:emergencies-standby}{{57}{81}{Estado \texttt {Emergencies}: estado de entrada \texttt {Stand\_By} (Stateflow)}{figure.57}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {58}{\ignorespaces Estado \texttt  {Emergencies} completo: \texttt  {Stand\_By} y transiciones hacia \texttt  {Trolley\_Emgy}, \texttt  {Hoist\_Emgy} y \texttt  {Global\_Emgy} (Stateflow).}}{82}{figure.58}\protected@file@percent }
+\newlabel{fig:emergencies-completo}{{58}{82}{Estado \texttt {Emergencies} completo: \texttt {Stand\_By} y transiciones hacia \texttt {Trolley\_Emgy}, \texttt {Hoist\_Emgy} y \texttt {Global\_Emgy} (Stateflow)}{figure.58}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}Subestado \texttt  {Trolley\_Emgy}}{82}{subsubsection.3.4.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {59}{\ignorespaces Subestado \texttt  {Trolley\_Emgy} completo: \texttt  {Init}, \texttt  {Emgy\_Switch\_Min}, \texttt  {Emgy\_Switch\_Max}, \texttt  {Overspeed\_Delay}, \texttt  {Overspeed} y \texttt  {Solved} (Stateflow).}}{84}{figure.59}\protected@file@percent }
+\newlabel{fig:trolley-emgy-completo}{{59}{84}{Subestado \texttt {Trolley\_Emgy} completo: \texttt {Init}, \texttt {Emgy\_Switch\_Min}, \texttt {Emgy\_Switch\_Max}, \texttt {Overspeed\_Delay}, \texttt {Overspeed} y \texttt {Solved} (Stateflow)}{figure.59}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3}Subestado \texttt  {Hoist\_Emgy}}{84}{subsubsection.3.4.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {60}{\ignorespaces Subestado \texttt  {Hoist\_Emgy} completo: \texttt  {Init}, \texttt  {Emgy\_Switch\_Min}, \texttt  {Emgy\_Switch\_Max}, \texttt  {Overspeed\_Delay}, \texttt  {Overspeed} y \texttt  {Solved} (Stateflow).}}{86}{figure.60}\protected@file@percent }
+\newlabel{fig:hoist-emgy-completo}{{60}{86}{Subestado \texttt {Hoist\_Emgy} completo: \texttt {Init}, \texttt {Emgy\_Switch\_Min}, \texttt {Emgy\_Switch\_Max}, \texttt {Overspeed\_Delay}, \texttt {Overspeed} y \texttt {Solved} (Stateflow)}{figure.60}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.4}Subestado \texttt  {Global\_Emgy}}{86}{subsubsection.3.4.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {61}{\ignorespaces Subestado \texttt  {Global\_Emgy} completo: acciones de entrada, espera de $3$\,s y reconocimiento del operador en \texttt  {Waiting\_Global\_Emgy\_Ack} (Stateflow).}}{87}{figure.61}\protected@file@percent }
+\newlabel{fig:global-emgy-completo}{{61}{87}{Subestado \texttt {Global\_Emgy} completo: acciones de entrada, espera de $3$\,s y reconocimiento del operador en \texttt {Waiting\_Global\_Emgy\_Ack} (Stateflow)}{figure.61}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.5}Watchdog}{87}{subsubsection.3.4.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {62}{\ignorespaces Estado \texttt  {Watchdog} completo: \texttt  {Init}, \texttt  {Reset\_Counter}, \texttt  {Increase\_counter} y \texttt  {Watchdog\_Emgy} (Stateflow).}}{88}{figure.62}\protected@file@percent }
+\newlabel{fig:watchdog-completo}{{62}{88}{Estado \texttt {Watchdog} completo: \texttt {Init}, \texttt {Reset\_Counter}, \texttt {Increase\_counter} y \texttt {Watchdog\_Emgy} (Stateflow)}{figure.62}{}}
+\citation{iec61131}
+\citation{opcua}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Implementación de los Niveles 0 y 1 en CODESYS}{89}{section.4}\protected@file@percent }
+\newlabel{sec:codesys}{{4}{89}{Implementación de los Niveles 0 y 1 en CODESYS}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Estructura general del proyecto}{89}{subsection.4.1}\protected@file@percent }
+\newlabel{subsec:codesys-estructura}{{4.1}{89}{Estructura general del proyecto}{subsection.4.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {63}{\ignorespaces Árbol de proyecto \texttt  {CODESYS\_PF\_AYCD}. Bajo \textit  {Application} se agrupan las variables globales (\texttt  {GVL}), las funciones auxiliares (\texttt  {estimar\_masa}, \texttt  {rate\_limiter}, \texttt  {signo\_real}, \texttt  {xpos2ypos}), los bloques de función de generación de trayectorias (\texttt  {generador\_trayectoria}, \texttt  {generador\_trayectoria\_izaje}), y las POU tipo \textit  {Programa} \texttt  {NIVEL\_0} y \texttt  {NIVEL\_1} (cada una con acciones internas). La \textit  {Configuración de símbolos} habilita la interfaz OPC~UA\spacefactor \@m {}. En \textit  {Configuración de tareas}, \texttt  {MainTask} ejecuta cíclicamente ambos programas.}}{90}{figure.63}\protected@file@percent }
+\newlabel{fig:codesys_estructura}{{63}{90}{Árbol de proyecto \texttt {CODESYS\_PF\_AYCD}. Bajo \textit {Application} se agrupan las variables globales (\texttt {GVL}), las funciones auxiliares (\texttt {estimar\_masa}, \texttt {rate\_limiter}, \texttt {signo\_real}, \texttt {xpos2ypos}), los bloques de función de generación de trayectorias (\texttt {generador\_trayectoria}, \texttt {generador\_trayectoria\_izaje}), y las POU tipo \textit {Programa} \texttt {NIVEL\_0} y \texttt {NIVEL\_1} (cada una con acciones internas). La \textit {Configuración de símbolos} habilita la interfaz OPC~UA\@. En \textit {Configuración de tareas}, \texttt {MainTask} ejecuta cíclicamente ambos programas}{figure.63}{}}
+\newlabel{lst:gvl}{{14}{90}{Variables globales (\texttt {GVL}) del proyecto CODESYS, organizadas por grupo funcional}{lstlisting.14}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {14}Variables globales (\texttt  {GVL}) del proyecto CODESYS, organizadas por grupo funcional.}{90}{lstlisting.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Nivel 0: Seguridad y Protección}{93}{subsection.4.2}\protected@file@percent }
+\newlabel{subsec:codesys-nivel0}{{4.2}{93}{Nivel 0: Seguridad y Protección}{subsection.4.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {64}{\ignorespaces SFC del programa \texttt  {NIVEL\_0} en CODESYS\spacefactor \@m {}. El step inicial \texttt  {Safety\_Secu\-rity} inicializa mediante acciones Reset/Set las variables de diagnóstico (\texttt  {watchdog\_fa\-iled}, \texttt  {heart\-beat\_pre\-sent}, \texttt  {hoist\_sol\-ved}, \texttt  {trol\-ley\_sol\-ved}). La transición \texttt  {TRUE AND simulink\_started} habilita una rama AND que lanza en paralelo los pasos \texttt  {Watchdog} y \texttt  {Emergencies}, manteniendo ambas lógicas activas de forma concurrente durante toda la operación. Ante una condición \texttt  {FALSE}, se ejecuta la acción \texttt  {Safety\_Security\_Init} que reinicializa el nivel.}}{93}{figure.64}\protected@file@percent }
+\newlabel{fig:nivel0-sfc-top}{{64}{93}{SFC del programa \texttt {NIVEL\_0} en CODESYS\@. El step inicial \texttt {Safety\_Secu\-rity} inicializa mediante acciones Reset/Set las variables de diagnóstico (\texttt {watchdog\_fa\-iled}, \texttt {heart\-beat\_pre\-sent}, \texttt {hoist\_sol\-ved}, \texttt {trol\-ley\_sol\-ved}). La transición \texttt {TRUE AND simulink\_started} habilita una rama AND que lanza en paralelo los pasos \texttt {Watchdog} y \texttt {Emergencies}, manteniendo ambas lógicas activas de forma concurrente durante toda la operación. Ante una condición \texttt {FALSE}, se ejecuta la acción \texttt {Safety\_Security\_Init} que reinicializa el nivel}{figure.64}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {65}{\ignorespaces Macropaso \texttt  {Watchdog} del programa \texttt  {NIVEL\_0}. Su funcionamiento es análogo al descrito para el estado homónimo en el Statechart de Stateflow (sección~\ref {sec:emergencies}). Las acciones \texttt  {ResetCounter}, \texttt  {UpdateHeartbeat} e \texttt  {IncreaseCounter} están implementadas en ST como acciones asociadas a los pasos de esta POU\spacefactor \@m {}. Al final del macropaso se incorpora una rama OR con transición \texttt  {false} hacia el step \texttt  {Watchdog\_Exit}, recurso requerido por IEC~61131-3 para que el compilador acepte el diagrama SFC como conforme a la norma.}}{94}{figure.65}\protected@file@percent }
+\newlabel{fig:nivel0-watchdog}{{65}{94}{Macropaso \texttt {Watchdog} del programa \texttt {NIVEL\_0}. Su funcionamiento es análogo al descrito para el estado homónimo en el Statechart de Stateflow (sección~\ref {sec:emergencies}). Las acciones \texttt {ResetCounter}, \texttt {UpdateHeartbeat} e \texttt {IncreaseCounter} están implementadas en ST como acciones asociadas a los pasos de esta POU\@. Al final del macropaso se incorpora una rama OR con transición \texttt {false} hacia el step \texttt {Watchdog\_Exit}, recurso requerido por IEC~61131-3 para que el compilador acepte el diagrama SFC como conforme a la norma}{figure.65}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {66}{\ignorespaces Macropaso \texttt  {Emergencies} del programa \texttt  {NIVEL\_0}, análogo al diseño de Stateflow de la sección~\ref {sec:emergencies}. La acción \texttt  {LVL1PASS}, con calificador~\texttt  {N} en el step \texttt  {Stand\_By}, permite el paso de las consignas provenientes del Nivel~1 (\texttt  {BRK\_t}, \texttt  {BRK\_h}, \texttt  {v\_t\_ref}, \texttt  {x\_t\_ref}, \texttt  {dl\_h\_ref}, \texttt  {l\_h\_ref}, \texttt  {sway\_ctr\_enable}) mientras no haya falla activa. Las acciones \texttt  {ResetTrolleyRef} y \texttt  {ResetHoistRef}, activadas ante emergencia, sustituyen dichas consignas por velocidades nulas y referencias de posición iguales al valor actual del sensor o estimación, de modo que no induzcan movimiento sobre el eje afectado. Las tres acciones están implementadas en ST dentro de esta POU\spacefactor \@m {}.}}{95}{figure.66}\protected@file@percent }
+\newlabel{fig:nivel0-emergencias}{{66}{95}{Macropaso \texttt {Emergencies} del programa \texttt {NIVEL\_0}, análogo al diseño de Stateflow de la sección~\ref {sec:emergencies}. La acción \texttt {LVL1PASS}, con calificador~\texttt {N} en el step \texttt {Stand\_By}, permite el paso de las consignas provenientes del Nivel~1 (\texttt {BRK\_t}, \texttt {BRK\_h}, \texttt {v\_t\_ref}, \texttt {x\_t\_ref}, \texttt {dl\_h\_ref}, \texttt {l\_h\_ref}, \texttt {sway\_ctr\_enable}) mientras no haya falla activa. Las acciones \texttt {ResetTrolleyRef} y \texttt {ResetHoistRef}, activadas ante emergencia, sustituyen dichas consignas por velocidades nulas y referencias de posición iguales al valor actual del sensor o estimación, de modo que no induzcan movimiento sobre el eje afectado. Las tres acciones están implementadas en ST dentro de esta POU\@}{figure.66}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Nivel 1: Control Supervisor}{96}{subsection.4.3}\protected@file@percent }
+\newlabel{subsec:codesys-nivel1}{{4.3}{96}{Nivel 1: Control Supervisor}{subsection.4.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {67}{\ignorespaces SFC del programa \texttt  {NIVEL\_1} en CODESYS\spacefactor \@m {}. El step inicial \texttt  {Supervisory\_Control} habilita, mediante transición \texttt  {true}, una rama AND que activa en paralelo los macropasos \texttt  {Heartbeat\_Generator} y \texttt  {Supervisory\_Control}, los cuales permanecen activos de forma concurrente durante toda la operación. La rama OR con transición \texttt  {false} y acción \texttt  {Supervisory\_Control\_Init} provee el camino de salida requerido por IEC~61131-3 para conformidad del compilador.}}{96}{figure.67}\protected@file@percent }
+\newlabel{fig:nivel1-sfc-top}{{67}{96}{SFC del programa \texttt {NIVEL\_1} en CODESYS\@. El step inicial \texttt {Supervisory\_Control} habilita, mediante transición \texttt {true}, una rama AND que activa en paralelo los macropasos \texttt {Heartbeat\_Generator} y \texttt {Supervisory\_Control}, los cuales permanecen activos de forma concurrente durante toda la operación. La rama OR con transición \texttt {false} y acción \texttt {Supervisory\_Control\_Init} provee el camino de salida requerido por IEC~61131-3 para conformidad del compilador}{figure.67}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}Heartbeat Generator}{96}{subsubsection.4.3.1}\protected@file@percent }
+\newlabel{subsubsec:codesys-heartbeat}{{4.3.1}{96}{Heartbeat Generator}{subsubsection.4.3.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {68}{\ignorespaces Macropaso \texttt  {Heartbeat\_Generator} del programa \texttt  {NIVEL\_1}, análogo al diseño de Stateflow de la sección~\ref {subsubsec:nivel1-heartbeat-off}. Al final se provee el camino de escape mencionado anteriormente, requerido por IEC~61131-3 para conformidad del compilador.}}{96}{figure.68}\protected@file@percent }
+\newlabel{fig:nivel1-heartbeat}{{68}{96}{Macropaso \texttt {Heartbeat\_Generator} del programa \texttt {NIVEL\_1}, análogo al diseño de Stateflow de la sección~\ref {subsubsec:nivel1-heartbeat-off}. Al final se provee el camino de escape mencionado anteriormente, requerido por IEC~61131-3 para conformidad del compilador}{figure.68}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}Supervisory Control}{97}{subsubsection.4.3.2}\protected@file@percent }
+\newlabel{subsubsec:codesys-supervisory}{{4.3.2}{97}{Supervisory Control}{subsubsection.4.3.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {69}{\ignorespaces Macropaso \texttt  {Supervisory\_Control} del programa \texttt  {NIVEL\_1}. El step \texttt  {OFF} inicializa las variables de control y alarma mediante acciones Reset/Set, y permanece activo hasta que se cumple \texttt  {P\_APN AND simulink\_started}. El macropaso \texttt  {ON} encapsula la lógica de operación normal y retorna incondicionalmente a \texttt  {OFF} al finalizar.}}{97}{figure.69}\protected@file@percent }
+\newlabel{fig:nivel1-supervisory-top}{{69}{97}{Macropaso \texttt {Supervisory\_Control} del programa \texttt {NIVEL\_1}. El step \texttt {OFF} inicializa las variables de control y alarma mediante acciones Reset/Set, y permanece activo hasta que se cumple \texttt {P\_APN AND simulink\_started}. El macropaso \texttt {ON} encapsula la lógica de operación normal y retorna incondicionalmente a \texttt {OFF} al finalizar}{figure.69}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {70}{\ignorespaces Interior del macropaso \texttt  {ON}. Tras el step de inicialización \texttt  {ON\_Init}, una rama AND lanza en paralelo los macropasos \texttt  {Lidar\_Map}, \texttt  {BRK\_Logic}, \texttt  {Limit\_Switch}, \texttt  {Sway\_Control}, \texttt  {Trolley\_Movement}, \texttt  {Hoist\_Movement}, \texttt  {Mode}, \texttt  {TLK\_Logic} y \texttt  {Trajectory}, ejecutándose todos de forma concurrente. La rama AND finaliza con la transición \texttt  {NOT P\_APN OR emgy}, que retorna el control al step \texttt  {OFF}.}}{97}{figure.70}\protected@file@percent }
+\newlabel{fig:nivel1-supervisory-on}{{70}{97}{Interior del macropaso \texttt {ON}. Tras el step de inicialización \texttt {ON\_Init}, una rama AND lanza en paralelo los macropasos \texttt {Lidar\_Map}, \texttt {BRK\_Logic}, \texttt {Limit\_Switch}, \texttt {Sway\_Control}, \texttt {Trolley\_Movement}, \texttt {Hoist\_Movement}, \texttt {Mode}, \texttt {TLK\_Logic} y \texttt {Trajectory}, ejecutándose todos de forma concurrente. La rama AND finaliza con la transición \texttt {NOT P\_APN OR emgy}, que retorna el control al step \texttt {OFF}}{figure.70}{}}
+\@writefile{toc}{\contentsline {paragraph}{Lidar Map.}{97}{section*.60}\protected@file@percent }
+\newlabel{subsubsec:codesys-lidarmap}{{4.3.2}{97}{Lidar Map}{section*.60}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {71}{\ignorespaces Macropaso \texttt  {Lidar\_Map} del programa \texttt  {NIVEL\_1}. Ejecuta las acciones \texttt  {LidarMapEntry} (calificador~\texttt  {N} en el step de entrada~\texttt  {E}) y \texttt  {LidarMapDuring} (calificador~\texttt  {N} en el step principal), análogas a las acciones \textit  {entry} y \textit  {during} del estado homónimo en Stateflow (sección~\ref {subsubsec:nivel1-lidar}), ambas implementadas en ST dentro de esta POU\spacefactor \@m {}.}}{98}{figure.71}\protected@file@percent }
+\newlabel{fig:nivel1-lidarmap}{{71}{98}{Macropaso \texttt {Lidar\_Map} del programa \texttt {NIVEL\_1}. Ejecuta las acciones \texttt {LidarMapEntry} (calificador~\texttt {N} en el step de entrada~\texttt {E}) y \texttt {LidarMapDuring} (calificador~\texttt {N} en el step principal), análogas a las acciones \textit {entry} y \textit {during} del estado homónimo en Stateflow (sección~\ref {subsubsec:nivel1-lidar}), ambas implementadas en ST dentro de esta POU\@}{figure.71}{}}
+\@writefile{toc}{\contentsline {paragraph}{BRK Logic.}{98}{section*.61}\protected@file@percent }
+\newlabel{subsubsec:codesys-brk}{{4.3.2}{98}{BRK Logic}{section*.61}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {72}{\ignorespaces Macropaso \texttt  {BRK\_Logic}: rama AND que ejecuta en paralelo los macropasos \texttt  {BRK\_t\_Logic} y \texttt  {BRK\_h\_Logic}, uno por cada accionamiento.}}{98}{figure.72}\protected@file@percent }
+\newlabel{fig:nivel1-brk-top}{{72}{98}{Macropaso \texttt {BRK\_Logic}: rama AND que ejecuta en paralelo los macropasos \texttt {BRK\_t\_Logic} y \texttt {BRK\_h\_Logic}, uno por cada accionamiento}{figure.72}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {73}{\ignorespaces Interior del macropaso \texttt  {BRK\_t\_Logic}. El step \texttt  {BRK\_t\_Closed} mantiene el freno aplicado (\texttt  {R BRK\_t\_nvl\_1}) hasta que la posición estimada del carro se encuentra dentro de la zona segura y no hay fin de carrera activo, condición bajo la cual se habilita la apertura (\texttt  {BRK\_t\_Opened}, \texttt  {S BRK\_t\_nvl\_1}). El freno se vuelve a aplicar si la velocidad supera el umbral \texttt  {w\_tm\_min\_BRK} con un fin de carrera activo, retornando a \texttt  {BRK\_t\_Closed}. La rama OR con \texttt  {NOT P\_APN} provee el camino de salida del macropaso. El caso del izaje (\texttt  {BRK\_h\_Logic}) es enteramente análogo.}}{98}{figure.73}\protected@file@percent }
+\newlabel{fig:nivel1-brk-t}{{73}{98}{Interior del macropaso \texttt {BRK\_t\_Logic}. El step \texttt {BRK\_t\_Closed} mantiene el freno aplicado (\texttt {R BRK\_t\_nvl\_1}) hasta que la posición estimada del carro se encuentra dentro de la zona segura y no hay fin de carrera activo, condición bajo la cual se habilita la apertura (\texttt {BRK\_t\_Opened}, \texttt {S BRK\_t\_nvl\_1}). El freno se vuelve a aplicar si la velocidad supera el umbral \texttt {w\_tm\_min\_BRK} con un fin de carrera activo, retornando a \texttt {BRK\_t\_Closed}. La rama OR con \texttt {NOT P\_APN} provee el camino de salida del macropaso. El caso del izaje (\texttt {BRK\_h\_Logic}) es enteramente análogo}{figure.73}{}}
+\@writefile{toc}{\contentsline {paragraph}{Limit Switch.}{99}{section*.62}\protected@file@percent }
+\newlabel{subsubsec:codesys-ls}{{4.3.2}{99}{Limit Switch}{section*.62}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {74}{\ignorespaces Macropaso \texttt  {Limit\_Switch}: rama AND con los macropasos \texttt  {Trolley\_Min\_LS}, \texttt  {Trolley\_Max\_LS}, \texttt  {Hoist\_Min\_LS} y \texttt  {Hoist\_Max\_LS}, uno por cada fin de carrera supervisado.}}{99}{figure.74}\protected@file@percent }
+\newlabel{fig:nivel1-ls-top}{{74}{99}{Macropaso \texttt {Limit\_Switch}: rama AND con los macropasos \texttt {Trolley\_Min\_LS}, \texttt {Trolley\_Max\_LS}, \texttt {Hoist\_Min\_LS} y \texttt {Hoist\_Max\_LS}, uno por cada fin de carrera supervisado}{figure.74}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {75}{\ignorespaces Interior del macropaso \texttt  {Trolley\_Min\_LS}, representativo de los cuatro. Monitorea \texttt  {FC\_carro\_min} para activar o limpiar la alarma \texttt  {FC\_t\_min\_alarm} (análogo a la lógica descrita en la sección~\ref {sec:fines-carrera}). Los demás macropasos (\texttt  {Trolley\_Max\_LS}, \texttt  {Hoist\_Min\_LS}, \texttt  {Hoist\_Max\_LS}) son enteramente análogos sobre sus respectivas señales.}}{99}{figure.75}\protected@file@percent }
+\newlabel{fig:nivel1-ls}{{75}{99}{Interior del macropaso \texttt {Trolley\_Min\_LS}, representativo de los cuatro. Monitorea \texttt {FC\_carro\_min} para activar o limpiar la alarma \texttt {FC\_t\_min\_alarm} (análogo a la lógica descrita en la sección~\ref {sec:fines-carrera}). Los demás macropasos (\texttt {Trolley\_Max\_LS}, \texttt {Hoist\_Min\_LS}, \texttt {Hoist\_Max\_LS}) son enteramente análogos sobre sus respectivas señales}{figure.75}{}}
+\@writefile{toc}{\contentsline {paragraph}{Sway Control.}{99}{section*.63}\protected@file@percent }
+\newlabel{subsubsec:codesys-sway}{{4.3.2}{99}{Sway Control}{section*.63}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {76}{\ignorespaces Macropaso \texttt  {Sway\_Control\_Mode} en CODESYS.}}{100}{figure.76}\protected@file@percent }
+\newlabel{fig:codesys-sway}{{76}{100}{Macropaso \texttt {Sway\_Control\_Mode} en CODESYS}{figure.76}{}}
+\@writefile{toc}{\contentsline {paragraph}{Trolley Movement Flags.}{100}{section*.64}\protected@file@percent }
+\newlabel{subsubsec:codesys-tmf}{{4.3.2}{100}{Trolley Movement Flags}{section*.64}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {77}{\ignorespaces Macropaso \texttt  {Trolley\_Movement\_Flags} en CODESYS: primer elemento de la rama OR (comportamiento descrito en la sección~\ref {subsubsec:nivel1-flags}).}}{101}{figure.77}\protected@file@percent }
+\newlabel{fig:codesys-tmf-izq}{{77}{101}{Macropaso \texttt {Trolley\_Movement\_Flags} en CODESYS: primer elemento de la rama OR (comportamiento descrito en la sección~\ref {subsubsec:nivel1-flags})}{figure.77}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {78}{\ignorespaces Macropaso \texttt  {Trolley\_Movement\_Flags} en CODESYS: segundo y tercer elemento de la rama OR.}}{101}{figure.78}\protected@file@percent }
+\newlabel{fig:codesys-tmf-der}{{78}{101}{Macropaso \texttt {Trolley\_Movement\_Flags} en CODESYS: segundo y tercer elemento de la rama OR}{figure.78}{}}
+\@writefile{toc}{\contentsline {paragraph}{Hoist Movement Flags.}{101}{section*.65}\protected@file@percent }
+\newlabel{subsubsec:codesys-hmf}{{4.3.2}{101}{Hoist Movement Flags}{section*.65}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {79}{\ignorespaces Macropaso \texttt  {Hoist\_Movement\_Flags} en CODESYS (comportamiento descrito en la sección~\ref {subsubsec:nivel1-flags}).}}{102}{figure.79}\protected@file@percent }
+\newlabel{fig:codesys-hmf}{{79}{102}{Macropaso \texttt {Hoist\_Movement\_Flags} en CODESYS (comportamiento descrito en la sección~\ref {subsubsec:nivel1-flags})}{figure.79}{}}
+\@writefile{toc}{\contentsline {paragraph}{Mode.}{102}{section*.66}\protected@file@percent }
+\newlabel{subsubsec:codesys-mode}{{4.3.2}{102}{Mode}{section*.66}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {80}{\ignorespaces Macropaso \texttt  {Mode} en CODESYS.}}{102}{figure.80}\protected@file@percent }
+\newlabel{fig:codesys-mode}{{80}{102}{Macropaso \texttt {Mode} en CODESYS}{figure.80}{}}
+\@writefile{toc}{\contentsline {paragraph}{TLK Logic.}{102}{section*.67}\protected@file@percent }
+\newlabel{subsubsec:codesys-tlk}{{4.3.2}{102}{TLK Logic}{section*.67}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {81}{\ignorespaces Macropaso \texttt  {TLK\_Logic} en CODESYS.}}{103}{figure.81}\protected@file@percent }
+\newlabel{fig:codesys-tlk}{{81}{103}{Macropaso \texttt {TLK\_Logic} en CODESYS}{figure.81}{}}
+\@writefile{toc}{\contentsline {paragraph}{Planificador de trayectorias.}{103}{section*.68}\protected@file@percent }
+\newlabel{subsubsec:codesys-traj}{{4.3.2}{103}{Planificador de trayectorias}{section*.68}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {82}{\ignorespaces Pasos de inicialización del \textit  {scan} en el planificador de trayectorias de CODESYS: elevación, barrido derecha y barrido izquierda.}}{104}{figure.82}\protected@file@percent }
+\newlabel{fig:codesys-traj-init}{{82}{104}{Pasos de inicialización del \textit {scan} en el planificador de trayectorias de CODESYS: elevación, barrido derecha y barrido izquierda}{figure.82}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {83}{\ignorespaces Lógica de selección de escenario y vía de escape del planificador de trayectorias en CODESYS (comportamiento descrito en la sección~\ref {subsubsec:nivel1-traj}).}}{104}{figure.83}\protected@file@percent }
+\newlabel{fig:codesys-traj-escenario}{{83}{104}{Lógica de selección de escenario y vía de escape del planificador de trayectorias en CODESYS (comportamiento descrito en la sección~\ref {subsubsec:nivel1-traj})}{figure.83}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {84}{\ignorespaces Recorrido de pasos para la operación de \textbf  {carga} (camión $\to $ barco) dentro del macropaso \texttt  {Pick\_And\_Place\_Loop}.}}{105}{figure.84}\protected@file@percent }
+\newlabel{fig:codesys-ppl-izq}{{84}{105}{Recorrido de pasos para la operación de \textbf {carga} (camión $\to $ barco) dentro del macropaso \texttt {Pick\_And\_Place\_Loop}}{figure.84}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {85}{\ignorespaces Recorrido de pasos para la operación de \textbf  {descarga} (barco $\to $ camión) dentro del macropaso \texttt  {Pick\_And\_Place\_Loop}.}}{106}{figure.85}\protected@file@percent }
+\newlabel{fig:codesys-ppl-cen}{{85}{106}{Recorrido de pasos para la operación de \textbf {descarga} (barco $\to $ camión) dentro del macropaso \texttt {Pick\_And\_Place\_Loop}}{figure.85}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {86}{\ignorespaces Camino de escape del macropaso \texttt  {Pick\_And\_Place\_Loop}, requerido para satisfacer la norma IEC~61131-3.}}{107}{figure.86}\protected@file@percent }
+\newlabel{fig:codesys-ppl-der}{{86}{107}{Camino de escape del macropaso \texttt {Pick\_And\_Place\_Loop}, requerido para satisfacer la norma IEC~61131-3}{figure.86}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Generación automática de código ST mediante PLC Coder}{108}{section.5}\protected@file@percent }
+\newlabel{sec:plccoder}{{5}{108}{Generación automática de código ST mediante PLC Coder}{section.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {87}{\ignorespaces Estructura del proyecto CODESYS generado automáticamente mediante PLC Coder: \textit  {Function Blocks}, \textit  {Programs}, variables globales y bibliotecas auxiliares.}}{109}{figure.87}\protected@file@percent }
+\newlabel{fig:codesys-autogen}{{87}{109}{Estructura del proyecto CODESYS generado automáticamente mediante PLC Coder: \textit {Function Blocks}, \textit {Programs}, variables globales y bibliotecas auxiliares}{figure.87}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Interfaz HMI}{110}{section.6}\protected@file@percent }
+\newlabel{sec:hmi}{{6}{110}{Interfaz HMI}{section.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Control de mando — Joystick PS4}{110}{subsection.6.1}\protected@file@percent }
+\newlabel{sec:hmi-ps4}{{6.1}{110}{Control de mando — Joystick PS4}{subsection.6.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Script de diagnóstico (\texttt  {diagnostico\_control.py}).}{110}{section*.69}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {88}{\ignorespaces Script de diagnóstico \texttt  {diagnostico\_control.py}: visualización en tiempo real de ejes analógicos y botones digitales del control PS4 para identificación de índices (Python/pygame/matplotlib).}}{110}{figure.88}\protected@file@percent }
+\newlabel{fig:hmi-diagnostico}{{88}{110}{Script de diagnóstico \texttt {diagnostico\_control.py}: visualización en tiempo real de ejes analógicos y botones digitales del control PS4 para identificación de índices (Python/pygame/matplotlib)}{figure.88}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Mapeado del control PS4 DualShock~4: índices pygame y función asignada.}}{111}{table.1}\protected@file@percent }
+\newlabel{tab:ps4-mapping}{{1}{111}{Mapeado del control PS4 DualShock~4: índices pygame y función asignada}{table.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Script principal (\texttt  {controller\_reader.py}) — comunicación con Simulink y visualización.}{111}{section*.70}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {89}{\ignorespaces Visualización en tiempo real del script \texttt  {controller\_reader.py}: sticks analógicos, botones, barras de velocidad y panel de estado del control PS4 durante la operación de la grúa (Python/pygame/matplotlib).}}{112}{figure.89}\protected@file@percent }
+\newlabel{fig:hmi-controlador}{{89}{112}{Visualización en tiempo real del script \texttt {controller\_reader.py}: sticks analógicos, botones, barras de velocidad y panel de estado del control PS4 durante la operación de la grúa (Python/pygame/matplotlib)}{figure.89}{}}
+\@writefile{toc}{\contentsline {paragraph}{Recepción en Simulink — bloque \texttt  {UDP Receive} y desempaquetado.}{112}{section*.71}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {90}{\ignorespaces Configuración del bloque \texttt  {UDP Receive} en Simulink: puerto 5005, buffer de 14\,bytes, salida \texttt  {uint8} (Instrument Control Toolbox).}}{113}{figure.90}\protected@file@percent }
+\newlabel{fig:hmi-udp-config}{{90}{113}{Configuración del bloque \texttt {UDP Receive} en Simulink: puerto 5005, buffer de 14\,bytes, salida \texttt {uint8} (Instrument Control Toolbox)}{figure.90}{}}
+\newlabel{lst:parse-udp}{{15}{113}{\textit {MATLAB Function}: desempaquetado del datagrama UDP proveniente del control PS4}{lstlisting.15}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {15}\textit  {MATLAB Function}: desempaquetado del datagrama UDP proveniente del control PS4.}{113}{lstlisting.15}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {91}{\ignorespaces Bloque de lectura UDP completo en Simulink: \texttt  {UDP Receive} y \textit  {MATLAB Function} \texttt  {parse\_udp\_packet} con sus siete salidas hacia el sistema de control.}}{114}{figure.91}\protected@file@percent }
+\newlabel{fig:hmi-udp-completo}{{91}{114}{Bloque de lectura UDP completo en Simulink: \texttt {UDP Receive} y \textit {MATLAB Function} \texttt {parse\_udp\_packet} con sus siete salidas hacia el sistema de control}{figure.91}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Visualización en tiempo real — RT\_VIEW}{114}{subsection.6.2}\protected@file@percent }
+\newlabel{sec:hmi-rtview}{{6.2}{114}{Visualización en tiempo real — RT\_VIEW}{subsection.6.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Fuentes de datos — canales UDP.}{114}{section*.72}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Transmisor UDP en Simulink.}{115}{section*.73}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {92}{\ignorespaces Configuración del bloque \textit  {UDP Send} en Simulink para el canal de datos de RT\_VIEW (puerto~5010, loopback).}}{115}{figure.92}\protected@file@percent }
+\newlabel{fig:rt-udp-send}{{92}{115}{Configuración del bloque \textit {UDP Send} en Simulink para el canal de datos de RT\_VIEW (puerto~5010, loopback)}{figure.92}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {93}{\ignorespaces Subsistema transmisor completo en Simulink: multiplexado de señales y bloque \textit  {UDP Send} hacia RT\_VIEW.}}{116}{figure.93}\protected@file@percent }
+\newlabel{fig:rt-transmisor}{{93}{116}{Subsistema transmisor completo en Simulink: multiplexado de señales y bloque \textit {UDP Send} hacia RT\_VIEW}{figure.93}{}}
+\@writefile{toc}{\contentsline {paragraph}{Elementos de la visualización.}{116}{section*.74}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {94}{\ignorespaces Visualización 2D en tiempo real de la grúa STS (\texttt  {visualizacion\_grua.py}): vista central con geometría animada, panel izquierdo de control PS4 y panel derecho de variables de estado (Python/matplotlib).}}{117}{figure.94}\protected@file@percent }
+\newlabel{fig:rt-view}{{94}{117}{Visualización 2D en tiempo real de la grúa STS (\texttt {visualizacion\_grua.py}): vista central con geometría animada, panel izquierdo de control PS4 y panel derecho de variables de estado (Python/matplotlib)}{figure.94}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Panel de monitoreo en Simulink — Dashboard}{118}{subsection.6.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {95}{\ignorespaces Panel de monitoreo del sistema desarrollado con la librería \textit  {Dashboard} de Simulink.}}{118}{figure.95}\protected@file@percent }
+\newlabel{fig:hmi-dashboard}{{95}{118}{Panel de monitoreo del sistema desarrollado con la librería \textit {Dashboard} de Simulink}{figure.95}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Resultados}{119}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Rendimiento: ciclo simple}{119}{subsection.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Pruebas adicionales}{119}{subsection.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.1}Fines de carrera}{119}{subsubsection.7.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.2}Límites de sobrevelocidad}{119}{subsubsection.7.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.3}Emergencias}{119}{subsubsection.7.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.4}Sobrecarga}{119}{subsubsection.7.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.5}Estimación de masa}{119}{subsubsection.7.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Enlaces a videos}{119}{subsection.7.3}\protected@file@percent }
 \bibcite{guia2025}{1}
 \bibcite{unctad2023}{2}
 \bibcite{drewry2022}{3}
 \bibcite{zpmc2023}{4}
 \bibcite{iec61131}{5}
 \bibcite{opcua}{6}
-\@writefile{toc}{\contentsline {section}{Referencias}{96}{subsection.6.3}\protected@file@percent }
-\newlabel{LastPage}{{6.3}{96}{Enlaces a videos}{page.96}{}}
-\gdef\lastpage@lastpage{96}
-\gdef\lastpage@lastpageHy{96}
-\gdef \@abspage@last{96}
+\@writefile{toc}{\contentsline {section}{Referencias}{120}{subsection.7.3}\protected@file@percent }
+\newlabel{LastPage}{{7.3}{120}{Enlaces a videos}{page.120}{}}
+\gdef\lastpage@lastpage{120}
+\gdef\lastpage@lastpageHy{120}
+\gdef \@abspage@last{120}

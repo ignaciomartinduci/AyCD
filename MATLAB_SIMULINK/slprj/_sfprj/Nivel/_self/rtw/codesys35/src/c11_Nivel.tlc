@@ -1,0 +1,123 @@
+%implements "chartSource" "C"
+%function ChartConfig(block, system) void
+  %createrecord chartConfiguration { ...
+          executeAtInitialization  0 ...
+  }
+  %return chartConfiguration
+%endfunction
+%function ChartDataMap(block, system) void
+  %createrecord ChartDataElements {\
+    NumChartData   15 \
+    ChartDataDefaults {\
+      RecordType   "ChartData"\
+      Dimensions   []\
+      IsTestPoint  0\
+    }\
+    ChartData {\
+      Name         "watchdog_fail"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "watchdog_fail"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "counter"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "counter"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "heartbeat_prev"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "heartbeat_prev"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "hoist_solved"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "hoist_solved"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "trolley_solved"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "trolley_solved"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_active_c11_Nivel"\
+      Description  "StateIsActive"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_Emergencies"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Safety_Security_Control.Emergencies"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_Hoist_Emgy"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Safety_Security_Control.Emergencies.Hoist_Emgy"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_Trolley_Emgy"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Safety_Security_Control.Emergencies.Trolley_Emgy"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_Overspeed"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Safety_Security_Control.Emergencies.Trolley_Emgy.Overspeed"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_Watchdog"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Safety_Security_Control.Watchdog"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "temporalCounter_i1"\
+      Description  "TemporalCounter"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "temporalCounter_i2"\
+      Description  "TemporalCounter"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "temporalCounter_i3"\
+      Description  "TemporalCounter"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "temporalCounter_i4"\
+      Description  "TemporalCounter"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  ""\
+    }\
+  }
+  %return ChartDataElements
+%endfunction

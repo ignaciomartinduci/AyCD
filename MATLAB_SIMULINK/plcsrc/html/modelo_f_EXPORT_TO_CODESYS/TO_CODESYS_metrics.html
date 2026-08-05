@@ -1,0 +1,1620 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><link rel="stylesheet" type="text/css" href="rtwreport.css" /><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><script language="JavaScript" type="text/javascript" src="rtwshrink.js"></script><title>
+Static Code Metrics Report
+</title>
+
+</head>
+<body>
+<h1>
+Static Code Metrics Report
+</h1>
+<div>
+The static code metrics report provides statistics of the generated code. Metrics are estimated from static analysis of the generated code using the IEC 61131 data type specification: SINT 8, INT 16, DINT 32, REAL 32, LREAL 64 bits. Actual object code metrics might differ due to target specific compiler and platform settings.
+</div>
+<div id="table_of_contents">
+<h3>
+Table of Contents
+</h3>
+<ol>
+<li>
+<a href="#sec_file_info" onclick="rtwTableExpand(window.document, window.document.getElementById('rtwIdPLCCodeMetricsReport_table_001_control'), 'rtwIdPLCCodeMetricsReport_table_001')">
+File Information
+</a>
+
+</li>
+<li>
+<a href="#sec_global_var_info" onclick="rtwTableExpand(window.document, window.document.getElementById('rtwIdPLCCodeMetricsReport_table_002_control'), 'rtwIdPLCCodeMetricsReport_table_002')">
+Global Variables
+</a>
+
+</li>
+<li>
+<a href="#sec_global_const_info" onclick="rtwTableExpand(window.document, window.document.getElementById('rtwIdPLCCodeMetricsReport_table_003_control'), 'rtwIdPLCCodeMetricsReport_table_003')">
+Global Constants
+</a>
+
+</li>
+<li>
+<a href="#sec_fcn_info" onclick="rtwTableExpand(window.document, window.document.getElementById('rtwIdPLCCodeMetricsReport_table_004_control'), 'rtwIdPLCCodeMetricsReport_table_004')">
+Function Block Information
+</a>
+
+</li>
+
+</ol>
+
+</div>
+<h3 name="sec_File_Information" id="sec_file_info">
+1. File Information <span title="Click to shrink or expand section" style="cursor:pointer;font-weight:normal;" id="rtwIdPLCCodeMetricsReport_table_001_control" onclick ="if (rtwTableShrink) rtwTableShrink(window.document, this, 'rtwIdPLCCodeMetricsReport_table_001', false)"><span class="shrink-button">[<u>hide</u>]</span></span>
+</h3>
+<table width="100%" name="rtwIdPLCCodeMetricsReport_table_001" id="rtwIdPLCCodeMetricsReport_table_001" border="0">
+<tr>
+<td align="left" valign="top">
+<table width="100%" border="0">
+<tr>
+<td align="left" valign="top">
+<p>
+<span name="button_fileInfo_summary_table" id="button_fileInfo_summary_table" title="Click to shrink or expand tree" style="cursor:pointer;font-family:monospace;font-weight:normal;" onclick ="if (rtwTableShrink) rtwTableShrink(window.document, this, 'fileInfo_summary_table', true)"><span class="shrink-button">[-]</span></span> Summary
+</p>
+<table width="50%" cellpadding="0" name="fileInfo_summary_table" id="fileInfo_summary_table" border="0">
+<tr>
+<td width="4%" align="left" valign="top">
+<span style="white-space:nowrap" title="Number of source files">Generated source files</span>
+</td>
+<td width="4%" align="left" valign="top">
+:
+</td>
+<td width="4%" align="right" valign="top">
+1
+</td>
+<td width="86%" align="right" valign="top">
+&#160;
+</td>
+
+</tr>
+<tr>
+<td width="4%" align="left" valign="top">
+<span style="white-space:nowrap" title="Lines of code excluding comments and blank lines.">Lines of code</span>
+</td>
+<td width="4%" align="left" valign="top">
+:
+</td>
+<td width="4%" align="right" valign="top">
+1,352
+</td>
+<td width="86%" align="right" valign="top">
+&#160;
+</td>
+
+</tr>
+<tr>
+<td width="4%" align="left" valign="top">
+<span style="white-space:nowrap" title="Lines including source code, comments, and blank lines.">Lines</span>
+</td>
+<td width="4%" align="left" valign="top">
+:
+</td>
+<td width="4%" align="right" valign="top">
+2,968
+</td>
+<td width="86%" align="right" valign="top">
+&#160;
+</td>
+
+</tr>
+
+</table>
+
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<p>
+<span name="button_fileInfo_detail_table" id="button_fileInfo_detail_table" title="Click to shrink or expand tree" style="cursor:pointer;font-family:monospace;font-weight:normal;" onclick ="if (rtwTableShrink) rtwTableShrink(window.document, this, 'fileInfo_detail_table', true)"><span class="shrink-button">[-]</span></span> File details
+</p>
+<table width="100%" cellpadding="2" name="fileInfo_detail_table" id="fileInfo_detail_table" border="1">
+<tr style="background-color: #eeeeff">
+<td width="60%" align="left" valign="top" style="border-style: none">
+<b>
+<span style="white-space:nowrap" title="Files sorted in descending order by number of lines of code. ">File Name</span>
+</b>
+
+</td>
+<td width="40%" align="right" valign="top" style="border-style: none">
+<b>
+<span style="white-space:nowrap" title="Timestamp of the file">Generated On</span>
+</b>
+
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="60%" align="left" valign="top" style="border-style: none">
+modelo_f_EXPORT_TO_CODESYS.xml
+</td>
+<td width="40%" align="right" valign="top" style="border-style: none">
+08/05/2026  1:10 PM
+</td>
+
+</tr>
+
+</table>
+
+</td>
+
+</tr>
+
+</table>
+
+</td>
+
+</tr>
+
+</table>
+<h3 name="sec_Global_Variables" id="sec_global_var_info">
+2. Global Variables <span title="Click to shrink or expand section" style="cursor:pointer;font-weight:normal;" id="rtwIdPLCCodeMetricsReport_table_002_control" onclick ="if (rtwTableShrink) rtwTableShrink(window.document, this, 'rtwIdPLCCodeMetricsReport_table_002', false)"><span class="shrink-button">[<u>hide</u>]</span></span>
+</h3>
+<table width="100%" name="rtwIdPLCCodeMetricsReport_table_002" id="rtwIdPLCCodeMetricsReport_table_002" border="0">
+<tr>
+<td align="left" valign="top">
+No global variables defined in the generated code.
+</td>
+
+</tr>
+
+</table>
+<h3 name="sec_Global_Constants" id="sec_global_const_info">
+3. Global Constants <span title="Click to shrink or expand section" style="cursor:pointer;font-weight:normal;" id="rtwIdPLCCodeMetricsReport_table_003_control" onclick ="if (rtwTableShrink) rtwTableShrink(window.document, this, 'rtwIdPLCCodeMetricsReport_table_003', false)"><span class="shrink-button">[<u>hide</u>]</span></span>
+</h3>
+<table width="100%" name="rtwIdPLCCodeMetricsReport_table_003" id="rtwIdPLCCodeMetricsReport_table_003" border="0">
+<tr>
+<td align="left" valign="top">
+Global constants defined in the generated code.
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<table width="100%" cellpadding="2" name="globalconstantInfo_table" id="globalconstantInfo_table" border="1">
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<b>
+Global Constant
+</b>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+<b>
+<span style="white-space:nowrap" title="Global variable size in bytes.">Size (bytes)</span>
+</b>
+
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+<b>
+
+</b>
+
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_x_c0_left
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+8
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_lidar_grid_size
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+8
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_y_h_min
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+8
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_H_c
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+8
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODESY_x_containers_le
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+8
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_l_h_safety_min
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+8
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_x_t_safety_max
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+8
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_l_h_safety_max
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+8
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_x_t_safety_min
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+8
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODESYS_IN_NO_ACTIVE_C
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODESYS_IN_Heartbeat_H
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_Heartbeat_Low
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_BRK_t_Closed
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_BRK_t_Opened
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_BRK_h_Closed
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_BRK_h_Opened
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_Init
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_TLK_Closed
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_TLK_Opened
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODESYS_IN_Sway_Contro
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+d_TO_CODESYS_IN_Sway_Contro
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_FC_t_Min_High
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_FC_t_Min_Low
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_FC_t_Max_High
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_FC_t_Max_Low
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_FC_h_Min_High
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_FC_h_Min_Low
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_FC_h_Max_High
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_FC_h_Max_Low
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_Automatic
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_Manual
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODESYS_IN_Line_Scan_M
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODESYS_IN_Line_Scan_R
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+d_TO_CODESYS_IN_Line_Scan_R
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_COD_IN_Pickup_And_Plac
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODESYS_IN_Scenario_Se
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODES_IN_Scenario_Sele
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CO_IN_Ship_Palcement_D
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODES_IN_Ship_Pickup_D
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODESY_IN_Ship_Pickup_
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODESYS_IN_Ship_Pickup
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+d_TO_CODESYS_IN_Ship_Pickup
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_COD_IN_Ship_Placement_
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODES_IN_Ship_Placemen
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODE_IN_Ship_Placement
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODE_IN_Truck_Pickup_D
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODES_IN_Truck_Pickup_
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODESYS_IN_Truck_Picku
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODESY_IN_Truck_Pickup
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_C_IN_Truck_Placement_D
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CO_IN_Truck_Placement_
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODE_IN_Truck_Placemen
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_COD_IN_Truck_Placement
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODESYS_IN_Trolley_Mov
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODESYS_IN_Trolley_Sto
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO__IN_Trolley_Stopped_Co
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_Hoist_Moving
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_Hoist_Stopped
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_Global_Emgy
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_Hoist_Emgy
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_Stand_By
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_Trolley_Emgy
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_C_IN_Waiting_Global_Em
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODESYS_IN_Emgy_Switch
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+d_TO_CODESYS_IN_Emgy_Switch
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_Init_e
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_Overspeed
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODESYS_IN_Overspeed_D
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_Solved
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_Sway_Control
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+c_TO_CODESYS_IN_Increase_co
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_Init_et
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_Reset_Counter
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+TO_CODESYS_IN_Watchdog_Emgy
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+SS_INITIALIZE
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<span>
+SS_STEP
+</span>
+
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="28%" align="left" valign="top" style="border-style: none">
+<b>Total</b>
+</td>
+<td width="14%" align="right" valign="top" style="border-style: none">
+<b>139</b>
+</td>
+<td width="57%" align="right" valign="top" style="border-style: none">
+&#160;
+</td>
+
+</tr>
+
+</table>
+
+</td>
+
+</tr>
+
+</table>
+<h3 name="sec_Function_Block_Information" id="sec_fcn_info">
+4. Function Block Information <span title="Click to shrink or expand section" style="cursor:pointer;font-weight:normal;" id="rtwIdPLCCodeMetricsReport_table_004_control" onclick ="if (rtwTableShrink) rtwTableShrink(window.document, this, 'rtwIdPLCCodeMetricsReport_table_004', false)"><span class="shrink-button">[<u>hide</u>]</span></span>
+</h3>
+<table width="100%" name="rtwIdPLCCodeMetricsReport_table_004" id="rtwIdPLCCodeMetricsReport_table_004" border="0">
+<tr>
+<td align="left" valign="top">
+Function block metrics in table format. "Number of Locals" includes state and temporary variables (does not include other function block instance variables).
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<table width="100%" cellpadding="2" border="1">
+<tr style="background-color: #eeeeff">
+<td width="25%" align="left" valign="top" style="border-style: none">
+<b>
+Name
+</b>
+
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+<b>
+<span title="Size of local variables in the function.">Self Stack Size (bytes)</span>
+</b>
+
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+<b>
+<span style="white-space:nowrap" title="Lines of code excluding comments and blank lines.">Lines of Code</span>
+</b>
+
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+<b>
+<span style="white-space:nowrap" title="Lines including source code, comments, and blank lines.">Lines</span>
+</b>
+
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+<b>
+Number of Inputs
+</b>
+
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+<b>
+Number of Outputs
+</b>
+
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+<b>
+Number of Locals
+</b>
+
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="25%" align="left" valign="top" style="border-style: none">
+<a href="modelo_f_EXPORT_TO_CODESYS_st.html#fcn_TO_CODESYS" class="code2code">
+TO_CODESYS
+</a>
+
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+72616
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+1305
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+2906
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+37
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+19
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+76
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="25%" align="left" valign="top" style="border-style: none">
+<a href="modelo_f_EXPORT_TO_CODESYS_st.html#fcn_maximum" class="code2code">
+maximum
+</a>
+
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+72028
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+7
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+11
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+2
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="25%" align="left" valign="top" style="border-style: none">
+<a href="modelo_f_EXPORT_TO_CODESYS_st.html#fcn_maximum_d" class="code2code">
+maximum_d
+</a>
+
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+24
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+5
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+7
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+0
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="25%" align="left" valign="top" style="border-style: none">
+<a href="modelo_f_EXPORT_TO_CODESYS_st.html#fcn_minimum" class="code2code">
+minimum
+</a>
+
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+24
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+5
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+7
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+0
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="25%" align="left" valign="top" style="border-style: none">
+<a href="modelo_f_EXPORT_TO_CODESYS_st.html#fcn_rt_floord" class="code2code">
+rt_floord
+</a>
+
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+16
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+6
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+8
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+0
+</td>
+
+</tr>
+<tr style="background-color: #eeeeff">
+<td width="25%" align="left" valign="top" style="border-style: none">
+<a href="modelo_f_EXPORT_TO_CODESYS_st.html#fcn_rt_ceild" class="code2code">
+rt_ceild
+</a>
+
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+16
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+6
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+8
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+0
+</td>
+
+</tr>
+<tr style="background-color: #ffffff">
+<td width="25%" align="left" valign="top" style="border-style: none">
+<a href="modelo_f_EXPORT_TO_CODESYS_st.html#fcn_PLC_CODER_TIMER" class="code2code">
+PLC_CODER_TIMER
+</a>
+
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+8
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+18
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+21
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+2
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+1
+</td>
+<td width="12%" align="right" valign="top" style="border-style: none">
+2
+</td>
+
+</tr>
+
+</table>
+
+</td>
+
+</tr>
+
+</table>
+
+</body>
+
+</html>

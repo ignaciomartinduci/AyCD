@@ -44,6 +44,40 @@
 \definecolor{mgray}{rgb}{0.5,0.5,0.5}
 \definecolor{mbg}{rgb}{0.97,0.97,0.97}
 
+\lstdefinelanguage{ST}{
+    morekeywords={VAR_GLOBAL, END_VAR, VAR, END_VAR, PROGRAM, END_PROGRAM,
+                  FUNCTION, END_FUNCTION, FUNCTION_BLOCK, END_FUNCTION_BLOCK,
+                  IF, THEN, ELSIF, ELSE, END_IF, CASE, OF, END_CASE,
+                  FOR, TO, BY, DO, END_FOR, WHILE, END_WHILE,
+                  REPEAT, UNTIL, END_REPEAT, RETURN, EXIT,
+                  TRUE, FALSE, NOT, AND, OR, XOR, MOD,
+                  BOOL, INT, DINT, REAL, STRING, ARRAY, OF,
+                  TON, TOF, TP, CTU, CTD},
+    sensitive=false,
+    morecomment=[l]{//},
+    morecomment=[s]{(*}{*)},
+    morestring=[b]",
+}
+\lstdefinestyle{st}{
+    language=ST,
+    backgroundcolor=\color{mbg},
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{mblue}\bfseries,
+    commentstyle=\color{mgreen}\itshape,
+    stringstyle=\color{red},
+    numberstyle=\tiny\color{mgray},
+    numbers=left,
+    numbersep=6pt,
+    frame=single,
+    framerule=0.4pt,
+    rulecolor=\color{mgray},
+    breaklines=true,
+    breakatwhitespace=false,
+    tabsize=4,
+    showstringspaces=false,
+    captionpos=b,
+}
+
 \lstdefinestyle{matlab}{
     language=Matlab,
     backgroundcolor=\color{mbg},
@@ -1067,6 +1101,7 @@ sección~\ref{sec:sistema-completo}, al ensamblar el modelo físico completo.
 
 % ---- 2.3 -------------------------------------------------------
 \subsection{Generación del perfil de obstáculos \texorpdfstring{$y_{c0}(x,t)$}{yc0(x,t)}}
+\label{subsec:perfil-obstaculos}
 
 El perfil de obstáculos $y_{c0}(x,t)$ representa la altura de la superficie de apoyo
 en función de la posición horizontal $x$ y el tiempo $t$. Se implementa como una
@@ -1650,6 +1685,7 @@ $\sin\theta_l \approx \theta_l$.
 
 % ---- 3.1.1 -------------------------------------------------------
 \subsubsection{Controlador de traslación del carro}
+\label{subsubsec:ctrl-carro}
 
 \paragraph{Análisis de controlabilidad y observabilidad.}
 
@@ -2012,6 +2048,7 @@ máxima $v_{t,max}=4$\,m/s, dicha contribución vale:
 
 % ---- 3.1.2 -------------------------------------------------------
 \subsubsection{Controlador de izaje de la carga}
+\label{subsubsec:ctrl-izaje}
 
 \paragraph{Análisis de controlabilidad y observabilidad.}
 
@@ -2614,6 +2651,165 @@ $\zeta_o = 1$ impuesto en la sintonización.
 % TODO: completar esta sección
 
 % ---- 3.1.4 -------------------------------------------------------
+\subsubsection{Diseño del observador de estados del carro}
+\label{subsubsec:obs-carro}
+
+Como se demostró en la sección~\ref{subsubsec:ctrl-carro}, el sistema del carro es
+completamente observable desde la señal $\theta_{tm}(t)$ (encoder del motor). Sin embargo,
+el controlador de traslación requiere los cuatro estados
+$\mathbf{x}_t = [\,\theta_{tm},\,\omega_{tm},\,x_t,\,v_t\,]^\top$, de los cuales solo
+$\theta_{tm}$ es sensado directamente. Para estimar los estados no medidos se diseña un
+\textbf{observador de Luenberger} de orden pleno.
+
+\paragraph{Estructura del observador.}
+
+El observador replica la dinámica del sistema~\eqref{eq:ss-carro} corrigiendo la
+estimación mediante la diferencia entre la salida medida y la salida estimada,
+ponderada por la matriz de ganancias $\mathbf{L}_t \in \mathbb{R}^{4\times 1}$:
+
+\begin{equation}
+    \label{eq:obs-carro}
+    \dot{\hat{\mathbf{x}}}_t(t) = A_t\,\hat{\mathbf{x}}_t(t)
+    + B_{ct}\,\mathbf{u}_t(t)
+    + \mathbf{L}_t\!\left[\theta_{tm}(t) - C_t\,\hat{\mathbf{x}}_t(t)\right]
+\end{equation}
+
+donde $\mathbf{u}_t(t) = [T_{tm}(t),\; T_{tb}(t)]^\top$ es el vector de entradas de
+control y $B_{ct}$ es la matriz de entrada de control definida en~\eqref{eq:ss-carro}.
+
+\paragraph{Dinámica del error de estimación.}
+
+Definiendo el error de estimación $\mathbf{e}_t(t) = \mathbf{x}_t(t) - \hat{\mathbf{x}}_t(t)$,
+su dinámica resulta:
+
+\begin{equation}
+    \label{eq:error-obs-carro}
+    \dot{\mathbf{e}}_t(t) = \bigl(A_t - \mathbf{L}_t\,C_t\bigr)\,\mathbf{e}_t(t)
+\end{equation}
+
+El error converge a cero si y solo si la matriz $(A_t - \mathbf{L}_t\,C_t)$ es
+Hurwitz, condición que se satisface eligiendo $\mathbf{L}_t$ de modo que sus valores
+propios queden en la mitad izquierda del plano complejo. La dualidad entre el problema
+de ubicación de polos del observador y el del controlador garantiza que, siendo el
+sistema completamente observable, los polos de~\eqref{eq:error-obs-carro} pueden
+asignarse arbitrariamente mediante $\mathbf{L}_t$.
+
+\paragraph{Criterio de sintonía.}
+
+Los polos del observador se ubican significativamente más a la izquierda que los del
+controlador para garantizar que el error de estimación decaiga mucho más rápido que
+la dinámica de lazo cerrado del sistema. Se adopta un \textbf{factor de separación
+de 10} respecto a la frecuencia dominante del controlador PID $\omega_t$:
+
+\begin{equation}
+    \label{eq:polos-obs-carro}
+    p_{obs,i} = -10\,\omega_t\,\alpha_i, \qquad i = 1,2,3,4
+\end{equation}
+
+donde $\alpha_i \in \{1{,}00,\;1{,}02,\;1{,}05,\;1{,}07\}$ son factores de
+separación leve entre los cuatro polos. La ligera dispersión es necesaria para
+que el algoritmo de ubicación de polos (\texttt{place}) opere correctamente: con
+polos estrictamente repetidos, el rango de la condición de asignabilidad cae por
+debajo del requerido cuando $C_t$ tiene una sola fila (rango~1), lo que hace
+numéricamente indeterminado el sistema de Sylvester asociado.
+
+\paragraph{Cálculo de la matriz de ganancias.}
+
+La matriz $\mathbf{L}_t$ se obtiene por el \textbf{método de ubicación de polos
+por dualidad}: se resuelve el problema equivalente de realimentación de estados
+del sistema dual $(A_t^\top, C_t^\top)$ con los polos deseados~\eqref{eq:polos-obs-carro},
+y se transpone el resultado:
+
+\begin{equation}
+    \label{eq:Lt}
+    \mathbf{L}_t = \texttt{place}\!\left(A_t^\top,\,C_t^\top,\,\{p_{obs,i}\}\right)^\top
+\end{equation}
+
+La figura~\ref{fig:obs-carro-bloques} muestra el observador del carro implementado
+como diagrama de bloques independiente en Simulink, con las ganancias de
+retroalimentación $\mathbf{L}_t$ correspondientes.
+
+\begin{figure}[H]
+    \centering
+    \img{src/observador_carro_diagrama.png}
+    \caption{Observador de estados del carro implementado por bloques en Simulink
+             ($T_{s2} = 1$\,ms), con las ganancias de retroalimentación $\mathbf{L}_t$.}
+    \label{fig:obs-carro-bloques}
+\end{figure}
+
+En el diagrama se aprecian las ganancias del observador $\mathbf{L}_t$ aplicadas sobre
+la innovación $\theta_{tm} - \hat{\theta}_{tm}$, así como los retardos de un paso de
+muestreo introducidos en las señales retroalimentadas para evitar lazos algebraicos
+(\textit{algebraic loops}) en la simulación discreta.
+
+% ---- 3.1.5 -------------------------------------------------------
+\subsubsection{Diseño del observador de estados del izaje}
+\label{subsubsec:obs-izaje}
+
+La estructura del observador es análoga a la del carro (sección~\ref{subsubsec:obs-carro}):
+un observador de Luenberger de orden pleno que corrige la estimación mediante la diferencia
+entre la salida medida y la estimada, ponderada por la matriz de ganancias
+$\mathbf{L}_h \in \mathbb{R}^{2\times 1}$:
+
+\begin{equation}
+    \label{eq:obs-izaje}
+    \dot{\hat{\mathbf{x}}}_h(t) = A_h\,\hat{\mathbf{x}}_h(t)
+    + B_{ch}\,T_{hm}(t)
+    + \mathbf{L}_h\!\left[\theta_{hm}(t) - C_h\,\hat{\mathbf{x}}_h(t)\right]
+\end{equation}
+
+con matrices $A_h$, $B_{ch}$, $C_h$ definidas en~\eqref{eq:ss-hoist} y
+$\hat{\mathbf{x}}_h = [\,\hat{\theta}_{hm},\,\hat{\omega}_{hm}\,]^\top$.
+Como se verificó en la sección~\ref{subsubsec:ctrl-izaje}, el sistema es completamente
+observable desde $\theta_{hm}(t)$, por lo que los polos de la dinámica del error
+$(A_h - \mathbf{L}_h\,C_h)$ pueden asignarse libremente.
+
+\paragraph{Criterio de sintonía.}
+
+A diferencia del observador del carro, donde la frecuencia de referencia es la del
+controlador PID, aquí se parte del \textbf{polo a lazo abierto no nulo}
+$p_{LA} = -b_{eq,h}/J_{eq,h}$, que caracteriza la dinámica natural del accionamiento
+de izaje. El observador se ubica un \textbf{factor~10} más rápido que dicho polo:
+
+\begin{equation}
+    \label{eq:polo-base-obs-h}
+    p_{base} = -10\,|p_{LA}|
+\end{equation}
+
+Los dos polos del observador se separan un $10\%$ entre sí para garantizar la
+correcta operación numérica de \texttt{place} con una matriz de salida $C_h$ de
+rango~1:
+
+\begin{equation}
+    \label{eq:polos-obs-izaje}
+    p_{obs,1} = p_{base}, \qquad p_{obs,2} = 1{,}10\,p_{base}
+\end{equation}
+
+La matriz de ganancias se calcula por dualidad, de forma idéntica a~\eqref{eq:Lt}:
+
+\begin{equation}
+    \label{eq:Lh}
+    \mathbf{L}_h = \texttt{place}\!\left(A_h^\top,\,C_h^\top,\,\{p_{obs,1},\,p_{obs,2}\}\right)^\top
+\end{equation}
+
+La figura~\ref{fig:obs-izaje-bloques} muestra el observador del izaje implementado
+como diagrama de bloques independiente en Simulink, con las ganancias de
+retroalimentación $\mathbf{L}_h$ correspondientes.
+
+\begin{figure}[H]
+    \centering
+    \img{src/observador_izaje_diagrama.png}
+    \caption{Observador de estados del izaje implementado por bloques en Simulink
+             ($T_{s2} = 1$\,ms), con las ganancias de retroalimentación $\mathbf{L}_h$.}
+    \label{fig:obs-izaje-bloques}
+\end{figure}
+
+En el diagrama se aprecian las ganancias del observador $\mathbf{L}_h$ aplicadas sobre
+la innovación $\theta_{hm} - \hat{\theta}_{hm}$, así como los retardos de un paso de
+muestreo introducidos en las señales retroalimentadas para evitar lazos algebraicos
+(\textit{algebraic loops}) en la simulación discreta.
+
+% ---- 3.1.6 -------------------------------------------------------
 \subsubsection{Nivel 2 completo}
 
 El Nivel~2 completo resulta de la integración de los tres controladores desarrollados en
@@ -2872,6 +3068,7 @@ La Figura~\ref{fig:nivel1-io} muestra el esquema de entradas y salidas del Nivel
 \end{figure}
 
 \subsubsection{Estructura general — Heartbeat y estado OFF}
+\label{subsubsec:nivel1-heartbeat-off}
 
 El autómata se implementa en Stateflow con dos subestados ejecutados en
 \textbf{paralelo (AND)}: \texttt{Heartbeat\_Generator} y \texttt{Supervisory\_Control}
@@ -2958,6 +3155,7 @@ o la carga alcancen los topes mecánicos.
 \end{figure}
 
 \subsubsection{Modos de operación}
+\label{subsubsec:nivel1-mode}
 
 El subestado paralelo \texttt{Mode} (Figura~\ref{fig:nivel1-mode}) gestiona los dos
 modos de operación del sistema. Si \texttt{operation\_mode} es verdadero se activa el
@@ -3010,6 +3208,7 @@ de modo que al aumentar la masa la consigna de entrada ya llega acotada al limit
 y la desaceleración resultante respeta $a_{h,max}$ en lugar de producir un escalón.
 
 \subsubsection{Lógica de \textit{twistlocks}}
+\label{subsubsec:nivel1-tlk}
 
 El subestado paralelo \texttt{TLK\_Logic} (Figura~\ref{fig:nivel1-tlk}) gestiona la
 apertura y cierre de los \textit{twistlocks}. Consta de tres estados: \texttt{Init},
@@ -3036,6 +3235,7 @@ es nula, los abre.
 \end{figure}
 
 \subsubsection{Control de balanceo de carga}
+\label{subsubsec:nivel1-sway}
 
 El subestado paralelo \texttt{Sway\_Control\_Mode} (Figura~\ref{fig:nivel1-sway})
 habilita o inhibe el controlador paralelo de balanceo del Nivel~2. Consta de dos
@@ -3059,6 +3259,7 @@ cerca del límite.
 \end{figure}
 
 \subsubsection{Mapa LIDAR}
+\label{subsubsec:nivel1-lidar}
 
 El subestado paralelo \texttt{Lidar\_Map} (Figura~\ref{fig:nivel1-lidar}) construye y
 mantiene un mapa de alturas del entorno a partir de las lecturas del sensor LIDAR
@@ -3112,6 +3313,7 @@ A partir del mapa acumulado se calculan dos salidas de interés para el ciclo op
 \end{figure}
 
 \subsubsection{Banderas de movimiento}
+\label{subsubsec:nivel1-flags}
 
 Los subestados paralelos \texttt{Trolley\_Movement\_Flags} y
 \texttt{Hoist\_Movement\_Flags} generan señales de estado que el ciclo operativo del
@@ -3158,6 +3360,7 @@ $0{,}1$\,m/s, asegurando histéresis en la detección del estado detenido.
 \end{figure}
 
 \subsubsection{Planificador de trayectorias}
+\label{subsubsec:nivel1-traj}
 
 El subestado \texttt{Trajectory\_Planner} coordina la secuencia completa de movimientos
 del ciclo operativo. La generación de las trayectorias de referencia en sí se describe
@@ -3741,9 +3944,651 @@ junto con \texttt{cmd\_emgy\_stop}, una de las dos condiciones de entrada a
 \section{Implementación de los Niveles 0 y 1 en CODESYS}
 \label{sec:codesys}
 
-% TODO: contenido
+La implementación en hardware real de los Niveles~0 y~1 se realiza sobre un PLC
+virtual ejecutado en \textbf{CODESYS SP20 V3.5}, bajo el estándar IEC~61131-3~\cite{iec61131}. Ambos autómatas se codifican manualmente en \textit{Sequential
+Function Chart} (SFC), complementado con bloques de \textit{Structured Text} (ST)
+para las acciones de entrada/salida, temporizadores y condiciones de transición
+más complejas. La tarea cíclica que los ejecuta se configura con un período de
+$T_{s1} = T_{s0} = 20$\,ms, acorde a la frecuencia de muestreo de ambos niveles
+de control. Esta elección respecto de la generación automática vía PLC Coder
+permite un control explícito sobre la estructura del programa y facilita la
+validación directa del comportamiento secuencial frente a la especificación del
+diseño.
+
+La verificación del código implementado se lleva a cabo mediante una arquitectura
+\textit{Hardware-in-the-Loop} (HIL) en la que CODESYS actúa como el controlador
+real y Simulink conserva el rol de planta y Nivel~2. La comunicación entre ambos
+entornos se establece mediante el protocolo \textbf{OPC~UA} \cite{opcua}: Simulink
+publica el estado de la planta (posiciones, velocidades, flags de sensores) como
+nodos OPC~UA, y CODESYS los suscribe para calcular las salidas de los Niveles~0
+y~1; simétricamente, CODESYS publica sus salidas discretas (consignas de frenos,
+twistlocks, habilitaciones) y Simulink las lee para cerrar el lazo de co-simulación.
+Esta configuración permite ejecutar los autómatas SFC en el entorno de PLC real
+mientras el modelo dinámico continuo de la grúa corre en Simulink, verificando
+así el comportamiento integrado del sistema con fidelidad equivalente a la prueba
+sobre hardware físico.
+
+\subsection{Estructura general del proyecto}
+\label{subsec:codesys-estructura}
+
+El proyecto en CODESYS se organiza siguiendo la jerarquía de unidades de organización
+de programa (POU) definida por IEC~61131-3. La Figura~\ref{fig:codesys_estructura}
+muestra el árbol de proyecto tal como queda configurado en el entorno de desarrollo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{src/codesys_estructura.png}
+    \caption{Árbol de proyecto \texttt{CODESYS\_PF\_AYCD}. Bajo \textit{Application}
+             se agrupan las variables globales (\texttt{GVL}), las funciones auxiliares
+             (\texttt{estimar\_masa}, \texttt{rate\_limiter}, \texttt{signo\_real},
+             \texttt{xpos2ypos}), los bloques de función de generación de trayectorias
+             (\texttt{generador\_trayectoria}, \texttt{generador\_trayectoria\_izaje}),
+             y las POU tipo \textit{Programa} \texttt{NIVEL\_0} y \texttt{NIVEL\_1}
+             (cada una con acciones internas). La \textit{Configuración de símbolos}
+             habilita la interfaz OPC~UA\@. En \textit{Configuración de tareas},
+             \texttt{MainTask} ejecuta cíclicamente ambos programas.}
+    \label{fig:codesys_estructura}
+\end{figure}
+
+En el nivel superior se encuentran las tareas cíclicas que ejecutan los programas
+principales. Cada uno de los autómatas está encapsulado en una POU de tipo
+\textit{Programa}: \texttt{NIVEL\_0} y \texttt{NIVEL\_1}, ambas codificadas en SFC.
+Dentro de cada POU se definen \textbf{acciones} (bloques de código ST asociados
+a los pasos del SFC) que implementan la lógica específica de cada estado del
+autómata — entradas, salidas, condiciones de transición y llamadas a funciones
+auxiliares. Estas acciones se describen en detalle en las subsecciones siguientes.
+
+Las variables globales compartidas entre ambos niveles se declaran en el módulo
+\texttt{GVL} (\textit{Global Variable List}), organizado en grupos temáticos
+que reflejan la jerarquía funcional del sistema:
+
+\begin{lstlisting}[style=st, basicstyle=\ttfamily\scriptsize,
+    caption={Variables globales (\texttt{GVL}) del proyecto CODESYS, organizadas por grupo funcional.},
+    label=lst:gvl]
+VAR_GLOBAL
+
+    (* -- 1. Constantes fisicas y matematicas -------------------- *)
+    PI   : REAL := 3.14159265;
+    g    : REAL := 9.80665;
+
+    (* -- 2. Parametros mecanicos de los accionamientos ---------- *)
+    r_td : REAL := 0.5;
+    i_t  : REAL := 30;
+    r_hd : REAL := 0.75;
+    i_h  : REAL := 22;
+
+    (* -- 3. Limites de posicion y fines de carrera -------------- *)
+    Y_t0       : REAL := 45;
+    x_t_min    : REAL := -30;      x_t_max  : REAL :=  50;
+    x_t_minE   : REAL := x_t_min - 0.5;
+    x_t_maxE   : REAL := x_t_max + 0.5;
+    y_h_min    : REAL := -20;      y_h_max  : REAL :=  40;
+    y_h_minE   : REAL := y_h_min - 0.5;
+    y_h_maxE   : REAL := y_h_max + 0.5;
+    l_h_min    : REAL := Y_t0 - y_h_max;
+    l_h_max    : REAL := Y_t0 - y_h_min;
+    l_h_minE   : REAL := l_h_min - 0.5;
+    l_h_maxE   : REAL := l_h_max + 0.5;
+    x_t_safety_min : REAL := x_t_minE + 3;
+    x_t_safety_max : REAL := x_t_maxE - 3;
+    l_h_safety_min : REAL := l_h_minE + 3;
+    l_h_safety_max : REAL := l_h_maxE - 3;
+
+    (* -- 4. Condiciones iniciales ------------------------------- *)
+    x_t0      : REAL := -15;
+    theta_tm0 : REAL := (x_t0) * i_t / r_td;
+    x_l0      : REAL := x_t0;      y_l0 : REAL := 7;
+    l_h0      : REAL := Y_t0 - y_l0;
+    theta_hm0 : REAL := -l_h0 * i_h * 2 / r_hd;
+
+    (* -- 5. Geometria de contenedores --------------------------- *)
+    H_c                     : REAL := 2.59;
+    truck_pickup_height     : REAL := 3.59;
+    pickup_safety_margin    : REAL := 1.5 * H_c;
+    placement_safety_margin : REAL := 1.3 * H_c;
+
+    (* -- 6. Parametros del mapa Lidar (constantes) -------------- *)
+    x_containers_left_lim  : REAL := 1.5;
+    x_containers_right_lim : REAL := 48.5;
+    n_pilares              : INT  := 19;
+    espaciado : REAL := (x_containers_right_lim - x_containers_left_lim) / (19 - 1);
+    lidar_grid_size   : INT  := 9001;
+    LIDAR_GRID_SIZE_C : INT  := 9001;
+    dx_grid_lidar     : REAL := 0.01;
+    x_c0_left         : REAL := -35.0;
+    x_lidar_offset    : REAL := 3.0;
+    v_t_max           : REAL := 4.0;
+    T_s2              : REAL := 0.001;
+    l_h_safe          : REAL := 0;
+
+    (* -- 7. Estado runtime del Lidar ---------------------------- *)
+    lidar_map           : ARRAY[1..9001] OF REAL := [9001(0.0)];
+    window_idx          : DINT := 0;
+    land_end_element    : DINT := 1;
+    x_lidar             : REAL := 0;    x_lidar_prev      : REAL;
+    grid_element        : DINT := 1;    grid_element_prev : DINT := 1;
+    y_c0_lidar          : REAL := 0;
+    max_pillar_local    : REAL := 0.0;
+    j_offset            : DINT := 0;    cc : INT := 0;
+    max_lidar_map       : REAL := 0.0;
+    pillar_height       : REAL := 0.0;  containers_height : REAL := 0.0;
+    x_lidar_pillar      : REAL := 0.0;
+    grid_element_pillar : DINT := 1;
+    window_start        : DINT := 1;    window_end : DINT := 1;
+
+    (* -- 8. Estimacion de masa ---------------------------------- *)
+    m_est_vec     : ARRAY[1..500] OF REAL := [500(0.0)];
+    m_est_vec_pos : DINT := 1;
+    m_est         : REAL := 15000.0;
+    min_containers: REAL := 999;
+    ship_idx      : DINT := 0;
+
+    (* -- 9. Estado general del sistema -------------------------- *)
+    t                : REAL := 0;
+    escenario        : REAL := 1;
+    simulink_started : BOOL := FALSE;
+    state_SISTEMA_ON : BOOL := FALSE;
+    operation_mode   : BOOL := FALSE;
+    heartbeat        : BOOL := FALSE;
+    sway_ctr_enable  : BOOL := TRUE;
+    sway_ctr_gain    : REAL := 1;
+
+    (* -- 10. Cinematica estimada y sensada ---------------------- *)
+    x_t_est        : REAL := x_t0;  v_t_est       : REAL := 0;
+    x_td_sensor    : REAL := 0.0;
+    l_h_sensor     : REAL := l_h0;  dl_h_est      : REAL := 0;
+    l_h_pr         : REAL := 0.0;   x_t_pr        : REAL := 0.0;
+    w_l_sensor     : REAL := 0;     theta_l_sensor: REAL := 0;
+    w_tm_estimada  : REAL := 0;     w_hm_estimada : REAL := 0;
+    F_hw_sensor    : REAL := 0;
+    trolley_moving           : BOOL := TRUE;
+    trolley_stopped          : BOOL := FALSE;
+    trolley_stopped_complete : BOOL := FALSE;
+    hoist_moving   : BOOL := TRUE;
+    hoist_stopped  : BOOL := FALSE;
+
+    (* -- 11. Referencias de trayectoria ------------------------- *)
+    x_t_obj       : REAL := x_t0;   x_t_ref       : REAL := x_t0;
+    v_t_ref       : REAL := 0;
+    x_t_ref_nvl_1 : REAL := x_t0;   v_t_ref_nvl_1 : REAL := 0;
+    l_h_obj       : REAL := l_h0;   l_h_ref       : REAL := l_h0;
+    dl_h_ref      : REAL := 0;
+    l_h_ref_nvl_1 : REAL := l_h0;
+    dl_h_ref_nvl_1       : REAL := -theta_hm0 * r_hd / i_h / 2;
+    BRK_t_nvl_1          : BOOL := FALSE;
+    BRK_h_nvl_1          : BOOL := FALSE;
+    sway_ctr_enable_nvl_1: BOOL := FALSE;
+
+    (* -- 12. Mando manual (joystick y rate limiter) ------------- *)
+    JS_trolley_cmd : REAL := 0;    JS_hoist_cmd  : REAL := 0;
+    v_t_ref_prev   : REAL := 0;    dl_h_ref_prev : REAL := 0;
+    v_t_ref_a      : REAL := 0;    dl_h_ref_a    : REAL := 0;
+    T_s1           : REAL := 0.02;
+    w_tm_min_BRK   : REAL := 0.01; w_hm_min_BRK  : REAL := 0.01;
+
+    (* -- 13. Actuadores (frenos, TLK, sway) --------------------- *)
+    BRK_t  : BOOL := FALSE;  BRK_h  : BOOL := FALSE;
+    BRK_hE : BOOL := FALSE;  TLK    : BOOL := FALSE;
+    cmd_BRK_t    : BOOL := TRUE;
+    cmd_BRK_h    : BOOL := FALSE;
+    cmd_TLK      : BOOL := TRUE;
+    cmd_sway_ctr : BOOL := FALSE;
+
+    (* -- 14. Nivel 0 - Seguridad y emergencia ------------------- *)
+    emgy                 : BOOL := FALSE;
+    FCE_carro_max        : BOOL := FALSE;
+    FCE_carro_min        : BOOL := FALSE;
+    sobrevelocidad_carro : BOOL := FALSE;
+    FCE_izaje_max        : BOOL := FALSE;
+    FCE_izaje_min        : BOOL := FALSE;
+    sobrevelocidad_izaje : BOOL := FALSE;
+    cmd_emgy_stop       : BOOL := FALSE;
+    cmd_global_emgy_ack : BOOL := FALSE;
+    trolley_emgy        : BOOL := FALSE;
+    hoist_emgy          : BOOL := FALSE;
+
+    (* -- 15. Nivel 1 - Supervisor ------------------------------- *)
+    P_APN          : BOOL := FALSE;
+    FC_carro_max   : BOOL := FALSE;  FC_carro_min : BOOL := FALSE;
+    FC_izaje_max   : BOOL := FALSE;  FC_izaje_min : BOOL := FALSE;
+    FC_t_min_alarm : BOOL := FALSE;  FC_t_max_alarm : BOOL := FALSE;
+    FC_h_min_alarm : BOOL := FALSE;  FC_h_max_alarm : BOOL := FALSE;
+
+    (* -- 16. Camiones y barco ----------------------------------- *)
+    trucks_state    : ARRAY[1..5] OF BOOL;
+    trucks_has_load : ARRAY[1..5] OF BOOL;
+    TS_1 : BOOL := FALSE;  TS_2 : BOOL := FALSE;  TS_3 : BOOL := FALSE;
+    TS_4 : BOOL := FALSE;  TS_5 : BOOL := FALSE;
+    THL_1 : BOOL := FALSE; THL_2 : BOOL := FALSE; THL_3 : BOOL := FALSE;
+    THL_4 : BOOL := FALSE; THL_5 : BOOL := FALSE;
+    container_pillars : ARRAY[1..19] OF INT := [19(0)];
+
+    (* -- 17. Iteradores ----------------------------------------- *)
+    i_lidar : DINT := 0;  j_lidar : DINT := 0;
+    i_truck : INT  := 0;  i_m_est : DINT := 0;  i_ship : DINT := 0;
+
+    (* -- 18. Bloques de funcion ---------------------------------- *)
+    traj_trolley : generador_trayectoria;
+    traj_izaje   : generador_trayectoria_izaje;
+
+END_VAR
+\end{lstlisting}
+
+% ── NIVEL 0 ──────────────────────────────────────────────────
+\subsection{Nivel 0: Seguridad y Protección}
+\label{subsec:codesys-nivel0}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{src/codesys_nivel0_sfc_top.png}
+    \caption{SFC del programa \texttt{NIVEL\_0} en CODESYS\@. El step inicial
+             \texttt{Safety\_Secu\-rity} inicializa mediante acciones Reset/Set las
+             variables de diagnóstico (\texttt{watchdog\_fa\-iled},
+             \texttt{heart\-beat\_pre\-sent}, \texttt{hoist\_sol\-ved},
+             \texttt{trol\-ley\_sol\-ved}). La transición \texttt{TRUE AND
+             simulink\_started} habilita una rama AND que lanza en paralelo los
+             pasos \texttt{Watchdog} y \texttt{Emergencies}, manteniendo ambas
+             lógicas activas de forma concurrente durante toda la operación.
+             Ante una condición \texttt{FALSE}, se ejecuta la acción
+             \texttt{Safety\_Security\_Init} que reinicializa el nivel.}
+    \label{fig:nivel0-sfc-top}
+\end{figure}
+
+El SFC de \texttt{NIVEL\_0} arranca en el step \texttt{Safety\_Security}, donde
+se inicializan por Reset (\texttt{R}) las flags de falla
+(\texttt{watchdog\_failed}, \texttt{heartbeat\_present}, \texttt{hoist\_solved})
+y por Set (\texttt{S}) la variable \texttt{trolley\_solved}, estableciendo el
+estado seguro de partida. La transición de salida evalúa \texttt{TRUE AND simulink\_started}, donde
+\texttt{simulink\_started} es una variable booleana publicada por Simulink vía
+OPC~UA que se activa al comenzar la simulación, señalizando a CODESYS que la
+planta está operativa. De este modo, el autómata de seguridad permanece bloqueado
+en el step inicial hasta recibir esa confirmación, evitando que opere sobre una
+planta aún no inicializada. Al dispararse, el SFC ingresa en una \textbf{rama AND} que activa
+simultáneamente los \textbf{macropasos} \texttt{Watchdog} y \texttt{Emergencies},
+los cuales encapsulan cada uno su propia secuencia interna y corren en paralelo
+de forma permanente durante toda la operación. Esta estructura refleja
+directamente el diseño del Statechart de Stateflow descrito en la
+sección~\ref{sec:emergencies}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{src/codesys_nivel0_watchdog.png}
+    \caption{Macropaso \texttt{Watchdog} del programa \texttt{NIVEL\_0}.
+             Su funcionamiento es análogo al descrito para el estado homónimo
+             en el Statechart de Stateflow (sección~\ref{sec:emergencies}).
+             Las acciones \texttt{ResetCounter}, \texttt{UpdateHeartbeat} e
+             \texttt{IncreaseCounter} están implementadas en ST como acciones
+             asociadas a los pasos de esta POU\@. Al final del macropaso se
+             incorpora una rama OR con transición \texttt{false} hacia el step
+             \texttt{Watchdog\_Exit}, recurso requerido por IEC~61131-3 para que
+             el compilador acepte el diagrama SFC como conforme a la norma.}
+    \label{fig:nivel0-watchdog}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{src/codesys_nivel0_emergencias.png}
+    \caption{Macropaso \texttt{Emergencies} del programa \texttt{NIVEL\_0},
+             análogo al diseño de Stateflow de la sección~\ref{sec:emergencies}.
+             La acción \texttt{LVL1PASS}, con calificador~\texttt{N} en el step
+             \texttt{Stand\_By}, permite el paso de las consignas provenientes
+             del Nivel~1 (\texttt{BRK\_t}, \texttt{BRK\_h}, \texttt{v\_t\_ref},
+             \texttt{x\_t\_ref}, \texttt{dl\_h\_ref}, \texttt{l\_h\_ref},
+             \texttt{sway\_ctr\_enable}) mientras no haya falla activa.
+             Las acciones \texttt{ResetTrolleyRef} y \texttt{ResetHoistRef},
+             activadas ante emergencia, sustituyen dichas consignas por
+             velocidades nulas y referencias de posición iguales al valor
+             actual del sensor o estimación, de modo que no induzcan movimiento
+             sobre el eje afectado. Las tres acciones están implementadas en
+             ST dentro de esta POU\@.}
+    \label{fig:nivel0-emergencias}
+\end{figure}
+
+\subsection{Nivel 1: Control Supervisor}
+\label{subsec:codesys-nivel1}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{src/codesys_nivel1_top.png}
+    \caption{SFC del programa \texttt{NIVEL\_1} en CODESYS\@. El step inicial
+             \texttt{Supervisory\_Control} habilita, mediante transición
+             \texttt{true}, una rama AND que activa en paralelo los macropasos
+             \texttt{Heartbeat\_Generator} y \texttt{Supervisory\_Control},
+             los cuales permanecen activos de forma concurrente durante toda
+             la operación. La rama OR con transición \texttt{false} y acción
+             \texttt{Supervisory\_Control\_Init} provee el camino de salida
+             requerido por IEC~61131-3 para conformidad del compilador.}
+    \label{fig:nivel1-sfc-top}
+\end{figure}
+
+La estructura es análoga a la del Nivel~0: un step inicial seguido de una
+\textbf{rama AND} que lanza dos macropasos en paralelo. \texttt{Heartbeat\_Generator}
+produce el pulso de vida periódico que el autómata \textit{Watchdog} del Nivel~0
+monitorea, mientras que \texttt{Supervisory\_Control} implementa la lógica de
+coordinación operativa descrita en la subsección~\ref{subsec:codesys-nivel0}.
+
+\subsubsection{Heartbeat Generator}
+\label{subsubsec:codesys-heartbeat}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{src/codesys_nivel1_heartbeat.png}
+    \caption{Macropaso \texttt{Heartbeat\_Generator} del programa \texttt{NIVEL\_1},
+             análogo al diseño de Stateflow de la
+             sección~\ref{subsubsec:nivel1-heartbeat-off}. Al final se provee
+             el camino de escape mencionado anteriormente, requerido por
+             IEC~61131-3 para conformidad del compilador.} %chktex 8
+    \label{fig:nivel1-heartbeat}
+\end{figure}
+
+\subsubsection{Supervisory Control}
+\label{subsubsec:codesys-supervisory}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{src/codesys_nivel1_supervisory_top.png}
+    \caption{Macropaso \texttt{Supervisory\_Control} del programa \texttt{NIVEL\_1}.
+             El step \texttt{OFF} inicializa las variables de control y alarma
+             mediante acciones Reset/Set, y permanece activo hasta que se
+             cumple \texttt{P\_APN AND simulink\_started}. El macropaso
+             \texttt{ON} encapsula la lógica de operación normal y retorna
+             incondicionalmente a \texttt{OFF} al finalizar.}
+    \label{fig:nivel1-supervisory-top}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{src/codesys_nivel1_supervisory_on.png}
+    \caption{Interior del macropaso \texttt{ON}. Tras el step de inicialización
+             \texttt{ON\_Init}, una rama AND lanza en paralelo los macropasos
+             \texttt{Lidar\_Map}, \texttt{BRK\_Logic}, \texttt{Limit\_Switch},
+             \texttt{Sway\_Control}, \texttt{Trolley\_Movement},
+             \texttt{Hoist\_Movement}, \texttt{Mode}, \texttt{TLK\_Logic} y
+             \texttt{Trajectory}, ejecutándose todos de forma concurrente. La
+             rama AND finaliza con la transición \texttt{NOT P\_APN OR emgy},
+             que retorna el control al step \texttt{OFF}.}
+    \label{fig:nivel1-supervisory-on}
+\end{figure}
+
+\paragraph{Lidar Map.}\leavevmode
+\label{subsubsec:codesys-lidarmap}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{src/codesys_nivel1_lidar_map.png}
+    \caption{Macropaso \texttt{Lidar\_Map} del programa \texttt{NIVEL\_1}.
+             Ejecuta las acciones \texttt{LidarMapEntry} (calificador~\texttt{N}
+             en el step de entrada~\texttt{E}) y \texttt{LidarMapDuring}
+             (calificador~\texttt{N} en el step principal), análogas a las
+             acciones \textit{entry} y \textit{during} del estado homónimo en
+             Stateflow (sección~\ref{subsubsec:nivel1-lidar}), ambas
+             implementadas en ST dentro de esta POU\@.}
+    \label{fig:nivel1-lidarmap}
+\end{figure}
+
+\paragraph{BRK Logic.}\leavevmode
+\label{subsubsec:codesys-brk}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{src/codesys_nivel1_brk_top.png}
+    \caption{Macropaso \texttt{BRK\_Logic}: rama AND que ejecuta en paralelo
+             los macropasos \texttt{BRK\_t\_Logic} y \texttt{BRK\_h\_Logic},
+             uno por cada accionamiento.}
+    \label{fig:nivel1-brk-top}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{src/codesys_nivel1_brk_t.png}
+    \caption{Interior del macropaso \texttt{BRK\_t\_Logic}. El step
+             \texttt{BRK\_t\_Closed} mantiene el freno aplicado
+             (\texttt{R BRK\_t\_nvl\_1}) hasta que la posición estimada del
+             carro se encuentra dentro de la zona segura y no hay fin de
+             carrera activo, condición bajo la cual se habilita la apertura
+             (\texttt{BRK\_t\_Opened}, \texttt{S BRK\_t\_nvl\_1}). El freno
+             se vuelve a aplicar si la velocidad supera el umbral
+             \texttt{w\_tm\_min\_BRK} con un fin de carrera activo, retornando
+             a \texttt{BRK\_t\_Closed}. La rama OR con \texttt{NOT P\_APN}
+             provee el camino de salida del macropaso. El caso del izaje
+             (\texttt{BRK\_h\_Logic}) es enteramente análogo.}
+    \label{fig:nivel1-brk-t}
+\end{figure}
+
+\paragraph{Limit Switch.}\leavevmode
+\label{subsubsec:codesys-ls}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{src/codesys_nivel1_LS_top.png}
+    \caption{Macropaso \texttt{Limit\_Switch}: rama AND con los macropasos
+             \texttt{Trolley\_Min\_LS}, \texttt{Trolley\_Max\_LS},
+             \texttt{Hoist\_Min\_LS} y \texttt{Hoist\_Max\_LS}, uno por cada
+             fin de carrera supervisado.}
+    \label{fig:nivel1-ls-top}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{src/codesys_nivel1_LS.png}
+    \caption{Interior del macropaso \texttt{Trolley\_Min\_LS}, representativo
+             de los cuatro. Monitorea \texttt{FC\_carro\_min} para activar o
+             limpiar la alarma \texttt{FC\_t\_min\_alarm} (análogo a la lógica
+             descrita en la sección~\ref{sec:fines-carrera}). Los demás
+             macropasos (\texttt{Trolley\_Max\_LS}, \texttt{Hoist\_Min\_LS},
+             \texttt{Hoist\_Max\_LS}) son enteramente análogos sobre sus
+             respectivas señales.}
+    \label{fig:nivel1-ls}
+\end{figure}
+
+\paragraph{Sway Control.}\leavevmode
+\label{subsubsec:codesys-sway}
+
+El comportamiento de este macropaso es el descrito en la sección~\ref{subsubsec:nivel1-sway}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{src/codesys_nivel1_sway_ctr.png}
+    \caption{Macropaso \texttt{Sway\_Control\_Mode} en CODESYS.}
+    \label{fig:codesys-sway}
+\end{figure}
+
+\paragraph{Trolley Movement Flags.}\leavevmode
+\label{subsubsec:codesys-tmf}
+
+El comportamiento de este macropaso es el descrito en la sección~\ref{subsubsec:nivel1-flags}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{src/codesys_nivel1_tmf_izq.png}
+    \caption{Macropaso \texttt{Trolley\_Movement\_Flags} en CODESYS: primer elemento
+             de la rama OR (comportamiento descrito en la
+             sección~\ref{subsubsec:nivel1-flags}).}
+    \label{fig:codesys-tmf-izq}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{src/codesys_nivel1_tmf_der.png}
+    \caption{Macropaso \texttt{Trolley\_Movement\_Flags} en CODESYS: segundo y tercer
+             elemento de la rama OR.}
+    \label{fig:codesys-tmf-der}
+\end{figure}
+
+\paragraph{Hoist Movement Flags.}\leavevmode
+\label{subsubsec:codesys-hmf}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{src/codesys_nivel1_hmf.png}
+    \caption{Macropaso \texttt{Hoist\_Movement\_Flags} en CODESYS (comportamiento
+             descrito en la sección~\ref{subsubsec:nivel1-flags}).}
+    \label{fig:codesys-hmf}
+\end{figure}
+
+\paragraph{Mode.}\leavevmode
+\label{subsubsec:codesys-mode}
+
+El comportamiento de este macropaso es el descrito en la sección~\ref{subsubsec:nivel1-mode}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{src/codesys_nivel1_mode.png}
+    \caption{Macropaso \texttt{Mode} en CODESYS.}
+    \label{fig:codesys-mode}
+\end{figure}
+
+\paragraph{TLK Logic.}\leavevmode
+\label{subsubsec:codesys-tlk}
+
+El comportamiento de este macropaso corresponde al descrito en la
+sección~\ref{subsubsec:nivel1-tlk}. Cabe destacar que, a diferencia de la
+implementación en Stateflow, en CODESYS fue necesario agregar lógica adicional
+para la correcta inversión del valor de \texttt{TLK}, de forma que sea conforme
+a lo que acepta el estándar IEC~61131-3.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{src/codesys_nivel1_tlk.png}
+    \caption{Macropaso \texttt{TLK\_Logic} en CODESYS.}
+    \label{fig:codesys-tlk}
+\end{figure}
+
+\paragraph{Planificador de trayectorias.}\leavevmode
+\label{subsubsec:codesys-traj}
+
+La estructura general del planificador corresponde a la descrita en la
+sección~\ref{subsubsec:nivel1-traj}. La figura~\ref{fig:codesys-traj-init}
+muestra los pasos de inicialización de la maniobra de \textit{scan}: elevación
+de la carga, desplazamiento del carro hasta el extremo izquierdo y
+desplazamiento hasta el extremo derecho.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.8\textwidth]{src/codesys_nivel1_traj_init.png}
+    \caption{Pasos de inicialización del \textit{scan} en el planificador de
+             trayectorias de CODESYS: elevación, barrido derecha y barrido
+             izquierda.}
+    \label{fig:codesys-traj-init}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{src/codesys_nivel1_traj_escenario_selector.png}
+    \caption{Lógica de selección de escenario y vía de escape del planificador
+             de trayectorias en CODESYS (comportamiento descrito en la
+             sección~\ref{subsubsec:nivel1-traj}).}
+    \label{fig:codesys-traj-escenario}
+\end{figure}
+
+El macropaso \texttt{Pick\_And\_Place\_Loop} implementa la lógica de pasos para
+realizar cargas y descargas de forma cíclica, permitiendo operar tanto en ciclo
+simple (solo carga o solo descarga) como en ciclo doble (carga seguida de
+descarga). La referencia completa del comportamiento se encuentra en la
+sección~\ref{subsubsec:nivel1-traj}. Para evitar condiciones de carrera entre
+las banderas de movimiento y las transiciones del planificador, se incorporan
+retardos de $5$\,s en las transiciones entre pasos consecutivos.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{src/codesys_nivel1_PPL_izq.png}
+    \caption{Recorrido de pasos para la operación de \textbf{carga} (camión
+             $\to$ barco) dentro del macropaso \texttt{Pick\_And\_Place\_Loop}.}
+    \label{fig:codesys-ppl-izq}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{src/codesys_nivel1_PPL_cen.png}
+    \caption{Recorrido de pasos para la operación de \textbf{descarga} (barco
+             $\to$ camión) dentro del macropaso \texttt{Pick\_And\_Place\_Loop}.}
+    \label{fig:codesys-ppl-cen}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{src/codesys_nivel1_PPL_der.png}
+    \caption{Camino de escape del macropaso \texttt{Pick\_And\_Place\_Loop},
+             requerido para satisfacer la norma IEC~61131-3.}
+    \label{fig:codesys-ppl-der}
+\end{figure}
 
 % ── SECCIÓN 5 ────────────────────────────────────────────────
+\newpage
+\section{Generación automática de código ST mediante PLC Coder}
+\label{sec:plccoder}
+
+La herramienta \textbf{PLC Coder} de Simulink permite exportar automáticamente los
+diagramas de bloques y Statecharts de Stateflow a código \textit{Structured Text}
+(ST) compatible con el estándar IEC~61131-3, para su importación directa en CODESYS.
+Sin embargo, el proceso requiere un conjunto de pasos de acondicionamiento previo para
+evitar incompatibilidades entre el entorno de simulación y el generador de código.
+
+\begin{enumerate}
+
+    \item \textbf{Subsistemas atómicos con paso de muestreo definido.}
+    Todo bloque que vaya a convertirse debe encapsularse como \textit{Atomic Subsystem}
+    con su período de muestreo $T_s$ explícitamente especificado. Las entradas y salidas
+    deben declararse como \textit{Input Port} y \textit{Output Port} con tipo de dato y
+    tamaño definidos, de modo que PLC Coder pueda inferir las declaraciones de variables
+    del \textit{Function Block} (FB) generado.
+
+    \item \textbf{Configuración del solver.}
+    El solver debe configurarse en modo \textit{Fixed-step}, activando las opciones
+    \textit{Treat each discrete rate as a separate task} y \textit{Automatically handle
+    rate transitions for data transfer}, para que el generador resuelva correctamente
+    las transferencias entre tareas de distinta frecuencia.
+
+    \item \textbf{Configuración de PLC Coder.}
+    En la aplicación PLC Coder se selecciona como IDE destino \textbf{3S-Smart Software
+    Solutions CODESYS 3.5} y se define la carpeta de salida donde se depositarán los
+    archivos generados.
+
+    \item \textbf{Tipado completo de símbolos.}
+    Todos los símbolos presentes en los diagramas (señales, parámetros, estados)
+    deben tener tipo y tamaño de dato explícitamente definidos. La presencia de tipos
+    inferidos o ambiguos produce errores en la etapa de generación de código.
+
+    \item \textbf{Eliminación de funciones MATLAB anidadas en Stateflow.}
+    Las funciones MATLAB embebidas dentro de los Statecharts de Stateflow no son
+    compatibles con PLC Coder y deben eliminarse previamente. Las funcionalidades
+    correspondientes deberán añadirse manualmente en CODESYS una vez importado el
+    código generado.
+
+    \item \textbf{Exportación.}
+    Se ejecuta la generación de código desde PLC Coder, que produce un archivo
+    \texttt{.xml} con la estructura completa del proyecto y los archivos de código ST.
+
+    \item \textbf{Importación en CODESYS.}
+    El archivo \texttt{.xml} generado se importa en CODESYS. Este archivo contiene
+    la información de los archivos a generar y la estructura del proyecto: variables
+    globales, tipos de datos, \textit{Function Blocks} y \textit{Programs}.
+
+    \item \textbf{Instanciación del FB y conexión de variables.}
+    Se crea una \textit{Program} (\texttt{PRG}) en ST que instancia el FB generado.
+    Las variables globales definidas en \texttt{GVL\_VARS} se conectan con las
+    entradas y salidas del FB dentro de este PRG, que es el encargado de orquestar
+    la ejecución en cada ciclo de tarea.
+
+\end{enumerate}
+
+\medskip
+\noindent\textbf{Nota:} La aplicación generada por PLC Coder
+(\texttt{Application\_ST}) coexiste en el mismo dispositivo con la aplicación
+implementada manualmente en SFC (\texttt{Application\_SFC}). Previo a cualquier
+ejecución debe seleccionarse explícitamente cuál de las dos aplicaciones correrá
+en el PLC, ya que ambas no pueden ejecutarse simultáneamente.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{src/codesys_autogen_structure.png}
+    \caption{Estructura del proyecto CODESYS generado automáticamente mediante
+             PLC Coder: \textit{Function Blocks}, \textit{Programs}, variables
+             globales y bibliotecas auxiliares.}
+    \label{fig:codesys-autogen}
+\end{figure}
+
+% ── SECCIÓN 6 ────────────────────────────────────────────────
 \newpage
 \section{Interfaz HMI}
 \label{sec:hmi}

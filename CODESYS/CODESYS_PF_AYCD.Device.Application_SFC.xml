@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Symbolconfiguration xmlns="http://www.3s-software.com/schemas/Symbolconfiguration.xsd">
+  <Header>
+    <Version>3.5.14.0</Version>
+    <SymbolConfigObject version="4.5.1.0" runtimeid="3.5.20.20" libversion="4.5.0.0" compiler="3.5.20.20" lmm="3.5.20.20" profile="CODESYS V3.5 SP20 Patch 2+" settings="SupportOPCUA, XmlIncludeNodeFlags, LayoutCalculator=OptimizedClientSideLayoutCalculator" />
+    <ProjectInfo name="CODESYS_PF_AYCD" devicename="Device" appname="Application_SFC" />
+  </Header>
+  <TypeList>
+    <TypeSimple name="T_BOOL" size="1" swapsize="0" typeclass="Bool" iecname="BOOL" />
+    <TypeSimple name="T_REAL" size="4" swapsize="4" typeclass="Real" iecname="REAL" />
+  </TypeList>
+  <NodeList>
+    <Node name="Application_SFC" nodeflags="NodeTypeBranchNode BranchNodeApplicationName">
+      <Node name="GVL" nodeflags="NodeTypeBranchNode SigTypeGvl">
+        <Node name="BRK_h" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Read" />
+        <Node name="BRK_hE" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Read" />
+        <Node name="BRK_t" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Read" />
+        <Node name="cmd_BRK_h" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="cmd_BRK_t" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="cmd_emgy_stop" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="cmd_global_emgy_ack" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="cmd_sway_ctr" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="cmd_TLK" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="dl_h_est" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Write" />
+        <Node name="dl_h_ref" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Read" />
+        <Node name="F_hw_sensor" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Write" />
+        <Node name="FC_carro_max" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="FC_carro_min" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="FC_izaje_max" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="FC_izaje_min" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="FCE_carro_max" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="FCE_carro_min" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="FCE_izaje_max" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="FCE_izaje_min" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="JS_hoist_cmd" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Write" />
+        <Node name="JS_trolley_cmd" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Write" />
+        <Node name="l_h_ref" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Read" />
+        <Node name="l_h_sensor" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Write" />
+        <Node name="m_est" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Read" />
+        <Node name="operation_mode" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Read" />
+        <Node name="P_APN" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="simulink_started" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="sobrevelocidad_carro" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="sobrevelocidad_izaje" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="sway_ctr_enable" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Read" />
+        <Node name="sway_ctr_enable_nvl_1" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Read" />
+        <Node name="t" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Write" />
+        <Node name="theta_l_sensor" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Write" />
+        <Node name="THL_1" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="THL_2" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="THL_3" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="THL_4" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="THL_5" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="TLK" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Read" />
+        <Node name="TS_1" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="TS_2" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="TS_3" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="TS_4" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="TS_5" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="v_t_est" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Write" />
+        <Node name="v_t_ref" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Read" />
+        <Node name="w_hm_estimada" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Write" />
+        <Node name="w_l_sensor" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Write" />
+        <Node name="w_tm_estimada" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Write" />
+        <Node name="x_t_est" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Write" />
+        <Node name="x_t_ref" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Read" />
+        <Node name="x_td_sensor" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Write" />
+        <Node name="y_c0_lidar" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Write" />
+      </Node>
+    </Node>
+  </NodeList>
+</Symbolconfiguration>

@@ -1,0 +1,258 @@
+%implements "chartSource" "C"
+%function ChartConfig(block, system) void
+  %createrecord chartConfiguration { ...
+          executeAtInitialization  1 ...
+  }
+  %return chartConfiguration
+%endfunction
+%function ChartDataMap(block, system) void
+  %createrecord ChartDataElements {\
+    NumChartData   34 \
+    ChartDataDefaults {\
+      RecordType   "ChartData"\
+      Dimensions   []\
+      IsTestPoint  0\
+    }\
+    ChartData {\
+      Name         "lidar_map"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "lidar_map"\
+      SrcLocation  ""\
+      Dimensions   [9001]\
+    }\
+    ChartData {\
+      Name         "v_t_ref_prev"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "v_t_ref_prev"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "x_t_obj"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "x_t_obj"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "container_pillars"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "container_pillars"\
+      SrcLocation  ""\
+      Dimensions   [1,19]\
+    }\
+    ChartData {\
+      Name         "l_h_obj"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "l_h_obj"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "trolley_stopped_complete"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "trolley_stopped_complete"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "trolley_stopped"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "trolley_stopped"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "hoist_stopped"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "hoist_stopped"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "l_h_safe"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "l_h_safe"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "dl_h_ref_prev"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "dl_h_ref_prev"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "T_s1"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "T_s1"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "l_h_pr"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "l_h_pr"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "x_t_pr"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "x_t_pr"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "m_est_vec_pos"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "m_est_vec_pos"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "l_h_min"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "l_h_min"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "dl_h_ref_a"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "dl_h_ref_a"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "v_t_ref_a"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "v_t_ref_a"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "loop_initialized"\
+      Description  "ChartLocal"\
+      SFName       ""\
+      Path         "loop_initialized"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_Heartbeat_Generator"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Nivel_1.Heartbeat_Generator"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_BRK_t_Logic"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Nivel_1.SS_ON.BRK_Logic.BRK_t_Logic"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_BRK_h_Logic"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Nivel_1.SS_ON.BRK_Logic.BRK_h_Logic"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_TLK_Logic"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Nivel_1.SS_ON.TLK_Logic"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_Sway_Control_Mode"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Nivel_1.SS_ON.Sway_Control_Mode"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_Trolley_Min_Logic"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Nivel_1.SS_ON.Limit_Switch.Trolley_Min_Logic"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_Trolley_Max_Logic"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Nivel_1.SS_ON.Limit_Switch.Trolley_Max_Logic"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_Hoist_Min_Logic"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Nivel_1.SS_ON.Limit_Switch.Hoist_Min_Logic"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_Hoist_Max_Logic"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Nivel_1.SS_ON.Limit_Switch.Hoist_Max_Logic"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_Mode"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Nivel_1.SS_ON.Mode"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_Trajectory_Planner"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Nivel_1.SS_ON.Trajectory_Planner"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_Pickup_And_Place_Loop"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Nivel_1.SS_ON.Trajectory_Planner.Pickup_And_Place_Loop"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "was_Pickup_And_Place_Loop"\
+      Description  "StatePrevActiveChild"\
+      SFName       ""\
+      Path         "Nivel_1.SS_ON.Trajectory_Planner.Pickup_And_Place_Loop"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_Trolley_Movement_Flags"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Nivel_1.SS_ON.Trolley_Movement_Flags"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_Hoist_Movement_Flags"\
+      Description  "StateActiveChild"\
+      SFName       ""\
+      Path         "Nivel_1.SS_ON.Hoist_Movement_Flags"\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "temporalCounter_i1"\
+      Description  "TemporalCounter"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  ""\
+    }\
+  }
+  %return ChartDataElements
+%endfunction
