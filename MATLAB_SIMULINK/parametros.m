@@ -1,5 +1,5 @@
 % Flags de ejecución
-escenario = 3; % 0: espera- 1: ciclo simple carga - 2: ciclo simple descarga - 3: ciclo doble (carga + descarga)
+escenario = 1; % 0: espera- 1: ciclo simple carga - 2: ciclo simple descarga - 3: ciclo doble (carga + descarga)
 
 % Parámetros dados
 Y_t0 = 45; %  [m] Altura fija de poleas de suspension de izaje en el carro
@@ -110,11 +110,11 @@ T_s2 = 0.020;
 % Generación perfil de suelo 
 x_c0_left = -35;
 x_c0_right = 55;
-ship_load_percentage = 100; 
+ship_load_percentage = 80; 
 max_containers = 16;
-container_pillars = randi([0 max_containers*ship_load_percentage/100], 1, 19);
-container_pillars(1) = 0;    % fuerza que al menos uno sea el minimo
-container_pillars(end) = max_containers*ship_load_percentage/100; % fuerza que al menos uno sea el maximo
+container_pillars = randi([0 round(max_containers*ship_load_percentage/100)], 1, 19);
+container_pillars(1) = 3;    % fuerza que al menos uno sea el minimo
+container_pillars(end) = round(max_containers*ship_load_percentage/100); % fuerza que al menos uno sea el maximo
 container_pillars = container_pillars(randperm(19)); % opcional: mezclar posiciones
 trucks0 = [0, 0, 0, 0, 0];
 H_truck = 1;
@@ -143,8 +143,8 @@ w_hm0 = 0;
     
 % Parámetros de NIVEL 1
 
-w_hm_min_BRK = 0.01;
-w_tm_min_BRK = 0.01;
+w_hm_min_BRK = 0.005;
+w_tm_min_BRK = 0.005;
 
 % Parámetros adicionales de NIVEL 1
 

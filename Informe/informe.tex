@@ -116,7 +116,12 @@
     \end{center}%
 }
 \usepackage{hyperref}
-\hypersetup{hidelinks}
+\hypersetup{
+    colorlinks=true,
+    urlcolor=blue,
+    linkcolor=black,
+    citecolor=black
+}
 
 % ============================================================
 %  COLORS
@@ -150,7 +155,7 @@
 \fancyhead[R]{%
     \footnotesize
     Alumnos: Martín D., Sorrentino\\
-    Fecha: 29/07/26
+    Fecha: 06/08/2026
 }
 
 % — Footer: centred page number —
@@ -209,7 +214,7 @@
     {\normalsize\bfseries Alumnos}\\[6pt]
     {\normalsize\color{azulUNC}
         Martín Duci, Ignacio \quad -- \quad 13560 \\[4pt]
-        Sorrentino, Nicolás \quad -- \quad 13XXX
+        Sorrentino, Nicolás \quad -- \quad 13423
     }
 \end{center}
 
@@ -223,7 +228,37 @@
 
 \vspace{0.5cm}
 
-% Escribir el resumen aquí...
+Se presenta el diseño, modelado, simulación e implementación de un sistema híbrido
+de control y protección para una grúa portacontenedores de muelle tipo pórtico
+(\textit{ship-to-shore}, STS). El sistema se organiza en tres niveles jerárquicos:
+el Nivel~2 realiza el control continuo en tiempo discreto de los subsistemas de
+traslación (carro) e izaje, incorporando realimentación de estados con observador de
+Luenberger, compensación de no linealidades y control de oscilación de carga con
+ganancia adaptativa según la longitud de cable; el Nivel~1 implementa la lógica
+supervisora mediante un autómata de estados jerárquico programado en SFC bajo el
+estándar IEC\nobreakdash-61131\nobreakdash-3, gestionando los modos de operación manual y automático, la
+planificación y coordinación de trayectorias, la estimación de masa del contenedor
+y la habilitación coordinada de accionamientos y frenos; el Nivel~0 opera de forma
+independiente como sistema de seguridad y protección, atendiendo condiciones de
+emergencia con selectividad jerárquica.
+
+La implementación se desarrolló siguiendo un flujo \textit{Model-in-the-Loop}
+$\rightarrow$ \textit{Software-in-the-Loop}: la lógica del autómata fue diseñada y
+validada en Stateflow/Simulink y luego traducida a CODESYS en dos vías complementarias:
+el control supervisor en lenguaje SFC desarrollado manualmente, y el código en lenguaje
+ST generado automáticamente mediante Simulink PLC Coder, con adaptaciones manuales para
+satisfacer las restricciones semánticas del entorno de destino. La co-simulación se
+realizó integrando Simulink y CODESYS a través de OPC~UA y UDP\@. Se implementó además
+una interfaz de operación con mando de joystick físico y visualización 2D del entorno
+portuario en tiempo real.
+
+Los resultados obtenidos verificaron el cumplimiento de las especificaciones: el
+ángulo de oscilación de la carga se mantuvo por debajo de los límites establecidos
+en todas las condiciones operativas, la productividad en ciclo simple superó el umbral
+de 30~contenedores por hora, y la estimación de masa alcanzó un error relativo
+inferior al $1\,\mathrm{\%}$. El Nivel~0 respondió correctamente ante las condiciones de
+emergencia evaluadas, incluyendo activación de finales de carrera, sobrevelocidad y
+parada de emergencia.
 
 \vfill  % empuja el contenido siguiente al fondo si la página queda corta
 
@@ -1770,6 +1805,58 @@ de movimiento con polos de lazo cerrado en posiciones arbitrarias y un observado
 estados (estimador de Luenberger) que reconstruye los estados no medidos a partir de
 la única señal sensada $\theta_{tm}(t)$.
 
+\paragraph{Diseño del observador de estados del carro.}\leavevmode
+\label{subsubsec:obs-carro}
+
+El controlador de traslación requiere los cuatro estados
+$\mathbf{x}_t = [\,\theta_{tm},\,\omega_{tm},\,x_t,\,v_t\,]^\top$, de los cuales solo
+$\theta_{tm}$ es sensado directamente. Para estimar los estados no medidos se diseña un
+\textbf{observador de Luenberger} de orden pleno que replica la dinámica del
+sistema~\eqref{eq:ss-carro} corrigiendo la estimación mediante la diferencia entre la
+salida medida y la estimada, ponderada por la matriz de ganancias
+$\mathbf{L}_t \in \mathbb{R}^{4\times 1}$:
+
+\begin{equation}
+    \label{eq:obs-carro}
+    \dot{\hat{\mathbf{x}}}_t(t) = A_t\,\hat{\mathbf{x}}_t(t)
+    + B_{ct}\,\mathbf{u}_t(t)
+    + \mathbf{L}_t\!\left[\theta_{tm}(t) - C_t\,\hat{\mathbf{x}}_t(t)\right]
+\end{equation}
+
+Definiendo el error $\mathbf{e}_t = \mathbf{x}_t - \hat{\mathbf{x}}_t$, su dinámica es:
+
+\begin{equation}
+    \label{eq:error-obs-carro}
+    \dot{\mathbf{e}}_t(t) = \bigl(A_t - \mathbf{L}_t\,C_t\bigr)\,\mathbf{e}_t(t)
+\end{equation}
+
+Los polos del observador se ubican con un \textbf{factor de separación de 10} respecto
+a la frecuencia dominante del controlador PID $\omega_t$, con ligera dispersión entre
+los cuatro polos para garantizar la operación numérica de \texttt{place}:
+
+\begin{equation}
+    \label{eq:polos-obs-carro}
+    p_{obs,i} = -10\,\omega_t\,\alpha_i, \quad \alpha_i \in \{1{,}00,\;1{,}02,\;1{,}05,\;1{,}07\}
+\end{equation}
+
+La matriz $\mathbf{L}_t$ se obtiene por dualidad:
+
+\begin{equation}
+    \label{eq:Lt}
+    \mathbf{L}_t = \texttt{place}\!\left(A_t^\top,\,C_t^\top,\,\{p_{obs,i}\}\right)^\top
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \img{src/observador_carro_diagrama.png}
+    \caption{Observador de estados del carro implementado por bloques en Simulink
+             ($T_{s2} = 1$\,ms), con las ganancias de retroalimentación $\mathbf{L}_t$.}
+    \label{fig:obs-carro-bloques}
+\end{figure}
+
+En el diagrama se aprecian las ganancias del observador $\mathbf{L}_t$ y los retardos
+de un paso de muestreo en las señales retroalimentadas para evitar lazos algebraicos.
+
 \paragraph{Polos a lazo abierto del carro.}
 
 Para el diseño del controlador se parte de las ecuaciones de movimiento del carro~\eqref{eq:mov-carro}
@@ -2046,7 +2133,7 @@ máxima $v_{t,max}=4$\,m/s, dicha contribución vale:
              = 1440\;\text{Nm}
 \end{equation}
 
-% ---- 3.1.2 -------------------------------------------------------
+% ---- 3.1.3 -------------------------------------------------------
 \subsubsection{Controlador de izaje de la carga}
 \label{subsubsec:ctrl-izaje}
 
@@ -2120,6 +2207,48 @@ matrices y la verificación de sus rangos se realiza en \texttt{CyO\_izaje.m}, o
 
 Ambas condiciones garantizan el diseño de un controlador de movimiento y de un observador
 de Luenberger que reconstruye $\omega_{hm}(t)$ a partir de la señal sensada $\theta_{hm}(t)$.
+
+\paragraph{Diseño del observador de estados del izaje.}\leavevmode
+\label{subsubsec:obs-izaje}
+
+La estructura es análoga a la del carro (sección~\ref{subsubsec:obs-carro}): un observador
+de Luenberger de orden pleno con matriz de ganancias $\mathbf{L}_h \in \mathbb{R}^{2\times 1}$:
+
+\begin{equation}
+    \label{eq:obs-izaje}
+    \dot{\hat{\mathbf{x}}}_h(t) = A_h\,\hat{\mathbf{x}}_h(t)
+    + B_{ch}\,T_{hm}(t)
+    + \mathbf{L}_h\!\left[\theta_{hm}(t) - C_h\,\hat{\mathbf{x}}_h(t)\right]
+\end{equation}
+
+A diferencia del carro, los polos se ubican con factor~10 respecto al \textbf{polo a
+lazo abierto no nulo} $p_{LA} = -b_{eq,h}/J_{eq,h}$, separados un $10\,\mathrm{\%}$ entre sí:
+
+\begin{equation}
+    \label{eq:polo-base-obs-h}
+    p_{base} = -10\,|p_{LA}|
+\end{equation}
+
+\begin{equation}
+    \label{eq:polos-obs-izaje}
+    p_{obs,1} = p_{base}, \qquad p_{obs,2} = 1{,}10\,p_{base}
+\end{equation}
+
+\begin{equation}
+    \label{eq:Lh}
+    \mathbf{L}_h = \texttt{place}\!\left(A_h^\top,\,C_h^\top,\,\{p_{obs,1},\,p_{obs,2}\}\right)^\top
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \img{src/observador_izaje_diagrama.png}
+    \caption{Observador de estados del izaje implementado por bloques en Simulink
+             ($T_{s2} = 1$\,ms), con las ganancias de retroalimentación $\mathbf{L}_h$.}
+    \label{fig:obs-izaje-bloques}
+\end{figure}
+
+En el diagrama se aprecian las ganancias $\mathbf{L}_h$ y los retardos de un paso de
+muestreo en las señales retroalimentadas para evitar lazos algebraicos.
 
 \paragraph{Polos a lazo abierto del izaje.}
 
@@ -2646,168 +2775,6 @@ desaceleración) el ángulo de balanceo $\theta_l(t)$ se mantiene por debajo del
 definido, y el amortiguamiento del ángulo es crítico, consistente con el diseño
 $\zeta_o = 1$ impuesto en la sintonización.
 
-\paragraph{Implementación en Simulink como \textit{MATLAB Function}.}
-
-% TODO: completar esta sección
-
-% ---- 3.1.4 -------------------------------------------------------
-\subsubsection{Diseño del observador de estados del carro}
-\label{subsubsec:obs-carro}
-
-Como se demostró en la sección~\ref{subsubsec:ctrl-carro}, el sistema del carro es
-completamente observable desde la señal $\theta_{tm}(t)$ (encoder del motor). Sin embargo,
-el controlador de traslación requiere los cuatro estados
-$\mathbf{x}_t = [\,\theta_{tm},\,\omega_{tm},\,x_t,\,v_t\,]^\top$, de los cuales solo
-$\theta_{tm}$ es sensado directamente. Para estimar los estados no medidos se diseña un
-\textbf{observador de Luenberger} de orden pleno.
-
-\paragraph{Estructura del observador.}
-
-El observador replica la dinámica del sistema~\eqref{eq:ss-carro} corrigiendo la
-estimación mediante la diferencia entre la salida medida y la salida estimada,
-ponderada por la matriz de ganancias $\mathbf{L}_t \in \mathbb{R}^{4\times 1}$:
-
-\begin{equation}
-    \label{eq:obs-carro}
-    \dot{\hat{\mathbf{x}}}_t(t) = A_t\,\hat{\mathbf{x}}_t(t)
-    + B_{ct}\,\mathbf{u}_t(t)
-    + \mathbf{L}_t\!\left[\theta_{tm}(t) - C_t\,\hat{\mathbf{x}}_t(t)\right]
-\end{equation}
-
-donde $\mathbf{u}_t(t) = [T_{tm}(t),\; T_{tb}(t)]^\top$ es el vector de entradas de
-control y $B_{ct}$ es la matriz de entrada de control definida en~\eqref{eq:ss-carro}.
-
-\paragraph{Dinámica del error de estimación.}
-
-Definiendo el error de estimación $\mathbf{e}_t(t) = \mathbf{x}_t(t) - \hat{\mathbf{x}}_t(t)$,
-su dinámica resulta:
-
-\begin{equation}
-    \label{eq:error-obs-carro}
-    \dot{\mathbf{e}}_t(t) = \bigl(A_t - \mathbf{L}_t\,C_t\bigr)\,\mathbf{e}_t(t)
-\end{equation}
-
-El error converge a cero si y solo si la matriz $(A_t - \mathbf{L}_t\,C_t)$ es
-Hurwitz, condición que se satisface eligiendo $\mathbf{L}_t$ de modo que sus valores
-propios queden en la mitad izquierda del plano complejo. La dualidad entre el problema
-de ubicación de polos del observador y el del controlador garantiza que, siendo el
-sistema completamente observable, los polos de~\eqref{eq:error-obs-carro} pueden
-asignarse arbitrariamente mediante $\mathbf{L}_t$.
-
-\paragraph{Criterio de sintonía.}
-
-Los polos del observador se ubican significativamente más a la izquierda que los del
-controlador para garantizar que el error de estimación decaiga mucho más rápido que
-la dinámica de lazo cerrado del sistema. Se adopta un \textbf{factor de separación
-de 10} respecto a la frecuencia dominante del controlador PID $\omega_t$:
-
-\begin{equation}
-    \label{eq:polos-obs-carro}
-    p_{obs,i} = -10\,\omega_t\,\alpha_i, \qquad i = 1,2,3,4
-\end{equation}
-
-donde $\alpha_i \in \{1{,}00,\;1{,}02,\;1{,}05,\;1{,}07\}$ son factores de
-separación leve entre los cuatro polos. La ligera dispersión es necesaria para
-que el algoritmo de ubicación de polos (\texttt{place}) opere correctamente: con
-polos estrictamente repetidos, el rango de la condición de asignabilidad cae por
-debajo del requerido cuando $C_t$ tiene una sola fila (rango~1), lo que hace
-numéricamente indeterminado el sistema de Sylvester asociado.
-
-\paragraph{Cálculo de la matriz de ganancias.}
-
-La matriz $\mathbf{L}_t$ se obtiene por el \textbf{método de ubicación de polos
-por dualidad}: se resuelve el problema equivalente de realimentación de estados
-del sistema dual $(A_t^\top, C_t^\top)$ con los polos deseados~\eqref{eq:polos-obs-carro},
-y se transpone el resultado:
-
-\begin{equation}
-    \label{eq:Lt}
-    \mathbf{L}_t = \texttt{place}\!\left(A_t^\top,\,C_t^\top,\,\{p_{obs,i}\}\right)^\top
-\end{equation}
-
-La figura~\ref{fig:obs-carro-bloques} muestra el observador del carro implementado
-como diagrama de bloques independiente en Simulink, con las ganancias de
-retroalimentación $\mathbf{L}_t$ correspondientes.
-
-\begin{figure}[H]
-    \centering
-    \img{src/observador_carro_diagrama.png}
-    \caption{Observador de estados del carro implementado por bloques en Simulink
-             ($T_{s2} = 1$\,ms), con las ganancias de retroalimentación $\mathbf{L}_t$.}
-    \label{fig:obs-carro-bloques}
-\end{figure}
-
-En el diagrama se aprecian las ganancias del observador $\mathbf{L}_t$ aplicadas sobre
-la innovación $\theta_{tm} - \hat{\theta}_{tm}$, así como los retardos de un paso de
-muestreo introducidos en las señales retroalimentadas para evitar lazos algebraicos
-(\textit{algebraic loops}) en la simulación discreta.
-
-% ---- 3.1.5 -------------------------------------------------------
-\subsubsection{Diseño del observador de estados del izaje}
-\label{subsubsec:obs-izaje}
-
-La estructura del observador es análoga a la del carro (sección~\ref{subsubsec:obs-carro}):
-un observador de Luenberger de orden pleno que corrige la estimación mediante la diferencia
-entre la salida medida y la estimada, ponderada por la matriz de ganancias
-$\mathbf{L}_h \in \mathbb{R}^{2\times 1}$:
-
-\begin{equation}
-    \label{eq:obs-izaje}
-    \dot{\hat{\mathbf{x}}}_h(t) = A_h\,\hat{\mathbf{x}}_h(t)
-    + B_{ch}\,T_{hm}(t)
-    + \mathbf{L}_h\!\left[\theta_{hm}(t) - C_h\,\hat{\mathbf{x}}_h(t)\right]
-\end{equation}
-
-con matrices $A_h$, $B_{ch}$, $C_h$ definidas en~\eqref{eq:ss-hoist} y
-$\hat{\mathbf{x}}_h = [\,\hat{\theta}_{hm},\,\hat{\omega}_{hm}\,]^\top$.
-Como se verificó en la sección~\ref{subsubsec:ctrl-izaje}, el sistema es completamente
-observable desde $\theta_{hm}(t)$, por lo que los polos de la dinámica del error
-$(A_h - \mathbf{L}_h\,C_h)$ pueden asignarse libremente.
-
-\paragraph{Criterio de sintonía.}
-
-A diferencia del observador del carro, donde la frecuencia de referencia es la del
-controlador PID, aquí se parte del \textbf{polo a lazo abierto no nulo}
-$p_{LA} = -b_{eq,h}/J_{eq,h}$, que caracteriza la dinámica natural del accionamiento
-de izaje. El observador se ubica un \textbf{factor~10} más rápido que dicho polo:
-
-\begin{equation}
-    \label{eq:polo-base-obs-h}
-    p_{base} = -10\,|p_{LA}|
-\end{equation}
-
-Los dos polos del observador se separan un $10\%$ entre sí para garantizar la
-correcta operación numérica de \texttt{place} con una matriz de salida $C_h$ de
-rango~1:
-
-\begin{equation}
-    \label{eq:polos-obs-izaje}
-    p_{obs,1} = p_{base}, \qquad p_{obs,2} = 1{,}10\,p_{base}
-\end{equation}
-
-La matriz de ganancias se calcula por dualidad, de forma idéntica a~\eqref{eq:Lt}:
-
-\begin{equation}
-    \label{eq:Lh}
-    \mathbf{L}_h = \texttt{place}\!\left(A_h^\top,\,C_h^\top,\,\{p_{obs,1},\,p_{obs,2}\}\right)^\top
-\end{equation}
-
-La figura~\ref{fig:obs-izaje-bloques} muestra el observador del izaje implementado
-como diagrama de bloques independiente en Simulink, con las ganancias de
-retroalimentación $\mathbf{L}_h$ correspondientes.
-
-\begin{figure}[H]
-    \centering
-    \img{src/observador_izaje_diagrama.png}
-    \caption{Observador de estados del izaje implementado por bloques en Simulink
-             ($T_{s2} = 1$\,ms), con las ganancias de retroalimentación $\mathbf{L}_h$.}
-    \label{fig:obs-izaje-bloques}
-\end{figure}
-
-En el diagrama se aprecian las ganancias del observador $\mathbf{L}_h$ aplicadas sobre
-la innovación $\theta_{hm} - \hat{\theta}_{hm}$, así como los retardos de un paso de
-muestreo introducidos en las señales retroalimentadas para evitar lazos algebraicos
-(\textit{algebraic loops}) en la simulación discreta.
 
 % ---- 3.1.6 -------------------------------------------------------
 \subsubsection{Nivel 2 completo}
@@ -3128,6 +3095,33 @@ el motor ya está prácticamente detenido.
     \label{fig:nivel1-brk}
 \end{figure}
 
+\subsubsection{Comandos de frenos --- \texttt{BRK\_Commander}}
+\label{subsubsec:nivel1-brk-commander}
+
+El subestado \texttt{BRK\_Commander} se encarga de activar o desactivar los frenos
+de operación del carro y del izaje en función de la demanda de movimiento de cada
+subsistema. Opera de forma paralela mediante dos lógicas independientes:
+\texttt{BRK\_t\_Activation\_Logic} para el freno del carro y
+\texttt{BRK\_h\_Activation\_Logic} para el freno del izaje.
+
+En cada lógica, el freno se libera (\texttt{BRK\_close = false}) cuando se detecta
+error de posición o velocidad suficiente para justificar movimiento, y se cierra
+(\texttt{BRK\_close = true}) una vez que el subsistema se encuentra dentro de la
+zona de tolerancia tanto en posición como en velocidad. Para el carro, la
+transición a demanda de freno ocurre cuando
+$|x_{t,\mathrm{est}} - x_{t,\mathrm{ref}}| < 0{,}01$ y $|v_{t,\mathrm{est}}| < 0{,}01$,
+mientras que la liberación se activa si
+$|x_{t,\mathrm{est}} - x_{t,\mathrm{ref}}| > 0{,}03$. Para el izaje, la lógica
+es análoga en términos de longitud de cable y velocidad de enrollamiento.
+
+\begin{figure}[H]
+    \centering
+    \img[width=0.75\textwidth]{src/nivel1_brk_commander.png}
+    \caption{Diagrama del subestado \texttt{BRK\_Commander}: lógicas de activación
+             de frenos para el carro (\texttt{BRK\_t}) y el izaje (\texttt{BRK\_h}).}
+    \label{fig:nivel1-brk-commander}
+\end{figure}
+
 \subsubsection{Fines de carrera}
 
 El subestado paralelo \texttt{Limit\_Switch} monitorea de forma continua (\texttt{during})
@@ -3161,18 +3155,21 @@ El subestado paralelo \texttt{Mode} (Figura~\ref{fig:nivel1-mode}) gestiona los 
 modos de operación del sistema. Si \texttt{operation\_mode} es verdadero se activa el
 estado \texttt{Automatic}, reservado para la ejecución del ciclo operativo automático.
 Si \texttt{operation\_mode} es falso el sistema pasa al estado \texttt{Manual}, que
-permite al operador comandar directamente la grúa mediante el joystick PS4.
+permite al operador comandar directamente la grúa mediante el joystick.
 
 Al entrar en \texttt{Manual} se congelan las referencias actuales
 (\texttt{x\_t\_ref = x\_t\_est}, \texttt{l\_h\_ref = l\_h\_sensor}) para evitar saltos
-bruscos en las consignas del Nivel~2. Durante la operación manual, las consignas de
-velocidad se calculan a cada paso de muestreo aplicando la función
+bruscos en las consignas del Nivel~2 (\textit{bumpless transfer}). Durante la
+operación manual, las referencias de velocidad se calculan aplicando la función
 \texttt{rate\_limiter} a los comandos del joystick escalados (\texttt{JS\_trolley\_cmd}
-$\times 0{,}15$, \texttt{JS\_hoist\_cmd} $\times 0{,}15$). Si se detecta una alarma de
-fin de carrera, la consigna de velocidad en esa dirección se satura a cero
-($v_{t,ref} = \max(0, v_{t,ref})$ ante \texttt{FC\_t\_min\_alarm}, o
-$v_{t,ref} = \min(0, v_{t,ref})$ ante \texttt{FC\_t\_max\_alarm}, y análogamente para
-el izaje), impidiendo que el operador pueda seguir moviendo el eje hacia el límite.
+$\times 0{,}1$, \texttt{JS\_hoist\_cmd} $\times 0{,}1$).
+
+Las alarmas de fines de carrera saturan la consigna de velocidad correspondiente:
+ante \texttt{FC\_t\_min\_alarm} se impone $v_{t,ref} = \max(0,\,v_{t,ref,a})$; ante
+\texttt{FC\_t\_max\_alarm}, $v_{t,ref} = \min(0,\,v_{t,ref,a})$; y de forma análoga
+para el izaje, agregando además la condición de sobrecarga que satura el izaje
+hacia arriba ($\dot{l}_{h,ref} = \max(0,\,\dot{l}_{h,ref,a})$ ante
+\texttt{overload}), impidiendo bajar la carga en ese estado.
 Las referencias de posición se integran por el método trapezoidal:
 \[
     x_{t,ref}^{(k)} = x_{t,ref}^{(k-1)} + T_{s1}\,\frac{v_{t,ref}^{(k)} + v_{t,ref}^{(k-1)}}{2}
@@ -3181,7 +3178,7 @@ y de forma equivalente para $l_{h,ref}$.
 
 \begin{figure}[H]
     \centering
-    \img{src/nivel1\_mode.png}
+    \includegraphics[width=0.75\textwidth]{src/nivel1_mode.png}
     \caption{Subestado \texttt{Mode}: lógica de conmutación entre operación manual y
              automática.}
     \label{fig:nivel1-mode}
@@ -3312,6 +3309,28 @@ A partir del mapa acumulado se calculan dos salidas de interés para el ciclo op
     \label{fig:nivel1-lidar}
 \end{figure}
 
+\subsubsection{Detector de sobrecarga --- \texttt{Overload}}
+\label{subsubsec:nivel1-overload}
+
+El subestado paralelo \texttt{Overload} monitorea continuamente la masa estimada del
+contenedor y activa la alarma de sobrecarga cuando ésta supera el límite máximo
+permitido $M_{c,\mathrm{max}}$. En estado \texttt{No\_Overload} el sistema opera con
+normalidad (\texttt{overload = false}, \texttt{operation\_mode = true}); si la masa
+estimada supera el umbral ($\hat{m} > M_{c,\mathrm{max}}$) se transiciona a
+\texttt{Overload} (\texttt{overload = true}, \texttt{operation\_mode = false}),
+deshabilitando el modo automático y forzando la transición al modo manual de operación.
+La recuperación ocurre únicamente cuando la masa estimada desciende por debajo de
+$16\,000$\,kg, incorporando histéresis para evitar conmutaciones frecuentes en torno
+al umbral.
+
+\begin{figure}[H]
+    \centering
+    \img[width=0.65\textwidth]{src/nivel1_overload.png}
+    \caption{Subestado \texttt{Overload}: detección de sobrecarga con activación de
+             alarma y forzado a modo manual.}
+    \label{fig:nivel1-overload}
+\end{figure}
+
 \subsubsection{Banderas de movimiento}
 \label{subsubsec:nivel1-flags}
 
@@ -3357,6 +3376,34 @@ $0{,}1$\,m/s, asegurando histéresis en la detección del estado detenido.
     \img{src/nivel1\_hoist\_flags.png}
     \caption{Subestado \texttt{Hoist\_Movement\_Flags}: detección de izaje detenido.}
     \label{fig:nivel1-hoist-flags}
+\end{figure}
+
+\subsubsection{Agrupador de alarmas --- \texttt{Any\_Alarms}}
+\label{subsubsec:nivel1-alarms}
+
+El subestado paralelo \texttt{Any\_Alarms} agrupa todas las alarmas activas del
+sistema en una única señal booleana (\texttt{alarms}), simplificando las condiciones
+de transición en el resto del autómata. El estado \texttt{Alarms}
+(\texttt{alarms = true}) se activa cuando cualquiera de las alarmas de fines de
+carrera de operación o la señal de sobrecarga está presente:
+
+\[
+    \texttt{FC\_t\_min\_alarm} \lor \texttt{FC\_t\_max\_alarm} \lor
+    \texttt{FC\_h\_min\_alarm} \lor \texttt{FC\_h\_max\_alarm} \lor
+    \texttt{overload}
+\]
+
+La vuelta a \texttt{No\_Alarms} (\texttt{alarms = false}) ocurre únicamente cuando
+todas esas condiciones se han desactivado simultáneamente. De este modo, en lugar de
+evaluar cada alarma de forma individual en cada transición, el resto del autómata
+supervisora sólo necesita consultar la señal \texttt{alarms}.
+
+\begin{figure}[H]
+    \centering
+    \img[width=0.8\textwidth]{src/nivel1_alarms.png}
+    \caption{Subestado \texttt{Any\_Alarms}: agrupación de alarmas de fines de
+             carrera y sobrecarga en una señal booleana unificada.}
+    \label{fig:nivel1-alarms}
 \end{figure}
 
 \subsubsection{Planificador de trayectorias}
@@ -4298,16 +4345,25 @@ coordinación operativa descrita en la subsección~\ref{subsec:codesys-nivel0}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{src/codesys_nivel1_supervisory_on.png}
-    \caption{Interior del macropaso \texttt{ON}. Tras el step de inicialización
-             \texttt{ON\_Init}, una rama AND lanza en paralelo los macropasos
-             \texttt{Lidar\_Map}, \texttt{BRK\_Logic}, \texttt{Limit\_Switch},
-             \texttt{Sway\_Control}, \texttt{Trolley\_Movement},
-             \texttt{Hoist\_Movement}, \texttt{Mode}, \texttt{TLK\_Logic} y
-             \texttt{Trajectory}, ejecutándose todos de forma concurrente. La
-             rama AND finaliza con la transición \texttt{NOT P\_APN OR emgy},
-             que retorna el control al step \texttt{OFF}.}
-    \label{fig:nivel1-supervisory-on}
+    \includegraphics[width=\textwidth]{src/codesys_nivel1_supervisory_on_1.png}
+    \caption{Interior del macropaso \texttt{ON} --- rama AND izquierda. Tras el
+             step de inicialización \texttt{ON\_Init}, la rama AND lanza en
+             paralelo los macropasos \texttt{Lidar\_Map}, \texttt{BRK\_Logic},
+             \texttt{Limit\_Switch}, \texttt{Sway\_Control} y
+             \texttt{Trolley\_Movement}, entre otros.}
+    \label{fig:nivel1-supervisory-on-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{src/codesys_nivel1_supervisory_on_2.png}
+    \caption{Interior del macropaso \texttt{ON} --- rama AND derecha. Contiene
+             los macropasos \texttt{Hoist\_Movement}, \texttt{Mode},
+             \texttt{TLK\_Logic} y \texttt{Trajectory}, ejecutándose todos de
+             forma concurrente. La rama AND finaliza con la transición
+             \texttt{NOT P\_APN OR emgy}, que retorna el control al step
+             \texttt{OFF}.}
+    \label{fig:nivel1-supervisory-on-2}
 \end{figure}
 
 \paragraph{Lidar Map.}\leavevmode
@@ -4353,6 +4409,33 @@ coordinación operativa descrita en la subsección~\ref{subsec:codesys-nivel0}.
              provee el camino de salida del macropaso. El caso del izaje
              (\texttt{BRK\_h\_Logic}) es enteramente análogo.}
     \label{fig:nivel1-brk-t}
+\end{figure}
+
+\paragraph{BRK Commander.}\leavevmode
+\label{subsubsec:codesys-brk-commander}
+
+\begin{figure}[H]
+    \centering
+    \img[width=0.4\textwidth]{src/codesys_nivel1_brk_commander_top.png}
+    \caption{Vista superior del macropaso \texttt{BRK\_Commander}: rama AND que
+             lanza en paralelo \texttt{BRK\_t\_Activation\_Logic} y
+             \texttt{BRK\_h\_Activation\_Logic}.}
+    \label{fig:codesys-brk-commander-top}
+\end{figure}
+
+Al ingresar al macropaso se activa una rama AND que ejecuta en paralelo las dos
+lógicas de activación de frenos. La Figura~\ref{fig:codesys-brk-t} muestra el
+interior de \texttt{BRK\_t\_Activation\_Logic}; el comportamiento de
+\texttt{BRK\_h\_Activation\_Logic} es enteramente análogo. El comportamiento
+funcional de ambas lógicas es el descripto en la
+sección~\ref{subsubsec:nivel1-brk-commander}.
+
+\begin{figure}[H]
+    \centering
+    \img[width=0.55\textwidth]{src/codesys_nivel1_brk_t_activation.png}
+    \caption{Interior de \texttt{BRK\_t\_Activation\_Logic}: lógica de activación
+             del freno del carro en CODESYS SFC\@.}
+    \label{fig:codesys-brk-t}
 \end{figure}
 
 \paragraph{Limit Switch.}\leavevmode
@@ -4437,6 +4520,32 @@ El comportamiento de este macropaso es el descrito en la sección~\ref{subsubsec
     \caption{Macropaso \texttt{Mode} en CODESYS.}
     \label{fig:codesys-mode}
 \end{figure}
+
+\paragraph{Overload Logic.}\leavevmode
+\label{subsubsec:codesys-overload}
+
+\begin{figure}[H]
+    \centering
+    \img[width=0.65\textwidth]{src/codesys_nivel1_overload.png}
+    \caption{Macropaso \texttt{Overload\_Logic} en CODESYS SFC.}
+    \label{fig:codesys-nivel1-overload}
+\end{figure}
+
+El comportamiento de este macropaso es el correspondiente al descripto en la
+sección~\ref{subsubsec:nivel1-overload}.
+
+\paragraph{Any Alarms.}\leavevmode
+\label{subsubsec:codesys-alarms}
+
+\begin{figure}[H]
+    \centering
+    \img[width=\textwidth]{src/codesys_nivel1_alarms.png}
+    \caption{Macropaso \texttt{Any\_Alarms} en CODESYS SFC.}
+    \label{fig:codesys-nivel1-alarms}
+\end{figure}
+
+El comportamiento de este macropaso es el correspondiente al descripto en la
+sección~\ref{subsubsec:nivel1-alarms}.
 
 \paragraph{TLK Logic.}\leavevmode
 \label{subsubsec:codesys-tlk}
@@ -4927,39 +5036,289 @@ muestra el aspecto del panel durante una sesión de simulación.
 \newpage
 \section{Resultados}
 
-\textbf{TODO}
+En esta sección se presentan los resultados obtenidos mediante co-simulación
+\textit{Software-in-the-Loop} entre Simulink y CODESYS. Se evalúan el rendimiento
+operativo del sistema en ciclo simple, el comportamiento del control de oscilación
+a lo largo de múltiples ciclos dobles, la estimación de masa del contenedor, la
+respuesta ante fines de carrera y la actuación ante condiciones de emergencia.
+En los videos incluidos en la sección~\ref{sec:videos} se presenta material
+adicional y pruebas complementarias que proporcionan una visión más clara e
+integradora del comportamiento del sistema en operación.
 
 \subsection{Rendimiento: ciclo simple}
+\label{subsec:rendimiento-cs}
 
-\textbf{TODO}
+Para evaluar el rendimiento del sistema se somete al controlador a un recorrido en
+las condiciones de mayor desfavor posibles: \textbf{máxima distancia de traslación
+del carro}, \textbf{masa de carga máxima} y \textbf{máxima profundidad de depósito}.
+Con el objetivo de calcular la duración del ciclo de forma directa, se saltan los
+estados manuales del sistema de control, ejecutando únicamente la secuencia automática.
+
+La figura~\ref{fig:rendimiento-cs-l} muestra la evolución de la longitud de cable
+$l_h(t)$ durante el ciclo completo.
+
+\begin{figure}[H]
+    \centering
+    \img{src/rendimiento_cs_l.png}
+    \caption{Ciclo simple — evolución de la longitud de cable de izaje $l_h(t)$.}
+    \label{fig:rendimiento-cs-l}
+\end{figure}
+
+En la imagen se observa un escenario que comienza con el cable suficientemente
+estirado para tomar una carga del camión y finaliza en ese mismo punto, por lo que
+mediante esta variable puede obtenerse directamente el tiempo de ciclo. Tomando los
+instantes $t_0 = 178{,}562$\,s y $t_1 = 295{,}554$\,s se obtiene:
+
+\[
+    \Delta t = t_1 - t_0 = 295{,}554 - 178{,}562 = 116{,}992\;\text{s}
+              \approx \mathbf{1\,\text{min}\;57\,\text{s}}
+\]
+
+La productividad resultante es:
+
+\[
+    \dot{N} = \frac{3600\;\text{s/h}}{\Delta t} = \frac{3600}{116{,}992} \approx \mathbf{30{,}77\;\text{contenedores/hora}}
+\]
+
+Este valor supera el umbral mínimo de \textbf{30 contenedores por hora} establecido
+como requisito de diseño (sección~\ref{sec:sistema-completo}), confirmando que el
+sistema cumple con la especificación de productividad en ciclo simple bajo condiciones
+de máximo desfavor.
+
+Los pequeños picos visibles en torno a los instantes $t \approx 180$\,s y
+$t \approx 315$\,s corresponden a pequeñas ineficiencias del sistema de control
+debidas a la cercanía entre el margen aplicado en la toma de la carga y la altura
+segura de traslación del carro.
+
+
+La eficiencia del ciclo reside en la \textbf{coordinación de movimientos X--Y} entre
+el carro y el izaje: se han definido umbrales de compleción de cada movimiento para
+habilitar el inicio del siguiente, fijados entre el 80\,\% y el 95\,\% de la
+trayectoria según la necesidad de precisión y el riesgo asociado a cada fase de la
+maniobra.
 
 \subsection{Pruebas adicionales}
 
-\textbf{TODO}
+\subsubsection{Evolución del ángulo de balanceo en múltiples ciclos dobles}
+\label{subsubsec:resultado-angulo}
+
+\begin{figure}[H]
+    \centering
+    \img{src/rendimiento_theta_l.png}
+    \caption{Evolución del ángulo de balanceo $\theta_l(t)$ a lo largo de múltiples
+             ciclos dobles (carga + descarga) con el controlador de oscilación activo.}
+    \label{fig:rendimiento-theta-l}
+\end{figure}
+
+Con el controlador de oscilación en paralelo activo, el ángulo de balanceo
+$\theta_l(t)$ \textbf{nunca supera los $2°$} a lo largo de toda la operación,
+sin afectar notablemente al rendimiento del ciclo — como lo confirma el resultado
+de la sección~\ref{subsec:rendimiento-cs}. El diseño garantiza un
+\textbf{amortiguamiento crítico} ($\zeta = 1$) del ángulo en todas las fases de
+traslación, y valores \textbf{inferiores a $1°$} durante las operaciones de
+\textit{pick and place}, donde la precisión de posicionamiento es más exigente.
+Las pequeñas oscilaciones residuales observadas en la señal son introducidas por
+la actuación de los \textbf{frenos de operación} al detener el movimiento del carro.
 
 \subsubsection{Fines de carrera}
 
-\textbf{TODO}
+Para verificar el funcionamiento de los fines de carrera de operación se genera una
+trayectoria en la que el carro se desplaza desde $-30$ hasta $50$\,m, activando
+ambos límites laterales de operación. En la Figura~\ref{fig:rendimiento-fc-carro}
+se muestra la evolución de la posición del carro durante esta prueba.
 
-\subsubsection{Límites de sobrevelocidad}
+\begin{figure}[H]
+    \centering
+    \img{src/rendimiento_fc_carro.png}
+    \caption{Activación de fines de carrera de operación del carro: trayectoria
+             desde $-30$ hasta $50$\,m.}
+    \label{fig:rendimiento-fc-carro}
+\end{figure}
 
-\textbf{TODO}
+En ambas figuras se observa la activación y desactivación de los finales de carrera
+conforme el sistema alcanza o abandona la posición de activación correspondiente.
 
-\subsubsection{Emergencias}
+De forma análoga, para el eje de izaje se genera una trayectoria desde $5$ hasta
+$65$\,m de longitud de cable, activando los fines de carrera de operación superior
+e inferior. La Figura~\ref{fig:rendimiento-fc-hoist} muestra la evolución de la
+longitud de cable durante esta prueba.
 
-\textbf{TODO}
+\begin{figure}[H]
+    \centering
+    \img{src/rendimiento_fc_hoist.png}
+    \caption{Activación de fines de carrera de operación del izaje: trayectoria
+             desde $5$ hasta $65$\,m de longitud de cable.}
+    \label{fig:rendimiento-fc-hoist}
+\end{figure}
 
-\subsubsection{Sobrecarga}
 
-\textbf{TODO}
+\subsubsection{Parada de emergencia}
+
+Se evalúa el escenario en que el operador introduce, mediante el controlador de la
+HMI, una señal de parada de emergencia. En la figura se presentan las señales
+discretas relevantes: la entrada de operador $P_E$, las señales de frenos
+$\mathit{BRK}_t$, $\mathit{BRK}_h$ y $\mathit{BRK}_{hE}$, y las referencias de
+velocidad $v_{t,\mathrm{ref}}$ y $\dot{l}_{h,\mathrm{ref}}$, que se ponen a cero
+de forma inmediata ante la activación de la señal de emergencia. En la
+Figura~\ref{fig:pruebas-emgy-stop-refs} se observa cómo ambas referencias caen a
+cero de forma inmediata en el instante en que se activa la parada de emergencia.
+
+\begin{figure}[H]
+    \centering
+    \img{src/pruebas_emgy_stop_refs.png}
+    \caption{Referencias de velocidad del carro ($v_{t,\mathrm{ref}}$) y del izaje
+             ($\dot{l}_{h,\mathrm{ref}}$) ante una parada de emergencia: caída
+             inmediata a cero al activarse $P_E$.}
+    \label{fig:pruebas-emgy-stop-refs}
+\end{figure}
+
+En la Figura~\ref{fig:pruebas-emgy-stop-brks} se muestra el comportamiento de las
+señales de frenos. Se observa la actuación normal de los frenos de operación durante
+el funcionamiento previo a la emergencia y, a partir de la activación de $P_E$, la
+energización inmediata de todos los frenos ($\mathit{BRK}_t$, $\mathit{BRK}_h$ y
+$\mathit{BRK}_{hE}$) de forma simultánea.
+
+\begin{figure}[H]
+    \centering
+    \img{src/pruebas_emgy_stop_brks.png}
+    \caption{Señales de frenos ante una parada de emergencia: actuación normal de
+             operación seguida de la energización simultánea de todos los frenos al
+             activarse $P_E$.}
+    \label{fig:pruebas-emgy-stop-brks}
+\end{figure}
+
 
 \subsubsection{Estimación de masa}
 
-\textbf{TODO}
+La estimación de masa del contenedor se evalúa a lo largo de múltiples ciclos de
+carga y descarga, con el objetivo de analizar el comportamiento del estimador ante
+distintos casos de operación. En la Figura~\ref{fig:rendimiento-m-est} se presenta
+la evolución de la masa estimada durante la secuencia completa de prueba.
+
+\begin{figure}[H]
+    \centering
+    \img{src/rendimiento_m_est.png}
+    \caption{Evolución de la masa estimada $\hat{m}(t)$ a lo largo de múltiples ciclos
+             de carga y descarga para la evaluación del estimador en distintos
+             escenarios de operación.}
+    \label{fig:rendimiento-m-est}
+\end{figure}
+
+La diferencia temporal observable entre la evolución del valor simulado y el valor
+estimado se debe a que el primero se actualiza en el instante en que se produce el
+cambio en la señal de TLK, mientras que la estimación se activa al abandonar el
+modo manual de operación. En todos los casos evaluados, la estimación converge con
+una precisión \textbf{ampliamente superior al $1\%$} requerido por las
+especificaciones del sistema.
 
 \subsection{Enlaces a videos}
+\label{sec:videos}
 
-\textbf{TODO}
+Los videos de las pruebas realizadas se alojan en una carpeta compartida de Google
+Drive, accesible mediante el siguiente enlace:
+
+\begin{center}
+    \href{https://drive.google.com/drive/folders/1PMs6fmgEDI3PnUhHaOELgL_wx4F5qJRc?usp=sharing}{Enlace a videos de pruebas}
+\end{center}
+
+% ── CONCLUSIONES ────────────────────────────────────────────
+\newpage
+\section{Conclusiones}
+
+El presente trabajo permitió diseñar, modelar, simular e implementar un sistema
+híbrido de control y protección para una grúa portacontenedores de muelle tipo
+pórtico, cumpliendo con la totalidad de los objetivos y especificaciones planteados.
+Se desarrolló un modelo matemático completo de la planta, incluyendo los subsistemas
+de traslación e izaje con sus respectivos accionamientos, cables elástico-amortiguados
+y la dinámica pendular de la carga suspendida. Sobre este modelo se diseñaron e
+implementaron en tiempo discreto los controladores del Nivel~2, incorporando
+realimentación de estados con observador de Luenberger, compensación de no
+linealidades y control proporcional de balanceo con ganancia adaptada a la longitud
+de cable. El Nivel~1 implementó la lógica supervisora mediante un autómata jerárquico
+que gestiona los modos de operación, la coordinación de trayectorias automáticas, la
+estimación de masa, el relevamiento del perfil de obstáculos y la habilitación de los
+accionamientos. El Nivel~0, por su parte, opera de forma independiente monitoreando
+continuamente las condiciones de emergencia y tomando el control de los accionamientos
+ante cualquier situación que comprometa la seguridad del sistema.
+
+En cuanto al desempeño, el ángulo de oscilación de la carga se mantuvo dentro de los
+límites establecidos en todas las pruebas, el tiempo de ciclo simple resultó inferior
+al requerido para garantizar una productividad mínima de 30 contenedores por hora, y
+la estimación de masa presentó un error relativo promedio inferior al $1\,\mathrm{\%}$,
+permitiendo adaptar la velocidad de izaje a la característica de potencia constante
+del accionamiento. La operación semiautomática funcionó correctamente en ambos modos,
+con transferencias suaves entre ellos (\textit{bumpless transfer}), trayectorias
+coordinadas que evitaron colisiones con el perfil de obstáculos, y una gestión
+correcta de los twistlocks y la detección de cable flojo. El Nivel~0 respondió
+adecuadamente ante todas las condiciones de emergencia evaluadas: activación de
+finales de carrera, sobrevelocidad y parada de emergencia. Adicionalmente, se
+integró una interfaz de operación compuesta por un mando de joystick físico y una
+visualización 2D del entorno portuario en tiempo real, conformando un entorno de
+simulación semi-inmersivo que permitió validar la operación del sistema de forma
+representativa.
+
+Desde el punto de vista metodológico, el flujo \textit{Model-in-the-Loop} (MiL)
+$\rightarrow$ \textit{Software-in-the-Loop} (SiL) demostró ser una estrategia eficaz
+para el desarrollo de sistemas de control industriales complejos. La etapa MiL en
+Stateflow/Simulink permitió validar y ajustar la lógica del autómata en un entorno
+ágil, mientras que la etapa SiL expuso aspectos no evidentes en simulación pura:
+diferencias semánticas entre Stateflow y el estándar IEC\nobreakdash-61131\nobreakdash-3, restricciones de
+nomenclatura entre charts y la necesidad de adaptaciones manuales sobre el código
+generado por Simulink PLC Coder. El resultado es un algoritmo verificado y listo para
+ser cargado en un controlador PLC real, lo que representa un valor concreto más allá
+del entorno académico.
+
+Uno de los desafíos más significativos fue la sincronización en co-simulación: la
+coexistencia de tres períodos de muestreo distintos y la latencia del canal OPC~UA
+requirieron un diseño cuidadoso de la arquitectura de comunicación para garantizar la
+coherencia de los datos en cada ciclo. La separación clara entre los tres niveles
+jerárquicos facilitó tanto el desarrollo como la depuración, y la arquitectura
+resultó naturalmente compatible con la estructura de POUs del estándar IEC\nobreakdash-61131\nobreakdash-3.
+
+Finalmente, el trabajo permitió integrar conocimientos de las cátedras de Automática
+y Máquinas Eléctricas y de Autómatas y Control Discreto, evidenciando cómo ambos
+dominios del problema de control ---el continuo y el discreto--- se articulan de forma
+complementaria en una aplicación industrial real. El uso simultáneo de MATLAB,
+Simulink y CODESYS, junto con los protocolos de comunicación que los vinculan,
+fortaleció el conocimiento sobre programación de PLCs, lenguajes del estándar
+IEC\nobreakdash-61131\nobreakdash-3 y en particular sobre el lenguaje SFC\@.
+
+% ── NOTA IA ─────────────────────────────────────────────────
+\newpage
+\section{Nota sobre el uso de agentes de Inteligencia Artificial}
+
+Durante el desarrollo del presente proyecto se hizo uso de agentes de Inteligencia
+Artificial (IA) como herramienta de apoyo en diversas etapas del trabajo. En
+particular, se emplearon para el desarrollo de las interfaces visuales en Python:
+el visualizador en tiempo real de la planta en 2D y el panel de monitoreo de las
+entradas del control de mando.
+
+Adicionalmente, los agentes de IA fueron utilizados para:
+
+\begin{itemize}
+    \item \textbf{Mejora de coherencia, redacción y formato del informe}: revisión
+    de la prosa técnica, consistencia terminológica y estructura del documento.
+
+    \item \textbf{Investigación y sugerencia de pruebas}: propuesta de escenarios
+    de validación, alternativas de diseño y búsqueda de errores en desarrollos
+    matemáticos, de programación y conceptuales.
+\end{itemize}
+
+En cuanto a la metodología de interacción, se adoptó un enfoque de tipo
+\textit{black-box}: al agente se le asignaron tareas pequeñas y específicas con
+entradas y salidas claramente definidas, lo que permitió una mejor modularización
+del desarrollo. Este enfoque resultó en un proceso incremental y escalable, en el
+que cada entregable parcial fue verificado antes de integrarse al conjunto, sin
+perder la visión global del sistema que se estaba desarrollando.
+
+Finalmente, se destaca que el uso de la Inteligencia Artificial en este trabajo
+se realizó de forma consciente y responsable, entendiéndola como una herramienta
+complementaria a las capacidades propias de los integrantes del equipo. En ningún
+momento se buscó delegar en el agente el razonamiento, la comprensión ni la toma
+de decisiones de diseño: los desarrollos matemáticos, las decisiones de
+arquitectura y la interpretación de resultados fueron siempre responsabilidad de
+los autores. La IA fue utilizada para potenciar, corregir y mejorar el trabajo
+humano, no para reemplazarlo.
 
 % ── BIBLIOGRAPHY ────────────────────────────────────────────
 \newpage
