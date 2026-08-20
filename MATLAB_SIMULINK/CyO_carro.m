@@ -1,4 +1,4 @@
-    matrices_carro;
+matrices_carro;
 disp("===== CONTROLABILIDAD DE CARRO =====");
 W_c = ctrb(A, B_c(:,1));
 rango_W_c = rank(W_c);

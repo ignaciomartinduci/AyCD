@@ -56,3 +56,8 @@ tau_posicion = 1 / Kp_pos;
 
 separacion_escalas = tau_posicion / tau_v;
 
+
+%% lazos externos
+
+Kp_ext_carro = 0.11;
+Kp_ext_izaje = 0.5;

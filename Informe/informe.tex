@@ -30,6 +30,13 @@
 \usepackage{fancyhdr}
 \usepackage{lastpage}
 
+% --- Tipografía Calibri (Carlito) ---
+\usepackage[sfdefault]{carlito}
+\usepackage[T1]{fontenc}
+
+% --- Mejora de calidad tipográfica ---
+\usepackage{microtype}
+
 % --- Math & Other Utilities ---
 \usepackage{amsmath, amssymb}
 \usepackage{tabularx}
@@ -2755,12 +2762,6 @@ $x_t=+45$\,m. Se presentan tres gráficas:
     \label{fig:sway-pos}
 \end{figure}
 
-\medskip\noindent\textbf{Nota:} El sistema en su estado actual no garantiza el
-cumplimiento de la posición final, dado que la modificación del perfil de velocidad por
-parte del controlador de balanceo altera el recorrido efectivo del carro. Esta limitación
-será corregida en el Nivel~1 del sistema, a través del planificador de trayectorias, que
-ajustará la consigna en línea para asegurar que el carro alcance la posición destino.
-
 \begin{figure}[H]
     \centering
     \img{src/balanceo_angulo_INFORME.jpg}
@@ -3583,7 +3584,7 @@ transcurrido, sin recalcular. Todas las funciones devuelven además una salida d
 \textbf{progreso} $p \in [0, 1]$, calculada como la fracción del tiempo total de la
 trayectoria ya transcurrido, que el planificador utiliza como condición de transición
 anticipada entre estados.
-
+\newpage
 \paragraph{Trayectoria del carro.}\leavevmode
 
 El perfil de aceleración es sinusoidal:
@@ -4003,7 +4004,7 @@ validación directa del comportamiento secuencial frente a la especificación de
 diseño.
 
 La verificación del código implementado se lleva a cabo mediante una arquitectura
-\textit{Hardware-in-the-Loop} (HIL) en la que CODESYS actúa como el controlador
+\textit{software-in-the-Loop} (HIL) en la que CODESYS actúa como el controlador
 real y Simulink conserva el rol de planta y Nivel~2. La comunicación entre ambos
 entornos se establece mediante el protocolo \textbf{OPC~UA} \cite{opcua}: Simulink
 publica el estado de la planta (posiciones, velocidades, flags de sensores) como
@@ -4475,7 +4476,7 @@ El comportamiento de este macropaso es el descrito en la sección~\ref{subsubsec
     \caption{Macropaso \texttt{Sway\_Control\_Mode} en CODESYS.}
     \label{fig:codesys-sway}
 \end{figure}
-
+\newpage
 \paragraph{Trolley Movement Flags.}\leavevmode
 \label{subsubsec:codesys-tmf}
 
@@ -4497,7 +4498,7 @@ El comportamiento de este macropaso es el descrito en la sección~\ref{subsubsec
              elemento de la rama OR.}
     \label{fig:codesys-tmf-der}
 \end{figure}
-
+\newpage
 \paragraph{Hoist Movement Flags.}\leavevmode
 \label{subsubsec:codesys-hmf}
 
@@ -4520,7 +4521,7 @@ El comportamiento de este macropaso es el descrito en la sección~\ref{subsubsec
     \caption{Macropaso \texttt{Mode} en CODESYS.}
     \label{fig:codesys-mode}
 \end{figure}
-
+\newpage
 \paragraph{Overload Logic.}\leavevmode
 \label{subsubsec:codesys-overload}
 
@@ -4533,7 +4534,7 @@ El comportamiento de este macropaso es el descrito en la sección~\ref{subsubsec
 
 El comportamiento de este macropaso es el correspondiente al descripto en la
 sección~\ref{subsubsec:nivel1-overload}.
-
+\newpage
 \paragraph{Any Alarms.}\leavevmode
 \label{subsubsec:codesys-alarms}
 

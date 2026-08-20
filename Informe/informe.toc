@@ -2,7 +2,7 @@
 \contentsline {section}{\numberline {1}Introducción}{5}{section.1}%
 \contentsline {section}{\numberline {2}Modelado matemático del sistema físico}{7}{section.2}%
 \contentsline {subsection}{\numberline {2.1}Subsistema \textit {Trolley}}{7}{subsection.2.1}%
-\contentsline {subsubsection}{\numberline {2.1.1}Accionamiento de traslación del carro}{8}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Accionamiento de traslación del carro}{7}{subsubsection.2.1.1}%
 \contentsline {paragraph}{Freno de operación del carro (eje rápido motor).}{9}{section*.5}%
 \contentsline {subsubsection}{\numberline {2.1.2}Modelo de cable elástico con amortiguamiento del carro}{10}{subsubsection.2.1.2}%
 \contentsline {subsubsection}{\numberline {2.1.3}Ecuación de movimiento del carro}{11}{subsubsection.2.1.3}%
@@ -10,14 +10,14 @@
 \contentsline {subsection}{\numberline {2.2}Subsistema \textit {Hoist}}{13}{subsection.2.2}%
 \contentsline {subsubsection}{\numberline {2.2.1}Accionamiento de izaje de carga}{13}{subsubsection.2.2.1}%
 \contentsline {paragraph}{Frenos de operación y de emergencia del izaje.}{15}{section*.6}%
-\contentsline {subsubsection}{\numberline {2.2.2}Modelo de cable elástico-amortiguado de izaje}{17}{subsubsection.2.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.2}Modelo de cable elástico-amortiguado de izaje}{16}{subsubsection.2.2.2}%
 \contentsline {paragraph}{ON — Cable tensado.}{17}{section*.7}%
-\contentsline {paragraph}{OFF — Cable flojo.}{19}{section*.8}%
-\contentsline {subsubsection}{\numberline {2.2.3}Movimiento de la carga}{19}{subsubsection.2.2.3}%
-\contentsline {paragraph}{Ecuación de movimiento en el eje $x$ (horizontal).}{19}{section*.9}%
+\contentsline {paragraph}{OFF — Cable flojo.}{18}{section*.8}%
+\contentsline {subsubsection}{\numberline {2.2.3}Movimiento de la carga}{18}{subsubsection.2.2.3}%
+\contentsline {paragraph}{Ecuación de movimiento en el eje $x$ (horizontal).}{18}{section*.9}%
 \contentsline {paragraph}{Ecuación de movimiento en el eje $y$ (vertical).}{19}{section*.10}%
 \contentsline {paragraph}{Generación de masa aleatoria del container.}{21}{section*.11}%
-\contentsline {subsubsection}{\numberline {2.2.4}Ángulo de balanceo y longitud real del cable}{22}{subsubsection.2.2.4}%
+\contentsline {subsubsection}{\numberline {2.2.4}Ángulo de balanceo y longitud real del cable}{21}{subsubsection.2.2.4}%
 \contentsline {subsubsection}{\numberline {2.2.5}Subsistema \textit {Hoist} completo}{23}{subsubsection.2.2.5}%
 \contentsline {subsection}{\numberline {2.3}Generación del perfil de obstáculos $y_{c0}(x,t)$}{24}{subsection.2.3}%
 \contentsline {paragraph}{Firma e inicialización de estado persistente.}{25}{section*.12}%
@@ -30,7 +30,7 @@
 \contentsline {paragraph}{Fines de carrera de izaje.}{31}{section*.18}%
 \contentsline {paragraph}{Detector de sobrevelocidad.}{31}{section*.19}%
 \contentsline {subsection}{\numberline {2.5}Moduladores de torque de los accionamientos}{32}{subsection.2.5}%
-\contentsline {paragraph}{Modulador del carro.}{33}{section*.20}%
+\contentsline {paragraph}{Modulador del carro.}{32}{section*.20}%
 \contentsline {paragraph}{Modulador del izaje — con \textit {Field Weakening}.}{33}{section*.21}%
 \contentsline {subsection}{\numberline {2.6}Sistema físico completo}{34}{subsection.2.6}%
 \contentsline {paragraph}{Salidas sensadas.}{35}{section*.22}%
@@ -92,7 +92,7 @@
 \contentsline {paragraph}{Escenario 2 — Carga (barco $\to $ tierra).}{76}{section*.52}%
 \contentsline {paragraph}{Escenario 3 — Ciclo doble (descarga + carga).}{76}{section*.53}%
 \contentsline {subsubsection}{\numberline {3.3.14}Generación de trayectorias}{77}{subsubsection.3.3.14}%
-\contentsline {paragraph}{Trayectoria del carro.}{77}{section*.54}%
+\contentsline {paragraph}{Trayectoria del carro.}{78}{section*.54}%
 \contentsline {paragraph}{Trayectoria del izaje.}{78}{section*.55}%
 \contentsline {subsection}{\numberline {3.4}Nivel 0: Seguridad y Protección}{79}{subsection.3.4}%
 \contentsline {subsubsection}{\numberline {3.4.1}Emergencies}{80}{subsubsection.3.4.1}%
@@ -111,11 +111,11 @@
 \contentsline {paragraph}{BRK Commander.}{99}{section*.58}%
 \contentsline {paragraph}{Limit Switch.}{100}{section*.59}%
 \contentsline {paragraph}{Sway Control.}{101}{section*.60}%
-\contentsline {paragraph}{Trolley Movement Flags.}{101}{section*.61}%
-\contentsline {paragraph}{Hoist Movement Flags.}{102}{section*.62}%
+\contentsline {paragraph}{Trolley Movement Flags.}{102}{section*.61}%
+\contentsline {paragraph}{Hoist Movement Flags.}{103}{section*.62}%
 \contentsline {paragraph}{Mode.}{103}{section*.63}%
-\contentsline {paragraph}{Overload Logic.}{103}{section*.64}%
-\contentsline {paragraph}{Any Alarms.}{104}{section*.65}%
+\contentsline {paragraph}{Overload Logic.}{104}{section*.64}%
+\contentsline {paragraph}{Any Alarms.}{105}{section*.65}%
 \contentsline {paragraph}{TLK Logic.}{105}{section*.66}%
 \contentsline {paragraph}{Planificador de trayectorias.}{106}{section*.67}%
 \contentsline {section}{\numberline {5}Generación automática de código ST mediante PLC Coder}{112}{section.5}%
