@@ -315,19 +315,6 @@ contenedores movidos por hora} (ciclo completo de ida cargado y retorno vacío e
 de 2 minutos), lo que impone restricciones directas sobre las trayectorias de movimiento,
 la coordinación entre izaje y traslación, y la eficacia del control de balanceo.
 
-\subsection*{Presencia global y tecnologías alternativas}
-
-Las grúas STS dominan de forma casi excluyente las operaciones de transferencia
-buque--tierra en terminales de aguas profundas. Según datos del sector, el fabricante
-chino ZPMC (\textit{Zhenhua Port Machinery Company}) concentra alrededor del 70\,\%
-de la flota mundial instalada \cite{zpmc2023}, con más de 3\,000 unidades desplegadas
-en más de 100 países. Frente a tecnologías alternativas como los puentes grúa de patio
-(\textit{Rubber-Tyred Gantry}, RTG) o los vehículos de guiado autónomo (AGV), las
-grúas STS son insustituibles en la interfaz directa con el buque por su alcance de
-pluma (\textit{outreach}) de hasta 72~m, su capacidad de carga superior a 65~t y su
-compatibilidad con los mayores buques en servicio (clase \textit{Megamax}, 24
-contenedores de manga).
-
 \subsection*{Alcance del presente trabajo}
 
 El presente trabajo aborda el desarrollo e implementación de un \textbf{Sistema Híbrido
@@ -810,6 +797,13 @@ freno del carro~\eqref{eq:freno-t-off}--\eqref{eq:freno-t-on}:
     T_{hb}\bigl(t,BRK_h = \text{On}\bigr) = 0\;\text{N\,m}
 \end{equation}
 
+\noindent Como función alternativa continua y diferenciable, puede reemplazarse el esquema min/max por una tangente hiperbólica escalada:
+
+\begin{equation}
+    \label{eq:freno-h-off-tanh}
+    T_{hb}\bigl(t,\,BRK_h = \text{Off}\bigr) = -T_{hb\,Max}\cdot\tanh\!\bigl(b_{hb}\,\omega_{hm}(t)\bigr)
+\end{equation}
+
 El freno de emergencia actúa sobre el eje lento (tambor) y su torque se expresa en
 términos de la velocidad angular del tambor $\omega_{hd}(t)$:
 
@@ -823,10 +817,35 @@ términos de la velocidad angular del tambor $\omega_{hd}(t)$:
     T_{hEb}\bigl(t,BRK_{hE} = \text{On}\bigr) = 0\;\text{N\,m}
 \end{equation}
 
+\noindent De igual forma, la alternativa con tangente hiperbólica para el freno de emergencia es:
+
+\begin{equation}
+    \label{eq:freno-he-off-tanh}
+    T_{hEb}\bigl(t,\,BRK_{hE} = \text{Off}\bigr) = -T_{hEb\,Max}\cdot\tanh\!\bigl(b_{hEb}\,\omega_{hd}(t)\bigr)
+\end{equation}
+
 El freno de emergencia permanece cerrado por defecto (NC) y solo se abre cuando el
 sistema de control está activo y habilitado (Nivel~0). Ante cualquier falla crítica se
 cierra inmediatamente, inmovilizando el tambor e impidiendo el descenso libre de la carga,
 con independencia del estado del motor y del freno de operación.
+
+\paragraph{Motor de izaje — limitación de torque por \textit{Field Weakening}.}
+
+El torque del motor de izaje $T_{hm}(t)$ queda acotado simétricamente por un torque
+máximo variable $T_{hm\,Max}(t)$ que decrece cuadráticamente con la velocidad angular
+cuando ésta supera la velocidad nominal del motor:
+
+\begin{equation}
+    \label{eq:field-weakening}
+    T_{hm\,Max}(t) = T_{hm\,MAX}\cdot\min\!\left(1,\;
+    \left(\frac{\omega_{hm\,RATED}}{\omega_{hm}(t)}\right)^{\!2}\right)
+\end{equation}
+
+donde $T_{hm\,MAX}$ es el torque máximo absoluto del motor y $\omega_{hm\,RATED}$ la
+velocidad angular nominal. Para $|\omega_{hm}| \leq \omega_{hm\,RATED}$ el límite es
+constante e igual a $T_{hm\,MAX}$; por encima de la nominal, la potencia se mantiene
+constante reduciendo el torque disponible. La implementación de este límite en el
+modulador de torque del izaje se detalla más adelante.
 
 Las Figuras~\ref{fig:bloques-freno-h-op} y~\ref{fig:bloques-freno-h-em} muestran los
 diagramas de bloques del freno de operación y del freno de emergencia del izaje,
@@ -1429,7 +1448,7 @@ for k = 1:5
         h_truck_lidar = H_truck + trucks_has_load_p(k) * H_c;
     end
 end
-y_c0_lidar = y_fijo_lidar + n_containers(idx_lidar) * H_c + h_truck_lidar;
+y_c0_lidar = y_fijo_lidar + n_containers(idx_lidar) * H_c + h_truck_lidar; %% NO es el perfil completo, es la lectura instantanea
 
 %% Salidas garantizadas
 containers_pillars_state = n_containers(idx_posiciones);
@@ -1561,22 +1580,11 @@ La dinámica del modulador de torque del izaje es análoga:
     = \min\!\bigl(+T_{hm\,Max},\;\max(-T_{hm\,Max},\;T_{hm}^*(k\,T_{s2}))\bigr)
 \end{equation}
 
-A diferencia del carro, el torque máximo del izaje no es constante sino que se reduce
+A diferencia del carro, el torque máximo del izaje no es constante: se reduce
 cuadráticamente con la velocidad angular cuando ésta supera la velocidad nominal del
-motor (\textit{Field Weakening}):
-
-\begin{equation}
-    \label{eq:field-weakening}
-    T_{hm\,Max}(t) = T_{hm\,MAX}\cdot\min\!\left(1,\;
-    \left(\frac{\omega_{hm\,RATED}}{\omega_{hm}(t)}\right)^{\!2}\right)
-\end{equation}
-
-donde $T_{hm\,MAX}$ es el torque máximo absoluto del motor, $\omega_{hm\,RATED}$ la
-velocidad nominal y $\omega_{hm}(t)$ la velocidad instantánea. Para velocidades
-$|\omega_{hm}| \leq \omega_{hm\,RATED}$ el límite es constante e igual a $T_{hm\,MAX}$;
-por encima de la nominal, la potencia se mantiene constante reduciendo el torque máximo
-disponible. La Figura~\ref{fig:bloques-fw} muestra el diagrama de bloques del
-cálculo de $T_{hm\,Max}(t)$ según~\eqref{eq:field-weakening}.
+motor según la ley de \textit{Field Weakening}~\eqref{eq:field-weakening}, definida
+en la sección anterior. La Figura~\ref{fig:bloques-fw} muestra el diagrama de bloques
+del cálculo de $T_{hm\,Max}(t)$.
 
 \begin{figure}[H]
     \centering
@@ -1751,7 +1759,8 @@ las matrices del sistema resultan:
 
 \begin{equation}
     \label{eq:ss-carro}
-    A_t =
+    \begin{aligned}
+    &A_t =
     \begin{bmatrix}
         0 & 1 & 0 & 0 \\[4pt]
         -\dfrac{\rho_t^2\,K_{tw}}{J_{eq,t}} &
@@ -1767,7 +1776,12 @@ las matrices del sistema resultan:
     B_t =
     \begin{bmatrix} 0 \\ \dfrac{1}{J_{eq,t}} \\ 0 \\ 0 \end{bmatrix}, \quad
     C_t =
-    \begin{bmatrix} 1 & 0 & 0 & 0 \end{bmatrix}
+    \begin{bmatrix} 1 & 0 & 0 & 0 \end{bmatrix} \\[10pt]
+    &\mathbf{x}_t(t) =
+    \begin{bmatrix} \theta_{tm}(t) \\ \omega_{tm}(t) \\ x_t(t) \\ v_t(t) \end{bmatrix},
+    \qquad
+    u(t) = T_{tm}(t)
+    \end{aligned}
 \end{equation}
 
 La entrada de control es el torque del motor $T_{tm}(t)$ y la salida medida es la posición
@@ -2082,14 +2096,6 @@ los controladores como en los observadores de carro e izaje.
     \label{fig:ctrl-carro-discreto}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \img{src/observador_carro_discreto.png}
-    \caption{Diagrama de bloques del observador de estados del carro discretizado
-             (Simulink, $T_{s2} = 1$\,ms).}
-    \label{fig:obs-carro-discreto}
-\end{figure}
-
 \paragraph{Desempeño del controlador de traslación.}
 
 Para evaluar el desempeño se simula el escenario con \textbf{spreader vacío}
@@ -2106,7 +2112,7 @@ consigna $T_{tm}^*(t)$ y salida del modulador $T_{tm}(t)$.
 
 \begin{figure}[H]
     \centering
-    \img{src/velocidad_carro_comparativa_INFORME.jpg}
+    \img{src/velocidad_carro_comparativa_INFORME.png}
     \caption{Traslación del carro — velocidad: consigna $v_t^*(t)$, estimada
              $\hat{v}_t(t)$, velocidad en el tambor $\hat{v}_{td}(t)$ y simulada $v_t(t)$
              (spreader vacío, perfil trapezoidal).}
@@ -2115,7 +2121,7 @@ consigna $T_{tm}^*(t)$ y salida del modulador $T_{tm}(t)$.
 
 \begin{figure}[H]
     \centering
-    \img{src/posicion_carro_comparativa_INFORME.jpg}
+    \img{src/posicion_carro_comparativa_INFORME.png}
     \caption{Traslación del carro — posición: consigna $x_t^*(t)$, estimada
              $\hat{x}_t(t)$ y simulada $x_t(t)$ (carga máxima, perfil trapezoidal).}
     \label{fig:carro-pos-cmp}
@@ -2123,7 +2129,7 @@ consigna $T_{tm}^*(t)$ y salida del modulador $T_{tm}(t)$.
 
 \begin{figure}[H]
     \centering
-    \img{src/torque_carro_INFORME.jpg}
+    \img{src/torque_carro_INFORME.png}
     \caption{Traslación del carro — comparativa de torque: consigna $T_{tm}^*(t)$ y
              salida del modulador $T_{tm}(t)$ (spreader vacío, perfil trapezoidal).}
     \label{fig:carro-torque}
@@ -2161,7 +2167,8 @@ las matrices del sistema resultan:
 
 \begin{equation}
     \label{eq:ss-hoist}
-    A_h =
+    \begin{aligned}
+    &A_h =
     \begin{bmatrix}
         0 & 1 \\[4pt]
         0 & -\dfrac{b_{eq,h}}{J_{eq,h}}
@@ -2174,7 +2181,13 @@ las matrices del sistema resultan:
     B_{dh} =
     \begin{bmatrix} 0 \\[4pt] -\dfrac{r_{hd}}{i_h\,J_{eq,h}} \end{bmatrix}, \quad
     C_h =
-    \begin{bmatrix} 1 & 0 \end{bmatrix}
+    \begin{bmatrix} 1 & 0 \end{bmatrix} \\[10pt]
+    &\mathbf{x}_h(t) =
+    \begin{bmatrix} \theta_{hm}(t) \\ \omega_{hm}(t) \end{bmatrix}, \qquad
+    \mathbf{u}_{ch}(t) =
+    \begin{bmatrix} T_{hm}(t) \\ T_{hb}(t,BRK_h) \\ T_{hEb}(t,BRK_{hE}) \end{bmatrix}, \qquad
+    u_{dh}(t) = F_{hw}(t)
+    \end{aligned}
 \end{equation}
 
 Las entradas de control son $T_{hm}(t)$, $T_{hb}(t,BRK_h)$ y $T_{hEb}(t,BRK_{hE})$; la
@@ -2433,7 +2446,7 @@ $T_{hm}^*(t)$ y salida del modulador $T_{hm}(t)$.
 
 \begin{figure}[H]
     \centering
-    \img{src/velocidad_izaje_comparativa_INFORME.jpg}
+    \img{src/velocidad_izaje_comparativa_INFORME.png}
     \caption{Izaje de carga — velocidad de cable: consigna $\dot{l}_h^*(t)$, estimada
              $\hat{\dot{l}}_h(t)$ y simulada $\dot{l}_h(t)$ (carga máxima, perfil trapezoidal).}
     \label{fig:izaje-vel-cmp}
@@ -2441,7 +2454,7 @@ $T_{hm}^*(t)$ y salida del modulador $T_{hm}(t)$.
 
 \begin{figure}[H]
     \centering
-    \img{src/posicion_izaje_comparativa_INFORME.jpg}
+    \img{src/posicion_izaje_comparativa_INFORME.png}
     \caption{Izaje de carga — posición: consigna $l_h^*(t)$, estimada
              $\hat{l}_h(t)$ y simulada $l_h(t)$ (carga máxima, perfil trapezoidal).}
     \label{fig:izaje-pos-cmp}
@@ -2449,7 +2462,7 @@ $T_{hm}^*(t)$ y salida del modulador $T_{hm}(t)$.
 
 \begin{figure}[H]
     \centering
-    \img{src/torque_izaje_INFORME.jpg}
+    \img{src/torque_izaje_INFORME.png}
     \caption{Izaje de carga — comparativa de torque: consigna $T_{hm}^*(t)$ y
              torque a la salida del modulador $T_{hm}(t)$ (carga máxima, perfil trapezoidal).}
     \label{fig:izaje-torque}
@@ -2748,7 +2761,7 @@ $x_t=+45$\,m. Se presentan tres gráficas:
 
 \begin{figure}[H]
     \centering
-    \img{src/balanceo_consigna_INFORME.jpg}
+    \img{src/balanceo_consigna_INFORME.png}
     \caption{Controlador de balanceo — velocidad: consigna original $v_t^*(t)$ y
              consigna modificada por el controlador de balanceo $v_{t,mod}^*(t)$.}
     \label{fig:sway-vel}
@@ -2756,7 +2769,7 @@ $x_t=+45$\,m. Se presentan tres gráficas:
 
 \begin{figure}[H]
     \centering
-    \img{src/balanceo_posicion_INFORME.jpg}
+    \img{src/balanceo_posicion_INFORME.png}
     \caption{Controlador de balanceo — posición: consigna original $x_t^*(t)$,
              simulada $x_t(t)$ y estimada $\hat{x}_t(t)$.}
     \label{fig:sway-pos}
@@ -2764,7 +2777,7 @@ $x_t=+45$\,m. Se presentan tres gráficas:
 
 \begin{figure}[H]
     \centering
-    \img{src/balanceo_angulo_INFORME.jpg}
+    \img{src/balanceo_angulo_INFORME.png}
     \caption{Controlador de balanceo — evolución conjunta de $\theta_l(t)$,
              $v_t(t)$ y $a_t(t)$ para analizar el comportamiento del ángulo de balanceo
              en cada región de aceleración y velocidad del carro.}
@@ -3068,59 +3081,44 @@ carrera y el control de modo operan simultáneamente en cada paso de muestreo.
 \end{figure}
 
 \subsubsection{Lógica de frenos}
+\label{subsubsec:nivel1-brk-logic}
 
 Dentro del estado activo de \texttt{Supervisory\_Control} opera el subestado paralelo
 \texttt{BRK\_Logic}, con dos ramas independientes: \texttt{BRK\_t\_Logic} (freno de
 carro) y \texttt{BRK\_h\_Logic} (freno de izaje).
 
-Ambas ramas parten del estado \textbf{cerrado} (\texttt{BRK\_x = false}) y
-transicionan al estado \textbf{abierto} (\texttt{BRK\_x = true}) cuando no hay fines
-de carrera activos y la posición se encuentra alejada $1{,}5$\,m de los límites
-físicos. Para el carro:
-\[
-    \lnot(\mathtt{FC\_carro\_max} \lor \mathtt{FC\_carro\_min})
-    \;\land\; x_{t,est} < x_{t,max} - 1{,}5
-    \;\land\; x_{t,est} > x_{t,min} + 1{,}5
-\]
-y análogamente para el izaje con $l_{h,sensor}$, $l_{h,min}$ y $l_{h,max}$.
+La activación de los frenos (liberación) está gobernada por la \textbf{demanda de
+movimiento} de cada subsistema, cuantificada como el error de posición respecto a la
+referencia activa. Ambas ramas parten del estado \textbf{cerrado}
+(\texttt{BRK\_x = false}) y transicionan al estado \textbf{abierto}
+(\texttt{BRK\_x = true}) cuando el error de posición supera el umbral que indica
+que se requiere desplazamiento:
 
-El freno se cierra cuando se activa un fin de carrera \textbf{y} la velocidad del motor
-supera el umbral $\omega_{min,BRK} = 0{,}01$\,rad/s, evitando cierres bruscos cuando
-el motor ya está prácticamente detenido.
+\begin{itemize}
+    \item \textbf{Carro}: el freno se libera si
+          $|x_{t,\mathrm{est}} - x_{t,\mathrm{ref}}| > 0{,}03$\,m.
+    \item \textbf{Izaje}: el freno se libera si
+          $|l_{h,\mathrm{sensor}} - l_{h,\mathrm{ref}}| > 0{,}05$\,m.
+\end{itemize}
+
+El freno se cierra nuevamente cuando se satisfacen conjuntamente tres condiciones:
+la velocidad estimada del motor es inferior al umbral $\omega_{min,BRK}$ (evitando
+cierres bruscos en movimiento), el error de posición es inferior a $0{,}01$\,m y la
+velocidad estimada es inferior a $0{,}01$\,m/s. Para el carro:
+\[
+    |\hat\omega_{tm}| < \omega_{min,BRK}
+    \;\land\; |x_{t,\mathrm{est}} - x_{t,\mathrm{ref}}| < 0{,}01
+    \;\land\; |\hat v_t| < 0{,}01
+\]
+y análogamente para el izaje con $\hat\omega_{hm}$, $l_{h,\mathrm{sensor}}$
+y $\dot{\hat l}_h$.
 
 \begin{figure}[H]
     \centering
     \img{src/nivel1\_brk\_logic.png}
-    \caption{Lógica de frenos: subestados paralelos \texttt{BRK\_t\_Logic} y
-             \texttt{BRK\_h\_Logic}.}
+    \caption{Lógica de frenos en función de la demanda de movimiento: subestados
+             paralelos \texttt{BRK\_t\_Logic} y \texttt{BRK\_h\_Logic}.}
     \label{fig:nivel1-brk}
-\end{figure}
-
-\subsubsection{Comandos de frenos --- \texttt{BRK\_Commander}}
-\label{subsubsec:nivel1-brk-commander}
-
-El subestado \texttt{BRK\_Commander} se encarga de activar o desactivar los frenos
-de operación del carro y del izaje en función de la demanda de movimiento de cada
-subsistema. Opera de forma paralela mediante dos lógicas independientes:
-\texttt{BRK\_t\_Activation\_Logic} para el freno del carro y
-\texttt{BRK\_h\_Activation\_Logic} para el freno del izaje.
-
-En cada lógica, el freno se libera (\texttt{BRK\_close = false}) cuando se detecta
-error de posición o velocidad suficiente para justificar movimiento, y se cierra
-(\texttt{BRK\_close = true}) una vez que el subsistema se encuentra dentro de la
-zona de tolerancia tanto en posición como en velocidad. Para el carro, la
-transición a demanda de freno ocurre cuando
-$|x_{t,\mathrm{est}} - x_{t,\mathrm{ref}}| < 0{,}01$ y $|v_{t,\mathrm{est}}| < 0{,}01$,
-mientras que la liberación se activa si
-$|x_{t,\mathrm{est}} - x_{t,\mathrm{ref}}| > 0{,}03$. Para el izaje, la lógica
-es análoga en términos de longitud de cable y velocidad de enrollamiento.
-
-\begin{figure}[H]
-    \centering
-    \img[width=0.75\textwidth]{src/nivel1_brk_commander.png}
-    \caption{Diagrama del subestado \texttt{BRK\_Commander}: lógicas de activación
-             de frenos para el carro (\texttt{BRK\_t}) y el izaje (\texttt{BRK\_h}).}
-    \label{fig:nivel1-brk-commander}
 \end{figure}
 
 \subsubsection{Fines de carrera}
@@ -3153,29 +3151,45 @@ o la carga alcancen los topes mecánicos.
 \label{subsubsec:nivel1-mode}
 
 El subestado paralelo \texttt{Mode} (Figura~\ref{fig:nivel1-mode}) gestiona los dos
-modos de operación del sistema. Si \texttt{operation\_mode} es verdadero se activa el
-estado \texttt{Automatic}, reservado para la ejecución del ciclo operativo automático.
-Si \texttt{operation\_mode} es falso el sistema pasa al estado \texttt{Manual}, que
-permite al operador comandar directamente la grúa mediante el joystick.
+modos de operación del sistema: \texttt{Automatic} y \texttt{Manual}. El estado
+inicial es \texttt{Automatic}.
 
-Al entrar en \texttt{Manual} se congelan las referencias actuales
-(\texttt{x\_t\_ref = x\_t\_est}, \texttt{l\_h\_ref = l\_h\_sensor}) para evitar saltos
-bruscos en las consignas del Nivel~2 (\textit{bumpless transfer}). Durante la
-operación manual, las referencias de velocidad se calculan aplicando la función
-\texttt{rate\_limiter} a los comandos del joystick escalados (\texttt{JS\_trolley\_cmd}
-$\times 0{,}1$, \texttt{JS\_hoist\_cmd} $\times 0{,}1$).
+\paragraph{Transiciones entre modos.}
+El sistema permanece (o regresa) al modo \texttt{Automatic} cuando la señal
+\texttt{automatic\_mode} está activa o cuando el operador presiona el botón de
+automático del joystick (\texttt{JS\_automatic\_mode}). La transición al modo
+\texttt{Manual} se dispara si \texttt{automatic\_mode} se desactiva \emph{o} si el
+operador mueve el joystick en cualquiera de los dos ejes
+(\texttt{JS\_trolley\_cmd\,>\,0} o \texttt{JS\_hoist\_cmd\,>\,0}): esto permite que
+una intervención manual interrumpa el ciclo automático en cualquier momento.
 
-Las alarmas de fines de carrera saturan la consigna de velocidad correspondiente:
-ante \texttt{FC\_t\_min\_alarm} se impone $v_{t,ref} = \max(0,\,v_{t,ref,a})$; ante
-\texttt{FC\_t\_max\_alarm}, $v_{t,ref} = \min(0,\,v_{t,ref,a})$; y de forma análoga
-para el izaje, agregando además la condición de sobrecarga que satura el izaje
-hacia arriba ($\dot{l}_{h,ref} = \max(0,\,\dot{l}_{h,ref,a})$ ante
-\texttt{overload}), impidiendo bajar la carga en ese estado.
-Las referencias de posición se integran por el método trapezoidal:
-\[
-    x_{t,ref}^{(k)} = x_{t,ref}^{(k-1)} + T_{s1}\,\frac{v_{t,ref}^{(k)} + v_{t,ref}^{(k-1)}}{2}
-\]
-y de forma equivalente para $l_{h,ref}$.
+\paragraph{Modo Manual --- estado de entrada.}
+Al ingresar a \texttt{Manual}, las referencias de posición se inicializan con las
+posiciones estimadas y sensadas en ese instante
+($x_{t,ref} = x_{t,est}$, $l_{h,ref} = l_{h,sensor}$) y se guardan las velocidades
+previas, garantizando una transferencia sin salto (\textit{bumpless transfer}) en las
+consignas entregadas al Nivel~2.
+
+\paragraph{Modo Manual --- operación continua.}
+En cada paso de muestreo, los comandos del joystick se procesan mediante la función
+\texttt{rate\_limiter} para obtener consignas de velocidad con rampa de
+aceleración/desaceleración limitada. Sobre esa consigna de velocidad se aplican dos
+capas de saturación unilateral:
+
+\begin{itemize}
+    \item \textbf{Fines de carrera:} si se activa la alarma de límite inferior
+    de traslación o izaje, se impide el movimiento en la dirección de alejamiento
+    del límite; de forma análoga, la alarma de límite superior bloquea el movimiento
+    en esa dirección.
+    \item \textbf{Sobrecarga:} cuando \texttt{overload} está activo, la consigna
+    de velocidad de descenso del izaje se reduce al $10$\,\% de su valor nominal,
+    impidiendo que el operador descienda la carga a velocidad normal en condición de
+    sobrecarga.
+\end{itemize}
+
+Finalmente, las referencias de posición se actualizan integrando las consignas de
+velocidad por el método trapezoidal, asegurando continuidad de la consigna de
+posición entregada al controlador de movimiento.
 
 \begin{figure}[H]
     \centering
@@ -3316,9 +3330,9 @@ A partir del mapa acumulado se calculan dos salidas de interés para el ciclo op
 El subestado paralelo \texttt{Overload} monitorea continuamente la masa estimada del
 contenedor y activa la alarma de sobrecarga cuando ésta supera el límite máximo
 permitido $M_{c,\mathrm{max}}$. En estado \texttt{No\_Overload} el sistema opera con
-normalidad (\texttt{overload = false}, \texttt{operation\_mode = true}); si la masa
+normalidad (\texttt{overload = false}, \texttt{automatic\_mode = true}); si la masa
 estimada supera el umbral ($\hat{m} > M_{c,\mathrm{max}}$) se transiciona a
-\texttt{Overload} (\texttt{overload = true}, \texttt{operation\_mode = false}),
+\texttt{Overload} (\texttt{overload = true}, \texttt{automatic\_mode = false}),
 deshabilitando el modo automático y forzando la transición al modo manual de operación.
 La recuperación ocurre únicamente cuando la masa estimada desciende por debajo de
 $16\,000$\,kg, incorporando histéresis para evitar conmutaciones frecuentes en torno
@@ -3517,7 +3531,7 @@ El ciclo recoge un contenedor del camión en tierra y lo deposita en el barco:
     \item \textbf{Truck\_Pickup\_Descend}: baja el spreader hasta el contenedor.
 
     \item \textbf{Truck\_Pickup\_Manual}: el sistema pasa a modo manual
-    (\texttt{operation\_mode = false}) y realiza la \textbf{estimación de masa} mientras
+    (\texttt{automatic\_mode = false}) y realiza la \textbf{estimación de masa} mientras
     el operador cierra los TLK. Durante este estado se acumulan muestras de la fuerza
     medida en el cable: cada muestra válida ($F_{hw,sensor} > 8000\,g$) agrega al
     vector una estimación $\hat{m}_k = 2\,F_{hw,sensor}/g$. Al salir del estado se
@@ -3992,7 +4006,7 @@ junto con \texttt{cmd\_emgy\_stop}, una de las dos condiciones de entrada a
 \section{Implementación de los Niveles 0 y 1 en CODESYS}
 \label{sec:codesys}
 
-La implementación en hardware real de los Niveles~0 y~1 se realiza sobre un PLC
+La implementación en hardware simulado de los Niveles~0 y~1 se realiza sobre un PLC
 virtual ejecutado en \textbf{CODESYS SP20 V3.5}, bajo el estándar IEC~61131-3~\cite{iec61131}. Ambos autómatas se codifican manualmente en \textit{Sequential
 Function Chart} (SFC), complementado con bloques de \textit{Structured Text} (ST)
 para las acciones de entrada/salida, temporizadores y condiciones de transición
@@ -4004,7 +4018,7 @@ validación directa del comportamiento secuencial frente a la especificación de
 diseño.
 
 La verificación del código implementado se lleva a cabo mediante una arquitectura
-\textit{software-in-the-Loop} (HIL) en la que CODESYS actúa como el controlador
+\textit{software-in-the-Loop} (SIL) en la que CODESYS actúa como el controlador
 real y Simulink conserva el rol de planta y Nivel~2. La comunicación entre ambos
 entornos se establece mediante el protocolo \textbf{OPC~UA} \cite{opcua}: Simulink
 publica el estado de la planta (posiciones, velocidades, flags de sensores) como
@@ -4014,7 +4028,7 @@ twistlocks, habilitaciones) y Simulink las lee para cerrar el lazo de co-simulac
 Esta configuración permite ejecutar los autómatas SFC en el entorno de PLC real
 mientras el modelo dinámico continuo de la grúa corre en Simulink, verificando
 así el comportamiento integrado del sistema con fidelidad equivalente a la prueba
-sobre hardware físico.
+sobre hardware físico simulado.
 
 \subsection{Estructura general del proyecto}
 \label{subsec:codesys-estructura}
@@ -4136,7 +4150,7 @@ VAR_GLOBAL
     escenario        : REAL := 1;
     simulink_started : BOOL := FALSE;
     state_SISTEMA_ON : BOOL := FALSE;
-    operation_mode   : BOOL := FALSE;
+    automatic_mode   : BOOL := FALSE;
     heartbeat        : BOOL := FALSE;
     sway_ctr_enable  : BOOL := TRUE;
     sway_ctr_gain    : REAL := 1;
@@ -4412,33 +4426,6 @@ coordinación operativa descrita en la subsección~\ref{subsec:codesys-nivel0}.
     \label{fig:nivel1-brk-t}
 \end{figure}
 
-\paragraph{BRK Commander.}\leavevmode
-\label{subsubsec:codesys-brk-commander}
-
-\begin{figure}[H]
-    \centering
-    \img[width=0.4\textwidth]{src/codesys_nivel1_brk_commander_top.png}
-    \caption{Vista superior del macropaso \texttt{BRK\_Commander}: rama AND que
-             lanza en paralelo \texttt{BRK\_t\_Activation\_Logic} y
-             \texttt{BRK\_h\_Activation\_Logic}.}
-    \label{fig:codesys-brk-commander-top}
-\end{figure}
-
-Al ingresar al macropaso se activa una rama AND que ejecuta en paralelo las dos
-lógicas de activación de frenos. La Figura~\ref{fig:codesys-brk-t} muestra el
-interior de \texttt{BRK\_t\_Activation\_Logic}; el comportamiento de
-\texttt{BRK\_h\_Activation\_Logic} es enteramente análogo. El comportamiento
-funcional de ambas lógicas es el descripto en la
-sección~\ref{subsubsec:nivel1-brk-commander}.
-
-\begin{figure}[H]
-    \centering
-    \img[width=0.55\textwidth]{src/codesys_nivel1_brk_t_activation.png}
-    \caption{Interior de \texttt{BRK\_t\_Activation\_Logic}: lógica de activación
-             del freno del carro en CODESYS SFC\@.}
-    \label{fig:codesys-brk-t}
-\end{figure}
-
 \paragraph{Limit Switch.}\leavevmode
 \label{subsubsec:codesys-ls}
 
@@ -4517,7 +4504,7 @@ El comportamiento de este macropaso es el descrito en la sección~\ref{subsubsec
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{src/codesys_nivel1_mode.png}
+    \includegraphics[width=0.8\textwidth]{src/codesys_nivel1_mode.png}
     \caption{Macropaso \texttt{Mode} en CODESYS.}
     \label{fig:codesys-mode}
 \end{figure}
@@ -4527,7 +4514,7 @@ El comportamiento de este macropaso es el descrito en la sección~\ref{subsubsec
 
 \begin{figure}[H]
     \centering
-    \img[width=0.65\textwidth]{src/codesys_nivel1_overload.png}
+    \img[width=0.55\textwidth]{src/codesys_nivel1_overload.png}
     \caption{Macropaso \texttt{Overload\_Logic} en CODESYS SFC.}
     \label{fig:codesys-nivel1-overload}
 \end{figure}

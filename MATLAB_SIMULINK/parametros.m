@@ -110,7 +110,7 @@ T_s2 = 0.020;
 % Generación perfil de suelo 
 x_c0_left = -35;
 x_c0_right = 55;
-ship_load_percentage = 80; 
+ship_load_percentage = 0; 
 max_containers = 16;
 container_pillars = randi([0 round(max_containers*ship_load_percentage/100)], 1, 19);
 container_pillars(1) = 3;    % fuerza que al menos uno sea el minimo
@@ -131,12 +131,12 @@ v_lx0 = 0;
 v_ly0 = 0;
 
 v_t0 = 0;
-x_t0 = -15;
+x_t0 = -25;
 w_tm0 = (v_t0)*i_t/r_td;
 theta_tm0 = (x_t0)*i_t/r_td;    
 
 x_l0 = x_t0;
-y_l0 = 7;
+y_l0 = 30;
 l_h0 = (Y_t0-y_l0);
 theta_hm0 = -l_h0*i_h*2/r_hd;
 w_hm0 = 0;

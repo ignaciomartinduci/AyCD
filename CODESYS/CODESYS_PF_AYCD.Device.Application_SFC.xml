@@ -12,6 +12,7 @@
   <NodeList>
     <Node name="Application_SFC" nodeflags="NodeTypeBranchNode BranchNodeApplicationName">
       <Node name="GVL" nodeflags="NodeTypeBranchNode SigTypeGvl">
+        <Node name="automatic_mode" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Read" />
         <Node name="BRK_h" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Read" />
         <Node name="BRK_hE" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Read" />
         <Node name="BRK_t" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Read" />
@@ -32,12 +33,12 @@
         <Node name="FCE_carro_min" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
         <Node name="FCE_izaje_max" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
         <Node name="FCE_izaje_min" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
+        <Node name="JS_automatic_mode" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
         <Node name="JS_hoist_cmd" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Write" />
         <Node name="JS_trolley_cmd" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Write" />
         <Node name="l_h_ref" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Read" />
         <Node name="l_h_sensor" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Write" />
         <Node name="m_est" nodeflags="SigTypeGvl ExportedVariable" type="T_REAL" access="Read" />
-        <Node name="operation_mode" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Read" />
         <Node name="P_APN" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
         <Node name="simulink_started" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
         <Node name="sobrevelocidad_carro" nodeflags="SigTypeGvl ExportedVariable" type="T_BOOL" access="Write" />
