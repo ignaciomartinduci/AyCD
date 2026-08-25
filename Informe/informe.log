@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.4.30)  23 AUG 2026 16:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.4.30)  25 AUG 2026 15:25
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -679,7 +679,7 @@ Package pdftex.def Info: src/modelo_Fcy.png  used on input line 1048.
 File: src/modelo_Fcx.png Graphic file (type png)
 <use src/modelo_Fcx.png>
 Package pdftex.def Info: src/modelo_Fcx.png  used on input line 1056.
-(pdftex.def)             Requested size: 455.24411pt x 303.36554pt.
+(pdftex.def)             Requested size: 341.43307pt x 227.52191pt.
  [21 <./src/modelo_Fcy.png> <./src/modelo_Fcx.png>]
 <src/modelo_theta_l.png, id=630, 450.68375pt x 442.65375pt>
 File: src/modelo_theta_l.png Graphic file (type png)
@@ -752,11 +752,11 @@ File: src/integrador_tustin.png Graphic file (type png)
 Package pdftex.def Info: src/integrador_tustin.png  used on input line 2085.
 (pdftex.def)             Requested size: 455.24411pt x 157.38344pt.
  [42]
-<src/controlador_carro_discreto.png, id=1073, 956.82469pt x 411.78844pt>
+<src/controlador_carro_discreto.png, id=1073, 891.83188pt x 468.75125pt>
 File: src/controlador_carro_discreto.png Graphic file (type png)
 <use src/controlador_carro_discreto.png>
 Package pdftex.def Info: src/controlador_carro_discreto.png  used on input line 2093.
-(pdftex.def)             Requested size: 455.24411pt x 195.92198pt.
+(pdftex.def)             Requested size: 455.24411pt x 239.2817pt.
 <src/velocidad_carro_comparativa_INFORME.png, id=1074, 1034.36438pt x 444.15938pt>
 File: src/velocidad_carro_comparativa_INFORME.png Graphic file (type png)
 <use src/velocidad_carro_comparativa_INFORME.png>
@@ -800,33 +800,27 @@ File: src/controlador_izaje_discreto.png Graphic file (type png)
 Package pdftex.def Info: src/controlador_izaje_discreto.png  used on input line 2394.
 (pdftex.def)             Requested size: 455.24411pt x 181.1732pt.
 [48]
-<src/observador_izaje_discreto.png, id=1161, 1512.40031pt x 567.62062pt>
-File: src/observador_izaje_discreto.png Graphic file (type png)
-<use src/observador_izaje_discreto.png>
-Package pdftex.def Info: src/observador_izaje_discreto.png  used on input line 2402.
-(pdftex.def)             Requested size: 455.24411pt x 170.85913pt.
- [49 <./src/controlador_izaje_discreto.png> <./src/observador_izaje_discreto.png>]
-<src/velocidad_izaje_comparativa_INFORME.png, id=1181, 1219.55624pt x 440.39531pt>
+<src/velocidad_izaje_comparativa_INFORME.png, id=1162, 1219.55624pt x 440.39531pt>
 File: src/velocidad_izaje_comparativa_INFORME.png Graphic file (type png)
 <use src/velocidad_izaje_comparativa_INFORME.png>
-Package pdftex.def Info: src/velocidad_izaje_comparativa_INFORME.png  used on input line 2449.
+Package pdftex.def Info: src/velocidad_izaje_comparativa_INFORME.png  used on input line 2441.
 (pdftex.def)             Requested size: 455.24411pt x 164.3952pt.
-<src/posicion_izaje_comparativa_INFORME.png, id=1182, 1060.71281pt x 395.22656pt>
+ [49 <./src/controlador_izaje_discreto.png>]
+<src/posicion_izaje_comparativa_INFORME.png, id=1188, 1060.71281pt x 395.22656pt>
 File: src/posicion_izaje_comparativa_INFORME.png Graphic file (type png)
 <use src/posicion_izaje_comparativa_INFORME.png>
-Package pdftex.def Info: src/posicion_izaje_comparativa_INFORME.png  used on input line 2457.
+Package pdftex.def Info: src/posicion_izaje_comparativa_INFORME.png  used on input line 2449.
 (pdftex.def)             Requested size: 455.24411pt x 169.62448pt.
- [50 <./src/velocidad_izaje_comparativa_INFORME.png>]
-<src/torque_izaje_INFORME.png, id=1199, 964.35281pt x 493.0922pt>
+<src/torque_izaje_INFORME.png, id=1189, 964.35281pt x 493.0922pt>
 File: src/torque_izaje_INFORME.png Graphic file (type png)
 <use src/torque_izaje_INFORME.png>
-Package pdftex.def Info: src/torque_izaje_INFORME.png  used on input line 2465.
+Package pdftex.def Info: src/torque_izaje_INFORME.png  used on input line 2457.
 (pdftex.def)             Requested size: 455.24411pt x 232.77661pt.
- [51 <./src/posicion_izaje_comparativa_INFORME.png> <./src/torque_izaje_INFORME.png>] [52] [53]
+ [50 <./src/velocidad_izaje_comparativa_INFORME.png> <./src/posicion_izaje_comparativa_INFORME.png>] [51 <./src/torque_izaje_INFORME.png>] [52]
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2689.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2681.
 
-LaTeX Font Info:    Trying to load font information for TS1+Crlt-OsF on input line 2689.
+LaTeX Font Info:    Trying to load font information for TS1+Crlt-OsF on input line 2681.
 (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/carlito\ts1crlt-osf.fd
 File: TS1Crlt-OsF.fd 2022/10/05 (autoinst) Font definitions for TS1/Crlt-OsF.
 )
@@ -836,579 +830,647 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
 
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2689.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2681.
 
 Missing character: There is no ° in font cmr12!
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2689.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2681.
 
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2689.
-
-Missing character: There is no ° in font cmr12!
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2692.
-
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2692.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2681.
 
 Missing character: There is no ° in font cmr12!
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2692.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2684.
 
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2692.
-
-Missing character: There is no ° in font cmr12!
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2693.
-
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2693.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2684.
 
 Missing character: There is no ° in font cmr12!
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2693.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2684.
 
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 2693.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2684.
 
 Missing character: There is no ° in font cmr12!
+
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2685.
+
+
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2685.
+
+Missing character: There is no ° in font cmr12!
+
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2685.
+
+
+LaTeX Warning: Command \textdegree invalid in math mode on input line 2685.
+
+Missing character: There is no ° in font cmr12!
+[53]
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <8> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 2720.
-[54]
-<src/balanceo_consigna_INFORME.png, id=1283, 857.45343pt x 444.15938pt>
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 2712.
+<src/balanceo_consigna_INFORME.png, id=1257, 857.45343pt x 444.15938pt>
 File: src/balanceo_consigna_INFORME.png Graphic file (type png)
 <use src/balanceo_consigna_INFORME.png>
-Package pdftex.def Info: src/balanceo_consigna_INFORME.png  used on input line 2764.
+Package pdftex.def Info: src/balanceo_consigna_INFORME.png  used on input line 2756.
 (pdftex.def)             Requested size: 455.24411pt x 235.81676pt.
-<src/balanceo_posicion_INFORME.png, id=1284, 861.2175pt x 441.90094pt>
+ [54]
+<src/balanceo_posicion_INFORME.png, id=1301, 861.2175pt x 441.90094pt>
 File: src/balanceo_posicion_INFORME.png Graphic file (type png)
 <use src/balanceo_posicion_INFORME.png>
-Package pdftex.def Info: src/balanceo_posicion_INFORME.png  used on input line 2772.
+Package pdftex.def Info: src/balanceo_posicion_INFORME.png  used on input line 2764.
 (pdftex.def)             Requested size: 455.24411pt x 233.59277pt.
- [55 <./src/balanceo_consigna_INFORME.png>]
-<src/balanceo_angulo_INFORME.png, id=1313, 797.98125pt x 336.50719pt>
+<src/balanceo_angulo_INFORME.png, id=1302, 797.98125pt x 336.50719pt>
 File: src/balanceo_angulo_INFORME.png Graphic file (type png)
 <use src/balanceo_angulo_INFORME.png>
-Package pdftex.def Info: src/balanceo_angulo_INFORME.png  used on input line 2780.
+Package pdftex.def Info: src/balanceo_angulo_INFORME.png  used on input line 2772.
 (pdftex.def)             Requested size: 455.24411pt x 191.97539pt.
- [56 <./src/balanceo_posicion_INFORME.png> <./src/balanceo_angulo_INFORME.png>]
-<src/nivel_2_completo.png, id=1323, 962.09438pt x 489.32813pt>
+ [55 <./src/balanceo_consigna_INFORME.png> <./src/balanceo_posicion_INFORME.png>]
+<src/nivel_2_completo.png, id=1313, 962.09438pt x 489.32813pt>
 File: src/nivel_2_completo.png Graphic file (type png)
 <use src/nivel_2_completo.png>
-Package pdftex.def Info: src/nivel_2_completo.png  used on input line 2814.
+Package pdftex.def Info: src/nivel_2_completo.png  used on input line 2806.
 (pdftex.def)             Requested size: 455.24411pt x 231.54475pt.
- [57 <./src/nivel_2_completo.png>] [58] [59] [60]
-<src/esquema_nivel1_io.png, id=1513, 356.83313pt x 438.13687pt>
+ [56 <./src/balanceo_angulo_INFORME.png>] [57 <./src/nivel_2_completo.png>] [58] [59]
+<src/esquema_nivel1_io.png, id=1468, 356.83313pt x 438.13687pt>
 File: src/esquema_nivel1_io.png Graphic file (type png)
 <use src/esquema_nivel1_io.png>
-Package pdftex.def Info: src/esquema_nivel1_io.png  used on input line 3046.
+Package pdftex.def Info: src/esquema_nivel1_io.png  used on input line 3038.
 (pdftex.def)             Requested size: 455.24411pt x 559.00151pt.
- [61]
-Overfull \hbox (27.69026pt too wide) in paragraph at lines 3058--3062
+ [60]
+Overfull \hbox (27.69026pt too wide) in paragraph at lines 3050--3054
 []\T1/cmtt/m/n/12 Heartbeat_Generator \T1/Crlt-OsF/m/n/12 (-20) al-ter-na en-tre \T1/cmtt/m/n/12 Heartbeat_High \T1/Crlt-OsF/m/n/12 (-20) (\T1/cmtt/m/n/12 heartbeat = true\T1/Crlt-OsF/m/n/12 (-20) ) y \T1/cmtt/m/n/12 Heartbeat_Low
  []
 
-[62 <./src/esquema_nivel1_io.png>]
-<src/nivel1_off_heartbeat.png, id=1529, 953.06062pt x 794.2172pt>
+[61 <./src/esquema_nivel1_io.png>]
+<src/nivel1_off_heartbeat.png, id=1521, 953.06062pt x 794.2172pt>
 File: src/nivel1_off_heartbeat.png Graphic file (type png)
 <use src/nivel1_off_heartbeat.png>
-Package pdftex.def Info: src/nivel1_off_heartbeat.png  used on input line 3077.
+Package pdftex.def Info: src/nivel1_off_heartbeat.png  used on input line 3069.
 (pdftex.def)             Requested size: 455.24411pt x 379.37787pt.
 
-Underfull \hbox (badness 4467) in paragraph at lines 3079--3079
-[]\T1/Crlt-OsF/m/n/12 (+20) Figura 42: []Estructura pa-ra-le-la del Ni-vel 1: \T1/cmtt/m/n/12 Heartbeat_Generator \T1/Crlt-OsF/m/n/12 (+20) y es-ta-do \T1/cmtt/m/n/12 OFF \T1/Crlt-OsF/m/n/12 (+20) de
+Underfull \hbox (badness 4995) in paragraph at lines 3071--3071
+[]\T1/Crlt-OsF/m/n/12 (+20) Figura 41: []Estructura pa-ra-le-la del Ni-vel 1: \T1/cmtt/m/n/12 Heartbeat_Generator \T1/Crlt-OsF/m/n/12 (+20) y es-ta-do \T1/cmtt/m/n/12 OFF \T1/Crlt-OsF/m/n/12 (+20) de
  []
 
-[63 <./src/nivel1_off_heartbeat.png>]
-<src/nivel1_brk_logic.png, id=1536, 1092.33093pt x 609.77812pt>
+[62 <./src/nivel1_off_heartbeat.png>]
+<src/nivel1_brk_logic.png, id=1528, 1092.33093pt x 609.77812pt>
 File: src/nivel1_brk_logic.png Graphic file (type png)
 <use src/nivel1_brk_logic.png>
-Package pdftex.def Info: src/nivel1_brk_logic.png  used on input line 3118.
+Package pdftex.def Info: src/nivel1_brk_logic.png  used on input line 3110.
 (pdftex.def)             Requested size: 455.24411pt x 254.13252pt.
- [64 <./src/nivel1_brk_logic.png>]
-<src/nivel1_limit_switch.png, id=1546, 571.13374pt x 445.665pt>
+ [63 <./src/nivel1_brk_logic.png>]
+<src/nivel1_limit_switch.png, id=1538, 571.13374pt x 445.665pt>
 File: src/nivel1_limit_switch.png Graphic file (type png)
 <use src/nivel1_limit_switch.png>
-Package pdftex.def Info: src/nivel1_limit_switch.png  used on input line 3144.
+Package pdftex.def Info: src/nivel1_limit_switch.png  used on input line 3136.
 (pdftex.def)             Requested size: 455.24411pt x 355.23363pt.
- [65 <./src/nivel1_limit_switch.png>]
-<src/nivel1_mode.png, id=1556, 605.26125pt x 697.10437pt>
+ [64 <./src/nivel1_limit_switch.png>]
+<src/nivel1_mode.png, id=1548, 242.9075pt x 500.36937pt>
 File: src/nivel1_mode.png Graphic file (type png)
 <use src/nivel1_mode.png>
-Package pdftex.def Info: src/nivel1_mode.png  used on input line 3196.
-(pdftex.def)             Requested size: 341.43307pt x 393.24776pt.
- [66] [67 <./src/nivel1_mode.png>]
-<src/nivel1_tlk_logic.png, id=1573, 712.16063pt x 248.93pt>
+Package pdftex.def Info: src/nivel1_mode.png  used on input line 3193.
+(pdftex.def)             Requested size: 318.66948pt x 656.42778pt.
+ [65]
+Overfull \vbox (8.65726pt too high) has occurred while \output is active []
+
+ [66 <./src/nivel1_mode.png>]
+<src/nivel1_tlk_logic.png, id=1563, 712.16063pt x 248.93pt>
 File: src/nivel1_tlk_logic.png Graphic file (type png)
 <use src/nivel1_tlk_logic.png>
-Package pdftex.def Info: src/nivel1_tlk_logic.png  used on input line 3243.
+Package pdftex.def Info: src/nivel1_tlk_logic.png  used on input line 3240.
 (pdftex.def)             Requested size: 455.24411pt x 159.12473pt.
-<src/nivel1_sway_control.png, id=1575, 711.15688pt x 257.96375pt>
+ [67 <./src/nivel1_tlk_logic.png>]
+<src/nivel1_sway_control.png, id=1574, 711.15688pt x 257.96375pt>
 File: src/nivel1_sway_control.png Graphic file (type png)
 <use src/nivel1_sway_control.png>
-Package pdftex.def Info: src/nivel1_sway_control.png  used on input line 3267.
+Package pdftex.def Info: src/nivel1_sway_control.png  used on input line 3264.
 (pdftex.def)             Requested size: 455.24411pt x 165.13953pt.
- [68 <./src/nivel1_tlk_logic.png>]
-<src/nivel1_lidar_map.png, id=1585, 692.5875pt x 395.97937pt>
+
+Overfull \hbox (30.33728pt too wide) in paragraph at lines 3301--3307
+[]\T1/Crlt-OsF/b/n/12 (-20) Envolvente de se-gu-ri-dad\T1/Crlt-OsF/m/n/12 (-20) : el ma-pa se di-la-ta es-pa-cial-men-te con un ra-dio $\OML/cmm/m/it/12 r[] \OT1/cmr/m/n/12 (-20) = \OMS/cmsy/m/n/12 b\OT1/cmr/m/n/12 (-20) 0[]75 \OML/cmm/m/it/12 H[]=\OT1/cmr/m/n/12 (-20) ^^A\OML/cmm/m/it/12 x[]\OMS/cmsy/m/n/12 e$
+ []
+
+[68 <./src/nivel1_sway_control.png>]
+<src/nivel1_lidar_map.png, id=1585, 459.7175pt x 516.42938pt>
 File: src/nivel1_lidar_map.png Graphic file (type png)
 <use src/nivel1_lidar_map.png>
-Package pdftex.def Info: src/nivel1_lidar_map.png  used on input line 3321.
-(pdftex.def)             Requested size: 455.24411pt x 260.28377pt.
- [69 <./src/nivel1_sway_control.png>]
-<src/nivel1_overload.png, id=1594, 608.2725pt x 425.33907pt>
+Package pdftex.def Info: src/nivel1_lidar_map.png  used on input line 3325.
+(pdftex.def)             Requested size: 455.24411pt x 511.43214pt.
+ [69] [70 <./src/nivel1_lidar_map.png>]
+<src/nivel1_overload.png, id=1597, 608.2725pt x 425.33907pt>
 File: src/nivel1_overload.png Graphic file (type png)
 <use src/nivel1_overload.png>
-Package pdftex.def Info: src/nivel1_overload.png  used on input line 3343.
+Package pdftex.def Info: src/nivel1_overload.png  used on input line 3347.
 (pdftex.def)             Requested size: 295.90588pt x 206.91873pt.
- [70 <./src/nivel1_lidar_map.png>]
-Overfull \hbox (43.52068pt too wide) in paragraph at lines 3360--3372
+
+Overfull \hbox (43.52068pt too wide) in paragraph at lines 3364--3376
 \T1/Crlt-OsF/m/n/12 (-20) bi-li-za ($\OMS/cmsy/m/n/12 j\OML/cmm/m/it/12 ![]\OMS/cmsy/m/n/12 j ^^T \OT1/cmr/m/n/12 (-20) 0[]005$\T1/Crlt-OsF/m/n/12 (-20) rad/s y $\OMS/cmsy/m/n/12 j\OML/cmm/m/it/12 ^^R[]\OMS/cmsy/m/n/12 j ^^T \OT1/cmr/m/n/12 (-20) 0[]005$\T1/Crlt-OsF/m/n/12 (-20) rad) el sis-te-ma avan-za a \T1/cmtt/m/n/12 Trolley_Stopped_Complete
  []
 
-<src/nivel1_trolley_flags.png, id=1601, 974.13937pt x 298.11375pt>
+<src/nivel1_trolley_flags.png, id=1598, 974.13937pt x 298.11375pt>
 File: src/nivel1_trolley_flags.png Graphic file (type png)
 <use src/nivel1_trolley_flags.png>
-Package pdftex.def Info: src/nivel1_trolley_flags.png  used on input line 3375.
+Package pdftex.def Info: src/nivel1_trolley_flags.png  used on input line 3379.
 (pdftex.def)             Requested size: 455.24411pt x 139.31743pt.
 [71 <./src/nivel1_overload.png>]
-<src/nivel1_hoist_flags.png, id=1610, 632.3625pt x 240.9pt>
+<src/nivel1_hoist_flags.png, id=1607, 632.3625pt x 240.9pt>
 File: src/nivel1_hoist_flags.png Graphic file (type png)
 <use src/nivel1_hoist_flags.png>
-Package pdftex.def Info: src/nivel1_hoist_flags.png  used on input line 3391.
+Package pdftex.def Info: src/nivel1_hoist_flags.png  used on input line 3395.
 (pdftex.def)             Requested size: 455.24411pt x 173.42947pt.
-<src/nivel1_alarms.png, id=1611, 790.45313pt x 209.28188pt>
+<src/nivel1_alarms.png, id=1608, 790.45313pt x 209.28188pt>
 File: src/nivel1_alarms.png Graphic file (type png)
 <use src/nivel1_alarms.png>
-Package pdftex.def Info: src/nivel1_alarms.png  used on input line 3418.
+Package pdftex.def Info: src/nivel1_alarms.png  used on input line 3422.
 (pdftex.def)             Requested size: 364.19667pt x 96.4241pt.
  [72 <./src/nivel1_trolley_flags.png> <./src/nivel1_hoist_flags.png>]
-Overfull \hbox (37.76564pt too wide) in paragraph at lines 3437--3442
-\T1/Crlt-OsF/m/n/12 (-20) ($\OML/cmm/m/it/12 l[] \OT1/cmr/m/n/12 (-20) = \OML/cmm/m/it/12 l[]$\T1/Crlt-OsF/m/n/12 (-20) ). La tra-yec-to-ria de iza-je se ge-ne-ra con la fun-ción \T1/cmtt/m/n/12 generador_trayectoria_izaje\T1/Crlt-OsF/m/n/12 (-20) ,
- []
-
-[73 <./src/nivel1_alarms.png>]
-<src/nivel1_trajectory_planner.png, id=1635, 1218.80344pt x 484.81125pt>
+<src/nivel1_collision.png, id=1620, 456.20438pt x 539.51563pt>
+File: src/nivel1_collision.png Graphic file (type png)
+<use src/nivel1_collision.png>
+Package pdftex.def Info: src/nivel1_collision.png  used on input line 3463.
+(pdftex.def)             Requested size: 455.24411pt x 538.3947pt.
+ [73 <./src/nivel1_alarms.png>]
+<src/nivel1_trajectory_planner.png, id=1631, 679.03688pt x 360.34625pt>
 File: src/nivel1_trajectory_planner.png Graphic file (type png)
 <use src/nivel1_trajectory_planner.png>
-Package pdftex.def Info: src/nivel1_trajectory_planner.png  used on input line 3479.
-(pdftex.def)             Requested size: 455.24411pt x 181.0862pt.
-<src/nivel1_loop_init.png, id=1638, 188.705pt x 145.04187pt>
+Package pdftex.def Info: src/nivel1_trajectory_planner.png  used on input line 3480.
+(pdftex.def)             Requested size: 455.24411pt x 241.58469pt.
+ [74 <./src/nivel1_collision.png>] [75 <./src/nivel1_trajectory_planner.png>]
+<src/nivel1_loop_init.png, id=1651, 188.705pt x 145.04187pt>
 File: src/nivel1_loop_init.png Graphic file (type png)
 <use src/nivel1_loop_init.png>
-Package pdftex.def Info: src/nivel1_loop_init.png  used on input line 3505.
+Package pdftex.def Info: src/nivel1_loop_init.png  used on input line 3552.
 (pdftex.def)             Requested size: 182.09486pt x 139.96008pt.
- [74 <./src/nivel1_trajectory_planner.png>] [75 <./src/nivel1_loop_init.png>]
-<src/nivel1_pickup_loop.png, id=1661, 585.68813pt x 539.01375pt>
-File: src/nivel1_pickup_loop.png Graphic file (type png)
-<use src/nivel1_pickup_loop.png>
-Package pdftex.def Info: src/nivel1_pickup_loop.png  used on input line 3582.
-(pdftex.def)             Requested size: 455.24411pt x 418.98148pt.
- [76] [77 <./src/nivel1_pickup_loop.png>] [78]
-<src/esquema_nivel0_io.png, id=1685, 602.75188pt x 468.24937pt>
-File: src/esquema_nivel0_io.png Graphic file (type png)
-<use src/esquema_nivel0_io.png>
-Package pdftex.def Info: src/esquema_nivel0_io.png  used on input line 3690.
-(pdftex.def)             Requested size: 455.24411pt x 353.65114pt.
+ [76 <./src/nivel1_loop_init.png>]
+<src/nivel1_esc_1.png, id=1662, 501.875pt x 515.42563pt>
+File: src/nivel1_esc_1.png Graphic file (type png)
+<use src/nivel1_esc_1.png>
+Package pdftex.def Info: src/nivel1_esc_1.png  used on input line 3615.
+(pdftex.def)             Requested size: 455.24411pt x 467.55948pt.
 
-Overfull \hbox (3.48978pt too wide) in paragraph at lines 3696--3705
-[]\T1/Crlt-OsF/m/n/12 (-20) Internamente, el Ni-vel 0 eje-cu-ta dos es-ta-dos \T1/Crlt-OsF/b/n/12 (-20) en pa-ra-le-lo \T1/Crlt-OsF/m/n/12 (-20) (Fi-gu-ra [][]57[][]). El pri-me-ro, \T1/cmtt/m/n/12 Emergencies\T1/Crlt-OsF/m/n/12 (-20) ,
+Underfull \hbox (badness 2547) in paragraph at lines 3617--3617
+[]\T1/Crlt-OsF/m/n/12 (+20) Figura 55: []Secuencia de es-ta-dos del Es-ce-na-rio 1 (des-car-ga tie-rra$\OMS/cmsy/m/n/12 !$\T1/Crlt-OsF/m/n/12 (+20) barco) den-tro de
  []
 
-[79 <./src/esquema_nivel0_io.png>]
-<src/nivel_0_completo.png, id=1696, 876.77562pt x 510.90875pt>
+[77]
+Underfull \hbox (badness 10000) in paragraph at lines 3622--3625
+ []\T1/Crlt-OsF/b/n/12 (+20) Verificación de so-bre-car-ga y ra-ma de ma-ne-jo.[] \T1/Crlt-OsF/m/n/12 (+20) Al com-ple-tar el en-gan-che,
+ []
+
+
+Underfull \hbox (badness 2012) in paragraph at lines 3622--3625
+\T1/cmtt/m/n/12 Truck_Pickup_Manual \T1/Crlt-OsF/m/n/12 (+20) tran-si-cio-na a \T1/cmtt/m/n/12 Overload_Check1 \T1/Crlt-OsF/m/n/12 (+20) cuan-do el sprea-der lle-ga a la
+ []
+
+[78 <./src/nivel1_esc_1.png>]
+<src/nivel1_esc_1_overload.png, id=1682, 379.91937pt x 377.91188pt>
+File: src/nivel1_esc_1_overload.png Graphic file (type png)
+<use src/nivel1_esc_1_overload.png>
+Package pdftex.def Info: src/nivel1_esc_1_overload.png  used on input line 3644.
+(pdftex.def)             Requested size: 455.24411pt x 452.8519pt.
+
+Underfull \hbox (badness 2875) in paragraph at lines 3648--3648
+[]\T1/Crlt-OsF/m/n/12 (+20) Figura 56: []Rama de so-bre-car-ga del Es-ce-na-rio 1: es-ta-dos \T1/cmtt/m/n/12 Overload_Ascend_Manual1\T1/Crlt-OsF/m/n/12 (+20) ,
+ []
+
+[79 <./src/nivel1_esc_1_overload.png>]
+Underfull \hbox (badness 3039) in paragraph at lines 3667--3669
+[]\T1/cmtt/m/n/12 Ship_Pickup_Descend\T1/Crlt-OsF/m/n/12 (+20) : el sprea-der des-cien-de has-ta $\OML/cmm/m/it/12 l[] \OT1/cmr/m/n/12 (+20) = \OML/cmm/m/it/12 l[]$ \T1/Crlt-OsF/m/n/12 (+20) cuan-do
+ []
+
+
+Underfull \hbox (badness 6047) in paragraph at lines 3676--3680
+[]\T1/cmtt/m/n/12 Overload_Check\T1/Crlt-OsF/m/n/12 (+20) : ve-ri-fi-ca la ma-sa es-ti-ma-da du-ran-te 1000ms. Sin so-bre-car-ga
+ []
+
+
+Underfull \hbox (badness 4366) in paragraph at lines 3676--3680
+\T1/Crlt-OsF/m/n/12 (+20) avan-za a \T1/cmtt/m/n/12 Go_To_Truck_For_Placement\T1/Crlt-OsF/m/n/12 (+20) ; con so-bre-car-ga ac-ti-va la mis-ma ra-ma
+ []
+
+<src/nivel1_esc_2.png, id=1694, 468.75125pt x 414.04688pt>
+File: src/nivel1_esc_2.png Graphic file (type png)
+<use src/nivel1_esc_2.png>
+Package pdftex.def Info: src/nivel1_esc_2.png  used on input line 3693.
+(pdftex.def)             Requested size: 455.24411pt x 402.11145pt.
+
+Underfull \hbox (badness 6477) in paragraph at lines 3695--3695
+[]\T1/Crlt-OsF/m/n/12 (+20) Figura 57: []Secuencia de es-ta-dos del Es-ce-na-rio 2 (car-ga bar-co$\OMS/cmsy/m/n/12 !$\T1/Crlt-OsF/m/n/12 (+20) tierra) den-tro de
+ []
+
+[80]
+<src/nivel1_trajloop_completo.png, id=1705, 649.42625pt x 379.91937pt>
+File: src/nivel1_trajloop_completo.png Graphic file (type png)
+<use src/nivel1_trajloop_completo.png>
+Package pdftex.def Info: src/nivel1_trajloop_completo.png  used on input line 3711.
+(pdftex.def)             Requested size: 455.24411pt x 266.32434pt.
+ [81 <./src/nivel1_esc_2.png>]
+<src/esquema_nivel0_io.png, id=1714, 602.75188pt x 468.24937pt>
+File: src/esquema_nivel0_io.png Graphic file (type png)
+<use src/esquema_nivel0_io.png>
+Package pdftex.def Info: src/esquema_nivel0_io.png  used on input line 3735.
+(pdftex.def)             Requested size: 455.24411pt x 353.65114pt.
+ [82 <./src/nivel1_trajloop_completo.png>]
+Overfull \hbox (5.89056pt too wide) in paragraph at lines 3741--3750
+[]\T1/Crlt-OsF/m/n/12 (-20) Internamente, el Ni-vel 0 eje-cu-ta dos es-ta-dos \T1/Crlt-OsF/b/n/12 (-20) en pa-ra-le-lo \T1/Crlt-OsF/m/n/12 (-20) (Fi-gu-ra [][]60[][]). El pri-me-ro, \T1/cmtt/m/n/12 Emergencies\T1/Crlt-OsF/m/n/12 (-20) ,
+ []
+
+<src/nivel_0_completo.png, id=1724, 876.77562pt x 510.90875pt>
 File: src/nivel_0_completo.png Graphic file (type png)
 <use src/nivel_0_completo.png>
-Package pdftex.def Info: src/nivel_0_completo.png  used on input line 3708.
+Package pdftex.def Info: src/nivel_0_completo.png  used on input line 3753.
 (pdftex.def)             Requested size: 455.24411pt x 265.27649pt.
-<src/nivel0_emergencies_standby.png, id=1697, 1085.55562pt x 232.36812pt>
+[83 <./src/esquema_nivel0_io.png>]
+<src/nivel0_emergencies_standby.png, id=1732, 1085.55562pt x 232.36812pt>
 File: src/nivel0_emergencies_standby.png Graphic file (type png)
 <use src/nivel0_emergencies_standby.png>
-Package pdftex.def Info: src/nivel0_emergencies_standby.png  used on input line 3736.
+Package pdftex.def Info: src/nivel0_emergencies_standby.png  used on input line 3781.
 (pdftex.def)             Requested size: 455.24411pt x 97.44856pt.
- [80 <./src/nivel_0_completo.png>]
-<src/nivel0_emergencies_completo.png, id=1707, 944.02687pt x 471.7625pt>
+ [84 <./src/nivel_0_completo.png> <./src/nivel0_emergencies_standby.png>]
+<src/nivel0_emergencies_completo.png, id=1744, 944.02687pt x 471.7625pt>
 File: src/nivel0_emergencies_completo.png Graphic file (type png)
 <use src/nivel0_emergencies_completo.png>
-Package pdftex.def Info: src/nivel0_emergencies_completo.png  used on input line 3778.
+Package pdftex.def Info: src/nivel0_emergencies_completo.png  used on input line 3823.
 (pdftex.def)             Requested size: 455.24411pt x 227.5016pt.
- [81 <./src/nivel0_emergencies_standby.png>] [82 <./src/nivel0_emergencies_completo.png>]
-<src/nivel0_trolley_emgy.png, id=1725, 534.49687pt x 483.30562pt>
+ [85 <./src/nivel0_emergencies_completo.png>]
+<src/nivel0_trolley_emgy.png, id=1756, 534.49687pt x 483.30562pt>
 File: src/nivel0_trolley_emgy.png Graphic file (type png)
 <use src/nivel0_trolley_emgy.png>
-Package pdftex.def Info: src/nivel0_trolley_emgy.png  used on input line 3855.
+Package pdftex.def Info: src/nivel0_trolley_emgy.png  used on input line 3900.
 (pdftex.def)             Requested size: 455.24411pt x 411.6598pt.
- [83]
-Overfull \hbox (31.80516pt too wide) in paragraph at lines 3884--3887
+ [86]
+Overfull \hbox (31.80516pt too wide) in paragraph at lines 3929--3932
 []\T1/Crlt-OsF/m/n/12 (-20) Al igual que en \T1/cmtt/m/n/12 Trolley_Emgy\T1/Crlt-OsF/m/n/12 (-20) , la so-bre-ve-lo-ci-dad tran-si-cio-na in-me-dia-ta-men-te a \T1/cmtt/m/n/12 Overspeed_Delay\T1/Crlt-OsF/m/n/12 (-20) ,
  []
 
-[84 <./src/nivel0_trolley_emgy.png>]
-<src/nivel0_hoist_emgy.png, id=1740, 782.925pt x 688.82344pt>
+[87 <./src/nivel0_trolley_emgy.png>]
+<src/nivel0_hoist_emgy.png, id=1771, 782.925pt x 688.82344pt>
 File: src/nivel0_hoist_emgy.png Graphic file (type png)
 <use src/nivel0_hoist_emgy.png>
-Package pdftex.def Info: src/nivel0_hoist_emgy.png  used on input line 3916.
+Package pdftex.def Info: src/nivel0_hoist_emgy.png  used on input line 3961.
 (pdftex.def)             Requested size: 455.24411pt x 400.52689pt.
- [85]
-Overfull \hbox (0.35442pt too wide) in paragraph at lines 3943--3949
+ [88]
+Overfull \hbox (0.35442pt too wide) in paragraph at lines 3988--3994
 []\T1/Crlt-OsF/m/n/12 (-20) Transcurridos $\OT1/cmr/m/n/12 (-20) 3$\T1/Crlt-OsF/m/n/12 (-20) s (\T1/cmtt/m/n/12 after(3000,msec)\T1/Crlt-OsF/m/n/12 (-20) ) se tran-si-cio-na a \T1/cmtt/m/n/12 Waiting_Global_Emgy_Ack\T1/Crlt-OsF/m/n/12 (-20) , subes-
  []
 
-[86 <./src/nivel0_hoist_emgy.png>]
-<src/nivel0_global_emgy_completo.png, id=1754, 620.81938pt x 286.06876pt>
+[89 <./src/nivel0_hoist_emgy.png>]
+<src/nivel0_global_emgy_completo.png, id=1784, 620.81938pt x 286.06876pt>
 File: src/nivel0_global_emgy_completo.png Graphic file (type png)
 <use src/nivel0_global_emgy_completo.png>
-Package pdftex.def Info: src/nivel0_global_emgy_completo.png  used on input line 3952.
+Package pdftex.def Info: src/nivel0_global_emgy_completo.png  used on input line 3997.
 (pdftex.def)             Requested size: 455.24411pt x 209.7713pt.
- [87 <./src/nivel0_global_emgy_completo.png>]
-<src/nivel0_watchdog_completo.png, id=1764, 960.58875pt x 331.73938pt>
+ [90 <./src/nivel0_global_emgy_completo.png>]
+<src/nivel0_watchdog_completo.png, id=1794, 960.58875pt x 331.73938pt>
 File: src/nivel0_watchdog_completo.png Graphic file (type png)
 <use src/nivel0_watchdog_completo.png>
-Package pdftex.def Info: src/nivel0_watchdog_completo.png  used on input line 3998.
+Package pdftex.def Info: src/nivel0_watchdog_completo.png  used on input line 4043.
 (pdftex.def)             Requested size: 455.24411pt x 157.21843pt.
 
-Underfull \hbox (badness 4726) in paragraph at lines 4000--4000
-[]\T1/Crlt-OsF/m/n/12 (+20) Figura 63: []Estado \T1/cmtt/m/n/12 Watchdog \T1/Crlt-OsF/m/n/12 (+20) com-ple-to: \T1/cmtt/m/n/12 Init\T1/Crlt-OsF/m/n/12 (+20) , \T1/cmtt/m/n/12 Reset_Counter\T1/Crlt-OsF/m/n/12 (+20) , \T1/cmtt/m/n/12 Increase_counter \T1/Crlt-OsF/m/n/12 (+20) y
+Underfull \hbox (badness 4543) in paragraph at lines 4045--4045
+[]\T1/Crlt-OsF/m/n/12 (+20) Figura 66: []Estado \T1/cmtt/m/n/12 Watchdog \T1/Crlt-OsF/m/n/12 (+20) com-ple-to: \T1/cmtt/m/n/12 Init\T1/Crlt-OsF/m/n/12 (+20) , \T1/cmtt/m/n/12 Reset_Counter\T1/Crlt-OsF/m/n/12 (+20) , \T1/cmtt/m/n/12 Increase_counter \T1/Crlt-OsF/m/n/12 (+20) y
  []
 
-[88 <./src/nivel0_watchdog_completo.png>]
-<src/codesys_estructura.png, id=1775, 359.84438pt x 453.19313pt>
+[91 <./src/nivel0_watchdog_completo.png>]
+<src/codesys_estructura.png, id=1806, 359.84438pt x 453.19313pt>
 File: src/codesys_estructura.png Graphic file (type png)
 <use src/codesys_estructura.png>
-Package pdftex.def Info: src/codesys_estructura.png  used on input line 4042.
+Package pdftex.def Info: src/codesys_estructura.png  used on input line 4087.
 (pdftex.def)             Requested size: 250.38564pt x 315.3521pt.
- [89] [90 <./src/codesys_estructura.png>] [91] [92]
-<src/codesys_nivel0_sfc_top.png, id=1954, 291.33844pt x 286.06876pt>
+ [92] [93 <./src/codesys_estructura.png>] [94] [95]
+<src/codesys_nivel0_sfc_top.png, id=1984, 291.33844pt x 286.06876pt>
 File: src/codesys_nivel0_sfc_top.png Graphic file (type png)
 <use src/codesys_nivel0_sfc_top.png>
-Package pdftex.def Info: src/codesys_nivel0_sfc_top.png  used on input line 4245.
+Package pdftex.def Info: src/codesys_nivel0_sfc_top.png  used on input line 4290.
 (pdftex.def)             Requested size: 182.09486pt x 178.80562pt.
-<src/codesys_nivel0_watchdog.png, id=1956, 989.19562pt x 606.76688pt>
+<src/codesys_nivel0_watchdog.png, id=1986, 989.19562pt x 606.76688pt>
 File: src/codesys_nivel0_watchdog.png Graphic file (type png)
 <use src/codesys_nivel0_watchdog.png>
-Package pdftex.def Info: src/codesys_nivel0_watchdog.png  used on input line 4277.
+Package pdftex.def Info: src/codesys_nivel0_watchdog.png  used on input line 4322.
 (pdftex.def)             Requested size: 455.24411pt x 279.23651pt.
- [93 <./src/codesys_nivel0_sfc_top.png>]
-<src/codesys_nivel0_emergencias.png, id=1980, 986.9372pt x 496.10344pt>
+ [96 <./src/codesys_nivel0_sfc_top.png>]
+<src/codesys_nivel0_emergencias.png, id=2010, 986.9372pt x 496.10344pt>
 File: src/codesys_nivel0_emergencias.png Graphic file (type png)
 <use src/codesys_nivel0_emergencias.png>
-Package pdftex.def Info: src/codesys_nivel0_emergencias.png  used on input line 4292.
+Package pdftex.def Info: src/codesys_nivel0_emergencias.png  used on input line 4337.
 (pdftex.def)             Requested size: 455.24411pt x 228.83865pt.
- [94 <./src/codesys_nivel0_watchdog.png>]
-<src/codesys_nivel1_top.png, id=1990, 305.64188pt x 298.11375pt>
+ [97 <./src/codesys_nivel0_watchdog.png>]
+<src/codesys_nivel1_top.png, id=2021, 305.64188pt x 298.11375pt>
 File: src/codesys_nivel1_top.png Graphic file (type png)
 <use src/codesys_nivel1_top.png>
-Package pdftex.def Info: src/codesys_nivel1_top.png  used on input line 4314.
+Package pdftex.def Info: src/codesys_nivel1_top.png  used on input line 4359.
 (pdftex.def)             Requested size: 182.09486pt x 177.60959pt.
- [95 <./src/codesys_nivel0_emergencias.png>]
-<src/codesys_nivel1_heartbeat.png, id=1999, 501.37312pt x 473.51906pt>
+ [98 <./src/codesys_nivel0_emergencias.png>]
+<src/codesys_nivel1_heartbeat.png, id=2030, 501.37312pt x 473.51906pt>
 File: src/codesys_nivel1_heartbeat.png Graphic file (type png)
 <use src/codesys_nivel1_heartbeat.png>
-Package pdftex.def Info: src/codesys_nivel1_heartbeat.png  used on input line 4337.
+Package pdftex.def Info: src/codesys_nivel1_heartbeat.png  used on input line 4382.
 (pdftex.def)             Requested size: 182.09486pt x 171.9768pt.
-<src/codesys_nivel1_supervisory_top.png, id=2002, 365.11406pt x 425.33907pt>
+<src/codesys_nivel1_supervisory_top.png, id=2033, 365.11406pt x 425.33907pt>
 File: src/codesys_nivel1_supervisory_top.png Graphic file (type png)
 <use src/codesys_nivel1_supervisory_top.png>
-Package pdftex.def Info: src/codesys_nivel1_supervisory_top.png  used on input line 4351.
+Package pdftex.def Info: src/codesys_nivel1_supervisory_top.png  used on input line 4396.
 (pdftex.def)             Requested size: 182.09486pt x 212.13031pt.
- [96 <./src/codesys_nivel1_top.png> <./src/codesys_nivel1_heartbeat.png>]
-<src/codesys_nivel1_supervisory_on_1.png, id=2012, 1001.99344pt x 647.41875pt>
+ [99 <./src/codesys_nivel1_top.png> <./src/codesys_nivel1_heartbeat.png>]
+<src/codesys_nivel1_supervisory_on_1.png, id=2043, 1001.99344pt x 647.41875pt>
 File: src/codesys_nivel1_supervisory_on_1.png Graphic file (type png)
 <use src/codesys_nivel1_supervisory_on_1.png>
-Package pdftex.def Info: src/codesys_nivel1_supervisory_on_1.png  used on input line 4363.
+Package pdftex.def Info: src/codesys_nivel1_supervisory_on_1.png  used on input line 4408.
 (pdftex.def)             Requested size: 455.24411pt x 294.1512pt.
- [97 <./src/codesys_nivel1_supervisory_top.png>]
-<src/codesys_nivel1_supervisory_on_2.png, id=2021, 1178.90437pt x 314.67563pt>
+ [100 <./src/codesys_nivel1_supervisory_top.png>]
+<src/codesys_nivel1_supervisory_on_2.png, id=2051, 1178.90437pt x 314.67563pt>
 File: src/codesys_nivel1_supervisory_on_2.png Graphic file (type png)
 <use src/codesys_nivel1_supervisory_on_2.png>
-Package pdftex.def Info: src/codesys_nivel1_supervisory_on_2.png  used on input line 4374.
+Package pdftex.def Info: src/codesys_nivel1_supervisory_on_2.png  used on input line 4419.
 (pdftex.def)             Requested size: 455.24411pt x 121.513pt.
 
-Underfull \hbox (badness 1122) in paragraph at lines 4380--4380
-[]\T1/Crlt-OsF/m/n/12 (+20) Figura 72: []Interior del ma-cro-pa-so \T1/cmtt/m/n/12 ON \T1/Crlt-OsF/m/n/12 (+20) --- ra-ma AND de-re-cha. Con-tie-ne los ma-cro-pa-sos
+Underfull \hbox (badness 1132) in paragraph at lines 4425--4425
+[]\T1/Crlt-OsF/m/n/12 (+20) Figura 75: []Interior del ma-cro-pa-so \T1/cmtt/m/n/12 ON \T1/Crlt-OsF/m/n/12 (+20) --- ra-ma AND de-re-cha. Con-tie-ne los ma-cro-pa-sos
  []
 
-<src/codesys_nivel1_lidar_map.png, id=2022, 344.78813pt x 118.19156pt>
+<src/codesys_nivel1_lidar_map.png, id=2052, 344.78813pt x 118.19156pt>
 File: src/codesys_nivel1_lidar_map.png Graphic file (type png)
 <use src/codesys_nivel1_lidar_map.png>
-Package pdftex.def Info: src/codesys_nivel1_lidar_map.png  used on input line 4389.
+Package pdftex.def Info: src/codesys_nivel1_lidar_map.png  used on input line 4434.
 (pdftex.def)             Requested size: 182.09486pt x 62.4212pt.
-[98 <./src/codesys_nivel1_supervisory_on_1.png> <./src/codesys_nivel1_supervisory_on_2.png>]
-<src/codesys_nivel1_brk_top.png, id=2035, 311.66437pt x 165.61874pt>
+[101 <./src/codesys_nivel1_supervisory_on_1.png> <./src/codesys_nivel1_supervisory_on_2.png>]
+<src/codesys_nivel1_brk_top.png, id=2065, 311.66437pt x 165.61874pt>
 File: src/codesys_nivel1_brk_top.png Graphic file (type png)
 <use src/codesys_nivel1_brk_top.png>
-Package pdftex.def Info: src/codesys_nivel1_brk_top.png  used on input line 4405.
+Package pdftex.def Info: src/codesys_nivel1_brk_top.png  used on input line 4450.
 (pdftex.def)             Requested size: 182.09486pt x 96.76653pt.
 
-Underfull \hbox (badness 1320) in paragraph at lines 4408--4408
-[]\T1/Crlt-OsF/m/n/12 (+20) Figura 74: []Macropaso \T1/cmtt/m/n/12 BRK_Logic\T1/Crlt-OsF/m/n/12 (+20) : ra-ma AND que eje-cu-ta en pa-ra-le-lo los ma-cro-pa-sos
+Underfull \hbox (badness 1377) in paragraph at lines 4453--4453
+[]\T1/Crlt-OsF/m/n/12 (+20) Figura 77: []Macropaso \T1/cmtt/m/n/12 BRK_Logic\T1/Crlt-OsF/m/n/12 (+20) : ra-ma AND que eje-cu-ta en pa-ra-le-lo los ma-cro-pa-sos
  []
 
-<src/codesys_nivel1_brk_t.png, id=2036, 1146.53343pt x 518.6878pt>
+<src/codesys_nivel1_brk_t.png, id=2066, 1146.53343pt x 518.6878pt>
 File: src/codesys_nivel1_brk_t.png Graphic file (type png)
 <use src/codesys_nivel1_brk_t.png>
-Package pdftex.def Info: src/codesys_nivel1_brk_t.png  used on input line 4414.
+Package pdftex.def Info: src/codesys_nivel1_brk_t.png  used on input line 4459.
 (pdftex.def)             Requested size: 341.43307pt x 154.45993pt.
-<src/codesys_nivel1_LS_top.png, id=2037, 541.27219pt x 156.585pt>
+<src/codesys_nivel1_LS_top.png, id=2067, 541.27219pt x 156.585pt>
 File: src/codesys_nivel1_LS_top.png Graphic file (type png)
 <use src/codesys_nivel1_LS_top.png>
-Package pdftex.def Info: src/codesys_nivel1_LS_top.png  used on input line 4434.
+Package pdftex.def Info: src/codesys_nivel1_LS_top.png  used on input line 4479.
 (pdftex.def)             Requested size: 227.62206pt x 65.84886pt.
-[99 <./src/codesys_nivel1_lidar_map.png> <./src/codesys_nivel1_brk_top.png> <./src/codesys_nivel1_brk_t.png>]
-<src/codesys_nivel1_LS.png, id=2051, 398.99063pt x 465.99094pt>
+[102 <./src/codesys_nivel1_lidar_map.png> <./src/codesys_nivel1_brk_top.png> <./src/codesys_nivel1_brk_t.png>]
+<src/codesys_nivel1_LS.png, id=2081, 398.99063pt x 465.99094pt>
 File: src/codesys_nivel1_LS.png Graphic file (type png)
 <use src/codesys_nivel1_LS.png>
-Package pdftex.def Info: src/codesys_nivel1_LS.png  used on input line 4444.
+Package pdftex.def Info: src/codesys_nivel1_LS.png  used on input line 4489.
 (pdftex.def)             Requested size: 182.09486pt x 212.67325pt.
-<src/codesys_nivel1_sway_ctr.png, id=2055, 538.26094pt x 467.49657pt>
+<src/codesys_nivel1_sway_ctr.png, id=2085, 538.26094pt x 467.49657pt>
 File: src/codesys_nivel1_sway_ctr.png Graphic file (type png)
 <use src/codesys_nivel1_sway_ctr.png>
-Package pdftex.def Info: src/codesys_nivel1_sway_ctr.png  used on input line 4462.
+Package pdftex.def Info: src/codesys_nivel1_sway_ctr.png  used on input line 4507.
 (pdftex.def)             Requested size: 295.90588pt x 257.00264pt.
- [100 <./src/codesys_nivel1_LS_top.png> <./src/codesys_nivel1_LS.png>] [101 <./src/codesys_nivel1_sway_ctr.png>]
-<src/codesys_nivel1_tmf_izq.png, id=2074, 484.81125pt x 550.30594pt>
+ [103 <./src/codesys_nivel1_LS_top.png> <./src/codesys_nivel1_LS.png>] [104 <./src/codesys_nivel1_sway_ctr.png>]
+<src/codesys_nivel1_tmf_izq.png, id=2105, 484.81125pt x 550.30594pt>
 File: src/codesys_nivel1_tmf_izq.png Graphic file (type png)
 <use src/codesys_nivel1_tmf_izq.png>
-Package pdftex.def Info: src/codesys_nivel1_tmf_izq.png  used on input line 4474.
+Package pdftex.def Info: src/codesys_nivel1_tmf_izq.png  used on input line 4519.
 (pdftex.def)             Requested size: 273.14923pt x 310.06694pt.
-<src/codesys_nivel1_tmf_der.png, id=2077, 1629.83907pt x 191.9672pt>
+<src/codesys_nivel1_tmf_der.png, id=2108, 1629.83907pt x 191.9672pt>
 File: src/codesys_nivel1_tmf_der.png Graphic file (type png)
 <use src/codesys_nivel1_tmf_der.png>
-Package pdftex.def Info: src/codesys_nivel1_tmf_der.png  used on input line 4483.
+Package pdftex.def Info: src/codesys_nivel1_tmf_der.png  used on input line 4528.
 (pdftex.def)             Requested size: 455.24411pt x 53.61862pt.
- [102 <./src/codesys_nivel1_tmf_izq.png> <./src/codesys_nivel1_tmf_der.png>]
-<src/codesys_nivel1_hmf.png, id=2088, 710.655pt x 469.755pt>
+ [105 <./src/codesys_nivel1_tmf_izq.png> <./src/codesys_nivel1_tmf_der.png>]
+<src/codesys_nivel1_hmf.png, id=2119, 710.655pt x 469.755pt>
 File: src/codesys_nivel1_hmf.png Graphic file (type png)
 <use src/codesys_nivel1_hmf.png>
-Package pdftex.def Info: src/codesys_nivel1_hmf.png  used on input line 4494.
+Package pdftex.def Info: src/codesys_nivel1_hmf.png  used on input line 4539.
 (pdftex.def)             Requested size: 273.14923pt x 180.55876pt.
-<src/codesys_nivel1_mode.png, id=2092, 743.02594pt x 505.89pt>
+<src/codesys_nivel1_mode.png, id=2123, 743.02594pt x 505.89pt>
 File: src/codesys_nivel1_mode.png Graphic file (type png)
 <use src/codesys_nivel1_mode.png>
-Package pdftex.def Info: src/codesys_nivel1_mode.png  used on input line 4507.
+Package pdftex.def Info: src/codesys_nivel1_mode.png  used on input line 4552.
 (pdftex.def)             Requested size: 364.19667pt x 247.96545pt.
- [103 <./src/codesys_nivel1_hmf.png> <./src/codesys_nivel1_mode.png>]
-<src/codesys_nivel1_overload.png, id=2105, 408.02437pt x 510.40688pt>
+ [106 <./src/codesys_nivel1_hmf.png> <./src/codesys_nivel1_mode.png>]
+<src/codesys_nivel1_overload.png, id=2135, 408.02437pt x 510.40688pt>
 File: src/codesys_nivel1_overload.png Graphic file (type png)
 <use src/codesys_nivel1_overload.png>
-Package pdftex.def Info: src/codesys_nivel1_overload.png  used on input line 4517.
+Package pdftex.def Info: src/codesys_nivel1_overload.png  used on input line 4562.
 (pdftex.def)             Requested size: 250.38564pt x 313.21689pt.
- [104 <./src/codesys_nivel1_overload.png>]
-<src/codesys_nivel1_alarms.png, id=2115, 1263.97218pt x 514.92375pt>
+ [107 <./src/codesys_nivel1_overload.png>]
+<src/codesys_nivel1_alarms.png, id=2145, 1263.97218pt x 514.92375pt>
 File: src/codesys_nivel1_alarms.png Graphic file (type png)
 <use src/codesys_nivel1_alarms.png>
-Package pdftex.def Info: src/codesys_nivel1_alarms.png  used on input line 4530.
+Package pdftex.def Info: src/codesys_nivel1_alarms.png  used on input line 4575.
 (pdftex.def)             Requested size: 455.24411pt x 185.45883pt.
-<src/codesys_nivel1_tlk.png, id=2118, 704.6325pt x 772.38562pt>
+<src/codesys_nivel1_tlk.png, id=2148, 704.6325pt x 772.38562pt>
 File: src/codesys_nivel1_tlk.png Graphic file (type png)
 <use src/codesys_nivel1_tlk.png>
-Package pdftex.def Info: src/codesys_nivel1_tlk.png  used on input line 4549.
+Package pdftex.def Info: src/codesys_nivel1_tlk.png  used on input line 4594.
 (pdftex.def)             Requested size: 341.43307pt x 374.26479pt.
- [105 <./src/codesys_nivel1_alarms.png>]
-<src/codesys_nivel1_traj_init.png, id=2130, 657.95813pt x 358.33875pt>
+ [108 <./src/codesys_nivel1_alarms.png>]
+<src/codesys_nivel1_traj_init.png, id=2160, 657.95813pt x 358.33875pt>
 File: src/codesys_nivel1_traj_init.png Graphic file (type png)
 <use src/codesys_nivel1_traj_init.png>
-Package pdftex.def Info: src/codesys_nivel1_traj_init.png  used on input line 4565.
+Package pdftex.def Info: src/codesys_nivel1_traj_init.png  used on input line 4610.
 (pdftex.def)             Requested size: 364.19667pt x 198.34998pt.
- [106 <./src/codesys_nivel1_tlk.png>]
-<src/codesys_nivel1_traj_escenario_selector.png, id=2140, 662.475pt x 602.25pt>
+ [109 <./src/codesys_nivel1_tlk.png>]
+<src/codesys_nivel1_traj_escenario_selector.png, id=2171, 662.475pt x 602.25pt>
 File: src/codesys_nivel1_traj_escenario_selector.png Graphic file (type png)
 <use src/codesys_nivel1_traj_escenario_selector.png>
-Package pdftex.def Info: src/codesys_nivel1_traj_escenario_selector.png  used on input line 4574.
+Package pdftex.def Info: src/codesys_nivel1_traj_escenario_selector.png  used on input line 4619.
 (pdftex.def)             Requested size: 455.24411pt x 413.85287pt.
- [107 <./src/codesys_nivel1_traj_init.png>]
-<src/codesys_nivel1_PPL_izq.png, id=2150, 1187.18532pt x 816.80156pt>
+ [110 <./src/codesys_nivel1_traj_init.png>]
+<src/codesys_nivel1_PPL_izq.png, id=2181, 1187.18532pt x 816.80156pt>
 File: src/codesys_nivel1_PPL_izq.png Graphic file (type png)
 <use src/codesys_nivel1_PPL_izq.png>
-Package pdftex.def Info: src/codesys_nivel1_PPL_izq.png  used on input line 4591.
+Package pdftex.def Info: src/codesys_nivel1_PPL_izq.png  used on input line 4636.
 (pdftex.def)             Requested size: 455.24411pt x 313.217pt.
- [108 <./src/codesys_nivel1_traj_escenario_selector.png>]
-<src/codesys_nivel1_PPL_cen.png, id=2158, 1231.60126pt x 869.49844pt>
+ [111 <./src/codesys_nivel1_traj_escenario_selector.png>]
+<src/codesys_nivel1_PPL_cen.png, id=2189, 1231.60126pt x 869.49844pt>
 File: src/codesys_nivel1_PPL_cen.png Graphic file (type png)
 <use src/codesys_nivel1_PPL_cen.png>
-Package pdftex.def Info: src/codesys_nivel1_PPL_cen.png  used on input line 4599.
+Package pdftex.def Info: src/codesys_nivel1_PPL_cen.png  used on input line 4644.
 (pdftex.def)             Requested size: 455.24411pt x 321.39096pt.
- [109 <./src/codesys_nivel1_PPL_izq.png>]
-<src/codesys_nivel1_PPL_der.png, id=2167, 546.54187pt x 694.84593pt>
+ [112 <./src/codesys_nivel1_PPL_izq.png>]
+<src/codesys_nivel1_PPL_der.png, id=2197, 546.54187pt x 694.84593pt>
 File: src/codesys_nivel1_PPL_der.png Graphic file (type png)
 <use src/codesys_nivel1_PPL_der.png>
-Package pdftex.def Info: src/codesys_nivel1_PPL_der.png  used on input line 4607.
+Package pdftex.def Info: src/codesys_nivel1_PPL_der.png  used on input line 4652.
 (pdftex.def)             Requested size: 455.24411pt x 578.77885pt.
- [110 <./src/codesys_nivel1_PPL_cen.png>] [111 <./src/codesys_nivel1_PPL_der.png>]
-<src/codesys_autogen_structure.png, id=2182, 261.22594pt x 479.54156pt>
+ [113 <./src/codesys_nivel1_PPL_cen.png>] [114 <./src/codesys_nivel1_PPL_der.png>]
+<src/codesys_autogen_structure.png, id=2212, 261.22594pt x 479.54156pt>
 File: src/codesys_autogen_structure.png Graphic file (type png)
 <use src/codesys_autogen_structure.png>
-Package pdftex.def Info: src/codesys_autogen_structure.png  used on input line 4681.
+Package pdftex.def Info: src/codesys_autogen_structure.png  used on input line 4726.
 (pdftex.def)             Requested size: 182.09486pt x 334.27922pt.
- [112] [113 <./src/codesys_autogen_structure.png>]
-<src/hmi_diagnostico.png, id=2203, 1284.29813pt x 721.69624pt>
+ [115] [116 <./src/codesys_autogen_structure.png>]
+<src/hmi_diagnostico.png, id=2234, 1284.29813pt x 721.69624pt>
 File: src/hmi_diagnostico.png Graphic file (type png)
 <use src/hmi_diagnostico.png>
-Package pdftex.def Info: src/hmi_diagnostico.png  used on input line 4719.
+Package pdftex.def Info: src/hmi_diagnostico.png  used on input line 4764.
 (pdftex.def)             Requested size: 455.24411pt x 255.81302pt.
 
-Underfull \hbox (badness 2134) in paragraph at lines 4722--4722
+Underfull \hbox (badness 2134) in paragraph at lines 4767--4767
 \T1/Crlt-OsF/m/n/12 (+20) de ejes ana-ló-gi-cos y bo-to-nes di-gi-ta-les del con-trol PS4 pa-ra iden-ti-fi-ca-ción de ín-di-ces
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 4746--4746
+Underfull \hbox (badness 10000) in paragraph at lines 4791--4791
 []|\T1/Crlt-OsF/m/n/12 (+20) Consigna de ve-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 4746--4746
+Underfull \hbox (badness 10000) in paragraph at lines 4791--4791
 \T1/Crlt-OsF/m/n/12 (+20) lo-ci-dad del ca-rro
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 4746--4746
+Underfull \hbox (badness 10000) in paragraph at lines 4791--4791
 []|\T1/Crlt-OsF/m/n/12 (+20) Consigna de ve-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 4746--4746
+Underfull \hbox (badness 10000) in paragraph at lines 4791--4791
 \T1/Crlt-OsF/m/n/12 (+20) lo-ci-dad de ca-ble
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 4746--4746
+Underfull \hbox (badness 10000) in paragraph at lines 4791--4791
 []|\T1/Crlt-OsF/m/n/12 (+20) Digital (tog-
  []
 
 
-Underfull \hbox (badness 1509) in paragraph at lines 4746--4746
+Underfull \hbox (badness 1509) in paragraph at lines 4791--4791
 []|\T1/Crlt-OsF/m/n/12 (+20) Habilitación del sis-te-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 4746--4746
+Underfull \hbox (badness 10000) in paragraph at lines 4791--4791
 []|\T1/Crlt-OsF/m/n/12 (+20) Digital (tog-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 4746--4746
+Underfull \hbox (badness 10000) in paragraph at lines 4791--4791
 []|\T1/Crlt-OsF/m/n/12 (+20) Apertura/cierre del
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 4746--4746
+Underfull \hbox (badness 10000) in paragraph at lines 4791--4791
 []|\T1/Crlt-OsF/m/n/12 (+20) Digital (tog-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 4746--4746
+Underfull \hbox (badness 10000) in paragraph at lines 4791--4791
 []|\T1/Crlt-OsF/m/n/12 (+20) Digital (tog-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 4746--4746
+Underfull \hbox (badness 10000) in paragraph at lines 4791--4791
 []|\T1/Crlt-OsF/m/n/12 (+20) Digital (tog-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 4746--4746
+Underfull \hbox (badness 10000) in paragraph at lines 4791--4791
 []|\T1/Crlt-OsF/m/n/12 (+20) Reconocimiento de
  []
 
-[114 <./src/hmi_diagnostico.png>] [115{C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/carlito/crlt_j4hweq.enc}]
-<src/hmi_controlador.png, id=2225, 971.63pt x 568.1225pt>
+[117 <./src/hmi_diagnostico.png>] [118{C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/carlito/crlt_j4hweq.enc}]
+<src/hmi_controlador.png, id=2255, 971.63pt x 568.1225pt>
 File: src/hmi_controlador.png Graphic file (type png)
 <use src/hmi_controlador.png>
-Package pdftex.def Info: src/hmi_controlador.png  used on input line 4800.
+Package pdftex.def Info: src/hmi_controlador.png  used on input line 4845.
 (pdftex.def)             Requested size: 455.24411pt x 266.1854pt.
-<src/hmi_udp_receive_config.png, id=2226, 312.16624pt x 422.07687pt>
+<src/hmi_udp_receive_config.png, id=2256, 312.16624pt x 422.07687pt>
 File: src/hmi_udp_receive_config.png Graphic file (type png)
 <use src/hmi_udp_receive_config.png>
-Package pdftex.def Info: src/hmi_udp_receive_config.png  used on input line 4819.
+Package pdftex.def Info: src/hmi_udp_receive_config.png  used on input line 4864.
 (pdftex.def)             Requested size: 227.62206pt x 307.77222pt.
- [116 <./src/hmi_controlador.png>] [117 <./src/hmi_udp_receive_config.png>]
-<src/hmi_udp_lector_completo.png, id=2265, 788.9475pt x 242.9075pt>
+ [119 <./src/hmi_controlador.png>] [120 <./src/hmi_udp_receive_config.png>]
+<src/hmi_udp_lector_completo.png, id=2295, 788.9475pt x 242.9075pt>
 File: src/hmi_udp_lector_completo.png Graphic file (type png)
 <use src/hmi_udp_lector_completo.png>
-Package pdftex.def Info: src/hmi_udp_lector_completo.png  used on input line 4867.
+Package pdftex.def Info: src/hmi_udp_lector_completo.png  used on input line 4912.
 (pdftex.def)             Requested size: 455.24411pt x 140.16367pt.
- [118 <./src/hmi_udp_lector_completo.png>]
-<src/rtview_udp_send_config.png, id=2277, 314.67563pt x 281.55188pt>
+ [121 <./src/hmi_udp_lector_completo.png>]
+<src/rtview_udp_send_config.png, id=2308, 314.67563pt x 281.55188pt>
 File: src/rtview_udp_send_config.png Graphic file (type png)
 <use src/rtview_udp_send_config.png>
-Package pdftex.def Info: src/rtview_udp_send_config.png  used on input line 4927.
+Package pdftex.def Info: src/rtview_udp_send_config.png  used on input line 4972.
 (pdftex.def)             Requested size: 227.62206pt x 203.66234pt.
-<src/rtview_transmisor_completo.png, id=2278, 486.81876pt x 434.12187pt>
+<src/rtview_transmisor_completo.png, id=2309, 486.81876pt x 434.12187pt>
 File: src/rtview_transmisor_completo.png Graphic file (type png)
 <use src/rtview_transmisor_completo.png>
-Package pdftex.def Info: src/rtview_transmisor_completo.png  used on input line 4934.
+Package pdftex.def Info: src/rtview_transmisor_completo.png  used on input line 4979.
 (pdftex.def)             Requested size: 455.24411pt x 405.96812pt.
- [119 <./src/rtview_udp_send_config.png>] [120 <./src/rtview_transmisor_completo.png>]
-<src/grua_STS_2D.png, id=2295, 1284.29813pt x 721.69624pt>
+ [122 <./src/rtview_udp_send_config.png>] [123 <./src/rtview_transmisor_completo.png>]
+<src/grua_STS_2D.png, id=2326, 1284.29813pt x 721.69624pt>
 File: src/grua_STS_2D.png Graphic file (type png)
 <use src/grua_STS_2D.png>
-Package pdftex.def Info: src/grua_STS_2D.png  used on input line 4971.
+Package pdftex.def Info: src/grua_STS_2D.png  used on input line 5016.
 (pdftex.def)             Requested size: 455.24411pt x 255.81302pt.
- [121 <./src/grua_STS_2D.png>]
-<src/hmi_dashboard.png, id=2305, 729.22438pt x 425.08812pt>
+ [124 <./src/grua_STS_2D.png>]
+<src/hmi_dashboard.png, id=2335, 729.22438pt x 425.08812pt>
 File: src/hmi_dashboard.png Graphic file (type png)
 <use src/hmi_dashboard.png>
-Package pdftex.def Info: src/hmi_dashboard.png  used on input line 5018.
+Package pdftex.def Info: src/hmi_dashboard.png  used on input line 5063.
 (pdftex.def)             Requested size: 455.24411pt x 265.37456pt.
- [122 <./src/hmi_dashboard.png>]
-<src/rendimiento_cs_l.png, id=2315, 1913.64937pt x 972.63374pt>
+ [125 <./src/hmi_dashboard.png>]
+<src/rendimiento_cs_l.png, id=2345, 1913.64937pt x 972.63374pt>
 File: src/rendimiento_cs_l.png Graphic file (type png)
 <use src/rendimiento_cs_l.png>
-Package pdftex.def Info: src/rendimiento_cs_l.png  used on input line 5050.
+Package pdftex.def Info: src/rendimiento_cs_l.png  used on input line 5095.
 (pdftex.def)             Requested size: 455.24411pt x 231.37393pt.
- [123 <./src/rendimiento_cs_l.png>]
-<src/rendimiento_theta_l.png, id=2324, 1925.69438pt x 968.11688pt>
+ [126 <./src/rendimiento_cs_l.png>]
+<src/rendimiento_theta_l.png, id=2354, 1925.69438pt x 968.11688pt>
 File: src/rendimiento_theta_l.png Graphic file (type png)
 <use src/rendimiento_theta_l.png>
-Package pdftex.def Info: src/rendimiento_theta_l.png  used on input line 5095.
+Package pdftex.def Info: src/rendimiento_theta_l.png  used on input line 5140.
 (pdftex.def)             Requested size: 455.24411pt x 228.86655pt.
 
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 5102.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 5147.
 
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 5102.
-
-Missing character: There is no ° in font cmr12!
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 5106.
-
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 5106.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 5147.
 
 Missing character: There is no ° in font cmr12!
-[124 <./src/rendimiento_theta_l.png>]
-<src/rendimiento_fc_carro.png, id=2334, 1923.43594pt x 971.12813pt>
+
+LaTeX Warning: Command \textdegree invalid in math mode on input line 5151.
+
+
+LaTeX Warning: Command \textdegree invalid in math mode on input line 5151.
+
+Missing character: There is no ° in font cmr12!
+[127 <./src/rendimiento_theta_l.png>]
+<src/rendimiento_fc_carro.png, id=2365, 1923.43594pt x 971.12813pt>
 File: src/rendimiento_fc_carro.png Graphic file (type png)
 <use src/rendimiento_fc_carro.png>
-Package pdftex.def Info: src/rendimiento_fc_carro.png  used on input line 5120.
+Package pdftex.def Info: src/rendimiento_fc_carro.png  used on input line 5165.
 (pdftex.def)             Requested size: 455.24411pt x 229.84514pt.
-<src/rendimiento_fc_hoist.png, id=2336, 980.16188pt x 669.2503pt>
+<src/rendimiento_fc_hoist.png, id=2367, 980.16188pt x 669.2503pt>
 File: src/rendimiento_fc_hoist.png Graphic file (type png)
 <use src/rendimiento_fc_hoist.png>
-Package pdftex.def Info: src/rendimiento_fc_hoist.png  used on input line 5136.
+Package pdftex.def Info: src/rendimiento_fc_hoist.png  used on input line 5181.
 (pdftex.def)             Requested size: 455.24411pt x 310.83055pt.
- [125 <./src/rendimiento_fc_carro.png>]
-<src/pruebas_emgy_stop_refs.png, id=2346, 1925.69438pt x 1000.48781pt>
+ [128 <./src/rendimiento_fc_carro.png>]
+<src/pruebas_emgy_stop_refs.png, id=2377, 1925.69438pt x 1000.48781pt>
 File: src/pruebas_emgy_stop_refs.png Graphic file (type png)
 <use src/pruebas_emgy_stop_refs.png>
-Package pdftex.def Info: src/pruebas_emgy_stop_refs.png  used on input line 5156.
+Package pdftex.def Info: src/pruebas_emgy_stop_refs.png  used on input line 5201.
 (pdftex.def)             Requested size: 455.24411pt x 236.51915pt.
- [126 <./src/rendimiento_fc_hoist.png>]
-<src/pruebas_emgy_stop_brks.png, id=2356, 1926.44719pt x 999.735pt>
+ [129 <./src/rendimiento_fc_hoist.png>]
+<src/pruebas_emgy_stop_brks.png, id=2387, 1926.44719pt x 999.735pt>
 File: src/pruebas_emgy_stop_brks.png Graphic file (type png)
 <use src/pruebas_emgy_stop_brks.png>
-Package pdftex.def Info: src/pruebas_emgy_stop_brks.png  used on input line 5171.
+Package pdftex.def Info: src/pruebas_emgy_stop_brks.png  used on input line 5216.
 (pdftex.def)             Requested size: 455.24411pt x 236.24966pt.
- [127 <./src/pruebas_emgy_stop_refs.png> <./src/pruebas_emgy_stop_brks.png>]
-<src/rendimiento_m_est.png, id=2367, 984.67876pt x 523.9575pt>
+ [130 <./src/pruebas_emgy_stop_refs.png> <./src/pruebas_emgy_stop_brks.png>]
+<src/rendimiento_m_est.png, id=2397, 984.67876pt x 523.9575pt>
 File: src/rendimiento_m_est.png Graphic file (type png)
 <use src/rendimiento_m_est.png>
-Package pdftex.def Info: src/rendimiento_m_est.png  used on input line 5188.
+Package pdftex.def Info: src/rendimiento_m_est.png  used on input line 5233.
 (pdftex.def)             Requested size: 455.24411pt x 242.2386pt.
- [128 <./src/rendimiento_m_est.png>] [129] [130] [131] [132] 
+ [131 <./src/rendimiento_m_est.png>] [132] [133] [134] [135] 
 enddocument/afterlastpage (AED): lastpage setting LastPage.
 (informe.aux
 LaTeX Info: Redefining \. on input line 11.
@@ -1419,20 +1481,20 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2026-03-20>
  ***********
 Package rerunfilecheck Info: File `informe.out' has not changed.
-(rerunfilecheck)             Checksum: 1414D77FD0217300C68602F26AD6B4EC;15504.
+(rerunfilecheck)             Checksum: 6729D95764980F2A42472206504361E6;15619.
  ) 
 Here is how much of TeX's memory you used:
- 21343 strings out of 467691
- 350721 string characters out of 5414019
- 1636950 words of memory out of 5000000
- 48316 multiletter control sequences out of 15000+600000
- 857143 words of font info for 513 fonts, out of 8000000 for 9000
+ 21347 strings out of 467691
+ 350947 string characters out of 5414019
+ 1637527 words of memory out of 5000000
+ 48342 multiletter control sequences out of 15000+600000
+ 852390 words of font info for 493 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,20n,97p,1060b,2811s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecit0800.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt0800.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecit1000.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/google/carlito/Crlt-Bold.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/google/carlito/Crlt-BoldItalic.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/google/carlito/Crlt-Italic.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/google/carlito/Crlt-Regular.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on informe.pdf (132 pages, 10134426 bytes).
+Output written on informe.pdf (135 pages, 10768728 bytes).
 PDF statistics:
- 3052 PDF objects out of 3580 (max. 8388607)
- 1166 named destinations out of 1200 (max. 500000)
- 108624 words of extra memory for PDF output out of 128383 (max. 10000000)
+ 3081 PDF objects out of 3580 (max. 8388607)
+ 1174 named destinations out of 1200 (max. 500000)
+ 108639 words of extra memory for PDF output out of 128383 (max. 10000000)
 

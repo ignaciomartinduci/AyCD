@@ -1053,7 +1053,7 @@ $F_{cy}$ y $F_{cx}$ respectivamente, implementados en Simulink.
 
 \begin{figure}[H]
     \centering
-    \img{src/modelo_Fcx.png}
+    \img[width=0.75\textwidth]{src/modelo_Fcx.png}
     \caption{Diagrama de bloques del cálculo de la fuerza de contacto horizontal
              $F_{cx}$ (Simulink).}
     \label{fig:mov-carga-fcx}
@@ -2397,14 +2397,6 @@ mismo subsistema de la Figura~\ref{fig:integrador-tustin}.
     \label{fig:ctrl-hoist-discreto}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \img{src/observador_izaje_discreto.png}
-    \caption{Diagrama de bloques del observador de estados del izaje discretizado
-             (Simulink, $T_{s2}=1$\,ms).}
-    \label{fig:obs-hoist-discreto}
-\end{figure}
-
 \paragraph{Lazo externo de posición de izaje — generación de consigna de velocidad de cable.}\leavevmode
 
 De manera análoga al carro~\eqref{eq:ft-pos-ext}, el lazo externo de izaje cierra un
@@ -3155,45 +3147,50 @@ modos de operación del sistema: \texttt{Automatic} y \texttt{Manual}. El estado
 inicial es \texttt{Automatic}.
 
 \paragraph{Transiciones entre modos.}
-El sistema permanece (o regresa) al modo \texttt{Automatic} cuando la señal
-\texttt{automatic\_mode} está activa o cuando el operador presiona el botón de
-automático del joystick (\texttt{JS\_automatic\_mode}). La transición al modo
-\texttt{Manual} se dispara si \texttt{automatic\_mode} se desactiva \emph{o} si el
-operador mueve el joystick en cualquiera de los dos ejes
-(\texttt{JS\_trolley\_cmd\,>\,0} o \texttt{JS\_hoist\_cmd\,>\,0}): esto permite que
-una intervención manual interrumpa el ciclo automático en cualquier momento.
+El sistema permanece en \texttt{Automatic} mientras \texttt{automatic\_mode} esté
+activo y no se haya forzado el modo manual (\texttt{forced\_manual\_mode = false}).
+La transición a \texttt{Manual} se produce si \texttt{automatic\_mode} se desactiva
+\emph{o} si algún subestado del ciclo automático activa \texttt{forced\_manual\_mode}
+(por ejemplo, durante la estimación de masa o ante una condición de excepción).
+El retorno a \texttt{Automatic} requiere que ambas condiciones sean falsas:
+\texttt{automatic\_mode = true} y \texttt{forced\_manual\_mode = false}.
 
-\paragraph{Modo Manual --- estado de entrada.}
-Al ingresar a \texttt{Manual}, las referencias de posición se inicializan con las
-posiciones estimadas y sensadas en ese instante
-($x_{t,ref} = x_{t,est}$, $l_{h,ref} = l_{h,sensor}$) y se guardan las velocidades
-previas, garantizando una transferencia sin salto (\textit{bumpless transfer}) en las
-consignas entregadas al Nivel~2.
+\paragraph{Modo Automatic.}
+Los objetivos de posición \texttt{x\_t\_obj} y \texttt{l\_h\_obj} son provistos en
+cada paso por el subestado \texttt{Trajectory\_Planner}. La referencia de velocidad
+sigue un perfil \textbf{trapezoidal} implementado discretamente: en cada paso se
+calcula la distancia de frenado a velocidad actual,
+\[
+    d_{freno} = \frac{v_{ref}^2}{2\,a_{max}}
+\]
+y la velocidad deseada se determina como
+\[
+    v_{des} =
+    \begin{cases}
+        0 & \text{si } |e| \leq d_{freno} \\
+        v_{max}\,\mathrm{sgn}(e) & \text{si } |e| > d_{freno}
+    \end{cases}
+\]
+donde $e = x_{obj} - x_{ref}$. La referencia de velocidad se rampa hacia $v_{des}$
+acotando el incremento por paso a $\pm a_{max}\,T_{s1}$, y la posición se integra
+con Euler: $x_{ref}^{(k+1)} = x_{ref}^{(k)} + v_{ref}^{(k)}\,T_{s1}$.
+Para el izaje se aplica la misma lógica, con velocidad máxima limitada por la masa
+estimada según dos criterios combinados: distinción entre carga pesada
+($\hat{m} > 16\,000$\,kg, $v_{h,max} = 1{,}5\times 0{,}8$\,m/s) y ligera
+($v_{h,max} = 3{,}0\times 0{,}8$\,m/s), y límite por potencia constante
+$v_{h,P} = P_{const}/(\hat{m}\,g)$; se adopta el mínimo de ambos.
 
-\paragraph{Modo Manual --- operación continua.}
-En cada paso de muestreo, los comandos del joystick se procesan mediante la función
-\texttt{rate\_limiter} para obtener consignas de velocidad con rampa de
-aceleración/desaceleración limitada. Sobre esa consigna de velocidad se aplican dos
-capas de saturación unilateral:
-
-\begin{itemize}
-    \item \textbf{Fines de carrera:} si se activa la alarma de límite inferior
-    de traslación o izaje, se impide el movimiento en la dirección de alejamiento
-    del límite; de forma análoga, la alarma de límite superior bloquea el movimiento
-    en esa dirección.
-    \item \textbf{Sobrecarga:} cuando \texttt{overload} está activo, la consigna
-    de velocidad de descenso del izaje se reduce al $10$\,\% de su valor nominal,
-    impidiendo que el operador descienda la carga a velocidad normal en condición de
-    sobrecarga.
-\end{itemize}
-
-Finalmente, las referencias de posición se actualizan integrando las consignas de
-velocidad por el método trapezoidal, asegurando continuidad de la consigna de
-posición entregada al controlador de movimiento.
+\paragraph{Modo Manual.}
+Al ingresar, las referencias de posición se inicializan con los valores actuales
+estimados/sensados (\textit{bumpless transfer}). Durante la operación, los comandos
+del joystick se procesan con la función \texttt{rate\_limiter} para limitar la
+aceleración, aplicando saturaciones unilaterales ante fines de carrera activos y
+reduciendo la velocidad de descenso al $10$\,\% en condición de sobrecarga.
+Las referencias de posición se integran por el método trapezoidal.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{src/nivel1_mode.png}
+    \includegraphics[width=0.70\textwidth]{src/nivel1_mode.png}
     \caption{Subestado \texttt{Mode}: lógica de conmutación entre operación manual y
              automática.}
     \label{fig:nivel1-mode}
@@ -3289,31 +3286,38 @@ de la grilla correspondiente a la posición actual del LIDAR
 del Nivel~2. El mapa se construye así de forma incremental a medida que el carro
 recorre su trayectoria.
 
-A partir del mapa acumulado se calculan dos salidas de interés para el ciclo operativo:
+A partir del mapa acumulado el estado ejecuta tres etapas adicionales:
 
 \begin{itemize}
-    \item \textbf{Longitud de cable segura} $l_{h,safe}$: se obtiene como la diferencia
-    entre la altura del pórtico y la máxima altura registrada en todo el mapa, con un
-    margen adicional de $1{,}5\,H_c$:
-    \[
-        l_{h,safe} = 45 - \max(\mathtt{lidar\_map}) - 1{,}5\,H_c
-    \]
-    Esta longitud es la máxima a la que puede descender el spreader sin riesgo de
-    colisión, y es utilizada por el planificador de trayectorias.
-
     \item \textbf{Conteo de pilas de contenedores}: para cada una de las 19 posiciones
     fijas de pilas se busca el máximo de altura en una ventana espacial centrada en esa
-    posición. El ancho de la ventana se calcula como la distancia recorrida por el carro
-    a velocidad máxima en un paso de muestreo del Nivel~2
-    ($\mathtt{window\_idx} = \lfloor v_{t,\mathrm{max}}\,T_{s2} / \Delta x_{lidar} \rfloor$),
-    compensando el hecho de que las lecturas del LIDAR no siempre coinciden
-    exactamente con el centro de cada pila. La altura neta de contenedores se
-    convierte a número entero de unidades mediante:
+    posición. El ancho de la ventana se dimensiona en función del ancho del contenedor
+    ($\mathtt{window\_idx} = \lfloor (W_c/10) / \Delta x_{lidar} \rceil$), tolerando
+    imprecisiones en la alineación de la lectura LIDAR con el centro de cada pila. La
+    altura neta se convierte a número entero de unidades de contenedor mediante
+    $\mathtt{container\_pillars}(i) = \max(0,\,\mathtt{round}((\mathtt{pillar\_height}
+    - y_{h,min})/H_c))$.
+
+    \item \textbf{Envolvente de seguridad}: el mapa se dilata espacialmente con un radio
+    $r_{env} = \lfloor 0{,}75\,H_c / \Delta x_{lidar} \rceil$ para generar el mapa
+    dilatado \texttt{lidar\_map\_env}. A cada celda del mapa dilatado se le suma un
+    margen vertical de $0{,}75\,H_c$. Este proceso crea una envolvente que absorbe
+    incertidumbre en la posición horizontal del spreader y garantiza un margen de
+    seguridad ante variaciones en la altura de las pilas.
+
+    \item \textbf{Longitud de cable segura} $l_{h,safe}$: a diferencia de versiones
+    anteriores, la longitud segura no se calcula sobre el máximo global del mapa, sino
+    sobre el tramo del mapa dilatado comprendido entre la posición actual del LIDAR y la
+    posición del objetivo $x_{t,obj}$. Esto permite que el spreader suba únicamente lo
+    necesario para superar los obstáculos en su trayectoria real, obteniendo trayectorias
+    más eficientes y reduciendo los tiempos de ciclo:
     \[
-        \mathtt{container\_pillars}(i) = \max\!\left(0,\,
-        \left\lceil \frac{\mathtt{pillar\_height} - y_{h,min}}{H_c} - \epsilon \right\rceil \right)
+        l_{h,safe} = Y_{t0} - \max\!\bigl(\mathtt{lidar\_map\_env}
+        [\mathtt{idx}_{min}:\mathtt{idx}_{max}]\bigr) - 0{,}75\,H_c
     \]
-    donde $\epsilon = 10^{-6}$ evita redondeos espurios por errores numéricos.
+    donde $\mathtt{idx}_{min}$ e $\mathtt{idx}_{max}$ son los índices de grilla
+    correspondientes a $\min(x_{t,est},\,x_{t,obj})$ y $\max(x_{t,est},\,x_{t,obj})$
+    respectivamente.
 \end{itemize}
 
 \begin{figure}[H]
@@ -3421,58 +3425,55 @@ supervisora sólo necesita consultar la señal \texttt{alarms}.
     \label{fig:nivel1-alarms}
 \end{figure}
 
+\subsubsection{Gestor de anti-colisión --- \texttt{No\_Collision\_Manager}}
+\label{subsubsec:nivel1-nocollision}
+
+El subestado paralelo \texttt{No\_Collision\_Manager}
+(Figura~\ref{fig:nivel1-collision}) se ejecuta de forma continua y calcula, a partir
+del mapa dilatado \texttt{lidar\_map\_env}, dos señales booleanas que el planificador
+de trayectorias utiliza para condicionar los movimientos:
+
+\begin{itemize}
+    \item \textbf{\texttt{nc\_no\_collision\_move}}: indica si el spreader puede
+    desplazarse lateralmente desde la posición actual hasta el objetivo
+    \texttt{x\_t\_obj\_des} sin riesgo de colisión. El estado recorre celda a celda
+    el tramo del mapa dilatado comprendido entre $x_{t,est}$ y el objetivo, y para
+    cada celda $k$ compara el tiempo que tarda el carro en alcanzarla (calculado con
+    perfil trapezoidal de velocidad) con el tiempo que necesita el izaje para subir
+    hasta la altura segura $l_{h,safe,k} = Y_{t0} - \texttt{lidar\_map\_env}(k) -
+    0{,}75\,H_c$. Si en alguna celda el tiempo de izaje supera al tiempo de traslación,
+    la señal se pone en \texttt{false} y se registra el índice de primera colisión
+    \texttt{nc\_idx\_colision\_move}.
+
+    \item \textbf{\texttt{nc\_no\_collision\_descent}}: indica si el spreader puede
+    descender hasta la longitud objetivo \texttt{l\_h\_obj\_des} sin colisionar con
+    ningún obstáculo a lo largo de todo el trayecto. Se obtiene comparando
+    \texttt{l\_h\_obj\_des} con la longitud segura mínima del camino completo,
+    $l_{h,safe,camino} = Y_{t0} - \max(\texttt{lidar\_map\_env}[\mathtt{idx}_{min}:
+    \mathtt{idx}_{max}]) - 0{,}75\,H_c$. Si la longitud objetivo resulta mayor que la
+    longitud segura del camino, la señal es \texttt{false}.
+\end{itemize}
+
+Estas dos señales permiten que el planificador tome decisiones de movimiento
+sincronizado y descenso seguros sin necesidad de calcular trayectorias completas
+en cada estado del ciclo operativo.
+
+\begin{figure}[H]
+    \centering
+    \img{src/nivel1\_collision.png}
+    \caption{Subestado \texttt{No\_Collision\_Manager}: cálculo de las señales de
+             anti-colisión para traslación y descenso.}
+    \label{fig:nivel1-collision}
+\end{figure}
+
 \subsubsection{Planificador de trayectorias}
 \label{subsubsec:nivel1-traj}
 
-El subestado \texttt{Trajectory\_Planner} coordina la secuencia completa de movimientos
-del ciclo operativo. La generación de las trayectorias de referencia en sí se describe
-en la sección siguiente; aquí se presenta la estructura del planificador y la lógica de
-escaneo LIDAR, retorno a \textit{homing} y selección de escenario.
-
-\paragraph{Escaneo LIDAR y retorno a \textit{homing}.}\leavevmode
-
-Al ingresar al planificador se ejecutan tres fases secuenciales de escaneo:
-
-\begin{enumerate}
-    \item \textbf{\texttt{Line\_Scan\_Rise}}: el spreader sube hasta la altura segura
-    calculada por el mapa LIDAR ($l_{h,obj} = l_{h,safe}$). La trayectoria de izaje se
-    genera con la función \texttt{generador\_trayectoria\_izaje}, inicializada en la
-    entrada al estado y actualizada en cada paso. La transición al siguiente estado
-    ocurre cuando el izaje se detiene o cuando el progreso supera el $80$\,\%.
-
-    \item \textbf{\texttt{Line\_Scan\_Move}}: el carro recorre en dirección $+x$ hasta
-    la posición $x_{t,obj} = 49{,}5$\,m, mientras el LIDAR construye el mapa de alturas
-    del barco. Las trayectorias de carro e izaje se actualizan en paralelo en cada paso.
-    La transición ocurre cuando el carro llega a destino (\texttt{trolley\_stopped}).
-
-    \item \textbf{\texttt{Line\_Scan\_Return}}: el carro regresa a la posición de
-    \textit{homing} ($x_{t,obj} = -29{,}5$\,m). Al detenerse tanto el carro como el
-    izaje (\texttt{trolley\_stopped \&\& hoist\_stopped}), el planificador transiciona
-    a \texttt{Scenario\_Selector}.
-\end{enumerate}
-
-\paragraph{Selección de escenario.}\leavevmode
-
-Una vez completado el retorno, \texttt{Scenario\_Selector} inicializa la ganancia del
-controlador de balanceo (\texttt{sway\_ctr\_gain = 1}) y determina el ciclo a ejecutar
-según la variable \texttt{escenario}:
-
-\begin{itemize}
-    \item \textbf{Escenario 0}: el sistema permanece en \texttt{Waiting}
-    (\texttt{v\_t\_ref = 0}, \texttt{dl\_h\_ref = 0}), sin ejecutar ningún ciclo.
-    \item \textbf{Escenario 1}: ciclo de descarga simple — el carro toma un contenedor
-    de tierra y lo deposita en el barco.
-    \item \textbf{Escenario 2}: ciclo de carga simple — el carro recoge un contenedor
-    del barco y lo deposita en tierra.
-    \item \textbf{Escenario 3}: ciclo doble — combina una operación de carga y una de
-    descarga en un mismo recorrido.
-\end{itemize}
-
-Cuando \texttt{escenario} $\neq 0$, el planificador ingresa al estado
-\texttt{Pickup\_And\_Place\_Loop}, que implementa el ciclo operativo correspondiente.
-Si durante la ejecución se activa cualquier alarma de fin de carrera, el planificador
-aborta el ciclo y retorna a \texttt{Scenario\_Selector}. Su lógica se describe en
-detalle en la sección siguiente.
+El subestado \texttt{Trajectory\_Planner} (Figura~\ref{fig:nivel1-traj-planner})
+coordina la secuencia completa de movimientos del ciclo operativo. La generación de
+las trayectorias de referencia en sí se describe en la sección siguiente; aquí se
+presenta la estructura del planificador y la lógica de escaneo LIDAR, retorno a
+\textit{homing} y selección de escenario.
 
 \begin{figure}[H]
     \centering
@@ -3482,13 +3483,59 @@ detalle en la sección siguiente.
     \label{fig:nivel1-traj-planner}
 \end{figure}
 
+\paragraph{Escaneo LIDAR y retorno a \textit{homing}.}\leavevmode
+
+Al ingresar al planificador se ejecutan tres fases secuenciales de escaneo:
+
+\begin{enumerate}
+    \item \textbf{\texttt{Line\_Scan\_Rise}}: el spreader sube hasta la altura fija
+    $l_{h,obj} = 7{,}5$\,m para quedar por encima del perfil de barco antes de iniciar
+    el barrido. La transición ocurre cuando el izaje se detiene
+    (\texttt{hoist\_stopped}) o cuando el carro ya se encuentra en zona de barco
+    ($x_{t,est} < -20$\,m).
+
+    \item \textbf{\texttt{Line\_Scan\_Move}}: el carro recorre en dirección $+x$ hasta
+    la posición $x_{t,obj} = 49{,}5$\,m mientras el LIDAR construye el mapa de alturas.
+    La transición ocurre cuando el carro llega a destino (\texttt{trolley\_stopped}) o
+    supera la posición umbral $x_{t,est} > 47{,}5$\,m.
+
+    \item \textbf{\texttt{Line\_Scan\_Return}}: el carro regresa a la posición de
+    \textit{homing} ($x_{t,obj} = -29{,}5$\,m). La transición a
+    \texttt{Scenario\_Selector} ocurre cuando el carro se detiene
+    (\texttt{trolley\_stopped}) o supera $x_{t,est} < -29$\,m.
+\end{enumerate}
+
+\paragraph{Selección de escenario y espera.}\leavevmode
+
+\texttt{Scenario\_Selector} inicializa la ganancia del controlador de balanceo
+(\texttt{sway\_ctr\_gain = 1}) y evalúa la variable \texttt{escenario}. Si
+\texttt{escenario = 0}, el planificador transiciona al estado \texttt{Waiting}, donde
+permanece inactivo hasta que se seleccione un escenario distinto de cero. Cuando
+\texttt{escenario} $\neq 0$ y no hay alarmas activas, el planificador ingresa a
+\texttt{Pickup\_And\_Place\_Loop}, que implementa el ciclo operativo correspondiente:
+
+\begin{itemize}
+    \item \textbf{Escenario 1}: ciclo de descarga simple — toma un contenedor de tierra
+    y lo deposita en el barco.
+    \item \textbf{Escenario 2}: ciclo de carga simple — recoge un contenedor del barco
+    y lo deposita en tierra.
+    \item \textbf{Escenario 3}: ciclo doble — combina una operación de carga y una de
+    descarga en un mismo recorrido.
+\end{itemize}
+
+Al completar el ciclo, \texttt{Pickup\_And\_Place\_Loop} activa la bandera
+\texttt{loop\_initialized = true} en su acción de salida y retorna a
+\texttt{Scenario\_Selector} para el siguiente ciclo. Si durante la ejecución se activa
+cualquier alarma, el planificador aborta y retorna al estado \texttt{Waiting}.
+Su lógica se describe en detalle en la sección siguiente.
+
 \subsubsection{Ciclo operativo — \texttt{Pickup\_And\_Place\_Loop}}
 
 El estado \texttt{Pickup\_And\_Place\_Loop} implementa el ciclo de carga y descarga
 de contenedores. Está compuesto por una secuencia de estados que encadenan los
 movimientos de carro e izaje para llevar el spreader desde la posición de origen hasta
 el destino, realizar la operación (tomar o depositar el contenedor) y regresar.
-La Figura~\ref{fig:nivel1-pickup-loop} muestra la estructura completa del ciclo.
+A continuación se describe la estructura del ciclo.
 
 Al salir del estado \texttt{Pickup\_And\_Place\_Loop} se registra
 \texttt{loop\_initialized = true}. De este modo, si el ciclo es interrumpido (por
@@ -3517,157 +3564,155 @@ estaticidad del eje que estuvo en movimiento antes de continuar.
 
 \paragraph{Escenario 1 — Descarga (tierra $\to$ barco).}\leavevmode
 
-El ciclo recoge un contenedor del camión en tierra y lo deposita en el barco:
+El ciclo recoge un contenedor del camión en tierra y lo deposita en el barco
+(Figura~\ref{fig:nivel1-esc1}). Los estados principales son:
 
-\begin{enumerate}
-    \item \textbf{Truck\_Pickup\_Raise}: sube el spreader hasta altura de tránsito.
-    Antes de ejecutar el movimiento se selecciona el camión destino: se recorre el
-    vector de estado de camiones y se elige el primero que esté presente y con carga,
-    calculando su posición como $x_{t,obj} = -25 + (i-1) \times 5$\,m.
+\begin{enumerate}\sloppy
+    \item \textbf{\texttt{Go\_To\_Truck\_For\_Pickup}}: se accede desde el selector
+    de escenarios, desde el reinicio del loop en escenario~1
+    ($l_{h,sensor} \leq l_{h,obj}$ \&\& $\lnot$TLK \&\& escenario$=1$) o desde el
+    ciclo doble (escenario~3) con la condición análoga. En la entrada se busca el
+    primer camión con carga y se calcula $x_{t,obj,des} = -25 + (i-1)\times 5$\,m.
+    Durante el estado se mantiene $l_{h,obj} = l_{h,safe}$ y el carro avanza
+    condicionado por la señal de anti-colisión lateral. La transición ocurre cuando
+    el carro y el izaje se detienen, o bien por intervención del operador a menos de
+    5\,m del destino.
 
-    \item \textbf{Truck\_Pickup\_Move}: desplaza el carro hasta la posición del camión
-    seleccionado.
+    \item \textbf{\texttt{Truck\_Pickup\_Manual}}: el sistema pasa a modo manual para
+    que el operador descienda y enganche el contenedor. Durante este estado se acumulan
+    muestras de fuerza: cada lectura válida ($F_{hw,sensor} > 8000\,g$) agrega
+    $\hat{m}_k = 2\,F_{hw,sensor}/g$ al vector de estimación. Al salir se llama a
+    \texttt{estimar\_masa}, que obtiene $\hat{m}$ rechazando \textit{outliers} por
+    criterio $2\sigma$.
 
-    \item \textbf{Truck\_Pickup\_Descend}: baja el spreader hasta el contenedor.
-
-    \item \textbf{Truck\_Pickup\_Manual}: el sistema pasa a modo manual
-    (\texttt{automatic\_mode = false}) y realiza la \textbf{estimación de masa} mientras
-    el operador cierra los TLK. Durante este estado se acumulan muestras de la fuerza
-    medida en el cable: cada muestra válida ($F_{hw,sensor} > 8000\,g$) agrega al
-    vector una estimación $\hat{m}_k = 2\,F_{hw,sensor}/g$. Al salir del estado se
-    llama a \texttt{estimar\_masa}, que calcula la media de las muestras válidas con
-    rechazo de \textit{outliers} por criterio $2\sigma$, obteniendo $\hat{m}$ para el
-    limitador de velocidad por potencia del \texttt{rate\_limiter}.
-
-    \item \textbf{Ship\_Placement\_Raise}: sube el contenedor hasta altura de tránsito.
-
-    \item \textbf{Ship\_Placement\_Move}: antes de trasladar, se selecciona la posición
-    de destino en el barco como la pila con menor cantidad de contenedores apilados:
+    \item \textbf{\texttt{Go\_To\_Ship\_For\_Placement}}: en la entrada se selecciona la
+    pila de destino en el barco como la de menor altura
+    ($i^* = \arg\min_i\,\mathtt{container\_pillars}(i)$) y se calcula $x_{t,obj,des}$.
+    Durante el estado el carro avanza condicionado por \texttt{nc\_no\_collision\_move},
+    y en paralelo se actualiza la longitud objetivo de descenso:
     \[
-        i^* = \arg\min_{i \in \{1,\ldots,19\}} \mathtt{container\_pillars}(i),
-        \quad
-        x_{t,obj} = x_{left} + (i^* - 1)\,\Delta x
+        l_{h,obj,des} = \mathtt{xpos2ypos}(\mathtt{lidar\_map\_env},\,x_{t,obj})
+                        - 0{,}75\,H_c
     \]
-    Luego el carro se desplaza hasta esa posición.
+    La transición al estado siguiente ocurre cuando \texttt{nc\_no\_collision\_descent}
+    está activo.
 
-    \item \textbf{Ship\_Placement\_Descend}: la altura objetivo se calcula a partir del
-    mapa LIDAR mediante la función \texttt{xpos2ypos}, que convierte la posición
-    horizontal $x_{t,obj}$ al índice de grilla correspondiente y devuelve
-    $l_{h,obj} = 45 - \mathtt{lidar\_map}(\mathtt{idx})$, restando luego un margen de
-    seguridad $l_{h,obj} = l_{h,obj} - \Delta_{safety}$. El spreader desciende hasta
-    esa cota.
+    \item \textbf{\texttt{Going\_To\_Ship\_Descending\_\allowbreak For\_Placement}}:
+    el spreader desciende hasta $l_{h,obj} = l_{h,obj,des}$. La transición ocurre al
+    detenerse el izaje y el carro, o por intervención manual del operador a menos de
+    5\,m del destino.
 
-    \item \textbf{Ship\_Placement\_Manual}: el operador abre los TLK para depositar el
-    contenedor. El ciclo retorna a \textbf{Truck\_Pickup\_Raise} para la siguiente
-    iteración.
+    \item \textbf{\texttt{Ship\_Placement\_Manual}}: modo manual para que el operador
+    deposite el contenedor y abra los TLK. Al salir se resetea $\hat{m} = 15\,000$\,kg.
+    Cuando se cumplen $l_{h,sensor} \leq l_{h,obj}$ \&\& $\lnot$TLK, el ciclo
+    bifurca: en escenario~1 retorna a \texttt{Go\_To\_Truck\_For\_Pickup} para la
+    siguiente iteración; en escenario~3 (ciclo doble) avanza hacia la búsqueda de
+    contenedor en el barco.
 \end{enumerate}
-
-\paragraph{Escenario 2 — Carga (barco $\to$ tierra).}\leavevmode
-
-El ciclo es el inverso del Escenario~1: el spreader se dirige primero al barco, donde
-se selecciona la pila con \textit{mayor} cantidad de contenedores como posición de
-recogida (\texttt{Ship\_Pickup}), y luego traslada el contenedor a tierra, donde se
-elige el camión vacío disponible como destino de depósito (\texttt{Truck\_Placement}).
-La selección de posiciones y la estimación de masa siguen la misma lógica descripta
-anteriormente, adaptada al sentido inverso.
-
-\paragraph{Escenario 3 — Ciclo doble (descarga + carga).}\leavevmode
-
-Combina ambos ciclos en un único recorrido: primero ejecuta el ciclo del Escenario~1
-completo y luego, sin regresar a \textit{homing}, ejecuta el ciclo del Escenario~2,
-completando un ciclo de ida y vuelta.
 
 \begin{figure}[H]
     \centering
-    \img{src/nivel1\_pickup\_loop.png}
-    \caption{Estados del ciclo \texttt{Pickup\_And\_Place\_Loop}.}
-    \label{fig:nivel1-pickup-loop}
+    \img{src/nivel1\_esc\_1.png}
+    \caption{Secuencia de estados del Escenario~1 (descarga tierra\,$\to$\,barco)
+             dentro de \texttt{Pickup\_And\_Place\_Loop}.}
+    \label{fig:nivel1-esc1}
 \end{figure}
 
-\subsubsection{Generación de trayectorias}
-
-Las referencias de posición y velocidad para el Nivel~2 se generan mediante perfiles de
-\textbf{perfil en S} (aceleración sinusoidal), que limitan el \textit{jerk} —variación
-temporal de la aceleración— para reducir las excitaciones mecánicas sobre la estructura
-y el cable. Ambas funciones (\texttt{generador\_trayectoria} para el carro y
-\texttt{generador\_trayectoria\_izaje} para el izaje) utilizan variables persistentes
-para congelar el perfil planificado: cuando se llaman con \texttt{NEW\_TRAJ = 1}
-calculan y almacenan los parámetros de la trayectoria; en llamadas sucesivas con
-\texttt{NEW\_TRAJ = 0} evalúan ese perfil congelado en función del tiempo real
-transcurrido, sin recalcular. Todas las funciones devuelven además una salida de
-\textbf{progreso} $p \in [0, 1]$, calculada como la fracción del tiempo total de la
-trayectoria ya transcurrido, que el planificador utiliza como condición de transición
-anticipada entre estados.
-\newpage
-\paragraph{Trayectoria del carro.}\leavevmode
-
-El perfil de aceleración es sinusoidal:
-\[
-    a(t) = a_{max}\,\sin\!\left(\frac{\pi\,t}{t_a}\right)
-\]
-con $a_{max} = 0{,}8$\,m/s$^2$ y $v_{max} = 4{,}0$\,m/s. Integrando se obtiene la
-velocidad y la posición:
-\[
-    v(t) = \frac{a_{max}\,t_a}{\pi}\left(1 - \cos\frac{\pi t}{t_a}\right),
-    \qquad
-    x(t) = x_0 + \frac{a_{max}\,t_a}{\pi}\left(t - \frac{t_a}{\pi}\sin\frac{\pi t}{t_a}\right)
-\]
-La duración de la fase de aceleración se obtiene imponiendo $v(t_a) = v_{max}$:
-\[
-    t_a = \frac{\pi\,v_{max}}{2\,a_{max}}
-\]
-El perfil completo tiene tres fases: aceleración ($0 \leq t < t_a$), crucero a $v_{max}$
-($t_a \leq t < t_a + t_c$) y desaceleración simétrica ($t_a + t_c \leq t \leq t_{total}$).
-Si la distancia total $D$ es insuficiente para alcanzar $v_{max}$, la velocidad pico se
-reduce a $v_{pico} = \sqrt{2\,a_{max}\,D/\pi}$ y la fase de crucero desaparece.
-
-\paragraph{Trayectoria del izaje.}\leavevmode
-
-El generador de izaje extiende el perfil anterior para contemplar dos aspectos
-adicionales:
+\subparagraph{Verificación de sobrecarga y rama de manejo.}
+{\sloppy Al completar el enganche, \texttt{Truck\_Pickup\_Manual} transiciona a
+\texttt{Overload\_Check1} cuando el spreader llega a la altura objetivo con los TLK
+cerrados. Desde allí el ciclo bifurca según la masa estimada
+(Figura~\ref{fig:nivel1-esc1-overload}):\par}
 
 \begin{itemize}
-    \item \textbf{Velocidad inicial no nula}: cuando se planifica una nueva trayectoria
-    el mecanismo ya puede estar en movimiento con velocidad $v_0$. Las fases de
-    aceleración y deceleración son entonces asimétricas: la aceleración lleva el sistema
-    de $v_0$ a $v_p$ en tiempo $t_a = 2(v_p - v_0)/a_{max}$, mientras que la
-    deceleración va de $v_p$ a $0$ en $t_d = 2\,v_p/a_{max}$.
+    \item \textbf{Sin sobrecarga} — prioridad~1: si tras 1\,000\,ms la condición
+    \texttt{\textasciitilde overload} se mantiene, el ciclo avanza normalmente a
+    \texttt{Go\_To\_Ship\_For\_Placement}.
 
-    \item \textbf{Límite de velocidad por potencia constante}: la potencia disponible
-    del accionamiento de izaje se modela como constante $P = m_{nom}\,g\,v_{h,load}$.
-    La velocidad máxima admisible en función de la masa izada estimada $\hat{m}$ es:
-    \[
-        v_{max}(\hat{m}) = \frac{P}{\hat{m}\,g}
-        = \frac{m_{nom}\,v_{h,load}}{\hat{m}}
-    \]
-    saturada entre $v_{h,load} = 1{,}5$\,m/s (carga nominal) y $v_{h,noload} = 3{,}0$\,m/s
-    (sin carga). Esto garantiza que al aumentar la masa izada la trayectoria se adapta
-    automáticamente para no superar la potencia disponible.
+    \item \textbf{Con sobrecarga} — prioridad~2: si \texttt{overload} está activo,
+    el ciclo entra a \texttt{Overload\_Wait\_}\allowbreak\texttt{For\_Deposit1}, donde el
+    operador decide cómo proceder. Si la situación persiste, transiciona a
+    \texttt{Overload\_}\allowbreak\texttt{Ascend\_Manual1}, que fuerza modo manual para que el
+    operador suba y libere la carga. Al abrir los TLK se resetea
+    $\hat{m} = 15\,000$\,kg y el ciclo retorna a
+    \texttt{Overload\_Wait\_}\allowbreak\texttt{For\_Deposit1}. Si la sobrecarga no puede
+    resolverse, el ciclo sale del loop volviendo al \texttt{Scenario\_Selector}.
 \end{itemize}
 
-El perfil resultante mantiene la forma sinusoidal en aceleración y deceleración, con la
-integración ajustada para partir de $v_0 \neq 0$. Se implementan además casos especiales
-para distancias muy cortas o velocidades iniciales elevadas, donde el sistema pasa
-directamente a desacelerar sin fase de crucero.
+\begin{figure}[H]
+    \centering
+    \img{src/nivel1\_esc\_1\_overload.png}
+    \caption{Rama de sobrecarga del Escenario~1: estados
+             \texttt{Overload\_Ascend\_Manual1},
+             \texttt{Overload\_Wait\_For\_Deposit1} y
+             \texttt{Overload\_Check1}.}
+    \label{fig:nivel1-esc1-overload}
+\end{figure}
 
-\medskip
-\noindent
-\fbox{%
-\begin{minipage}{0.97\textwidth}
-\small
-\textbf{Nota sobre movimiento sincronizado.}
-En el ciclo operativo, el carro y el izaje pueden estar en movimiento simultáneo.
-Para coordinar ambos ejes sin imponer una sincronización rígida en tiempo, el
-planificador utiliza la variable de \textbf{progreso} $p \in [0, 1]$ como condición
-de habilitación de las transiciones entre estados: en lugar de esperar a que un eje
-llegue exactamente a su destino (condición de estaticidad estricta), la transición
-puede habilitarse en cuanto el progreso de la trayectoria activa supera un umbral
-predefinido (por ejemplo $p > 0{,}8$). Esto suaviza las condiciones de transición y
-permite iniciar el siguiente segmento de movimiento antes de que el eje termine
-completamente su recorrido, evitando tiempos muertos entre fases y logrando un
-movimiento coordinado más fluido entre carro e izaje.
-\end{minipage}%
-}
+\paragraph{Escenario 2 — Carga (barco $\to$ tierra).}\leavevmode
+
+El ciclo recoge un contenedor del barco y lo deposita en un camión en tierra
+(Figura~\ref{fig:nivel1-esc2}). Los estados son análogos al Escenario~1 pero en
+sentido inverso:
+
+\begin{enumerate}\sloppy
+    \item \textbf{\texttt{Go\_To\_Ship\_For\_Pickup}}: se accede desde el selector de
+    escenarios o, en ciclo doble (escenario~3), desde \texttt{Ship\_Placement\_Manual}
+    con la condición $l_{h,sensor} \leq l_{h,obj}$ \&\& $\lnot$TLK. En la entrada se
+    selecciona la pila con \textit{mayor} cantidad de contenedores
+    ($i^* = \arg\max_i\,\mathtt{container\_pillars}(i)$) y se calcula $x_{t,obj,des}$.
+    Durante el estado el carro avanza condicionado por la señal de anti-colisión
+    lateral y se actualiza $l_{h,obj,des}$ mediante \texttt{xpos2ypos}.
+
+    \item \textbf{\texttt{Ship\_Pickup\_Descend}}: el spreader desciende hasta
+    $l_{h,obj} = l_{h,obj,des}$ cuando \texttt{nc\_no\_collision\_descent} está activo.
+
+    \item \textbf{\texttt{Ship\_Pickup\_Manual}}: modo manual para que el operador
+    enganche el contenedor del barco. La estimación de masa sigue la misma lógica
+    que en el Escenario~1. Al completar el enganche
+    ($l_{h,sensor} \leq l_{h,obj}$ \&\& TLK), el ciclo transiciona a
+    \texttt{Overload\_Check}.
+
+    \item \textbf{\texttt{Overload\_Check}}: verifica la masa estimada durante
+    1\,000\,ms. Sin sobrecarga avanza a \texttt{Go\_To\_Truck\_For\_Placement}; con
+    sobrecarga activa la misma rama \texttt{Overload\_Wait\_For\_Deposit} /
+    \texttt{Overload\_Ascend\_Manual} descripta para el Escenario~1.
+
+    \item \textbf{\texttt{Go\_To\_Truck\_For\_Placement}}: busca el primer camión
+    vacío disponible y calcula $x_{t,obj,des} = -25 + (i-1)\times 5$\,m. Durante
+    el estado el carro avanza condicionado por la señal de anti-colisión lateral.
+
+    \item \textbf{\texttt{Truck\_Placement\_Manual}}: modo manual para que el operador
+    deposite el contenedor y abra los TLK. Al salir se resetea $\hat{m} = 15\,000$\,kg.
+    En escenario~2 el ciclo retorna a \texttt{Go\_To\_Ship\_For\_Pickup} para la
+    siguiente iteración; en escenario~3 (ciclo doble) sale del loop.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \img{src/nivel1\_esc\_2.png}
+    \caption{Secuencia de estados del Escenario~2 (carga barco\,$\to$\,tierra)
+             dentro de \texttt{Pickup\_And\_Place\_Loop}.}
+    \label{fig:nivel1-esc2}
+\end{figure}
+
+\paragraph{Escenario 3 — Ciclo doble (descarga + carga).}\leavevmode
+
+El ciclo doble combina los Escenarios~1 y~2 en un único recorrido sin retorno a
+\textit{homing} intermedio. Las interconexiones entre ambos se realizan mediante las
+transiciones ya descriptas: al finalizar \texttt{Ship\_Placement\_Manual} con
+escenario~3, la condición $l_{h,sensor} \leq l_{h,obj}$ \&\& $\lnot$TLK activa la
+transición directa hacia \texttt{Go\_To\_Ship\_For\_Pickup} (inicio del Escenario~2);
+al completar \texttt{Truck\_Placement\_Manual}, la condición análoga cierra el ciclo
+y el loop vuelve al \texttt{Scenario\_Selector}.
+
+\begin{figure}[H]
+    \centering
+    \img{src/nivel1\_trajloop\_completo.png}
+    \caption{Vista completa del estado \texttt{Pickup\_And\_Place\_Loop} con los tres
+             escenarios y las interconexiones entre ellos.}
+    \label{fig:nivel1-trajloop-completo}
+\end{figure}
 
 % ---- 3.4 -------------------------------------------------------
 \subsection{Nivel 0: Seguridad y Protección}
